@@ -1,0 +1,214 @@
+.top-navbar {
+  background: #1a1a1a;
+  border-bottom: 1px solid #2a2a2a;
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+  .navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .logo-section {
+    flex-shrink: 0;
+
+    .logo-text {
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 1.2;
+      letter-spacing: 0.5px;
+
+      .company-name {
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .navigation-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    max-width: 600px;
+
+    .nav-items {
+      display: flex;
+      gap: 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      color: #a0a0a0;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: #ffffff;
+      }
+
+      &.active {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+      }
+
+      .nav-icon {
+        display: flex;
+        align-items: center;
+        opacity: 0.8;
+      }
+
+      .nav-label {
+        font-family: inherit;
+      }
+    }
+  }
+
+  .user-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+
+    .action-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      color: #a0a0a0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: #ffffff;
+      }
+
+      svg {
+        stroke-width: 1.5;
+      }
+    }
+
+    .profile-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      border-radius: 50%;
+      padding: 2px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      .profile-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        transition: border-color 0.2s ease;
+
+        &:hover {
+          border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .avatar-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .top-navbar {
+    .navbar-container {
+      padding: 0 16px;
+    }
+
+    .logo-section {
+      .logo-text {
+        font-size: 12px;
+      }
+    }
+
+    .navigation-section {
+      .nav-items {
+        gap: 4px;
+      }
+
+      .nav-item {
+        padding: 6px 12px;
+        font-size: 12px;
+
+        .nav-label {
+          display: none;
+        }
+      }
+    }
+
+    .user-actions {
+      gap: 8px;
+
+      .action-button {
+        width: 36px;
+        height: 36px;
+      }
+
+      .profile-button .profile-avatar {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .top-navbar {
+    .navigation-section {
+      .nav-items {
+        gap: 2px;
+      }
+
+      .nav-item {
+        padding: 4px 8px;
+
+        .nav-icon {
+          svg {
+            width: 14px;
+            height: 14px;
+          }
+        }
+      }
+    }
+  }
+}

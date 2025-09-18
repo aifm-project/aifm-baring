@@ -1,0 +1,74 @@
+<nav class="top-navbar">
+  <div class="navbar-container">
+    <!-- Logo Section -->
+    <div class="logo-section">
+      <div class="logo-text">
+        <div class="company-name">BARING PRIVATE</div>
+        <div class="company-name">EQUITY</div>
+        <div class="company-name">PARTNERS</div>
+      </div>
+    </div>
+
+    <!-- Navigation Items -->
+    <div class="navigation-section">
+      <div class="nav-items">
+        @for (item of navigationItems; track item.label) {
+          <button 
+            class="nav-item"
+            [class.active]="item.active"
+            (click)="onNavigationClick(item)">
+            <div class="nav-icon">
+              @switch (item.icon) {
+                @case ('folder') {
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                  </svg>
+                }
+                @case ('chart') {
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 3v18h18"/>
+                    <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/>
+                  </svg>
+                }
+                @case ('star') {
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/>
+                  </svg>
+                }
+              }
+            </div>
+            <span class="nav-label">{{ item.label }}</span>
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- User Actions Section -->
+    <div class="user-actions">
+      <!-- Search -->
+      <button class="action-button" (click)="onSearchClick()" aria-label="Search">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+      </button>
+
+      <!-- Notifications -->
+      <button class="action-button" (click)="onNotificationClick()" aria-label="Notifications">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+      </button>
+
+      <!-- Profile -->
+      <button class="profile-button" (click)="onProfileClick()" aria-label="Profile">
+        <div class="profile-avatar">
+          <img src="https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop&crop=face" 
+               alt="Profile" 
+               class="avatar-image">
+        </div>
+      </button>
+    </div>
+  </div>
+</nav>
