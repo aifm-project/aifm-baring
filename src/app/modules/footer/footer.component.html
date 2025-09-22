@@ -1,0 +1,93 @@
+<footer class="footer-section">
+  <div class="container-fluid">
+    <!-- Main Footer Content -->
+    <div class="row footer-main">
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="footer-brand">
+          <h3 class="brand-name">BARING PRIVATE<br>EQUITY<br>PARTNERS</h3>
+          <p class="brand-description">
+            Leading private equity firm focused on growth capital and buyout investments 
+            across Asia Pacific markets.
+          </p>
+          <div class="social-links">
+            <a *ngFor="let social of socialLinks" 
+               [href]="social.url" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               [attr.aria-label]="social.label"
+               class="social-link">
+              <i [class]="social.icon"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-2 col-md-6 mb-4" *ngFor="let section of footerSections">
+        <div class="footer-section-content">
+          <h4 class="section-title">{{ section.title }}</h4>
+          <ul class="footer-links">
+            <li *ngFor="let link of section.links">
+              <a [href]="link.url" class="footer-link">{{ link.label }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Newsletter Subscription -->
+    <div class="row footer-newsletter">
+      <div class="col-12">
+        <div class="newsletter-signup">
+          <div class="newsletter-content">
+            <h4>Stay Updated</h4>
+            <p>Subscribe to our newsletter for the latest insights and market updates.</p>
+          </div>
+          <div class="newsletter-form">
+            <div class="input-group">
+              <input type="email" 
+                     class="form-control" 
+                     placeholder="Enter your email address"
+                     aria-label="Email address">
+              <button class="btn btn-primary" type="button">
+                Subscribe
+                <i class="pi pi-arrow-right ms-2"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer Bottom -->
+    <div class="row footer-bottom">
+      <div class="col-md-6">
+        <div class="copyright">
+          <p>&copy; {{ currentYear }} Baring Private Equity Partners. All rights reserved.</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="legal-links">
+          <a *ngFor="let link of legalLinks; let last = last" 
+             [href]="link.url" 
+             class="legal-link">
+            {{ link.label }}<span *ngIf="!last" class="separator">|</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Disclaimer -->
+    <div class="row footer-disclaimer">
+      <div class="col-12">
+        <div class="disclaimer-content">
+          <p>
+            <strong>Important Disclaimer:</strong> 
+            This website is for informational purposes only and does not constitute an offer to sell or 
+            a solicitation of an offer to buy any securities. Past performance is not indicative of future results. 
+            Private equity investments involve substantial risk and may result in partial or total loss of investment.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

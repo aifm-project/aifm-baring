@@ -1,0 +1,170 @@
+<div class="portfolio-section">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <h2 class="section-title">Portfolio Companies</h2>
+      </div>
+    </div>
+    
+    <!-- Filters -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <p-card class="filter-card">
+          <div class="filters-container">
+            <div class="filter-group">
+              <label>Sector</label>
+              <p-dropdown [options]="sectors" 
+                          [(ngModel)]="selectedSector"
+                          (onChange)="applyFilters()"
+                          placeholder="Select Sector">
+              </p-dropdown>
+            </div>
+            
+            <div class="filter-group">
+              <label>Region</label>
+              <p-dropdown [options]="regions" 
+                          [(ngModel)]="selectedRegion"
+                          (onChange)="applyFilters()"
+                          placeholder="Select Region">
+              </p-dropdown>
+            </div>
+            
+            <div class="filter-group">
+              <label>Status</label>
+              <p-dropdown [options]="statuses" 
+                          [(ngModel)]="selectedStatus"
+                          (onChange)="applyFilters()"
+                          placeholder="Select Status">
+              </p-dropdown>
+            </div>
+            
+            <div class="filter-actions">
+              <button pButton 
+                      type="button" 
+                      label="Reset Filters" 
+                      class="p-button-outlined"
+                      (click)="selectedSector='All'; selectedRegion='All'; selectedStatus='All'; applyFilters()">
+              </button>
+            </div>
+          </div>
+        </p-card>
+      </div>
+    </div>
+    
+    <!-- Portfolio Grid -->
+    <div class="row">
+      <div class="col-lg-6 col-md-12 mb-4" *ngFor="let company of filteredCompanies">
+        <p-card class="portfolio-card">
+          <div class="company-header">
+            <div class="company-logo">
+              <img [src]="company.logo" [alt]="company.name + ' logo'">
+            </div>
+            <div class="company-info">
+              <h4 class="company-name">{{ company.name }}</h4>
+              <div class="company-meta">
+                <span class="sector-tag">{{ company.sector }}</span>
+                <span class="region-tag">{{ company.region }}</span>
+              </div>
+            </div>
+            <div class="company-status">
+              <span class="status-badge" [class]="getStatusClass(company.status)">
+                {{ company.status | titlecase }}
+              </span>
+            </div>
+          </div>
+          
+          <div class="company-description">
+            <p>{{ company.description }}</p>
+          </div>
+          
+          <div class="investment-metrics">
+            <div class="row">
+              <div class="col-6">
+                <div class="metric-item">
+                  <label>Investment</label>
+                  <span class="metric-value">{{ formatCurrency(company.investmentAmount) }}</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="metric-item">
+                  <label>Current Value</label>
+                  <span class="metric-value">{{ formatCurrency(company.currentValue) }}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row mt-2">
+              <div class="col-6">
+                <div class="metric-item">
+                  <label>Investment Date</label>
+                  <span class="metric-value">{{ company.investmentDate | date:'MMM yyyy' }}</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="metric-item">
+                  <label>Return</label>
+                  <span class="metric-value" 
+                        [class.positive]="getReturnPercentage(company) > 0"
+                        [class.negative]="getReturnPercentage(company) < 0">
+                    {{ getReturnPercentage(company) | number:'1.1-1' }}%
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="company-actions">
+            <button pButton 
+                    type="button" 
+                    label="View Details" 
+                    class="p-button-primary me-2">
+            </button>
+            <button pButton 
+                    type="button" 
+                    label="Visit Website" 
+                    class="p-button-outlined"
+                    (click)="window.open(company.website, '_blank')">
+            </button>
+          </div>
+        </p-card>
+      </div>
+    </div>
+    
+    <!-- Portfolio Summary -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <p-card header="Portfolio Summary" class="summary-card">
+          <div class="row">
+            <div class="col-lg-3 col-md-6 mb-3">
+              <div class="summary-metric">
+                <h4>Total Companies</h4>
+                <div class="summary-value">{{ portfolioCompanies.length }}</div>
+              </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-3">
+              <div class="summary-metric">
+                <h4>Active Investments</h4>
+                <div class="summary-value">{{ (portfolioCompanies | filter:'status':'active').length }}</div>
+              </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-3">
+              <div class="summary-metric">
+                <h4>Total Invested</h4>
+                <div class="summary-value">{{ formatCurrency(portfolioCompanies.reduce((sum, c) => sum + c.investmentAmount, 0)) }}</div>
+              </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-3">
+              <div class="summary-metric">
+                <h4>Current Value</h4>
+                <div class="summary-value">{{ formatCurrency(portfolioCompanies.reduce((sum, c) => sum + c.currentValue, 0)) }}</div>
+              </div>
+            </div>
+          </div>
+        </p-card>
+      </div>
+    </div>
+  </div>
+</div>

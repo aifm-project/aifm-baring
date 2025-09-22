@@ -1,0 +1,50 @@
+<p-toolbar class="navbar-container">
+  <div class="p-toolbar-group-start">
+    <div class="logo-section">
+      <h2 class="logo-text">BARING PRIVATE<br>EQUITY<br>PARTNERS</h2>
+    </div>
+  </div>
+  
+  <div class="p-toolbar-group-center">
+    <nav class="navigation-menu">
+      <ul class="nav-list">
+        <li *ngFor="let item of navigationItems" 
+            class="nav-item" 
+            [class.active]="item.active">
+          <a href="#" class="nav-link">
+            <i [class]="item.icon"></i>
+            <span class="nav-label">{{ item.label }}</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  
+  <div class="p-toolbar-group-end">
+    <div class="user-actions">
+      <button pButton 
+              type="button" 
+              icon="pi pi-search" 
+              class="p-button-text user-action-btn"
+              pTooltip="Search">
+      </button>
+      
+      <button pButton 
+              type="button" 
+              icon="pi pi-bell" 
+              class="p-button-text user-action-btn"
+              pTooltip="Notifications">
+        <p-badge *ngIf="userNotifications > 0" 
+                 [value]="userNotifications.toString()" 
+                 severity="danger">
+        </p-badge>
+      </button>
+      
+      <p-avatar image="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=64&h=64&fit=crop&crop=face" 
+                size="normal" 
+                shape="circle"
+                class="user-avatar">
+      </p-avatar>
+    </div>
+  </div>
+</p-toolbar>
