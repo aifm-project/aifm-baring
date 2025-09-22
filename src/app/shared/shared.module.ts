@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 // PrimeNG Modules
 import { ButtonModule } from 'primeng/button';
@@ -16,6 +17,14 @@ import { MenuModule } from 'primeng/menu';
 import { AvatarModule } from 'primeng/avatar';
 import { BadgeModule } from 'primeng/badge';
 import { ToolbarModule } from 'primeng/toolbar';
+import { TooltipModule } from 'primeng/tooltip';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { CheckboxModule } from 'primeng/checkbox';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 // Highcharts
 import { HighchartsChartModule } from 'highcharts-angular';
@@ -33,7 +42,15 @@ const PRIMENG_MODULES = [
   MenuModule,
   AvatarModule,
   BadgeModule,
-  ToolbarModule
+  ToolbarModule,
+  TooltipModule,
+  DialogModule,
+  ConfirmDialogModule,
+  ToastModule,
+  ProgressBarModule,
+  CheckboxModule,
+  RadioButtonModule,
+  MultiSelectModule
 ];
 
 @NgModule({
@@ -41,6 +58,7 @@ const PRIMENG_MODULES = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
     HighchartsChartModule,
     ...PRIMENG_MODULES
   ],
@@ -48,6 +66,7 @@ const PRIMENG_MODULES = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
     HighchartsChartModule,
     ...PRIMENG_MODULES
   ]
