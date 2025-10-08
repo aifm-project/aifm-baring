@@ -1,0 +1,40 @@
+<section class="newsletter-section mt-5">
+  <div class="newsletter-container">
+    <!-- Background Images -->
+    <div class="newsletter-background">
+      <!-- <img class="newsletter-bg-top" src="https://api.builder.io/api/v1/image/assets/TEMP/33bb47b050beb481371a1fb75ed9c93fcf4dc426?width=2884" alt="" />
+      <img class="newsletter-bg-main" src="https://api.builder.io/api/v1/image/assets/TEMP/9a39249b4fd5cce8076dd74473e595c24ac08aff?width=2888" alt="" /> -->
+    </div>
+
+    <!-- Content -->
+
+    <div class="newsletter-content">
+      <div class="newsletter-badge">Newsletter</div>
+
+      <div class="newsletter-title mt-5">
+        Stay in the know with our newsletter covering the latest news and insights.
+      </div>
+
+      <form class="newsletter-form" (ngSubmit)="onSubmit()">
+        <div class="newsletter-input-container">
+          <input type="email" class="newsletter-input" placeholder="Email address" [(ngModel)]="email" name="email"
+            required />
+          <div class="newsletter-input-underline"></div>
+          <button type="submit" class="newsletter-submit">
+            <svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_14_12)">
+                <path d="M8.64062 4.35938L15.7788 11.4975L8.64062 18.6357" stroke="white" stroke-width="1.22368"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </g>
+              <defs>
+                <clipPath id="clip0_14_12">
+                  <rect width="22.8421" height="22.8421" fill="white" transform="translate(0.078125 0.078125)" />
+                </clipPath>
+              </defs>
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

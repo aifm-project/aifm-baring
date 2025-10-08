@@ -1,0 +1,233 @@
+.portfolio-overview {
+  padding: 20px 0 0 0;
+  background-color: #f3f5f7;
+
+  .container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 70px;
+  }
+
+  .overview-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 38px;
+    height: 24px;
+
+    .overview-title {
+      color: #000;
+      font-family: 'Victor Serif Trial', serif;
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 1;
+      text-transform: capitalize;
+      margin: 0;
+    }
+
+    svg {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+  }
+
+  .portfolio-metrics {
+    display: flex;
+    gap: 50px;
+    margin-bottom: 40px;
+    position: relative;
+
+    .portfolio-metric-card {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 272px;
+      height: 113px;
+
+      &:nth-child(2) {
+        width: 268px;
+      }
+
+      &:nth-child(3) {
+        width: 154px;
+      }
+
+      &:nth-child(4) {
+        width: 235px;
+      }
+
+      .portfolio-metric-header {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        height: 39px;
+
+        .portfolio-metric-icon {
+          width: 39px;
+          height: 39px;
+          background-color: #dce3e8;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+
+          svg {
+            width: 28px;
+            height: 28px;
+          }
+        }
+
+        .portfolio-metric-label {
+          background-color: #dce3e8;
+          padding: 11px 13px;
+          font-family: 'Instrument Sans', sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+          letter-spacing: -0.14px;
+          color: #000;
+          height: 39px;
+          display: flex;
+          align-items: center;
+          white-space: nowrap;
+          justify-content: center;
+        }
+      }
+
+      .portfolio-metric-value {
+        font-family: 'Victor Serif Trial', serif;
+        font-size: 45px;
+        font-weight: 500;
+        line-height: 1.5;
+        color: #000;
+        height: 59px;
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .portfolio-overview {
+    .container {
+      padding: 0 40px;
+    }
+
+    .portfolio-metrics {
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: space-between;
+
+      .portfolio-metric-card {
+        width: 220px;
+
+        &:nth-child(2),
+        &:nth-child(3),
+        &:nth-child(4) {
+          width: 220px;
+        }
+
+        .portfolio-metric-value {
+          font-size: 36px;
+        }
+      }
+    }
+
+    .portfolio-separators {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .portfolio-overview {
+    padding: 16px 0;
+
+    .container {
+      padding: 0 20px;
+    }
+
+    .overview-header {
+      margin-bottom: 24px;
+      width: auto;
+      height: auto;
+
+      .overview-title {
+        font-size: 20px;
+      }
+    }
+
+    .portfolio-metrics {
+      flex-direction: column;
+      gap: 24px;
+      align-items: center;
+
+      .portfolio-metric-card {
+        width: auto;
+        min-width: 250px;
+        text-align: center;
+        height: auto;
+
+        &:nth-child(2),
+        &:nth-child(3),
+        &:nth-child(4) {
+          width: auto;
+          min-width: 250px;
+        }
+
+        .portfolio-metric-value {
+          font-size: 32px;
+          height: auto;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .portfolio-overview {
+    .overview-header {
+      .overview-title {
+        font-size: 18px;
+      }
+    }
+
+    .portfolio-metrics {
+      .portfolio-metric-card {
+        min-width: 200px;
+
+        &:nth-child(2),
+        &:nth-child(3),
+        &:nth-child(4) {
+          min-width: 200px;
+        }
+
+        .portfolio-metric-header {
+          .portfolio-metric-label {
+            font-size: 12px;
+            padding: 8px 10px;
+          }
+
+          .portfolio-metric-icon {
+            width: 32px;
+            height: 32px;
+
+            svg {
+              width: 20px;
+              height: 20px;
+            }
+          }
+        }
+
+        .portfolio-metric-value {
+          font-size: 28px;
+        }
+      }
+    }
+  }
+}
+.border-right{
+  border-right: 1px solid #CBCBCB;
+  padding-right: 14px;
+}

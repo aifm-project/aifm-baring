@@ -1,0 +1,308 @@
+.annual-summit {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+
+  .summit-container {
+    position: relative;
+    width: 1300px;
+    height: 377px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .summit-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    .summit-bg-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      aspect-ratio: 100/29;
+    }
+  }
+
+  .summit-overlay {
+    position: absolute;
+    left: 0;
+    top: 154px;
+    width: 848px;
+    height: 223px;
+    background: #181818;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0;
+  }
+
+  .summit-content {
+    position: relative;
+    padding: 0;
+    margin: 0;
+
+    .summit-badge {
+      position: absolute;
+      left: 26px;
+      top: 24px;
+      width: 63px;
+      height: 20px;
+      display: inline-flex;
+      padding: 5px 8px;
+      justify-content: center;
+      align-items: center;
+      background: #FFF;
+      color: #000;
+      font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 10px;
+      text-transform: uppercase;
+      box-sizing: border-box;
+    }
+
+    .summit-title {
+      position: absolute;
+      left: 26px;
+      top: 94px;
+      width: 519px;
+      height: 44px;
+      color: #FFF;
+      font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+      font-size: 40px;
+      font-weight: 500;
+      line-height: 44px;
+      margin: 0;
+    }
+
+    .summit-description {
+      position: absolute;
+      left: 26px;
+      top: 151px;
+      width: 475px;
+      height: 45px;
+      color: #FFF;
+      font-family: 'DM Sans', -apple-system, Roboto, Helvetica, sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 15px;
+      margin: 0;
+    }
+  }
+
+  .summit-cta-container {
+    position: absolute;
+    right: 26px;
+    top: 157px;
+    width: 191px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+
+    .summit-cta-text {
+      width: 151px;
+      height: 36px;
+      background: #FFF;
+      color: #000;
+      font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 16.8px;
+      letter-spacing: -0.16px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #f0f0f0;
+      }
+    }
+
+    .summit-cta-arrow {
+      width: 36px;
+      height: 36px;
+      background: #FFF;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 4px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #f0f0f0;
+      }
+
+      svg {
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1400px) {
+  .annual-summit {
+    .summit-container {
+      width: 100%;
+      max-width: 1300px;
+      height: auto;
+      min-height: 377px;
+    }
+
+    .summit-overlay {
+      width: 65%;
+      min-width: 600px;
+      height: auto;
+      min-height: 223px;
+      top: 40%;
+    }
+
+    .summit-cta-container {
+      position: static;
+      margin: 20px 26px 26px auto;
+      width: 191px;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .annual-summit {
+    .summit-container {
+      height: auto;
+      min-height: 300px;
+    }
+
+    .summit-overlay {
+      position: relative;
+      top: 0;
+      width: 100%;
+      min-width: auto;
+      flex-direction: column;
+      padding: 24px;
+      box-sizing: border-box;
+    }
+
+    .summit-content {
+      .summit-badge {
+        position: static;
+        margin-bottom: 20px;
+      }
+
+      .summit-title {
+        position: static;
+        font-size: 32px;
+        line-height: 36px;
+        margin-bottom: 16px;
+        width: auto;
+        height: auto;
+      }
+
+      .summit-description {
+        position: static;
+        font-size: 14px;
+        line-height: 18px;
+        margin-bottom: 24px;
+        width: auto;
+        height: auto;
+      }
+    }
+
+    .summit-cta-container {
+      position: static;
+      margin: 0;
+      align-self: flex-start;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .annual-summit {
+    .summit-container {
+      min-height: 250px;
+    }
+
+    .summit-overlay {
+      padding: 20px;
+    }
+
+    .summit-content {
+      .summit-badge {
+        font-size: 9px;
+        padding: 4px 6px;
+        height: 18px;
+      }
+
+      .summit-title {
+        font-size: 28px;
+        line-height: 32px;
+      }
+
+      .summit-description {
+        font-size: 13px;
+        line-height: 16px;
+      }
+    }
+
+    .summit-cta-container {
+      width: 100%;
+      max-width: 191px;
+
+      .summit-cta-text {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .annual-summit {
+    .summit-container {
+      min-height: 200px;
+    }
+
+    .summit-overlay {
+      padding: 16px;
+    }
+
+    .summit-content {
+      .summit-title {
+        font-size: 24px;
+        line-height: 28px;
+      }
+
+      .summit-description {
+        font-size: 12px;
+        line-height: 15px;
+      }
+    }
+
+    .summit-cta-container {
+      .summit-cta-text {
+        font-size: 13px;
+        height: 32px;
+      }
+
+      .summit-cta-arrow {
+        height: 32px;
+        width: 32px;
+
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+}

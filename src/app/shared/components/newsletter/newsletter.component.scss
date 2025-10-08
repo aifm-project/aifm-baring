@@ -1,0 +1,270 @@
+.newsletter-section {
+  position: relative;
+  width: 100%;
+  height: 353px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+
+  .newsletter-container {
+    position: relative;
+    width: 100%;
+    height: 353px;
+    margin: 0 auto;
+    background: #D4DCE2;
+  }
+
+  .newsletter-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    // background: #D4DCE2;
+
+    .newsletter-bg-top {
+      position: absolute;
+      top: 0;
+      left: 2px;
+      width: 1442px;
+      height: 315px;
+      object-fit: cover;
+    }
+
+    .newsletter-bg-main {
+      position: absolute;
+      top: 18px;
+      left: 0;
+      width: 1444px;
+      height: 650px;
+      object-fit: cover;
+    }
+  }
+
+  .newsletter-content {
+    position: relative;
+    z-index: 2;
+    padding-top: 29px;
+    padding-left: 72px;
+
+    .newsletter-badge {
+      display: inline-flex;
+      padding: 4px 8px 3px 8px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      border-radius: 2px;
+      background: #000;
+      width: 85px;
+      height: 21px;
+      box-sizing: border-box;
+      margin-bottom: 41px;
+
+      font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 11.769px;
+      text-transform: uppercase;
+      color: #FFF;
+      text-align: center;
+    }
+
+    .newsletter-title {
+      width: 766px;
+      height: 88px;
+      color: #000;
+      font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+      font-size: 40px;
+      font-weight: 500;
+      line-height: 44px;
+      letter-spacing: -0.4px;
+      margin: 0 0 79px 0;
+    }
+
+    .newsletter-form {
+      .newsletter-input-container {
+        position: relative;
+        width: 529px;
+        height: 41px;
+
+        .newsletter-input {
+          width: 100%;
+          height: 41px;
+          background: transparent;
+          border: none;
+          outline: none;
+          color: #000;
+          font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 20px;
+          padding: 11px 0;
+          box-sizing: border-box;
+
+          &::placeholder {
+            color: #000;
+            opacity: 0.5;
+          }
+
+          &:focus {
+            outline: none;
+          }
+        }
+
+        .newsletter-input-underline {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 529px;
+          height: 0px;
+          background: #000;
+          opacity: 0.5;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+        }
+
+        .newsletter-submit {
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: 31px;
+          height: 31px;
+          background: #000;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+
+          &:hover {
+            background: #333;
+          }
+
+          svg {
+            width: 23px;
+            height: 23px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1500px) {
+  .newsletter-section {
+    .newsletter-container {
+      width: 100%;
+      max-width: 1444px;
+      padding: 0 20px;
+      box-sizing: border-box;
+    }
+
+    .newsletter-background {
+      .newsletter-bg-top,
+      .newsletter-bg-main {
+        width: 100%;
+        left: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .newsletter-section {
+    height: auto;
+    min-height: 500px;
+
+    .newsletter-container {
+      height: auto;
+      padding: 0 16px;
+    }
+
+    .newsletter-content {
+      padding: 40px 20px;
+
+      .newsletter-title {
+        width: 100%;
+        max-width: 600px;
+        font-size: 32px;
+        line-height: 36px;
+        margin-bottom: 60px;
+      }
+
+      .newsletter-form {
+        .newsletter-input-container {
+          width: 100%;
+          max-width: 450px;
+
+          .newsletter-input-underline {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .newsletter-section {
+    height: auto;
+    min-height: 400px;
+
+    .newsletter-content {
+      padding: 30px 16px;
+
+      .newsletter-badge {
+        margin-bottom: 24px;
+      }
+
+      .newsletter-title {
+        font-size: 28px;
+        line-height: 32px;
+        margin-bottom: 40px;
+      }
+
+      .newsletter-form {
+        .newsletter-input-container {
+          max-width: 100%;
+
+          .newsletter-input {
+            font-size: 14px;
+            padding: 10px 0;
+          }
+
+          .newsletter-submit {
+            width: 28px;
+            height: 28px;
+
+            svg {
+              width: 18px;
+              height: 18px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .newsletter-section {
+    .newsletter-content {
+      padding: 24px 12px;
+
+      .newsletter-title {
+        font-size: 24px;
+        line-height: 28px;
+        margin-bottom: 32px;
+      }
+
+      .newsletter-badge {
+        width: auto;
+        padding: 3px 6px;
+        font-size: 9px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+}

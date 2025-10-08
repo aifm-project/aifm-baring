@@ -1,0 +1,83 @@
+<div class="performance-container">
+  <!-- Header -->
+  <div class="performance-header">
+    <div class="performance-title-section">
+      <h3 class="performance-title">Fund Performance</h3>
+      <img src="../../../../assets/icons/Info.png" height="25" width="25" alt="">
+      <!-- <svg width="22" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0_2_21)">
+          <path
+            d="M11.9086 19.2502C16.465 19.2502 20.1586 15.5565 20.1586 11.0002C20.1586 6.44384 16.465 2.75019 11.9086 2.75019C7.35225 2.75019 3.6586 6.44384 3.6586 11.0002C3.6586 15.5565 7.35225 19.2502 11.9086 19.2502Z"
+            stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M11.2209 10.3125C11.4032 10.3125 11.5781 10.3849 11.707 10.5139C11.836 10.6428 11.9084 10.8177 11.9084 11V14.4375C11.9084 14.6198 11.9808 14.7947 12.1098 14.9236C12.2387 15.0526 12.4136 15.125 12.5959 15.125"
+            stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M11.5647 8.25C12.1342 8.25 12.5959 7.78829 12.5959 7.21875C12.5959 6.64921 12.1342 6.1875 11.5647 6.1875C10.9951 6.1875 10.5334 6.64921 10.5334 7.21875C10.5334 7.78829 10.9951 8.25 11.5647 8.25Z"
+            fill="black" />
+        </g>
+        <defs>
+          <clipPath id="clip0_2_21">
+            <rect width="22" height="22" fill="white" transform="translate(0.908401)" />
+          </clipPath>
+        </defs>
+      </svg> -->
+    </div>
+
+    <div class="time-period-selector">
+      <button *ngFor="let period of periods" class="period-btn" [class.active]="selectedPeriod === period.value"
+        (click)="selectPeriod(period.value)">
+        {{ period.label }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Content: Bootstrap grid 8/4 split -->
+  <div class="performance-content">
+    <div class="container-fluid px-0">
+      <div class="row g-0 align-items-start">
+        <!-- Chart: col-8 -->
+        <div class="col-sm-12 col-md-8 col-lg-8 col-xl-8">
+          <div class="chart-section">
+            <div class="chart-container">
+              <div class="chart-host" [chart]="chart"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metrics: col-4 -->
+        <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 d-flex justify-content-end">
+          <div class="metrics-sidebar">
+            <div class="metric-section">
+              <div class="metric-header">
+                <div class="legend-indicator growth"></div>
+                <span class="legend-label float-left">Growth</span>
+              </div>
+              <div class="current-date float-right">{{ currentDate }}</div>
+
+              <div class="nav-section">
+                <div class="nav-label mt-3">NAV from Invested Capital</div>
+                <div class="nav-value">{{ navValue }}</div>
+              </div>
+              <div class="metric-details">
+                <div class="metric-item">{{ grossMOIC }}</div>
+                <div class="metric-item">{{ grossIRR }}</div>
+                <div class="metric-item">{{ returnOnCapital }}</div>
+              </div>
+            </div>
+
+            <div class="metric-separator"></div>
+
+            <div class="metric-section">
+              <div class="metric-header">
+                <div class="legend-indicator drawdowns"></div>
+                <span class="legend-label">Drawdowns</span>
+              </div>
+              <div class="drawdowns-value">{{ drawdownsValue }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

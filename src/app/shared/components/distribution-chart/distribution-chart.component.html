@@ -1,0 +1,71 @@
+<section class="distribution-chart">
+  <div class="container-fluid px-0">
+    <div class="row align-items-center g-3 distribution-header">
+      <div class="col-12 col-md-7">
+        <div class="distribution-title-wrapper">
+          <h3 class="distribution-title">{{ title }}</h3>
+          <div class="info-icon" aria-label="Information" role="button" tabindex="0">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_7_565)">
+                <path d="M11 19.25C15.5563 19.25 19.25 15.5563 19.25 11C19.25 6.44365 15.5563 2.75 11 2.75C6.44365 2.75 2.75 6.44365 2.75 11C2.75 15.5563 6.44365 19.25 11 19.25Z" stroke="black" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.3125 10.3125C10.4948 10.3125 10.6697 10.3849 10.7986 10.5139C10.9276 10.6428 11 10.8177 11 11V14.4375C11 14.6198 11.0724 14.7947 11.2014 14.9236C11.3303 15.0526 11.5052 15.125 11.6875 15.125" stroke="black" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M10.6562 8.25C11.2258 8.25 11.6875 7.78829 11.6875 7.21875C11.6875 6.64921 11.2258 6.1875 10.6562 6.1875C10.0867 6.1875 9.625 6.64921 9.625 7.21875C9.625 7.78829 10.0867 8.25 10.6562 8.25Z" fill="black"/>
+              </g>
+              <defs>
+                <clipPath id="clip0_7_565">
+                  <rect width="22" height="22" fill="white"/>
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-5" *ngIf="showFilters">
+        <div class="filter-action d-flex justify-content-md-end">
+          <button class="btn filter-trigger" type="button" (click)="onFilterClick()">
+            <span class="filter-trigger__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_7_573)">
+                  <path d="M17.25 7.5H20.25" stroke="white" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M3.75 7.5H14.25" stroke="white" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M11.25 16.5H20.25" stroke="white" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M3.75 16.5H8.25" stroke="white" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M14.25 5.25V9.75" stroke="white" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M8.25 14.25V18.75" stroke="white" stroke-width="1.125" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                  <clipPath id="clip0_7_573">
+                    <rect width="24" height="24" fill="white"/>
+                  </clipPath>
+                </defs>
+              </svg>
+            </span>
+            <span class="filter-trigger__label">Filter</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="distribution-body mt-4">
+      <div class="row g-4 align-items-center">
+        <div class="col-12 col-lg-6">
+          <div class="pie-visual">
+            <div class="pie-chart-placeholder"></div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="chart-legend">
+            <h4 class="legend-title">Industry Sectors</h4>
+            <div class="legend-items">
+              <div *ngFor="let item of industryData" class="legend-item">
+                <div class="legend-color" [style.background-color]="item.color"></div>
+                <span class="legend-label">{{ item.name }}</span>
+                <span class="legend-percentage">{{ item.percentage }}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

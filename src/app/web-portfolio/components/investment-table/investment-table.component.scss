@@ -1,0 +1,761 @@
+.investment-table {
+  $cell-padding-x: 15px;
+  $cell-padding-y: 15px;
+
+  .section-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .section-title-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .view-all-container {
+    display: flex;
+    align-items: center;
+    position: static;
+    width: auto;
+    height: auto;
+
+    .view-all-text {
+      width: 166px;
+      height: 36px;
+      background: #122334;
+      color: #FFF;
+      font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 16.8px;
+      letter-spacing: -0.16px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #000;
+      }
+    }
+
+    .view-all-arrow {
+      width: 36px;
+      height: 36px;
+      background: #122334;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 4px;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: #000;
+      }
+    }
+  }
+
+  background-color: #f3f5f7;
+  // padding: 20px 0;
+  width: 100%;
+
+  .investment-inner {
+    width: 100%;
+    margin: 0 auto;
+
+    &.container {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    &.container-fluid {
+      max-width: 1300px;
+      padding: 0 70px;
+
+      @media (max-width: 1200px) {
+        padding: 0 40px;
+      }
+
+      @media (max-width: 768px) {
+        padding: 0 20px;
+      }
+
+      @media (max-width: 480px) {
+        padding: 0 12px;
+      }
+    }
+  }
+
+  // Header Styles
+  .investment-header {
+    .investment-title {
+      color: #000;
+      font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 1;
+      text-transform: capitalize;
+
+      @media (max-width: 768px) {
+        font-size: 20px;
+      }
+    }
+
+    .investment-sort {
+      background-color: #122334;
+      border: none;
+      border-radius: 2px;
+      padding: 0;
+      height: 36px;
+
+      .sort-icon {
+        width: 36px;
+        height: 36px;
+        background-color: #122334;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img {
+          width: 24px;
+          height: 24px;
+        }
+      }
+
+      .sort-label {
+        color: #fff;
+        font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.05;
+        letter-spacing: -0.16px;
+        padding: 9px 13px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        background-color: #122334;
+      }
+
+      .sort-divider {
+        width: 1px;
+        height: 24px;
+        background: #fff;
+        display: inline-block;
+        margin: 0 8px;
+      }
+
+      &:hover {
+        background-color: #1a3a4f;
+
+        .sort-icon,
+        .sort-label {
+          background-color: #1a3a4f;
+        }
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 0.2rem rgba(18, 35, 52, 0.25);
+      }
+    }
+  }
+
+  // Portfolio Summary Styles
+  .portfolio-summary-container {
+    width: 100%;
+  }
+
+  .portfolio-summary {
+    display: flex;
+    min-height: 102px;
+    padding: 20px 0;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f3f5f7;
+    flex-wrap: nowrap;
+    gap: 20px;
+
+    .summary-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      flex: 1 1 0;
+      min-width: 0;
+
+      .summary-label {
+        color: #555;
+        font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 14px;
+        white-space: nowrap;
+
+        svg {
+          width: 16px;
+          height: 16px;
+          flex-shrink: 0;
+          vertical-align: middle;
+        }
+      }
+
+      .summary-value {
+        color: #000;
+        font-family: 'Test Tiempos Text', -apple-system, Roboto, Helvetica, sans-serif;
+        font-size: 30px;
+        font-weight: 400;
+        line-height: 38px;
+        white-space: nowrap;
+      }
+    }
+
+    @media (max-width: 1200px) {
+      gap: 15px;
+
+      .summary-item {
+        .summary-value {
+          font-size: 26px;
+          line-height: 32px;
+        }
+      }
+    }
+
+    @media (max-width: 992px) {
+      flex-wrap: wrap;
+      min-height: auto;
+      gap: 20px;
+
+      .summary-item {
+        flex: 1 1 calc(33.333% - 14px);
+        min-width: 150px;
+
+        .summary-value {
+          font-size: 24px;
+          line-height: 30px;
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      flex-wrap: wrap;
+      gap: 16px;
+
+      .summary-item {
+        flex: 1 1 calc(50% - 8px);
+        min-width: 140px;
+
+        .summary-value {
+          font-size: 22px;
+          line-height: 28px;
+        }
+
+        .summary-label {
+          font-size: 13px;
+          line-height: 13px;
+        }
+      }
+    }
+
+    @media (max-width: 480px) {
+      flex-direction: column;
+      gap: 16px;
+
+      .summary-item {
+        width: 100%;
+        flex: 1 1 100%;
+
+        .summary-value {
+          font-size: 20px;
+          line-height: 26px;
+        }
+
+        .summary-label {
+          font-size: 12px;
+          line-height: 12px;
+        }
+      }
+    }
+  }
+
+  // Investment Data Table Styles
+  .investment-data {
+    background-color: #f3f5f7;
+
+    .table {
+      width: 100%;
+      table-layout: fixed;
+      border-collapse: separate;
+      // border-spacing: 0 16px;
+      margin-bottom: 0;
+
+      // Table Headers
+      thead .table-header-row {
+        th {
+          color: #313131;
+          font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 1.5;
+          border: none;
+          background: transparent;
+          padding: 12px $cell-padding-x;
+          vertical-align: bottom;
+          position: relative;
+          text-align: left;
+
+          svg {
+            width: 16px;
+            height: 16px;
+            margin-left: 5px;
+          }
+
+          &.company-industry-header {
+            width: 215px;
+          }
+
+          &.table-header-cell {
+            width: 86px;
+            text-align: left;
+
+            &.numeric-header {
+              text-align: right;
+            }
+          }
+        }
+      }
+
+      tbody,
+      td,
+      tfoot,
+      th,
+      thead,
+      tr {
+        border-bottom: 5px solid #ffffff;
+      }
+
+      // Table Body Rows
+      tbody tr.company-row {
+        td {
+          background-color: transparent;
+          border: none;
+          padding: $cell-padding-y $cell-padding-x;
+          vertical-align: middle;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+          &:first-child {
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
+          }
+
+          &:last-child {
+            border-top-right-radius: 12px;
+            border-bottom-right-radius: 12px;
+          }
+        }
+
+        .company-cell {
+          width: 215px;
+          padding: $cell-padding-y $cell-padding-x;
+
+          .company-logo {
+            width: 61px;
+            height: 61px;
+            background-color: #122c3f;
+            border-radius: 0;
+            flex-shrink: 0;
+
+            img {
+              max-width: 42px;
+              max-height: 42px;
+              mix-blend-mode: luminosity;
+              filter: brightness(0) invert(1);
+            }
+          }
+
+          .company-info {
+            width: 224px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+
+            .company-name {
+              width: 190px;
+              color: #000;
+              font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+              font-size: 20px;
+              font-weight: 500;
+              line-height: 1.5;
+              word-wrap: break-word;
+              overflow-wrap: break-word;
+              hyphens: auto;
+            }
+          }
+        }
+
+        .data-cell {
+          width: 100px;
+          color: #000;
+          font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 1.5;
+          padding: $cell-padding-y $cell-padding-x;
+        }
+
+        .amount-cell,
+        .percentage-cell,
+        .weight-cell {
+          text-align: right;
+        }
+
+        .value-stack {
+          display: inline-flex;
+          align-items: baseline;
+          gap: 4px;
+          justify-content: flex-end;
+          white-space: nowrap;
+          width: 100%;
+        }
+
+        .value-symbol,
+        .value-unit {
+          color: #555;
+          font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+        }
+
+        .value-amount {
+          color: #000;
+          font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+          font-size: 16px;
+          font-weight: 500;
+          line-height: 1.5;
+        }
+
+        .weight-cell {
+          width: 100px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 6px;
+          padding: $cell-padding-y $cell-padding-x;
+
+          .weight-text {
+            color: #000;
+            font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.1;
+            justify-content: flex-end;
+            margin-bottom: 6px;
+          }
+
+          .progress {
+            width: 100%;
+            height: 13px;
+            background-color: #d0d3d6;
+            border-radius: 0;
+            opacity: 0.9;
+
+            .progress-bar {
+              background-color: #122c3f;
+              border-radius: 0;
+              opacity: 0.9;
+              transition: width 0.3s ease;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  :host-context(.web-dashboard) {
+    .investment-data {
+      .table {
+        thead .table-header-row {
+          th.table-header-cell {
+            width: 121px;
+          }
+        }
+
+        tbody tr.company-row {
+
+          .data-cell,
+          .weight-cell {
+            width: 121px;
+          }
+        }
+      }
+    }
+  }
+
+  // Responsive Design
+  @media (max-width: 1200px) {
+    .investment-data .table {
+      thead .table-header-row th {
+        &.company-industry-header {
+          width: 200px;
+        }
+
+        &.table-header-cell {
+          width: 80px;
+        }
+      }
+
+      tbody tr.company-row {
+        .company-cell {
+          width: 200px;
+
+          .company-logo {
+            width: 50px;
+            height: 50px;
+
+            img {
+              max-width: 30px;
+              max-height: 30px;
+            }
+          }
+
+          .company-info .company-name {
+            width: 180px;
+            font-size: 18px;
+          }
+        }
+
+        .data-cell,
+        .weight-cell {
+          width: 80px;
+          font-size: 14px;
+        }
+
+        .weight-cell .progress {
+          width: 80px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 991.98px) {
+    .investment-data {
+      .table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+
+        thead,
+        tbody,
+        th,
+        td,
+        tr {
+          display: block;
+        }
+
+        thead tr {
+          position: absolute;
+          top: -9999px;
+          left: -9999px;
+        }
+
+        tbody tr.company-row {
+          border: 1px solid #ccc;
+          margin-bottom: 10px;
+          padding: 0;
+
+          td {
+            border: none;
+            border-bottom: 1px solid #eee;
+            position: relative;
+            padding: 8px 15px 8px 50% !important;
+            text-align: left;
+            white-space: normal;
+            background-color: transparent;
+
+            .value-stack {
+              justify-content: flex-start;
+              white-space: normal;
+            }
+
+            &:before {
+              content: attr(data-label);
+              position: absolute;
+              left: 6px;
+              width: 45%;
+              padding-right: 10px;
+              white-space: nowrap;
+              font-weight: bold;
+              color: #555;
+              font-size: 12px;
+              text-transform: uppercase;
+            }
+
+            &.company-cell {
+              padding: 15px !important;
+              text-align: center;
+
+              &:before {
+                display: none;
+              }
+            }
+
+            &.weight-cell {
+              .weight-text {
+                justify-content: flex-start;
+              }
+
+              .progress {
+                width: 100%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    padding: 16px 0;
+
+    .investment-header {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 16px;
+    }
+
+    .investment-data .table tbody tr.company-row {
+      .company-cell {
+        .company-logo {
+          width: 40px;
+          height: 40px;
+
+          img {
+            max-width: 24px;
+            max-height: 24px;
+          }
+        }
+
+        .company-info .company-name {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+// Accessibility improvements
+.investment-table {
+
+  // Focus styles
+  .btn:focus,
+  .investment-sort:focus {
+    outline: 2px solid #005fcc;
+    outline-offset: 2px;
+  }
+
+  // Screen reader only content
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  // High contrast mode support
+  @media (prefers-contrast: high) {
+    .company-logo {
+      border: 2px solid;
+    }
+
+    .progress {
+      border: 1px solid;
+    }
+
+    .company-row {
+      border: 1px solid;
+    }
+  }
+
+  // Reduced motion support
+  @media (prefers-reduced-motion: reduce) {
+    .progress-bar {
+      transition: none;
+    }
+  }
+}
+
+.border-right {
+  border-right: 1px solid #CBCBCB;
+  padding-right: 14px;
+}
+
+.float-right {
+  float: right;
+}
+
+.view-all-container {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 206px;
+  height: 36px;
+  display: flex;
+
+  .view-all-text {
+    width: 166px;
+    height: 36px;
+    background: #122334;
+    color: #FFF;
+    font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 16.8px;
+    letter-spacing: -0.16px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #000;
+    }
+  }
+
+  .view-all-arrow {
+    width: 36px;
+    height: 36px;
+    background: #122334;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: #000;
+    }
+
+    svg {
+      width: 25px;
+      height: 25px;
+    }
+  }
+}

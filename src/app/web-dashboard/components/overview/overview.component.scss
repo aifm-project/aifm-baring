@@ -1,0 +1,366 @@
+.investment-overview {
+  padding: 48px 0 0 0;
+
+  .container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .overview-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    // margin-bottom: 37px;
+
+    .overview-title {
+      color: #000;
+      font-family: 'Victor Serif Trial', serif;
+      font-size: 24px;
+      font-weight: 500;
+      line-height: 24px;
+      letter-spacing: -0.24px;
+      text-transform: capitalize;
+      margin: 0;
+    }
+
+    svg {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+  }
+
+  .investment-main-metrics {
+    display: flex;
+    gap: 61px;
+    align-items: flex-start;
+
+    .main-metric-card {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      min-width: 0;
+
+      &.gross-irr-card {
+        background-color: #E7EBEE;
+        padding: 21px 28px;
+        border-radius: 0;
+        max-width: 386px;
+      }
+
+      .metric-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 13px;
+        height: 39px;
+
+        .metric-icon {
+          width: 39px;
+          height: 39px;
+          background-color: rgba(210, 219, 225, 0.7);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+
+          svg {
+            width: 28px;
+            height: 28px;
+          }
+        }
+
+        .metric-label {
+          height: 39px;
+          background-color: rgba(210, 219, 225, 0.7);
+          padding: 11px 13px;
+          display: flex;
+          align-items: center;
+          color: #000;
+          font-family: 'Instrument Sans', sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+          letter-spacing: -0.14px;
+          line-height: normal;
+          white-space: nowrap;
+        }
+      }
+
+      .metric-value {
+        color: #000;
+        font-family: 'Victor Serif Trial', serif;
+        font-size: 53px;
+        font-weight: 500;
+        line-height: 56px;
+        margin-bottom: 26px;
+      }
+
+      .metric-submetrics {
+        display: flex;
+        align-items: flex-start;
+        gap: 30px;
+
+        .submetric {
+          display: flex;
+          flex-direction: column;
+          gap: 11px;
+
+          .submetric-label {
+            color: #CBCBCB;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 16px;
+          }
+
+          .submetric-value {
+            color: #000;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 22px;
+            font-weight: 500;
+            line-height: 16px;
+          }
+        }
+
+        .separator {
+          width: 39px;
+          height: 1px;
+          background-color: #CBCBCB;
+          margin-top: 27px;
+          flex-shrink: 0;
+        }
+      }
+
+      .metric-description {
+        width: 297px;
+        color: #000;
+        font-family: 'Instrument Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 18px;
+        letter-spacing: -0.14px;
+        margin-top: 25px;
+      }
+    }
+
+    // Gross IRR card specific styling
+    .gross-irr-card {
+      .metric-header {
+        .metric-icon {
+          background-color: #D4DCE2;
+        }
+
+        .metric-label {
+          background-color: #D4DCE2;
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .investment-overview {
+    .investment-main-metrics {
+      gap: 40px;
+      flex-wrap: wrap;
+
+      .main-metric-card {
+        min-width: 300px;
+
+        .metric-value {
+          font-size: 45px;
+          line-height: 48px;
+        }
+
+        &.gross-irr-card {
+          max-width: 350px;
+          padding: 18px 24px;
+        }
+
+        .metric-description {
+          width: 100%;
+          max-width: 280px;
+        }
+
+        .metric-submetrics {
+          gap: 20px;
+
+          .separator {
+            width: 30px;
+            margin-top: 24px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .investment-overview {
+    padding: 32px 0 0 0;
+
+    .container {
+      padding: 0 16px;
+    }
+
+    .overview-header {
+      .overview-title {
+        font-size: 20px;
+        line-height: 20px;
+      }
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .investment-main-metrics {
+      flex-direction: column;
+      gap: 32px;
+      align-items: stretch;
+
+      .main-metric-card {
+        min-width: auto;
+        width: 100%;
+
+        &.gross-irr-card {
+          max-width: none;
+          padding: 16px 20px;
+        }
+
+        .metric-header {
+          margin-bottom: 16px;
+
+          .metric-icon {
+            width: 35px;
+            height: 35px;
+
+            svg {
+              width: 24px;
+              height: 24px;
+            }
+          }
+
+          .metric-label {
+            height: 35px;
+            padding: 8px 12px;
+            font-size: 13px;
+          }
+        }
+
+        .metric-value {
+          font-size: 40px;
+          line-height: 44px;
+          margin-bottom: 20px;
+        }
+
+        .metric-submetrics {
+          flex-wrap: wrap;
+          gap: 16px;
+
+          .submetric {
+            min-width: 80px;
+
+            .submetric-label {
+              font-size: 12px;
+            }
+
+            .submetric-value {
+              font-size: 18px;
+            }
+          }
+
+          .separator {
+            display: none;
+          }
+        }
+
+        .metric-description {
+          width: 100%;
+          max-width: none;
+          font-size: 13px;
+          line-height: 16px;
+          margin-top: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .investment-overview {
+    padding: 24px 0 0 0;
+
+    .container {
+      padding: 0 12px;
+    }
+
+    .overview-header {
+      .overview-title {
+        font-size: 18px;
+      }
+    }
+
+    .investment-main-metrics {
+      gap: 24px;
+
+      .main-metric-card {
+        &.gross-irr-card {
+          padding: 14px 16px;
+        }
+
+        .metric-header {
+          margin-bottom: 14px;
+
+          .metric-icon {
+            width: 32px;
+            height: 32px;
+
+            svg {
+              width: 20px;
+              height: 20px;
+            }
+          }
+
+          .metric-label {
+            height: 32px;
+            padding: 6px 10px;
+            font-size: 12px;
+          }
+        }
+
+        .metric-value {
+          font-size: 32px;
+          line-height: 36px;
+          margin-bottom: 16px;
+        }
+
+        .metric-submetrics {
+          gap: 12px;
+
+          .submetric {
+            .submetric-label {
+              font-size: 11px;
+            }
+
+            .submetric-value {
+              font-size: 16px;
+            }
+          }
+        }
+
+        .metric-description {
+          font-size: 12px;
+          line-height: 15px;
+          margin-top: 16px;
+        }
+      }
+    }
+  }
+}
+.border-right{
+  border-right: 1px solid #CBCBCB;
+  padding-right: 14px;
+}

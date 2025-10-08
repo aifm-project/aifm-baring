@@ -1,0 +1,170 @@
+<section class="latest-documents">
+  <div class="documents-container">
+    <!-- Header -->
+    <div class="section-header">
+      <div class="section-title-container">
+        <h3 class="section-title">Latest Documents</h3>
+        <!-- <svg width="23" height="22" viewBox="0 0 23 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_9_147)">
+            <path d="M11.9531 19.25C16.5095 19.25 20.2031 15.5563 20.2031 11C20.2031 6.44365 16.5095 2.75 11.9531 2.75C7.39678 2.75 3.70312 6.44365 3.70312 11C3.70312 15.5563 7.39678 19.25 11.9531 19.25Z" stroke="black" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11.2656 10.3125C11.448 10.3125 11.6228 10.3849 11.7518 10.5139C11.8807 10.6428 11.9531 10.8177 11.9531 11V14.4375C11.9531 14.6198 12.0256 14.7947 12.1545 14.9236C12.2834 15.0526 12.4583 15.125 12.6406 15.125" stroke="black" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M11.6094 8.25C12.1789 8.25 12.6406 7.78829 12.6406 7.21875C12.6406 6.64921 12.1789 6.1875 11.6094 6.1875C11.0398 6.1875 10.5781 6.64921 10.5781 7.21875C10.5781 7.78829 11.0398 8.25 11.6094 8.25Z" fill="black"/>
+          </g>
+          <defs>
+            <clipPath id="clip0_9_147">
+              <rect width="22" height="22" fill="white" transform="translate(0.953125)"/>
+            </clipPath>
+          </defs>
+        </svg> -->
+        <img src="./../../../assets/icons/Info.png" alt="Latest Documents" width="22" height="22">
+      </div>
+
+      <div class="view-all-container">
+        <button class="view-all-text" (click)="onViewAllDocuments()">View all documents</button>
+        <button class="view-all-arrow" (click)="onViewAllDocuments()">
+           <img src="./../../../assets/icons/CaretRightWhite.png" alt="View all documents" width="22" height="22">
+        </button>
+      </div>
+    </div>
+
+    <!-- Documents Grid -->
+    <div class="documents-grid">
+      <div class="document-card" *ngFor="let doc of documents; let i = index" [ngClass]="doc.type">
+        <div class="document-overlay">
+          <!-- <div class="document-menu">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M13 7.98438C13.5609 7.98438 14.0156 7.52966 14.0156 6.96875C14.0156 6.40784 13.5609 5.95312 13 5.95312C12.4391 5.95312 11.9844 6.40784 11.9844 6.96875C11.9844 7.52966 12.4391 7.98438 13 7.98438Z"
+                fill="#F1EEEA" />
+              <path
+                d="M13 14.0156C13.5609 14.0156 14.0156 13.5609 14.0156 13C14.0156 12.4391 13.5609 11.9844 13 11.9844C12.4391 11.9844 11.9844 12.4391 11.9844 13C11.9844 13.5609 12.4391 14.0156 13 14.0156Z"
+                fill="#F1EEEA" />
+              <path
+                d="M13 20.0469C13.5609 20.0469 14.0156 19.5922 14.0156 19.0312C14.0156 18.4703 13.5609 18.0156 13 18.0156C12.4391 18.0156 11.9844 18.4703 11.9844 19.0312C11.9844 19.5922 12.4391 20.0469 13 20.0469Z"
+                fill="#F1EEEA" />
+            </svg>
+          </div> -->
+
+          <div class="document-content">
+            <h4 class="document-title">{{ doc.title }}</h4>
+            <p class="document-date">{{ doc.date }}</p>
+          </div>
+
+          <div class="document-footer">
+            <div class="document-file-info">
+              <!-- <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_9_196)">
+                  <path d="M18.5625 13.0625H15.8125V17.875" stroke="white" stroke-width="1.03125" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path d="M17.875 15.8125H15.8125" stroke="white" stroke-width="1.03125" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                  <path
+                    d="M4.125 16.5H5.5C5.95584 16.5 6.39301 16.3189 6.71534 15.9966C7.03767 15.6743 7.21875 15.2371 7.21875 14.7812C7.21875 14.3254 7.03767 13.8882 6.71534 13.5659C6.39301 13.2436 5.95584 13.0625 5.5 13.0625H4.125V17.875"
+                    stroke="white" stroke-width="1.03125" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M9.625 13.0625V17.875H11C11.6382 17.875 12.2502 17.6215 12.7015 17.1702C13.1527 16.719 13.4062 16.1069 13.4062 15.4688C13.4062 14.8306 13.1527 14.2185 12.7015 13.7673C12.2502 13.316 11.6382 13.0625 11 13.0625H9.625Z"
+                    stroke="white" stroke-width="1.03125" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M4.125 9.625V3.4375C4.125 3.25516 4.19743 3.0803 4.32636 2.95136C4.4553 2.82243 4.63016 2.75 4.8125 2.75H13.0625L17.875 7.5625V9.625"
+                    stroke="white" stroke-width="1.03125" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M13.0625 2.75V7.5625H17.875" stroke="white" stroke-width="1.03125" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_9_196">
+                    <rect width="22" height="22" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg> -->
+               <img src="./../../../assets/icons/FilePdf.png" alt="PDF File" width="22" height="22">
+              <span class="file-size">{{ doc.size }}</span>
+            </div>
+
+            <div class="document-actions" *ngIf="doc.type !== 'report'">
+              <button class="document-action" (click)="onViewDocument(doc)" title="View Document">
+                <!-- <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_view)">
+                    <path
+                      d="M11 4.8125C4.125 4.8125 1.375 11 1.375 11C1.375 11 4.125 17.1875 11 17.1875C17.875 17.1875 20.625 11 20.625 11C20.625 11 17.875 4.8125 11 4.8125Z"
+                      stroke="currentColor" stroke-width="1.03125" stroke-linecap="round" stroke-linejoin="round" />
+                    <path
+                      d="M11 14.4375C12.8985 14.4375 14.4375 12.8985 14.4375 11C14.4375 9.10152 12.8985 7.5625 11 7.5625C9.10152 7.5625 7.5625 9.10152 7.5625 11C7.5625 12.8985 9.10152 14.4375 11 14.4375Z"
+                      stroke="currentColor" stroke-width="1.03125" stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_view">
+                      <rect width="22" height="22" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg> -->
+                <img src="./../../../assets/icons/Eye.png" alt="PDF File" width="22" height="22">
+              </button>
+
+              <button class="document-action" (click)="onDownloadDocument(doc)" title="Download Document">
+                <!-- <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_dl)">
+                    <path d="M11 12.375V2.75" stroke="currentColor" stroke-width="1.03125" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M18.5625 12.375V17.875H3.4375V12.375" stroke="currentColor" stroke-width="1.03125"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M14.4375 8.9375L11 12.375L7.5625 8.9375" stroke="currentColor" stroke-width="1.03125"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_dl">
+                      <rect width="22" height="22" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg> -->
+                <img src="./../../../assets/icons/Download.png" alt="PDF File" width="22" height="22">
+              </button>
+
+              <button class="document-action" title="AI Summary">
+                <!-- <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_ai)">
+                    <path
+                      d="M7.24174 14.7578L2.50744 13.0133C2.3769 12.9651 2.26426 12.8781 2.18471 12.7639C2.10515 12.6497 2.0625 12.5139 2.0625 12.3748C2.0625 12.2356 2.10515 12.0998 2.18471 11.9857C2.26426 11.8715 2.3769 11.7845 2.50744 11.7363L7.24174 9.99173L8.98627 5.25744C9.03445 5.1269 9.12149 5.01426 9.23566 4.93471C9.34982 4.85515 9.48563 4.8125 9.62478 4.8125C9.76393 4.8125 9.89974 4.85515 10.0139 4.93471C10.1281 5.01426 10.2151 5.1269 10.2633 5.25744L12.0078 9.99173L16.7421 11.7363C16.8727 11.7845 16.9853 11.8715 17.0649 11.9857C17.1444 12.0998 17.1871 12.2356 17.1871 12.3748C17.1871 12.5139 17.1444 12.6497 17.0649 12.7639C16.9853 12.8781 16.8727 12.9651 16.7421 13.0133L12.0078 14.7578L10.2633 19.4921C10.2151 19.6227 10.1281 19.7353 10.0139 19.8149C9.89974 19.8944 9.76393 19.9371 9.62478 19.9371C9.48563 19.9371 9.34982 19.8944 9.23566 19.8149C9.12149 19.7353 9.03445 19.6227 8.98627 19.4921L7.24174 14.7578Z"
+                      stroke="currentColor" stroke-width="1.03125" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M15.125 1.375V5.5" stroke="currentColor" stroke-width="1.03125" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M19.25 6.1875V8.9375" stroke="currentColor" stroke-width="1.03125" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M13.0625 3.4375H17.1875" stroke="currentColor" stroke-width="1.03125"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M17.875 7.5625H20.625" stroke="currentColor" stroke-width="1.03125" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_ai">
+                      <rect width="22" height="22" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg> -->
+                 <img src="./../../../assets/icons/AI.png" alt="PDF File" width="22" height="22">
+              </button>
+            </div>
+
+            <!-- <div class="document-readmore" *ngIf="doc.type === 'report'">
+              <button class="readmore-text">Read More</button>
+              <button class="readmore-arrow">
+                <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <g clip-path="url(#clip0_rm)">
+                    <path d="M7.875 3.9375L14.4375 10.5L7.875 17.0625" stroke="#122334" stroke-width="1.3"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_rm">
+                      <rect width="21" height="21" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </button>
+            </div> -->
+          </div>
+        </div>
+
+        <img class="document-bg-image" [src]="doc.bgImage" [alt]="doc?.title" />
+      </div>
+    </div>
+  </div>
+</section>

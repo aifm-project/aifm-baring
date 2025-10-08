@@ -1,0 +1,67 @@
+.web-portfolio {
+  min-height: 100vh;
+  background-color: #f3f5f7;
+  display: flex;
+  flex-direction: column;
+
+  .portfolio-content {
+    background-color: #f3f5f7;
+    flex: 1;
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0;
+    }
+  }
+
+  .bg-light {
+    background-color: #f3f5f7;
+  }
+}
+
+// Ensure proper spacing between sections
+.portfolio-content {
+  app-portfolio-overview {
+    display: block;
+  }
+
+  app-investment-table {
+    display: block;
+  }
+
+  app-distribution-chart {
+    display: block;
+  }
+}
+
+// Global portfolio page responsive adjustments
+@media (max-width: 1200px) {
+  .web-portfolio {
+    .portfolio-content {
+      .container {
+        padding: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .web-portfolio {
+    .portfolio-content {
+      .container {
+        padding: 0;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .web-portfolio {
+    .portfolio-content {
+      .container {
+        padding: 0;
+      }
+    }
+  }
+}

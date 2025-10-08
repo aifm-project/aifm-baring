@@ -1,0 +1,276 @@
+<section class="investment-table" aria-labelledby="investment-portfolio-title">
+  <div [ngClass]="[containerClass, 'investment-inner']">
+    <!-- Section Header (dynamic) -->
+    <div *ngIf="showHeader" class="row mb-4">
+      <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center investment-header">
+          <div class="d-flex align-items-center gap-2">
+            <h3 id="investment-portfolio-title" class="investment-title mb-0">Investment Portfolio</h3>
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true">
+              <g clip-path="url(#clip0_1_223)">
+                <path
+                  d="M11 19.25C15.5563 19.25 19.25 15.5563 19.25 11C19.25 6.44365 15.5563 2.75 11 2.75C6.44365 2.75 2.75 6.44365 2.75 11C2.75 15.5563 6.44365 19.25 11 19.25Z"
+                  stroke="black" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M10.3125 10.3125C10.4948 10.3125 10.6697 10.3849 10.7986 10.5139C10.9276 10.6428 11 10.8177 11 11V14.4375C11 14.6198 11.0724 14.7947 11.2014 14.9236C11.3303 15.0526 11.5052 15.125 11.6875 15.125"
+                  stroke="black" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M10.6562 8.25C11.2258 8.25 11.6875 7.78829 11.6875 7.21875C11.6875 6.64921 11.2258 6.1875 10.6562 6.1875C10.0867 6.1875 9.625 6.64921 9.625 7.21875C9.625 7.78829 10.0867 8.25 10.6562 8.25Z"
+                  fill="black" />
+              </g>
+              <defs>
+                <clipPath id="clip0_1_223">
+                  <rect width="22" height="22" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+
+          <button class="btn btn-dark d-flex align-items-center investment-sort" type="button"
+            aria-label="Sort investments">
+            <span class="sort-icon">
+              <img src="../../../../assets/icons/Sort.png" height="24" width="24" alt="Sort Icon">
+            </span>
+
+            <span class="sort-divider" aria-hidden="true"></span>
+
+            <span class="sort-label">Sort by</span>
+          </button>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Portfolio Summary (dynamic) -->
+    <div *ngIf="showPortfolioSummary" class="portfolio-summary-container mb-4">
+      <div class="portfolio-summary">
+        <div class="summary-item">
+          <div class="summary-label">Total Holdings</div>
+          <div class="summary-value">{{ portfolioSummary.totalHoldings }}</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Total Investment</div>
+          <div class="summary-value">{{ portfolioSummary.totalInvestment }}</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Total Market Value</div>
+          <div class="summary-value">{{ portfolioSummary.totalMarketValue }}</div>
+        </div>
+        <div class="summary-item ">
+          <div class="summary-label d-flex align-items-center gap-1">
+            Total Gross IRR
+            <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true">
+              <g clip-path="url(#clip0_1_501)">
+                <path
+                  d="M8.6001 14C11.9138 14 14.6001 11.3137 14.6001 8C14.6001 4.68629 11.9138 2 8.6001 2C5.28639 2 2.6001 4.68629 2.6001 8C2.6001 11.3137 5.28639 14 8.6001 14Z"
+                  stroke="#555555" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M8.1001 7.5C8.23271 7.5 8.35988 7.55268 8.45365 7.64645C8.54742 7.74021 8.6001 7.86739 8.6001 8V10.5C8.6001 10.6326 8.65278 10.7598 8.74654 10.8536C8.84031 10.9473 8.96749 11 9.1001 11"
+                  stroke="#555555" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M8.3501 6C8.76431 6 9.1001 5.66421 9.1001 5.25C9.1001 4.83579 8.76431 4.5 8.3501 4.5C7.93588 4.5 7.6001 4.83579 7.6001 5.25C7.6001 5.66421 7.93588 6 8.3501 6Z"
+                  fill="#555555" />
+              </g>
+              <defs>
+                <clipPath id="clip0_1_501">
+                  <rect width="16" height="16" fill="white" transform="translate(0.600098)" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div class="summary-value">{{ portfolioSummary.totalGrossIRR }}</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label d-flex align-items-center gap-1">
+            Total Gross MOIC
+            <svg width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true">
+              <g clip-path="url(#clip0_1_510)">
+                <path
+                  d="M8.80005 14C12.1138 14 14.8 11.3137 14.8 8C14.8 4.68629 12.1138 2 8.80005 2C5.48634 2 2.80005 4.68629 2.80005 8C2.80005 11.3137 5.48634 14 8.80005 14Z"
+                  stroke="#555555" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M8.30005 7.5C8.43266 7.5 8.55983 7.55268 8.6536 7.64645C8.74737 7.74021 8.80005 7.86739 8.80005 8V10.5C8.80005 10.6326 8.85273 10.7598 8.9465 10.8536C9.04026 10.9473 9.16744 11 9.30005 11"
+                  stroke="#555555" stroke-linecap="round" stroke-linejoin="round" />
+                <path
+                  d="M8.55005 6C8.96426 6 9.30005 5.66421 9.30005 5.25C9.30005 4.83579 8.96426 4.5 8.55005 4.5C8.13584 4.5 7.80005 4.83579 7.80005 5.25C7.80005 5.66421 8.13584 6 8.55005 6Z"
+                  fill="#555555" />
+              </g>
+              <defs>
+                <clipPath id="clip0_1_510">
+                  <rect width="16" height="16" fill="white" transform="translate(0.800049)" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div class="summary-value">{{ portfolioSummary.totalGrossMOIC }}</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Total Returns</div>
+          <div class="summary-value">{{ portfolioSummary.totalReturns }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Static Content for web-dashboard -->
+    <div *ngIf="showStaticContent" class="investment-static-content mb-4">
+      <div class="section-header">
+        <div class="section-title-container">
+          <h3 class="section-title">Top 5 Company Holdings</h3>
+          <img src="./../../../assets/icons/Info.png" alt="Latest Documents" width="22" height="22">
+        </div>
+
+        <div class="view-all-container">
+          <button class="view-all-text">View Portfolio</button>
+          <button class="view-all-arrow" aria-label="View Portfolio">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 5L12 10L7 15" stroke="#FFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Investment Table (dynamic limit) -->
+    <div class="investment-data">
+      <table class="table">
+        <thead>
+          <tr class="table-header-row">
+            <th scope="col" class="company-industry-header">Company and Industry</th>
+            <th scope="col" class="table-header-cell">Industry</th>
+            <th scope="col" class="table-header-cell numeric-header">Investment</th>
+            <th scope="col" class="table-header-cell numeric-header">Market Value</th>
+            <th scope="col" class="table-header-cell numeric-header">IRR
+              <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <g clip-path="url(#clip0_1_67)">
+                  <path
+                    d="M8 14.5C11.3137 14.5 14 11.8137 14 8.5C14 5.18629 11.3137 2.5 8 2.5C4.68629 2.5 2 5.18629 2 8.5C2 11.8137 4.68629 14.5 8 14.5Z"
+                    stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M7.5 8C7.63261 8 7.75979 8.05268 7.85355 8.14645C7.94732 8.24021 8 8.36739 8 8.5V11C8 11.1326 8.05268 11.2598 8.14645 11.3536C8.24021 11.4473 8.36739 11.5 8.5 11.5"
+                    stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M7.75 6.5C8.16421 6.5 8.5 6.16421 8.5 5.75C8.5 5.33579 8.16421 5 7.75 5C7.33579 5 7 5.33579 7 5.75C7 6.16421 7.33579 6.5 7.75 6.5Z"
+                    fill="black" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_1_67">
+                    <rect width="16" height="16" fill="white" transform="translate(0 0.5)" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </th>
+            <th scope="col" class="table-header-cell numeric-header">MOIC
+              <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <g clip-path="url(#clip0_1_74)">
+                  <path
+                    d="M8 14.5C11.3137 14.5 14 11.8137 14 8.5C14 5.18629 11.3137 2.5 8 2.5C4.68629 2.5 2 5.18629 2 8.5C2 11.8137 4.68629 14.5 8 14.5Z"
+                    stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M7.5 8C7.63261 8 7.75979 8.05268 7.85355 8.14645C7.94732 8.24021 8 8.36739 8 8.5V11C8 11.1326 8.05268 11.2598 8.14645 11.3536C8.24021 11.4473 8.36739 11.5 8.5 11.5"
+                    stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M7.75 6.5C8.16421 6.5 8.5 6.16421 8.5 5.75C8.5 5.33579 8.16421 5 7.75 5C7.33579 5 7 5.33579 7 5.75C7 6.16421 7.33579 6.5 7.75 6.5Z"
+                    fill="black" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_1_74">
+                    <rect width="16" height="16" fill="white" transform="translate(0 0.5)" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </th>
+            <th scope="col" class="table-header-cell numeric-header">Weight
+              <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <g clip-path="url(#clip0_1_81)">
+                  <path
+                    d="M8 14.5C11.3137 14.5 14 11.8137 14 8.5C14 5.18629 11.3137 2.5 8 2.5C4.68629 2.5 2 5.18629 2 8.5C2 11.8137 4.68629 14.5 8 14.5Z"
+                    stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M7.5 8C7.63261 8 7.75979 8.05268 7.85355 8.14645C7.94732 8.24021 8 8.36739 8 8.5V11C8 11.1326 8.05268 11.2598 8.14645 11.3536C8.24021 11.4473 8.36739 11.5 8.5 11.5"
+                    stroke="black" stroke-linecap="round" stroke-linejoin="round" />
+                  <path
+                    d="M7.75 6.5C8.16421 6.5 8.5 6.16421 8.5 5.75C8.5 5.33579 8.16421 5 7.75 5C7.33579 5 7 5.33579 7 5.75C7 6.16421 7.33579 6.5 7.75 6.5Z"
+                    fill="black" />
+                </g>
+                <defs>
+                  <clipPath id="clip0_1_81">
+                    <rect width="16" height="16" fill="white" transform="translate(0 0.5)" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let company of limitedCompanies; trackBy: trackByCompany" class="company-row">
+            <td class="company-cell">
+              <div class="d-flex align-items-center gap-3">
+                <div class="company-logo d-flex align-items-center justify-content-center">
+                  <img [src]="company.logo" [alt]="company.name + ' logo'" loading="lazy" />
+                </div>
+                <div class="company-info">
+                  <div class="company-name">{{ company.name }}</div>
+                </div>
+              </div>
+            </td>
+            <td class="data-cell" data-label="Industry">{{ company.industry }}</td>
+            <td class="data-cell amount-cell" data-label="Investment">
+              <div class="value-stack amount-stack">
+                <span class="value-symbol" *ngIf="hasMonetaryValue(company.investment)">{{ company.investment.symbol }}</span>
+                <span class="value-amount">
+                  {{ hasMonetaryValue(company.investment) ? company.investment.amount : '-' }}
+                </span>
+                <span class="value-unit" *ngIf="hasMonetaryValue(company.investment)">{{ company.investment.unit }}</span>
+              </div>
+            </td>
+            <td class="data-cell amount-cell" data-label="Market Value">
+              <div class="value-stack amount-stack">
+                <span class="value-symbol" *ngIf="hasMonetaryValue(company.marketValue)">{{ company.marketValue.symbol }}</span>
+                <span class="value-amount">
+                  {{ hasMonetaryValue(company.marketValue) ? company.marketValue.amount : '-' }}
+                </span>
+                <span class="value-unit" *ngIf="hasMonetaryValue(company.marketValue)">{{ company.marketValue.unit }}</span>
+              </div>
+            </td>
+            <td class="data-cell percentage-cell" data-label="IRR">
+              <div class="value-stack percentage-stack">
+                <span class="value-amount">
+                  {{ hasPercentageValue(company.irr) ? company.irr.value : '-' }}
+                </span>
+                <span class="value-unit" *ngIf="hasPercentageValue(company.irr)">{{ company.irr.suffix }}</span>
+              </div>
+            </td>
+            <td class="data-cell percentage-cell" data-label="MOIC">
+              <div class="value-stack percentage-stack">
+                <span class="value-amount">
+                  {{ hasPercentageValue(company.moic) ? company.moic.value : '-' }}
+                </span>
+                <span class="value-unit" *ngIf="hasPercentageValue(company.moic)">{{ company.moic.suffix }}</span>
+              </div>
+            </td>
+            <td class="weight-cell" data-label="Weight">
+              <div class="value-stack weight-text">
+                <span class="value-amount">
+                  {{ hasPercentageValue(company.weight) ? company.weight.value : '-' }}
+                </span>
+                <span class="value-unit" *ngIf="hasPercentageValue(company.weight)">{{ company.weight.suffix }}</span>
+              </div>
+              <div class="progress" *ngIf="hasPercentageValue(company.weight)">
+                <div class="progress-bar" role="progressbar"
+                  [style.width.%]="getProgressPercent(company.weightPercent)"
+                  [attr.aria-valuenow]="getProgressPercent(company.weightPercent)" aria-valuemin="0" aria-valuemax="100"
+                  [attr.aria-label]="'Weight: ' + company.weight.value + company.weight.suffix"></div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

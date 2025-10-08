@@ -1,0 +1,20 @@
+<div class="web-portfolio">
+  <app-navbar></app-navbar>
+  <app-fund-selector></app-fund-selector>
+
+  <main class="portfolio-content bg-light">
+    <div class="container">
+      <app-portfolio-overview></app-portfolio-overview>
+      <app-investment-table
+        [showHeader]="true"
+        [showPortfolioSummary]="true"
+        [showStaticContent]="false"
+        [containerClass]="'container-fluid'"
+      ></app-investment-table>
+      <app-distribution-chart></app-distribution-chart>
+    </div>
+  </main>
+
+  <app-newsletter></app-newsletter>
+  <app-footer></app-footer>
+</div>

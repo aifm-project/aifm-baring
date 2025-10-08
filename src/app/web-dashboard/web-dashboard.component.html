@@ -1,0 +1,31 @@
+<div class="web-dashboard">
+  <app-navbar></app-navbar>
+
+  <app-fund-selector></app-fund-selector>
+
+  <main class="dashboard-content bg-light">
+    <div class="container">
+      <app-overview></app-overview>
+
+      <app-performance></app-performance>
+
+      <app-online-seminar></app-online-seminar>
+
+      <app-investment-table
+        [showHeader]="false"
+        [showPortfolioSummary]="false"
+        [showStaticContent]="true"
+        [limit]="5"
+        [containerClass]="'container'"
+      ></app-investment-table>
+
+      <app-documents-preview></app-documents-preview>
+
+      <app-insights></app-insights>
+    </div>
+  </main>
+
+  <app-newsletter></app-newsletter>
+
+  <app-footer></app-footer>
+</div>
