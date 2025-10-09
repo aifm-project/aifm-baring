@@ -92,7 +92,7 @@
       .metric-submetrics {
         display: flex;
         align-items: flex-start;
-        gap: 30px;
+        gap: 10px;
 
         .submetric {
           display: flex;
@@ -356,5 +356,5 @@
 }
 .border-right{
   border-right: 1px solid #CBCBCB;
-  padding-right: 1px;
+  padding-right: 15px;
 }
