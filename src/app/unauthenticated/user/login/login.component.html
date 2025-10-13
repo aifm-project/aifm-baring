@@ -1,0 +1,102 @@
+<div class="login-container">
+  <!-- Left Side - Background Image with Logo -->
+  <div class="login-left">
+    <div class="login-background">
+      <img
+        src="https://api.builder.io/api/v1/image/assets/TEMP/f87d1d6a48cfcc55c1670ab3373c8e050ba65f28?width=1640"
+        alt="Baring building"
+        class="background-image"
+      />
+      <div class="background-overlay"></div>
+    </div>
+    <h1 class="brand-logo">BARING PRIVATE EQUITY PARTNERS</h1>
+  </div>
+
+  <!-- Right Side - Login Form -->
+  <div class="login-right">
+    <div class="login-form-wrapper">
+      <div class="login-header">
+        <h2 class="login-title">Welcome to Baring Investor Portal</h2>
+        <p class="login-subtitle">Please enter your login information below.</p>
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
+        <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            id="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="Enter your email"
+            [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+          />
+          <div class="form-divider"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            placeholder="Enter your password"
+            [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+          />
+          <div class="form-divider"></div>
+          <a href="#" class="forgot-password">Forgot Password?</a>
+        </div>
+
+        <div class="form-group">
+          <label for="userRole" class="form-label">User Role</label>
+          <div class="select-wrapper">
+            <select
+              id="userRole"
+              formControlName="userRole"
+              class="form-control form-select"
+              [class.error]="loginForm.get('userRole')?.invalid && loginForm.get('userRole')?.touched"
+            >
+              <option value="" disabled selected>Enter your role</option>
+              <option value="investor">Investor</option>
+              <option value="admin">Admin</option>
+              <option value="manager">Manager</option>
+            </select>
+            <svg class="select-arrow" width="15" height="9" viewBox="0 0 15 9" fill="none">
+              <path
+                d="M14.7496 1.95742L7.95506 8.75194C7.89196 8.81511 7.81703 8.86523 7.73454 8.89942C7.65206 8.93361 7.56364 8.95121 7.47435 8.95121C7.38506 8.95121 7.29665 8.93361 7.21416 8.89942C7.13168 8.86523 7.05674 8.81511 6.99364 8.75194L0.199118 1.95742C0.0716247 1.82992 0 1.65701 0 1.47671C0 1.2964 0.0716247 1.12349 0.199118 0.995992C0.32661 0.868499 0.499528 0.796875 0.67983 0.796875C0.860132 0.796875 1.03305 0.868499 1.16054 0.995992L7.47435 7.31065L13.7882 0.995992C13.8513 0.932864 13.9262 0.882788 14.0087 0.848624C14.0912 0.814459 14.1796 0.796875 14.2689 0.796875C14.3582 0.796875 14.4466 0.814459 14.529 0.848624C14.6115 0.882788 14.6865 0.932864 14.7496 0.995992C14.8127 1.05912 14.8628 1.13406 14.897 1.21655C14.9311 1.29903 14.9487 1.38743 14.9487 1.47671C14.9487 1.56598 14.9311 1.65438 14.897 1.73686C14.8628 1.81935 14.8127 1.89429 14.7496 1.95742Z"
+                fill="black"
+              />
+            </svg>
+          </div>
+          <div class="form-divider"></div>
+        </div>
+
+        <button type="submit" class="btn-login" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Login</span>
+          <span *ngIf="isLoading">Logging in...</span>
+        </button>
+      </form>
+
+      <div class="login-footer">
+        <p class="terms-text">
+          By clicking "Login" above, you acknowledge that you have read and understood, and agree
+          to Baring's
+          <a href="#" class="terms-link">Terms & Conditions</a> and
+          <a href="#" class="terms-link">Privacy Policy</a>.
+        </p>
+        <div class="footer-links">
+          <a href="#" class="footer-link">Privacy Policy</a>
+          <span class="divider">|</span>
+          <a href="#" class="footer-link">Terms of Use</a>
+          <span class="divider">|</span>
+          <a href="#" class="footer-link">Disclaimer</a>
+          <span class="divider">|</span>
+          <a href="#" class="footer-link">Cookie Policy</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
