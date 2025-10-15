@@ -208,7 +208,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let company of limitedCompanies; trackBy: trackByCompany" class="company-row">
+          <tr *ngFor="let company of limitedCompanies" class="company-row">
             <td class="company-cell">
               <div class="d-flex align-items-center gap-3">
                 <div class="company-logo d-flex align-items-center justify-content-center">
@@ -222,50 +222,50 @@
             <td class="data-cell" data-label="Industry">{{ company.industry }}</td>
             <td class="data-cell amount-cell" data-label="Investment">
               <div class="value-stack amount-stack">
-                <span class="value-symbol" *ngIf="hasMonetaryValue(company.investment)">{{ company.investment.symbol }}</span>
+                <!-- <span class="value-symbol" *ngIf="company.unrealisedCost"></span> -->
                 <span class="value-amount">
-                  {{ hasMonetaryValue(company.investment) ? company.investment.amount : '-' }}
+                  {{ company.unrealisedCost ? (company.unrealisedCost | getCurrencyByUnits:true:true) : '-' }}
                 </span>
-                <span class="value-unit" *ngIf="hasMonetaryValue(company.investment)">{{ company.investment.unit }}</span>
+                <!-- <span class="value-unit" *ngIf="hasMonetaryValue(company.investment)">{{ company.investment.unit }}</span> -->
               </div>
             </td>
             <td class="data-cell amount-cell" data-label="Market Value">
               <div class="value-stack amount-stack">
-                <span class="value-symbol" *ngIf="hasMonetaryValue(company.marketValue)">{{ company.marketValue.symbol }}</span>
+                <!-- <span class="value-symbol" *ngIf="companies.unrealisedCost">{{ company.marketValue.symbol }}</span> -->
                 <span class="value-amount">
-                  {{ hasMonetaryValue(company.marketValue) ? company.marketValue.amount : '-' }}
+                  {{company.unrealisedCost ? (company.unrealisedCost | getCurrencyByUnits:true:true) : '-' }}
                 </span>
-                <span class="value-unit" *ngIf="hasMonetaryValue(company.marketValue)">{{ company.marketValue.unit }}</span>
+                <!-- <span class="value-unit" *ngIf="hasMonetaryValue(company.marketValue)">{{ company.marketValue.unit }}</span> -->
               </div>
             </td>
             <td class="data-cell percentage-cell" data-label="IRR">
               <div class="value-stack percentage-stack">
                 <span class="value-amount">
-                  {{ hasPercentageValue(company.irr) ? company.irr.value : '-' }}
+                  {{ company.unrealisedIRR ? (company.unrealisedIRR | getCurrencyByUnits:true:true) : '-' }}
                 </span>
-                <span class="value-unit" *ngIf="hasPercentageValue(company.irr)">{{ company.irr.suffix }}</span>
+                <!-- <span class="value-unit" *ngIf="hasPercentageValue(company.irr)">{{ company.irr.suffix }}</span> -->
               </div>
             </td>
             <td class="data-cell percentage-cell" data-label="MOIC">
               <div class="value-stack percentage-stack">
                 <span class="value-amount">
-                  {{ hasPercentageValue(company.moic) ? company.moic.value : '-' }}
+                  {{ company.unrealisedMOIC ? (company.unrealisedMOIC | getCurrencyByUnits:true:true) : '-' }}
                 </span>
-                <span class="value-unit" *ngIf="hasPercentageValue(company.moic)">{{ company.moic.suffix }}</span>
+                <!-- <span class="value-unit" *ngIf="hasPercentageValue(company.moic)">{{ company.moic.suffix }}</span> -->
               </div>
             </td>
             <td class="weight-cell" data-label="Weight">
               <div class="value-stack weight-text">
                 <span class="value-amount">
-                  {{ hasPercentageValue(company.weight) ? company.weight.value : '-' }}
+                  {{ company.weight ? (company.weight | getCurrencyByUnits:true:true) : '-' }}
                 </span>
-                <span class="value-unit" *ngIf="hasPercentageValue(company.weight)">{{ company.weight.suffix }}</span>
+                <!-- <span class="value-unit" *ngIf="hasPercentageValue(company.weight)">{{ company.weight }}</span> -->
               </div>
-              <div class="progress" *ngIf="hasPercentageValue(company.weight)">
-                <div class="progress-bar" role="progressbar"
+              <div class="progress" *ngIf="company.weight">
+                <!-- <div class="progress-bar" role="progressbar"
                   [style.width.%]="getProgressPercent(company.weightPercent)"
                   [attr.aria-valuenow]="getProgressPercent(company.weightPercent)" aria-valuemin="0" aria-valuemax="100"
-                  [attr.aria-label]="'Weight: ' + company.weight.value + company.weight.suffix"></div>
+                  [attr.aria-label]="'Weight: ' + company.weight + company.weight"></div> -->
               </div>
             </td>
           </tr>

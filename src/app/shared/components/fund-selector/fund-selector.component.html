@@ -10,7 +10,7 @@
       <div class="fund-selection">
         <!-- Inception Date -->
         <div class="inception-info">
-          <span class="inception-date">{{ inceptionDate }}</span>
+          <span class="inception-date">{{ selectedFund ? (selectedFund.inception_date | date: 'longDate') : '' }}</span>
         </div>
 
         <!-- Fund Dropdown and Title -->
@@ -28,12 +28,14 @@
                 Select fund
               </button>
               <ul class="dropdown-menu">
-                <!-- <li><a class="dropdown-item" href="#">Link 1</a></li> -->
+                <li *ngFor="let fund of fundList" (click)="onFundSelect(fund)">
+                  <a class="dropdown-item" href="#">{{ fund.name }}</a>
+                </li>
               </ul>
             </div>
           </div>
 
-          <h1 class="fund-title">{{ selectedFund }}</h1>
+          <h1 class="fund-title">{{ selectedFund ? selectedFund.name : 'No fund selected' }}</h1>
         </div>
       </div>
     </div>
@@ -70,45 +72,21 @@
           <span>Dashboard</span>
         </a>
 
-        <a routerLink="/portfolio" class="nav-link-main" routerLinkActive="active">
-          <!-- <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clip-path="url(#clip0_1_469)">
-              <path d="M12 15.75V21" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
-              <path
-                d="M4.20578 7.5C3.2152 9.21574 2.81843 11.2104 3.07699 13.1746C3.33556 15.1388 4.23501 16.9628 5.63586 18.3638C7.03671 19.7647 8.86067 20.6643 10.8249 20.923C12.7891 21.1816 14.7837 20.785 16.4995 19.7945C18.2153 18.804 19.5564 17.2751 20.3147 15.4448C21.073 13.6145 21.2061 11.5851 20.6936 9.67141C20.181 7.75771 19.0513 6.06662 17.4796 4.8604C15.908 3.65418 13.9823 3.00024 12.0011 3V8.25C12.8266 8.25019 13.6289 8.52273 14.2837 9.02537C14.9385 9.52802 15.4091 10.2327 15.6226 11.03C15.8362 11.8274 15.7806 12.673 15.4646 13.4355C15.1486 14.1981 14.5898 14.8352 13.8749 15.2478C13.16 15.6605 12.3289 15.8257 11.5105 15.7179C10.6921 15.6101 9.93212 15.2352 9.34846 14.6515C8.76479 14.0678 8.39004 13.3078 8.28232 12.4894C8.1746 11.671 8.33993 10.8399 8.75266 10.125L4.20578 7.5Z"
-                stroke="white" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M8.37656 12.9766L3.30469 14.335" stroke="white" stroke-linecap="round" stroke-linejoin="round" />
-            </g>
-            <defs>
-              <clipPath id="clip0_1_469">
-                <rect width="24" height="24" fill="white" />
-              </clipPath>
-            </defs>
-          </svg> -->
+        <a routerLink="#" class="nav-link-main" routerLinkActive="active">
+         
           <img src="./../../../assets/icons/ChartDonut.png" alt="Portfolio"  width="24" height="24">
           <span>Portfolio</span>
         </a>
 
-        <a routerLink="/documents" class="nav-link-main" routerLinkActive="active">
-          <!-- <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clip-path="url(#clip0_1_474)">
-              <path
-                d="M20.0306 6.21938L16.2806 2.46938C16.2109 2.39975 16.1282 2.34454 16.0371 2.3069C15.9461 2.26926 15.8485 2.24992 15.75 2.25H8.25C7.85218 2.25 7.47064 2.40804 7.18934 2.68934C6.90804 2.97064 6.75 3.35218 6.75 3.75V5.25H5.25C4.85218 5.25 4.47064 5.40804 4.18934 5.68934C3.90804 5.97064 3.75 6.35218 3.75 6.75V20.25C3.75 20.6478 3.90804 21.0294 4.18934 21.3107C4.47064 21.592 4.85218 21.75 5.25 21.75H15.75C16.1478 21.75 16.5294 21.592 16.8107 21.3107C17.092 21.0294 17.25 20.6478 17.25 20.25V18.75H18.75C19.1478 18.75 19.5294 18.592 19.8107 18.3107C20.092 18.0294 20.25 17.6478 20.25 17.25V6.75C20.2501 6.65148 20.2307 6.55391 20.1931 6.46286C20.1555 6.37182 20.1003 6.28908 20.0306 6.21938ZM12.75 18H8.25C8.05109 18 7.86032 17.921 7.71967 17.7803C7.57902 17.6397 7.5 17.4489 7.5 17.25C7.5 17.0511 7.57902 16.8603 7.71967 16.7197C7.86032 16.579 8.05109 16.5 8.25 16.5H12.75C12.9489 16.5 13.1397 16.579 13.2803 16.7197C13.421 16.8603 13.5 17.0511 13.5 17.25C13.5 17.4489 13.421 17.6397 13.2803 17.7803C13.1397 17.921 12.9489 18 12.75 18ZM12.75 15H8.25C8.05109 15 7.86032 14.921 7.71967 14.7803C7.57902 14.6397 7.5 14.4489 7.5 14.25C7.5 14.0511 7.57902 13.8603 7.71967 13.7197C7.86032 13.579 8.05109 13.5 8.25 13.5H12.75C12.9489 13.5 13.1397 13.579 13.2803 13.7197C13.421 13.8603 13.5 14.0511 13.5 14.25C13.5 14.4489 13.421 14.6397 13.2803 14.7803C13.1397 14.921 12.9489 15 12.75 15ZM18.75 17.25H17.25V9.75C17.2501 9.65148 17.2307 9.55391 17.1931 9.46286C17.1555 9.37182 17.1003 9.28908 17.0306 9.21937L13.2806 5.46938C13.2109 5.39975 13.1282 5.34454 13.0371 5.3069C12.9461 5.26926 12.8485 5.24992 12.75 5.25H8.25V3.75H15.4397L18.75 7.06031V17.25Z"
-                fill="white" />
-            </g>
-            <defs>
-              <clipPath id="clip0_1_474">
-                <rect width="24" height="24" fill="white" />
-              </clipPath>
-            </defs>
-          </svg> -->
+        <a routerLink="#" class="nav-link-main" routerLinkActive="active">
+        
           <img src="./../../../assets/icons/ChartPie.png" alt="Documents"  width="24" height="24">
           <span>Documents</span>
         </a>
       </nav>
 
-      <div class="date-selector">
-        <span class="date-text">As of March 2025</span>
+      <!-- <div class="date-selector">
+        <span class="date-text">{{ asOfDate ? 'As of ' + (asOfDate | date: 'longDate') : 'As of March 2025' }}</span>
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clip-path="url(#clip0_1_1995)">
             <path d="M16.1367 7.27344L9.88672 13.5234L3.63672 7.27344" stroke="white" stroke-width="1.5"
@@ -120,7 +98,17 @@
             </clipPath>
           </defs>
         </svg>
-      </div>
+      </div> -->
+       <div class="dropdown fund-dropdown">
+              <button type="button" class="fund-dropdown-trigger dropdown-toggle" data-bs-toggle="dropdown">
+                {{ asOfDate ? 'As of ' + (asOfDate | date: 'mediumDate') : 'Select Date' }} 
+              </button>
+              <ul class="dropdown-menu">
+                <li *ngFor="let fund of dataDates" (click)="onDateChange(fund)">
+                  <a class="dropdown-item">{{ fund | date: 'mediumDate' }}</a>
+                </li>
+              </ul>
+            </div>
     </div>
   </div>
 

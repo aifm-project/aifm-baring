@@ -8,6 +8,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NewsletterComponent } from './components/newsletter/newsletter.component';
 import { FundSelectorComponent } from './components/fund-selector/fund-selector.component';
 import { DistributionChartComponent } from './components/distribution-chart/distribution-chart.component';
+import { GetCurrencyByUnitsPipe } from './pipe/get-currency-by-units.pipe';
 
 @NgModule({
   declarations: [],
@@ -20,6 +21,7 @@ import { DistributionChartComponent } from './components/distribution-chart/dist
     NewsletterComponent,
     FundSelectorComponent,
     DistributionChartComponent,
+    GetCurrencyByUnitsPipe
   ],
   exports: [
     NavbarComponent,
@@ -27,6 +29,8 @@ import { DistributionChartComponent } from './components/distribution-chart/dist
     NewsletterComponent,
     FundSelectorComponent,
     DistributionChartComponent,
+    GetCurrencyByUnitsPipe
   ],
+  providers: [GetCurrencyByUnitsPipe],
 })
 export class SharedModule {}

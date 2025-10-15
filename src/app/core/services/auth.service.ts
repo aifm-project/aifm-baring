@@ -1,6 +1,13 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { Store } from '@ngrx/store';
+import { clearAuthData } from '../../store/auth/auth.actions';
+import { setAccountInfo, setAccountConfigs } from '../../store/auth/auth.actions';
+import { selectAuthState } from '../../store/auth/auth.selectors';
+import { LoginResponse, User } from '../../model/models';
 
 export interface LoginCredentials {
   email: string;
@@ -10,37 +17,32 @@ export interface LoginCredentials {
 
 @Injectable({
   providedIn: 'root',
+  
 })
 export class AuthService {
-  private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
-  public isAuthenticated$: Observable<boolean> = this.isAuthenticatedSubject.asObservable();
+  private isAuthenticatedSubject: BehaviorSubject<boolean>;
+  public isAuthenticated$: Observable<boolean>;
+  accountInfo: any;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    public httpClient: HttpClient,
+    private store: Store
+  ) {
+    this.isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
+    this.isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
+  }
 
-  login(credentials: LoginCredentials): Observable<boolean> {
-    return new Observable((observer) => {
-      // TODO: Replace with actual API call
-      // Simulating API call
-      setTimeout(() => {
-        // Mock successful login
-        const mockToken = 'mock-jwt-token-' + Date.now();
-        localStorage.setItem('auth_token', mockToken);
-        localStorage.setItem('user_email', credentials.email);
-        localStorage.setItem('user_role', credentials.userRole);
-
-        this.isAuthenticatedSubject.next(true);
-        observer.next(true);
-        observer.complete();
-      }, 500);
-    });
+  public login(user: User): Observable<LoginResponse> {
+    let headers = new HttpHeaders({ "enable-encryption": "true" });
+    console.log("Calling endpoint: " + environment.serverEndPoint + "users/login" + JSON.stringify(user));
+    return this.httpClient.post<LoginResponse>(environment.serverEndPoint + "users/login", user, { headers: headers });
   }
 
   logout(): void {
-    localStorage.removeItem('auth_token');
-    localStorage.removeItem('user_email');
-    localStorage.removeItem('user_role');
-    this.isAuthenticatedSubject.next(false);
-    this.router.navigate(['/user/login']);
+  this.isAuthenticatedSubject.next(false);
+    this.store.dispatch(clearAuthData());
+      window.location.href = "/user/login";
   }
 
   isAuthenticated(): boolean {
@@ -48,18 +50,46 @@ export class AuthService {
   }
 
   private hasToken(): boolean {
-    return !!localStorage.getItem('auth_token');
+    let hasAuth = false;
+    this.store.select(selectAuthState).subscribe(authState => {
+      hasAuth = !!(authState && authState.userData && authState.token);
+    }).unsubscribe();
+    return hasAuth;
   }
 
   getToken(): string | null {
-    return localStorage.getItem('auth_token');
+  return null;
   }
 
   getUserRole(): string | null {
-    return localStorage.getItem('user_role');
+  return null;
   }
 
   getUserEmail(): string | null {
-    return localStorage.getItem('user_email');
+  return null;
+  }
+
+  getAccountData(): Observable<any> {
+    const domainName = environment.windowLocationHost;
+    return this.httpClient.get<any>(
+      environment.serverEndPoint + 'account?domain=' + domainName
+    ).pipe(
+      map(accountInfo => {
+        // Only handle successful responses; errors are handled by the interceptor
+        console.log('load before app start ', accountInfo);
+        this.store.dispatch(setAccountInfo({ accountInfo }));
+        if (Array.isArray(accountInfo.account_configs)) {
+          const configMap = accountInfo.account_configs.reduce((acc: any, item: any) => {
+            acc[item.key] = item.value;
+            return acc;
+          }, {});
+          if(configMap['ENCRYPT']){
+            localStorage.setItem('ENCRYPT', configMap['ENCRYPT']);
+          }
+          this.store.dispatch(setAccountConfigs({ accountConfigs: configMap }));
+        }
+        return accountInfo;
+      })
+    );
   }
 }

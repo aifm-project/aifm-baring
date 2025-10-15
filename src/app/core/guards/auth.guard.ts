@@ -1,27 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Router, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Router, UrlTree, CanActivate } from '@angular/router';
+import { Observable, map } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectAuthState } from '../../store/auth';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard {
-  constructor(private router: Router) {}
+export class AuthGuard implements CanActivate {
+  constructor(private router: Router, private store: Store) {}
 
-  canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    // TODO: Implement actual authentication check
-    const isAuthenticated = this.checkAuthentication();
-
-    if (!isAuthenticated) {
-      return this.router.createUrlTree(['/user/login']);
-    }
-
-    return true;
-  }
-
-  private checkAuthentication(): boolean {
-    // TODO: Replace with actual authentication logic
-    // For now, check if token exists in localStorage
-    return !!localStorage.getItem('auth_token');
+  canActivate(): Observable<boolean | UrlTree> {
+    return this.store.select(selectAuthState).pipe(
+      map(authState => {
+        const isAuthenticated = !!(authState && authState.userData);
+        return isAuthenticated ? true : this.router.createUrlTree(['/user/login']);
+      })
+    );
   }
 }

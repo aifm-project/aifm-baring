@@ -28,21 +28,21 @@
           </div>
           <div class="metric-label">Total Investment</div>
         </div>
-        <div class="metric-value">₹1.00 Cr</div>
+        <div class="metric-value">{{ (overviewData?.capital_summary?.total_value | getCurrencyByUnits:true:true) || 'N/A' }}</div>
         <div class="metric-submetrics">
           <div class="submetric border-right">
             <div class="submetric-label">Committed Amt</div>
-            <div class="submetric-value">₹1.50 Cr</div>
+            <div class="submetric-value">{{ (overviewData?.capital_summary?.total_commitment | getCurrencyByUnits:true:true) || 'N/A' }}</div>
           </div>
           <!-- <div class="separator"></div> -->
           <div class="submetric border-right">
             <div class="submetric-label">Units</div>
-            <div class="submetric-value">100.00</div>
+            <div class="submetric-value">{{ (overviewData?.metadata?.units | getCurrencyByUnits:true:true) || 'N/A' }}</div>
           </div>
           <!-- <div class="separator"></div> -->
           <div class="submetric">
             <div class="submetric-label">Drawndowns</div>
-            <div class="submetric-value">0.65 Cr</div>
+            <!-- <div class="submetric-value">{{ (overviewData?.capital_summary?.drawndowns | currency) || 'N/A' }}</div> -->
           </div>
         </div>
       </div>
@@ -74,21 +74,21 @@
           </div>
           <div class="metric-label">Current Value</div>
         </div>
-        <div class="metric-value">₹1.22 Cr</div>
+        <div class="metric-value">{{ (overviewData?.capital_summary?.total_value | getCurrencyByUnits:true:true) || 'N/A' }}</div>
         <div class="metric-submetrics">
           <div class="submetric border-right">
             <div class="submetric-label">Distribution</div>
-            <div class="submetric-value">₹0.12 Cr</div>
+            <div class="submetric-value">{{ (overviewData?.capital_summary?.distribution | getCurrencyByUnits:true:true) || 'N/A' }}</div>
           </div>
           <!-- <div class="separator"></div> -->
           <div class="submetric border-right">
             <div class="submetric-label">Residual Value</div>
-            <div class="submetric-value">₹1.10 Cr</div>
+            <div class="submetric-value">{{ (overviewData?.metadata?.residual_value | getCurrencyByUnits:true:true) || 'N/A' }}</div>
           </div>
           <!-- <div class="separator"></div> -->
           <div class="submetric">
             <div class="submetric-label">TVPI</div>
-            <div class="submetric-value">1.22x</div>
+            <div class="submetric-value">{{ (overviewData?.metadata?.tvpi | getCurrencyByUnits:true:true) || 'N/A' }}</div>
           </div>
         </div>
       </div>
@@ -113,7 +113,7 @@
           </div>
           <div class="metric-label">Gross IRR</div>
         </div>
-        <div class="metric-value">20.04%</div>
+        <div class="metric-value">{{ (overviewData?.metadata?.xirr | getCurrencyByUnits:true:true) || 'N/A' }}</div>
         <div class="metric-description">
           Indicates the fund's overall performance from invested capital across companies.
         </div>
