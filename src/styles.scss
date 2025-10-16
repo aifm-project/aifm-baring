@@ -1,38 +1,8 @@
 /* Global Styles for AIFM Frontend Application */
-/* Open‑source (Google Fonts) */
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+/* Self-hosted fonts from src/assets/fonts/ */
+@import 'fonts';
 
-/* Licensed (self-hosted) */
-// @font-face {
-// font-family: 'Victor Serif Trial';
-// src: url('assets/fonts/victor-serif-trial/VictorSerifTrial-Regular.woff2') format('woff2');
-// font-weight: 400;
-// font-style: normal;
-// font-display: swap;
-// }
-// @font-face {
-// font-family: 'Victor Serif Trial';
-// src: url('assets/fonts/victor-serif-trial/VictorSerifTrial-Medium.woff2') format('woff2');
-// font-weight: 500;
-// font-style: normal;
-// font-display: swap;
-// }
-// @font-face {
-// font-family: 'Test Tiempos Text';
-// src: url('assets/fonts/tiempos-text/TestTiemposText-Regular.woff2') format('woff2');
-// font-weight: 400;
-// font-style: normal;
-// font-display: swap;
-// }
-// @font-face {
-// font-family: 'Test Tiempos Text';
-// src: url('assets/fonts/tiempos-text/TestTiemposText-Medium.woff2') format('woff2');
-// font-weight: 500;
-// font-style: normal;
-// font-display: swap;
-// }
+
 /* CSS Variables for consistent theming */
 :root {
   /* Colors */
@@ -50,9 +20,9 @@
   --overlay: rgba(0, 0, 0, 0.2);
 
   /* Typography */
-  --font-primary: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+  --font-primary: 'Victor Serif', -apple-system, Roboto, Helvetica, sans-serif;
   --font-secondary: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
-  --font-body: 'Test Tiempos Text', -apple-system, Roboto, Helvetica, sans-serif;
+  --font-body: 'Inter', -apple-system, Roboto, Helvetica, sans-serif;
   --font-system: 'DM Sans', -apple-system, Roboto, Helvetica, sans-serif;
 
   /* Spacing */
