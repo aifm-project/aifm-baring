@@ -37,16 +37,14 @@ export class DocumentsPreviewComponent {
   }
 
   getDocumentList() {
-    // Fetch document list from service
     this.fundService.getDocuments(this.selectedFund.guid).subscribe({
       next: (response) => {
-        // this.documents = response.documents;
         let reducebyTYpe = response.documents.reduce((acc, doc) => {
           acc[doc.type] = [...(acc[doc.type] || []), doc];
           return acc;
         }, {});
         console.log('Document count by type:', reducebyTYpe);
-        let limit = 5;
+        let limit = 4;
         for (const element of Object.entries(reducebyTYpe)) {
             this.documents.push({
               ...element[1][0],
@@ -54,7 +52,6 @@ export class DocumentsPreviewComponent {
             })
         }
         this.documents = this.documents.slice(0, limit);
-        // console.log('Documents fetched successfully:', this.documents);
         this.store.dispatch(setDocumentData({ documentData: this.documents }));
       },
       error: (error) => {

@@ -27,7 +27,7 @@
 
   .investment-main-metrics {
     display: flex;
-    gap: 61px;
+    gap: 25px;
     align-items: flex-start;
 
     .main-metric-card {
@@ -156,7 +156,7 @@
 @media (max-width: 1200px) {
   .investment-overview {
     .investment-main-metrics {
-      gap: 40px;
+      gap: 25px;
       flex-wrap: wrap;
 
       .main-metric-card {

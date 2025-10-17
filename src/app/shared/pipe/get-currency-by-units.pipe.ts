@@ -21,6 +21,7 @@ export class GetCurrencyByUnitsPipe implements PipeTransform {
       this.getStoreData();
     }
     this.currencySymbol = this.fundConfigMap.get('fund_currency');
+    this.currencySymbol = this.formatCurrencySymbol(this.currencySymbol);
 
     if(amount && amount!=='-' && amount!== -1000000){
       if (['Cr','Cr.'].includes(this.fundConfigMap.get('fund_size_unit'))) {
@@ -79,6 +80,24 @@ export class GetCurrencyByUnitsPipe implements PipeTransform {
       }, new Map<string, string>());
       this.numberFormat = this.fundConfigMap.get("number_format");
     });
+  }
+
+  formatCurrencySymbol(currencyCode: string): string {
+    if (!currencyCode) {
+      return '';
+    }
+    switch(currencyCode.toUpperCase()) {
+      case 'INR':
+        return '₹';
+      case 'USD':
+        return '$';
+      case 'EUR':
+        return '€';
+      case 'GBP':
+        return '£';
+      default:
+        return currencyCode;
+    }
   }
 
 }

@@ -1,13 +1,6 @@
 <section class="investment-overview">
   <div class="overview-header">
       <h3 class="overview-title">Investment Overview</h3>
-      <!-- <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g clip-path="url(#clip0_1_8)">
-          <path d="M11 19.25C15.5563 19.25 19.25 15.5563 19.25 11C19.25 6.44365 15.5563 2.75 11 2.75C6.44365 2.75 2.75 6.44365 2.75 11C2.75 15.5563 6.44365 19.25 11 19.25Z" stroke="black" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M10.3125 10.3125C10.4948 10.3125 10.6697 10.3849 10.7986 10.5139C10.9276 10.6428 11 10.8177 11 11V14.4375C11 14.6198 11.0724 14.7947 11.2014 14.9236C11.3303 15.0526 11.5052 15.125 11.6875 15.125" stroke="black" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M10.6562 8.25C11.2258 8.25 11.6875 7.78829 11.6875 7.21875C11.6875 6.64921 11.2258 6.1875 10.6562 6.1875C10.0867 6.1875 9.625 6.64921 9.625 7.21875C9.625 7.78829 10.0867 8.25 10.6562 8.25Z" fill="black"/>
-        </g>
-      </svg> -->
       <img src="./../../../assets/icons/Info.png" alt="Investment Overview" width="22" height="22">
     </div>
 
@@ -17,13 +10,6 @@
       <div class="main-metric-card border-right">
         <div class="metric-header">
           <div class="metric-icon">
-            <!-- <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0_1_77)">
-                <path d="M3.5 19.25L14 25.375L24.5 19.25" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M3.5 14L14 20.125L24.5 14" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M3.5 8.75L14 14.875L24.5 8.75L14 2.625L3.5 8.75Z" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
-              </g>
-            </svg> -->
             <img src="./../../../assets/icons/Stack.png" alt="Total Investment" width="28" height="28">
           </div>
           <div class="metric-label">Total Investment</div>
@@ -34,12 +20,10 @@
             <div class="submetric-label">Committed Amt</div>
             <div class="submetric-value">{{ (overviewData?.capital_summary?.total_commitment | getCurrencyByUnits:true:true) || 'N/A' }}</div>
           </div>
-          <!-- <div class="separator"></div> -->
           <div class="submetric border-right">
             <div class="submetric-label">Units</div>
             <div class="submetric-value">{{ (overviewData?.metadata?.units | getCurrencyByUnits:true:true) || 'N/A' }}</div>
           </div>
-          <!-- <div class="separator"></div> -->
           <div class="submetric">
             <div class="submetric-label">Drawndowns</div>
             <!-- <div class="submetric-value">{{ (overviewData?.capital_summary?.drawndowns | currency) || 'N/A' }}</div> -->
@@ -51,25 +35,6 @@
       <div class="main-metric-card">
         <div class="metric-header">
           <div class="metric-icon">
-            <!-- <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0_1_35)">
-                <path
-                  d="M10.5 13.125C15.3325 13.125 19.25 11.3621 19.25 9.1875C19.25 7.01288 15.3325 5.25 10.5 5.25C5.66751 5.25 1.75 7.01288 1.75 9.1875C1.75 11.3621 5.66751 13.125 10.5 13.125Z"
-                  stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-                <path
-                  d="M1.75 9.1875V13.5625C1.75 15.7369 5.66781 17.5 10.5 17.5C15.3322 17.5 19.25 15.7369 19.25 13.5625V9.1875"
-                  stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M7 12.7969V17.1719" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-                <path
-                  d="M19.2467 10.5781C23.2411 10.9434 26.2467 12.5316 26.2467 14.4369C26.2467 16.6112 22.3289 18.3744 17.4967 18.3744C15.353 18.3744 13.3886 18.0277 11.8672 17.4512"
-                  stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-                <path
-                  d="M8.75 17.4212V18.8125C8.75 20.9869 12.6678 22.75 17.5 22.75C22.3322 22.75 26.25 20.9869 26.25 18.8125V14.4375"
-                  stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M21 18.0469V22.4219" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M14 12.7969V22.4219" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-              </g>
-            </svg> -->
             <img src="./../../../assets/icons/Coins.png" alt="Current Value" width="28" height="28">
           </div>
           <div class="metric-label">Current Value</div>
@@ -97,18 +62,6 @@
       <div class="main-metric-card gross-irr-card">
         <div class="metric-header">
           <div class="metric-icon">
-            <!-- <svg width="28" height="28" viewBox="0 0 29 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0_1_21)">
-                <path d="M24.9375 22.75H3.9375V5.25" stroke="black" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M24.9375 10.5L17.9375 16.625L10.9375 11.375L3.9375 17.5" stroke="black" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </g>
-              <defs>
-                <clipPath id="clip0_1_21">
-                  <rect width="28" height="28" fill="white" transform="translate(0.4375)" />
-                </clipPath>
-              </defs>
-            </svg> -->
             <img src="./../../../assets/icons/ChartLine.png" alt="Current Value" width="28" height="28">
           </div>
           <div class="metric-label">Gross IRR</div>
