@@ -1,0 +1,84 @@
+<div class="notifications-page">
+  <!-- Page Header -->
+  <div class="container">
+    <div class="page-header">
+      <h1 class="page-title">Notifications ({{ unreadCount }})</h1>
+      <p class="page-subtitle">
+        Stay informed with timely updates about your investments, reports, and key fund activity.
+      </p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="notifications-content">
+      <!-- Sidebar Filters -->
+      <aside class="notifications-sidebar">
+        <div class="filter-list">
+          <button
+            *ngFor="let filter of filters"
+            class="filter-item"
+            [class.active]="selectedFilter === filter.id"
+            (click)="selectFilter(filter.id)"
+          >
+            {{ filter.label }}
+          </button>
+        </div>
+      </aside>
+
+      <!-- Notifications List -->
+      <main class="notifications-main">
+        <div class="notifications-list">
+          <article
+            *ngFor="let notification of filteredNotifications; let last = last"
+            class="notification-item"
+            [class.read]="notification.isRead"
+            (click)="onNotificationClick(notification)"
+          >
+            <div class="notification-header">
+              <div class="notification-title-wrapper">
+                <h3 class="notification-title">{{ notification.title }}</h3>
+                <svg
+                  *ngIf="notification.hasAction"
+                  class="notification-arrow"
+                  width="19"
+                  height="19"
+                  viewBox="0 0 19 19"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.5566 9.99998L11.0359 16.4998C10.9029 16.6324 10.7225 16.7069 10.5344 16.7069C10.3462 16.7069 10.1658 16.6324 10.0328 16.4998C9.89973 16.3672 9.82499 16.1873 9.82499 15.9998C9.82499 15.8123 9.89973 15.6324 10.0328 15.4998L15.3427 10.2069L1.0041 10.2075C0.815862 10.2075 0.635333 10.1329 0.502229 10.0003C0.369124 9.86758 0.294347 9.68763 0.294347 9.5C0.294347 9.31237 0.369124 9.13242 0.502229 8.99974C0.635333 8.86706 0.815862 8.79252 1.0041 8.79252L15.3427 8.79315L10.0328 3.50019C9.89973 3.36758 9.82499 3.18773 9.82499 3.0002C9.82499 2.81267 9.89973 2.63282 10.0328 2.50022C10.1658 2.36761 10.3462 2.29312 10.5344 2.29312C10.7225 2.29312 10.9029 2.36761 11.0359 2.50022L17.5566 9.00002C17.6897 9.13262 17.7644 9.31247 17.7644 9.5C17.7644 9.68753 17.6897 9.86738 17.5566 9.99998Z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </div>
+              <div class="category-badge">{{ notification.category }}</div>
+            </div>
+
+            <div class="notification-body">
+              <p class="notification-description">{{ notification.description }}</p>
+              <time class="notification-date">{{ notification.date }}</time>
+            </div>
+
+            <div *ngIf="!last" class="notification-divider"></div>
+          </article>
+        </div>
+
+        <button class="view-more-btn" (click)="onViewMore()">
+          <span>View More</span>
+          <svg
+            width="14"
+            height="8"
+            viewBox="0 0 14 8"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7 8L0.5 0.5H13.5L7 8Z"
+              fill="currentColor"
+            />
+          </svg>
+        </button>
+      </main>
+    </div>
+  </div>
+</div>

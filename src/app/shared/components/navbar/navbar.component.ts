@@ -13,6 +13,7 @@ import { AuthService } from '../../../core/services/auth.service';
 export class NavbarComponent implements OnInit {
   userEmail: string | null = null;
   showUserMenu = false;
+  unreadNotifications = 3;
 
   constructor(
     private authService: AuthService,
@@ -25,6 +26,10 @@ export class NavbarComponent implements OnInit {
 
   toggleUserMenu(): void {
     this.showUserMenu = !this.showUserMenu;
+  }
+
+  onNotifications(): void {
+    this.router.navigate(['/notifications']);
   }
 
   onLogout(): void {

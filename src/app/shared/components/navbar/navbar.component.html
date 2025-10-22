@@ -28,13 +28,14 @@
         <button class="navbar-action-btn" aria-label="Search">
           <img src="./../../../assets/icons/Search.png" alt="Search" width="26" height="26" />
         </button>
-        <button class="navbar-action-btn" aria-label="Notifications">
+        <button class="navbar-action-btn notification-btn" aria-label="Notifications" (click)="onNotifications()">
           <img
             src="./../../../assets/icons/BellSimple.png"
             alt="Notifications"
             width="26"
             height="26"
           />
+          <span class="notification-badge" *ngIf="unreadNotifications > 0">{{ unreadNotifications }}</span>
         </button>
         <div class="user-menu-wrapper">
           <img

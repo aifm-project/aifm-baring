@@ -34,6 +34,11 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./news-and-insights/news-and-insights.module').then((m) => m.NewsAndInsightsModule),
       },
+      {
+        path: 'notifications',
+        loadChildren: () =>
+          import('./shared/components/notifications/notifications.module').then((m) => m.NotificationsModule),
+      },
     ],
   },
   { path: '**', redirectTo: 'user/login' },

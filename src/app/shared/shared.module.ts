@@ -8,6 +8,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NewsletterComponent } from './components/newsletter/newsletter.component';
 import { FundSelectorComponent } from './components/fund-selector/fund-selector.component';
 import { DistributionChartComponent } from './components/distribution-chart/distribution-chart.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 import { GetCurrencyByUnitsPipe } from './pipe/get-currency-by-units.pipe';
 
 @NgModule({
@@ -21,6 +22,7 @@ import { GetCurrencyByUnitsPipe } from './pipe/get-currency-by-units.pipe';
     NewsletterComponent,
     FundSelectorComponent,
     DistributionChartComponent,
+    NotificationsComponent,
     GetCurrencyByUnitsPipe
   ],
   exports: [
@@ -29,6 +31,7 @@ import { GetCurrencyByUnitsPipe } from './pipe/get-currency-by-units.pipe';
     NewsletterComponent,
     FundSelectorComponent,
     DistributionChartComponent,
+    NotificationsComponent,
     GetCurrencyByUnitsPipe
   ],
   providers: [GetCurrencyByUnitsPipe],
