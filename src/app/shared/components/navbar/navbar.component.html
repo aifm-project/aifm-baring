@@ -46,9 +46,10 @@
           />
           <div class="user-dropdown" *ngIf="showUserMenu">
             <div class="user-info">
-              <p class="user-email">{{ userEmail }}</p>
-            </div>
-            <button class="logout-btn" (click)="onLogout()">Logout</button>
+            <p class="user-email">{{ userEmail }}</p>
+          </div>
+          <a routerLink="/profile" class="dropdown-link" (click)="toggleUserMenu()">Profile</a>
+          <button class="logout-btn" (click)="onLogout()">Logout</button>
           </div>
         </div>
       </div>
