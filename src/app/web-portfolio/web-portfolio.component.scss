@@ -7,11 +7,14 @@
   .portfolio-content {
     background-color: #f3f5f7;
     flex: 1;
+    width: 100%;
 
     .container {
+      width: 100%;
       max-width: 1440px;
       margin: 0 auto;
       padding: 0;
+      box-sizing: border-box;
     }
   }
 

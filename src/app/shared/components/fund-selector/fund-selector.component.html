@@ -1,28 +1,13 @@
 <section class="fund-selector-wrapper">
   <div class="container">
     <div class="fund-selector-content">
-      <!-- Account ID (top right) -->
-      <div class="account-info">
-        <span class="account-id">{{ accountId }}</span>
-      </div>
-
       <!-- Fund Selection Area -->
       <div class="fund-selection">
-        <!-- Inception Date -->
         <div class="inception-info">
           <span class="inception-date">{{ selectedFund ? (selectedFund.inception_date | date: 'longDate') : '' }}</span>
         </div>
-
-        <!-- Fund Dropdown and Title -->
         <div class="fund-main">
           <div class="fund-dropdown">
-            <!-- <button class="fund-dropdown-trigger" aria-label="Select fund">
-              <span class="fund-dropdown-label">Select fund</span>
-              <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11.375 5.75L7 10.125L2.625 5.75" stroke="white" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
-            </button> -->
             <div class="dropdown fund-dropdown">
               <button type="button" class="fund-dropdown-trigger dropdown-toggle" data-bs-toggle="dropdown">
                 Select fund
@@ -47,32 +32,28 @@
     <div class="container">
       <nav class="navbar-main-nav">
         <a routerLink="/dashboard" class="nav-link-main" routerLinkActive="active">
-            <img src="./../../../assets/icons/SquaresFour.png" alt="Dashboard"  width="24" height="24">
+          <img src="./../../../assets/icons/SquaresFour.png" alt="Dashboard" width="24" height="24">
           <span>Dashboard</span>
         </a>
-
         <a routerLink="/portfolio" class="nav-link-main" routerLinkActive="active">
-         
-          <img src="./../../../assets/icons/ChartDonut.png" alt="Portfolio"  width="24" height="24">
+          <img src="./../../../assets/icons/ChartDonut.png" alt="Portfolio" width="24" height="24">
           <span>Portfolio</span>
         </a>
-
         <a routerLink="/documents" class="nav-link-main" routerLinkActive="active">
-        
-          <img src="./../../../assets/icons/ChartPie.png" alt="Documents"  width="24" height="24">
+          <img src="./../../../assets/icons/ChartPie.png" alt="Documents" width="24" height="24">
           <span>Documents</span>
         </a>
       </nav>
-       <div class="dropdown fund-dropdown">
-              <button type="button" class="fund-dropdown-trigger dropdown-toggle" data-bs-toggle="dropdown">
-                {{ asOfDate ? 'As of ' + (asOfDate | date: 'mediumDate') : 'Select Date' }} 
-              </button>
-              <ul class="dropdown-menu">
-                <li *ngFor="let fund of dataDates" (click)="onDateChange(fund)">
-                  <a class="dropdown-item">{{ fund | date: 'mediumDate' }}</a>
-                </li>
-              </ul>
-            </div>
+      <div class="dropdown fund-dropdown">
+        <button type="button" class="fund-dropdown-trigger dropdown-toggle" data-bs-toggle="dropdown">
+          {{ asOfDate ? 'As of ' + (asOfDate | date: 'mediumDate') : 'Select Date' }}
+        </button>
+        <ul class="dropdown-menu">
+          <li *ngFor="let fund of dataDates" (click)="onDateChange(fund)">
+            <a class="dropdown-item">{{ fund | date: 'mediumDate' }}</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 

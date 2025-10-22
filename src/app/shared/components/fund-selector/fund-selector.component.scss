@@ -1,64 +1,41 @@
 .fund-selector-wrapper {
   background-color: #181818;
-  padding: 20px 0;
+  height: 204px;
   position: relative;
-  width: 100%;
 
   .container {
-    max-width: 1300px;
+    width: 100%;
+    max-width: 1440px;
     margin: 0 auto;
     padding: 0 70px;
     position: relative;
-    width: 100%;
     box-sizing: border-box;
+    height: 100%;
   }
 
   .fund-selector-content {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
     position: relative;
+    height: 100%;
   }
 
-  .account-info {
-    position: absolute;
-    top: -40px;
-    right: 0;
-
-    .account-id {
-      color: #000;
-      font-family: 'Inter', sans-serif;
-      font-size: 18px;
-      font-weight: 300;
-      line-height: 1.5;
-      letter-spacing: -0.198px;
-    }
-  }
 
   .fund-selection {
+    position: absolute;
+    top: 25px;
+    left: 0;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-
-    .inception-info {
-      .inception-date {
-        color: #fff;
-        font-family: 'Instrument Sans', sans-serif;
-        font-size: 14px;
-        font-weight: 400;
-        line-height: 1;
-        opacity: 0.2;
-      }
-    }
 
     .fund-main {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 30px;
 
       .fund-dropdown {
+        margin-bottom: 0;
+
         .fund-dropdown-trigger {
-          display: flex;
+          display: inline-flex;
           align-items: center;
           gap: 4px;
           background: none;
@@ -67,14 +44,15 @@
           cursor: pointer;
           padding: 0;
           margin-left: 2px;
+          font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 18px;
 
-          .fund-dropdown-label {
-            font-family: 'Instrument Sans', sans-serif;
-            font-size: 14px;
-            font-weight: 400;
-            line-height: 1.5;
-            letter-spacing: -0.14px;
-            text-transform: capitalize;
+          img.dropdown-icon {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
           }
 
           svg {
@@ -87,16 +65,24 @@
             opacity: 0.8;
           }
         }
+
+        .dropdown-menu {
+          background-color: #fff;
+          border: 1px solid #e0e0e0;
+          border-radius: 4px;
+          padding: 8px 0;
+          margin-top: 4px;
+        }
       }
 
       .fund-title {
         color: #fff;
-        font-family: 'Victor Serif Trial', serif;
+        font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
         font-size: 44px;
         font-weight: 500;
-        line-height: normal;
+        line-height: 48px;
         margin: 0;
-        max-width: 624px;
+        max-width: 100% !important;
       }
     }
   }
@@ -104,33 +90,36 @@
 
 .navbar-wrapper {
   position: sticky;
-  top: 0;
-  z-index: 1000;
-  width: 100%;
+  top: 67px;
+  z-index: 999;
+  background-color: #181818;
 
   .navbar-secondary {
     background-color: #181818;
-    min-height: 65px;
+    height: 65px;
     display: flex;
     align-items: center;
-    width: 100%;
 
     .container {
-      max-width: 1300px;
+      width: 100%;
+      max-width: 1440px;
       margin: 0 auto;
-      padding: 16px 70px 9px 70px;
+      padding: 16px 70px 9px 59px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 100%;
       box-sizing: border-box;
     }
 
     .navbar-main-nav {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 0;
       flex-shrink: 0;
+
+      a.nav-link-main {
+        background-color: transparent !important;
+      }
 
       .nav-link-main {
         display: flex;
@@ -139,21 +128,41 @@
         padding: 7px 16px;
         color: #fff;
         text-decoration: none;
-        font-family: 'Instrument Sans', sans-serif;
+        background-color: transparent !important;
+        font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
         font-size: 14px;
         font-weight: 400;
-        line-height: 1.5;
+        line-height: 18px;
         text-transform: uppercase;
-        border-radius: 4px;
+        letter-spacing: -0.14px;
+        border: none;
+        border-radius: 0;
         transition: background-color 0.2s ease;
         white-space: nowrap;
+        position: relative;
+        cursor: pointer;
 
         &:hover {
-          background-color: rgba(255, 255, 255, 0.1);
+          background-color: transparent;
+        }
+
+        &:focus {
+          background-color: transparent;
+          outline: none;
         }
 
         &.active {
-          background-color: rgba(255, 255, 255, 0.1);
+          background-color: transparent;
+
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: -17px;
+            left: 7px;
+            right: 7px;
+            height: 4px;
+            background-color: #F3F5F7;
+          }
         }
 
         img {
@@ -171,21 +180,27 @@
       padding: 10px;
       cursor: pointer;
       transition: background-color 0.2s ease;
-      border-radius: 4px;
+      border-radius: 0;
       flex-shrink: 0;
 
       &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
+        background-color: transparent;
       }
 
       .date-text {
         color: #fff;
-        font-family: 'DM Sans', sans-serif;
+        font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
         font-size: 16px;
         font-weight: 400;
-        line-height: 1.5;
-        letter-spacing: -0.16px;
+        line-height: 20px;
         white-space: nowrap;
+      }
+
+      img.date-selector-icon {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        transform: rotate(90deg);
       }
 
       svg {
@@ -268,6 +283,8 @@
 
 @media (max-width: 768px) {
   .fund-selector-wrapper {
+    height: auto;
+    min-height: 180px;
     padding: 16px 0;
 
     .container {
@@ -276,22 +293,27 @@
 
     .account-info {
       position: static;
-      order: -1;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
 
       .account-id {
-        font-size: 16px;
-        color: #fff;
-        opacity: 0.6;
+        font-size: 12px;
       }
     }
 
     .fund-selection {
-      padding-top: 0;
+      position: static;
+      margin-top: 12px;
 
-      .fund-main .fund-title {
-        font-size: 28px;
-        line-height: 1.2;
+      .fund-main {
+        .fund-dropdown {
+          margin-bottom: 16px;
+        }
+
+        .fund-title {
+          font-size: 28px;
+          line-height: 32px;
+          width: 100%;
+        }
       }
     }
   }
@@ -332,31 +354,32 @@
       padding: 0 12px;
     }
 
-    .fund-selection {
-      .inception-info .inception-date {
-        font-size: 12px;
+    .account-info {
+      .account-id {
+        font-size: 11px;
       }
+    }
 
+    .fund-selection {
       .fund-main {
-        .fund-dropdown .fund-dropdown-trigger {
-          .fund-dropdown-label {
-            font-size: 12px;
-          }
+        .fund-dropdown {
+          margin-bottom: 12px;
 
-          svg {
-            width: 12px;
-            height: 12px;
+          .fund-dropdown-trigger {
+            font-size: 12px;
+
+            svg {
+              width: 12px;
+              height: 12px;
+            }
           }
         }
 
         .fund-title {
           font-size: 24px;
+          line-height: 28px;
         }
       }
-    }
-
-    .account-info .account-id {
-      font-size: 14px;
     }
   }
 

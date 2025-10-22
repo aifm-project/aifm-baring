@@ -10,12 +10,14 @@
     padding: 0;
 
     .container {
-      max-width: 1300px;
+      width: 100%;
+      max-width: 1440px;
       margin: 0 auto;
       padding: 0 70px;
       display: flex;
       flex-direction: column;
       gap: 48px;
+      box-sizing: border-box;
     }
   }
 

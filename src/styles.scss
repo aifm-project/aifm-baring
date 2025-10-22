@@ -1,6 +1,7 @@
 /* Global Styles for AIFM Frontend Application */
 /* Self-hosted fonts from src/assets/fonts/ */
 @import 'fonts';
+@import 'app/shared/styles/mixins';
 
 
 /* CSS Variables for consistent theming */
@@ -20,7 +21,7 @@
   --overlay: rgba(0, 0, 0, 0.2);
 
   /* Typography */
-  --font-primary: 'Victor Serif', -apple-system, Roboto, Helvetica, sans-serif;
+  --font-primary: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
   --font-secondary: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
   --font-body: 'Inter', -apple-system, Roboto, Helvetica, sans-serif;
   --font-system: 'DM Sans', -apple-system, Roboto, Helvetica, sans-serif;
@@ -514,7 +515,7 @@ a:hover {
   font-size: 20px;
   font-weight: 500;
   line-height: 1.5;
-  max-width: 222px;
+  // max-width: 222px;
 }
 .company-data {
   display: flex;
@@ -980,8 +981,8 @@ a:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 .nav-link-main.active {
-  background-color: var(--white);
-  color: var(--primary-dark);
+  background-color: transparent;
+  color: var(--white);
 }
 .date-selector {
   display: flex;
@@ -1019,7 +1020,7 @@ a:hover {
 .fund-selector-wrapper {
   background-color: var(--secondary-dark);
   color: var(--white);
-  padding: var(--spacing-xxl) 0;
+  // padding: var(--spacing-xxl) 0;
   position: relative;
 }
 .fund-selector-content {

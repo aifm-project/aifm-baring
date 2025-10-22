@@ -1,6 +1,23 @@
 .investment-table {
   $cell-padding-x: 15px;
   $cell-padding-y: 15px;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 90px 70px 0 70px;
+  box-sizing: border-box;
+
+  @media (max-width: 1200px) {
+    padding: 90px 40px 0 40px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 90px 20px 0 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 90px 12px 0 12px;
+  }
 
   .section-header {
     display: flex;
@@ -66,7 +83,7 @@
   }
 
   background-color: #f3f5f7;
-  // padding: 20px 0;
+  padding: 90px 0 0 0;
   width: 100%;
 
   .investment-inner {
@@ -79,7 +96,7 @@
     }
 
     &.container-fluid {
-      max-width: 1300px;
+      max-width: 1440px;
       padding: 0 70px;
 
       @media (max-width: 1200px) {
@@ -98,13 +115,17 @@
 
   // Header Styles
   .investment-header {
+    margin-bottom: 20px;
+    height: 36px;
+
     .investment-title {
       color: #000;
       font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
       font-size: 24px;
       font-weight: 500;
-      line-height: 1;
-      text-transform: capitalize;
+      line-height: 28px;
+      // width: 209px;
+      height: 28px;
 
       @media (max-width: 768px) {
         font-size: 20px;
@@ -176,28 +197,28 @@
 
   .portfolio-summary {
     display: flex;
-    min-height: 102px;
+    height: 102px;
     padding: 20px 0;
     justify-content: space-between;
     align-items: center;
     background-color: #f3f5f7;
     flex-wrap: nowrap;
-    gap: 20px;
+    gap: 0;
 
     .summary-item {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       gap: 10px;
-      flex: 1 1 0;
-      min-width: 0;
+      flex-shrink: 0;
 
       .summary-label {
-        color: #555;
+        color: #000;
         font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
         font-size: 14px;
         font-weight: 400;
-        line-height: 14px;
+        line-height: 18px;
+        opacity: 0.75;
         white-space: nowrap;
 
         svg {
@@ -210,10 +231,10 @@
 
       .summary-value {
         color: #000;
-        font-family: 'Test Tiempos Text', -apple-system, Roboto, Helvetica, sans-serif;
-        font-size: 30px;
-        font-weight: 400;
-        line-height: 38px;
+        font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 36px;
         white-space: nowrap;
       }
     }
@@ -289,89 +310,119 @@
   // Investment Data Table Styles
   .investment-data {
     background-color: #f3f5f7;
+    margin-top: 28px;
 
     .table {
       width: 100%;
       table-layout: fixed;
-      border-collapse: separate;
-      // border-spacing: 0 16px;
+      border-collapse: collapse;
+      border-spacing: 0;
       margin-bottom: 0;
+      display: table;
 
       // Table Headers
       thead .table-header-row {
+        opacity: 0.9;
+        height: 20px;
+        display: table-row;
+        width: 100%;
+
         th {
-          color: #313131;
+          color: #000;
           font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
           font-size: 14px;
           font-weight: 500;
-          line-height: 1.5;
+          line-height: 18px;
           border: none;
           background: transparent;
-          padding: 12px $cell-padding-x;
+          padding: 0 30px 8px 0;
           vertical-align: bottom;
           position: relative;
           text-align: left;
+          display: table-cell;
 
           svg {
             width: 16px;
             height: 16px;
             margin-left: 5px;
+            flex-shrink: 0;
           }
 
           &.company-industry-header {
-            width: 215px;
+            width: 377px;
           }
 
           &.table-header-cell {
-            width: 86px;
+            width: 92px;
             text-align: left;
 
             &.numeric-header {
-              text-align: right;
+              text-align: left;
             }
           }
         }
       }
 
-      tbody,
-      td,
-      tfoot,
-      th,
-      thead,
-      tr {
-        border-bottom: 5px solid #ffffff;
+      thead {
+        display: table-header-group;
+      }
+
+      tbody {
+        display: table-row-group;
+      }
+
+      tbody tr:not(:last-child) {
+        border-bottom: 8px solid #f3f5f7;
       }
 
       // Table Body Rows
       tbody tr.company-row {
+        background-color: #E7EBEE;
+        height: 89px;
+        display: table-row;
+        width: 100%;
+
         td {
-          background-color: transparent;
+          background-color: #E7EBEE;
           border: none;
-          padding: $cell-padding-y $cell-padding-x;
+          padding: 14px 30px 14px 0;
           vertical-align: middle;
           transition: transform 0.2s ease, box-shadow 0.2s ease;
+          display: table-cell;
 
           &:first-child {
-            border-top-left-radius: 12px;
-            border-bottom-left-radius: 12px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            padding-left: 0;
           }
 
           &:last-child {
-            border-top-right-radius: 12px;
-            border-bottom-right-radius: 12px;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            padding-right: 0;
           }
         }
 
         .company-cell {
-          width: 215px;
-          padding: $cell-padding-y $cell-padding-x;
+          width: 377px;
+          padding: 14px 30px 14px 0 !important;
+          display: table-cell;
+
+          .d-flex {
+            gap: 19px;
+            align-items: flex-start;
+            height: 61px;
+          }
 
           .company-logo {
             width: 61px;
             height: 61px;
-            background-color: #122c3f;
+            background-color: #122334;
             border-radius: 0;
             flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
             img {
               max-width: 42px;
@@ -382,93 +433,105 @@
           }
 
           .company-info {
-            width: 224px;
+            display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 4px;
+            gap: 0;
+            flex: 1;
+            justify-content: center;
+            padding: 0;
 
             .company-name {
-              width: 190px;
+              // width: 222px;
               color: #000;
               font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
               font-size: 20px;
               font-weight: 500;
-              line-height: 1.5;
+              line-height: 24px;
               word-wrap: break-word;
               overflow-wrap: break-word;
               hyphens: auto;
+              margin: 0;
+              padding: 0;
             }
           }
         }
 
         .data-cell {
-          width: 100px;
+          width: 92px;
           color: #000;
           font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
           font-size: 16px;
           font-weight: 400;
-          line-height: 1.5;
-          padding: $cell-padding-y $cell-padding-x;
+          line-height: 20px;
+          padding: 14px 30px 14px 0 !important;
+          display: table-cell;
+          vertical-align: middle;
+          text-align: left;
         }
 
         .amount-cell,
         .percentage-cell,
         .weight-cell {
-          text-align: right;
+          text-align: left;
         }
 
         .value-stack {
           display: inline-flex;
           align-items: baseline;
-          gap: 4px;
-          justify-content: flex-end;
+          gap: 0;
+          justify-content: flex-start;
           white-space: nowrap;
-          width: 100%;
+          width: auto;
         }
 
         .value-symbol,
         .value-unit {
-          color: #555;
+          color: #000;
           font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
-          font-size: 14px;
+          font-size: 16px;
           font-weight: 400;
+          line-height: 20px;
         }
 
         .value-amount {
           color: #000;
           font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
           font-size: 16px;
-          font-weight: 500;
-          line-height: 1.5;
+          font-weight: 400;
+          line-height: 20px;
         }
 
         .weight-cell {
-          width: 100px;
+          width: 92px;
+          display: table-cell;
+          vertical-align: middle;
+          padding: 14px 0 14px 30px !important;
+
           display: flex;
           flex-direction: column;
-          align-items: flex-start;
           gap: 6px;
-          padding: $cell-padding-y $cell-padding-x;
+          align-items: flex-start;
 
           .weight-text {
             color: #000;
             font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 16px;
             font-weight: 400;
-            line-height: 1.1;
-            justify-content: flex-end;
-            margin-bottom: 6px;
+            line-height: 20px;
+            justify-content: flex-start;
+            margin-bottom: 0;
           }
 
           .progress {
-            width: 100%;
+            width: 86px;
             height: 13px;
-            background-color: #d0d3d6;
+            background-color: rgba(0, 0, 0, 0.1);
             border-radius: 0;
-            opacity: 0.9;
+            opacity: 1;
 
             .progress-bar {
-              background-color: #122c3f;
+              background-color: #122334;
               border-radius: 0;
               opacity: 0.9;
               transition: width 0.3s ease;

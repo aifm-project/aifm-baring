@@ -1,5 +1,15 @@
 .investment-overview {
+  width: 100%;
   padding: 48px 0 0 0;
+  box-sizing: border-box;
+
+  .container {
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 70px;
+    box-sizing: border-box;
+  }
 
   .overview-header {
     display: flex;

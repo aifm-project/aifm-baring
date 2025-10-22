@@ -1,7 +1,9 @@
 .annual-summit {
   width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
   padding: 0;
-  margin: 0;
+  box-sizing: border-box;
 
   .summit-container {
     position: relative;
@@ -155,7 +157,7 @@
   .annual-summit {
     .summit-container {
       width: 100%;
-      max-width: 1300px;
+      max-width: 1440px;
       height: auto;
       min-height: 377px;
     }

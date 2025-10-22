@@ -1,0 +1,230 @@
+// Typography Mixins for consistent styling across components
+// Based on Figma design specifications
+
+// Victor Serif Trial (Primary Font - Headings)
+@mixin heading-h1 {
+  font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 48px; // 109.091%
+  color: #000;
+}
+
+@mixin heading-h2 {
+  font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 44px; // 110%
+  color: #000;
+}
+
+@mixin heading-h3 {
+  font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 32px; // 114.286%
+  color: #000;
+}
+
+@mixin heading-h4 {
+  font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 28px; // 116.667%
+  color: #000;
+}
+
+@mixin heading-h5 {
+  font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px; // 120%
+  color: #000;
+}
+
+// Metric Values
+@mixin metric-large {
+  font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 52px;
+  font-weight: 500;
+  line-height: 56px; // 107.692%
+  color: #000;
+}
+
+@mixin metric-medium {
+  font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 44px; // 110%
+  color: #000;
+}
+
+@mixin metric-small {
+  font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 33px; // 110%
+  color: #000;
+}
+
+// Instrument Sans (Secondary Font - Body, Labels, etc.)
+@mixin body-large {
+  font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 26px; // 118.182%
+  color: #000;
+}
+
+@mixin body-medium {
+  font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px; // 125%
+  color: #000;
+}
+
+@mixin body-small {
+  font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px; // 128.571%
+  color: #000;
+}
+
+@mixin body-xs {
+  font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px; // 133.333%
+  color: #000;
+}
+
+// Labels and Tags
+@mixin label-medium {
+  font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  color: #000;
+}
+
+@mixin label-small {
+  font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+  color: #000;
+}
+
+@mixin label-bold {
+  font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 18px;
+  color: #000;
+}
+
+// Special Typography
+@mixin text-muted {
+  opacity: 0.5;
+}
+
+@mixin text-uppercase {
+  text-transform: uppercase;
+}
+
+// Card Titles
+@mixin card-title {
+  font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 32px; // 114.286%
+  color: #E7EBEE;
+}
+
+@mixin card-title-small {
+  font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px; // 120%
+  color: #000;
+}
+
+// Layout Mixins
+@mixin container-main {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 70px;
+}
+
+@mixin section-gap {
+  margin-bottom: 48px;
+}
+
+// Color Backgrounds
+@mixin bg-light {
+  background-color: #F5F7F8;
+}
+
+@mixin bg-secondary {
+  background-color: #E7EBEE;
+}
+
+@mixin bg-accent {
+  background-color: #D4DCE2;
+}
+
+@mixin bg-dark {
+  background-color: #122334;
+}
+
+@mixin bg-black {
+  background-color: #181818;
+}
+
+// Borders and Separators
+@mixin separator-vertical {
+  width: 1px;
+  background-color: #D6D6D6;
+}
+
+@mixin separator-horizontal {
+  height: 1px;
+  background-color: #D6D6D6;
+}
+
+// Responsive Container Padding
+@mixin container-responsive {
+  @media (max-width: 1200px) {
+    padding: 0 40px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 0 16px;
+  }
+}
+
+// Flexbox utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-start {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
