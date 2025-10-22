@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-insights',
@@ -9,9 +10,11 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./insights.component.scss']
 })
 export class InsightsComponent {
-  
+
+  constructor(private router: Router) {}
+
   onViewAllInsights() {
-    console.log('Navigate to insights page');
+    this.router.navigate(['/insights']);
   }
 
   onSummarizeInsights() {

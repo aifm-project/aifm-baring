@@ -1,0 +1,192 @@
+<div class="news-and-insights">
+  <!-- Header Section -->
+  <section class="page-header">
+    <div class="container">
+      <h1 class="page-title">News and Insights</h1>
+      <p class="page-subtitle">
+        Stay informed with the latest perspectives, updates, and sectoral trends shaping our investments and the markets.
+      </p>
+    </div>
+  </section>
+
+  <!-- Filters Section -->
+  <section class="filters-section">
+    <div class="container">
+      <div class="row g-3">
+        <div class="col-lg-4 col-md-6">
+          <div class="filter-dropdown">
+            <select class="form-select" [(ngModel)]="selectedTopic" (change)="onTopicChange()">
+              <option value="">SORT BY TOPIC</option>
+              <option value="macroeconomics">Macroeconomics</option>
+              <option value="fund-news">Fund News</option>
+              <option value="portfolio">Portfolio Highlights</option>
+              <option value="industry">Industry Spotlight</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="filter-dropdown">
+            <select class="form-select" [(ngModel)]="selectedSort" (change)="onSortChange()">
+              <option value="">SORT BY: LATEST</option>
+              <option value="latest">Latest</option>
+              <option value="oldest">Oldest</option>
+              <option value="popular">Most Popular</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+          <div class="search-wrapper">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="SEARCH BY TITLE, TYPE OR DATE"
+              [(ngModel)]="searchQuery"
+              (input)="onSearch()"
+            />
+            <img src="./../../assets/icons/Search.png" alt="Search" class="search-icon" width="30" height="30" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Article Section -->
+  <section class="featured-section">
+    <div class="container">
+      <div class="row g-4">
+        <!-- Main Featured Card -->
+        <div class="col-lg-7">
+          <div class="featured-card">
+            <img
+              [src]="newsItems[0].image"
+              [alt]="newsItems[0].title"
+              class="featured-image"
+            />
+            <div class="featured-overlay"></div>
+            <div class="featured-content">
+              <div class="featured-header">
+                <span class="category-badge">{{ newsItems[0].category }}</span>
+                <span class="article-date">{{ newsItems[0].date }} • {{ newsItems[0].readTime }}</span>
+              </div>
+              <button class="watch-video-btn" *ngIf="newsItems[0].hasVideo">
+                <img src="data:image/svg+xml,%3Csvg width='13' height='16' viewBox='0 0 13 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.65448V16.3455C1.00212 16.4628 1.03434 16.5773 1.09339 16.6777C1.15245 16.7781 1.23626 16.8607 1.33637 16.9173C1.43648 16.9739 1.54936 17.0023 1.66362 16.9999C1.77788 16.9974 1.88949 16.964 1.98718 16.9032L13.6936 9.55767C13.7871 9.4996 13.8645 9.41777 13.9181 9.32008C13.9718 9.22238 14 9.11214 14 9C14 8.88786 13.9718 8.77762 13.9181 8.67993C13.8645 8.58223 13.7871 8.5004 13.6936 8.44233L1.98718 1.09681C1.88949 1.03597 1.77788 1.00263 1.66362 1.00015C1.54936 0.997671 1.43648 1.02614 1.33637 1.0827C1.23626 1.13925 1.15245 1.22189 1.09339 1.32228C1.03434 1.42266 1.00212 1.53725 1 1.65448Z' fill='white' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" alt="Play" class="play-icon" width="13" height="16" />
+                <span>Watch Video</span>
+              </button>
+              <h2 class="featured-title">{{ newsItems[0].title }}</h2>
+            </div>
+          </div>
+        </div>
+
+        <!-- Side Articles -->
+        <div class="col-lg-5">
+          <div class="side-articles">
+            <article class="side-article" *ngFor="let item of newsItems.slice(1, 5)">
+              <span class="category-badge">{{ item.category }}</span>
+              <h3 class="article-title">{{ item.title }}</h3>
+              <span class="article-date">{{ item.date }} • {{ item.readTime }}</span>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Industry Spotlight Section -->
+  <section class="industry-spotlight">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-7">
+          <div class="spotlight-content">
+            <span class="spotlight-label">INDUSTRY SPOTLIGHT</span>
+            <h2 class="spotlight-title">{{ spotlightArticle.title }}</h2>
+            <p class="spotlight-description">{{ spotlightArticle.description }}</p>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="spotlight-related">
+            <article
+              class="spotlight-article"
+              *ngFor="let article of spotlightArticle.relatedNews"
+            >
+              <div class="spotlight-article-image">
+                <img [src]="article.image" [alt]="article.title" />
+                <img
+                *ngIf="article.hasVideo"
+                src="data:image/svg+xml,%3Csvg width='38' height='38' viewBox='0 0 38 38' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8.3125 33.2499C7.99756 33.2499 7.69551 33.1248 7.47281 32.9021C7.25011 32.6794 7.125 32.3773 7.125 32.0624V5.9374C7.12498 5.73104 7.17875 5.52823 7.28099 5.34897C7.38324 5.16972 7.53043 5.0202 7.70806 4.91516C7.88569 4.81012 8.08763 4.75318 8.29397 4.74996C8.50031 4.74674 8.70393 4.79735 8.88476 4.8968L32.6348 17.9593C32.8211 18.0618 32.9765 18.2124 33.0847 18.3954C33.193 18.5785 33.2501 18.7872 33.2501 18.9998C33.2501 19.2125 33.193 19.4212 33.0847 19.6043C32.9765 19.7873 32.8211 19.9379 32.6348 20.0404L8.88476 33.1029C8.70943 33.1993 8.51259 33.2499 8.3125 33.2499Z' fill='white'/%3E%3C/svg%3E"
+                alt="Play"
+                class="play-overlay"
+                width="38"
+                height="38"
+              />
+              </div>
+              <div class="spotlight-article-content">
+                <span class="category-badge">{{ article.category }}</span>
+                <h4 class="spotlight-article-title">{{ article.title }}</h4>
+                <span class="article-date">{{ article.date }} • {{ article.readTime }}</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- News Grid Section -->
+  <section class="news-grid-section">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6" *ngFor="let item of newsItems.slice(4, 13)">
+          <article class="news-card">
+            <div class="news-card-image">
+              <img [src]="item.image" [alt]="item.title" />
+              <img
+                *ngIf="item.hasVideo"
+                src="data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M14 55.9999C13.4696 55.9999 12.9609 55.7892 12.5858 55.4141C12.2107 55.039 12 54.5303 12 53.9999V9.9999C12 9.65234 12.0905 9.31077 12.2627 9.00886C12.4349 8.70696 12.6828 8.45514 12.982 8.27823C13.2812 8.10131 13.6213 8.00542 13.9688 8C14.3163 7.99458 14.6593 8.07981 14.9638 8.2473L54.9638 30.2473C55.2776 30.4199 55.5393 30.6735 55.7216 30.9818C55.9039 31.2901 56.0001 31.6417 56.0001 31.9998C56.0001 32.3579 55.9039 32.7095 55.7216 33.0178C55.5393 33.3261 55.2776 33.5797 54.9638 33.7523L14.9638 55.7523C14.6685 55.9147 14.337 55.9998 14 55.9999Z' fill='white'/%3E%3C/svg%3E"
+                alt="Play"
+                class="play-overlay"
+                width="64"
+                height="64"
+              />
+            </div>
+            <div class="news-card-content">
+              <div class="news-card-header">
+                <span class="category-badge">{{ item.category }}</span>
+                <span class="article-date">{{ item.date }} • {{ item.readTime }}</span>
+              </div>
+              <h3 class="news-card-title">{{ item.title }}</h3>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter-section">
+    <div class="container">
+      <div class="newsletter-content">
+        <span class="newsletter-label">NEWSLETTER</span>
+        <h2 class="newsletter-title">
+          Stay in the know with our newsletter covering the latest news and insights.
+        </h2>
+        <div class="newsletter-form">
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Email address"
+            [(ngModel)]="newsletterEmail"
+          />
+          <button class="newsletter-submit-btn" (click)="onSubscribeNewsletter()">
+            <img src="./../../assets/icons/CaretRightWhite.png" alt="Submit" width="23" height="23" />
+          </button>
+        </div>
+      </div>
+      <div class="newsletter-image">
+        <img
+          src="https://api.builder.io/api/v1/image/assets/TEMP/1eb78a1b888a17057662ac2c995f0973d8d54682?width=2884"
+          alt="Newsletter background"
+        />
+      </div>
+    </div>
+  </section>
+</div>

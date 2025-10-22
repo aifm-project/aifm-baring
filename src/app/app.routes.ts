@@ -29,6 +29,11 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./web-documents/web-documents.module').then((m) => m.WebDocumentsModule),
       },
+      {
+        path: 'insights',
+        loadChildren: () =>
+          import('./news-and-insights/news-and-insights.module').then((m) => m.NewsAndInsightsModule),
+      },
     ],
   },
   { path: '**', redirectTo: 'user/login' },

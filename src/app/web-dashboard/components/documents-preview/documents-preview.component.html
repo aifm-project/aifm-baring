@@ -7,7 +7,7 @@
         <img src="./../../../assets/icons/Info.png" alt="Latest Documents" width="22" height="22">
       </div>
 
-      <div class="view-all-container">
+      <div class="view-all-container" routerLink="/documents">
         <button class="view-all-text" (click)="onViewAllDocuments()">View all documents</button>
         <button class="view-all-arrow" (click)="onViewAllDocuments()">
            <img src="./../../../assets/icons/CaretRightWhite.png" alt="View all documents" width="22" height="22">
@@ -15,34 +15,11 @@
       </div>
     </div>
 
-    <!-- Documents Grid -->
-    <div class="documents-grid">
-      <div class="document-card" *ngFor="let doc of documents; let i = index" [ngClass]="doc.type">
-        <div class="document-overlay">
-          <div class="document-content">
-            <h4 class="document-title">{{ doc.title }}</h4>
-            <p class="document-date">{{ doc.date }}</p>
-          </div>
-          <div class="document-footer">
-            <div class="document-file-info">
-               <img src="./../../../assets/icons/FilePdf.png" alt="PDF File" width="22" height="22">
-              <span class="file-size">{{ doc.size }}</span>
-            </div>
-            <div class="document-actions" *ngIf="doc.type !== 'report'">
-              <button class="document-action" (click)="onViewDocument(doc)" title="View Document">
-                <img src="./../../../assets/icons/Eye.png" alt="PDF File" width="22" height="22">
-              </button>
-              <button *ngIf="doc.action_type=='download'" class="document-action" (click)="onDownloadDocument(doc)" title="Download Document">
-                <img src="./../../../assets/icons/Download.png" alt="PDF File" width="22" height="22">
-              </button>
-              <button class="document-action" title="AI Summary">
-                 <img src="./../../../assets/icons/AI.png" alt="PDF File" width="22" height="22">
-              </button>
-            </div>
-          </div>
-        </div>
-        <img class="document-bg-image" [src]="doc.bgImage" [alt]="doc?.title" />
-      </div>
-    </div>
+    <!-- Documents Grid (max 4 documents, no view toggle) -->
+    <app-documents-grid 
+      [documents]="documents"
+      [maxDocuments]="4"
+      [showViewToggle]="false">
+    </app-documents-grid>
   </div>
 </section>

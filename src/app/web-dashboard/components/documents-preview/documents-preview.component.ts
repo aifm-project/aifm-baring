@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FundService } from '../../../core/services/fund.service';
 import { Store } from '@ngrx/store';
 import { selectFundData, setDocumentData } from '../../../store/fund';
+import { DocumentsGridComponent } from '../../../web-documents/components/documents-grid/documents-grid.component';
 
 @Component({
   selector: 'app-documents-preview',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DocumentsGridComponent],
   templateUrl: './documents-preview.component.html',
   styleUrls: ['./documents-preview.component.scss']
 })

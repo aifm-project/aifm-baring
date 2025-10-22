@@ -8,5 +8,6 @@ import { DocumentsGridComponent } from './components/documents-grid/documents-gr
   standalone: true,
   imports: [CommonModule, RouterModule, DocumentsGridComponent],
   templateUrl: './web-documents.component.html',
+  styleUrls: ['./web-documents.component.scss']
 })
 export class WebDocumentsComponent {}
