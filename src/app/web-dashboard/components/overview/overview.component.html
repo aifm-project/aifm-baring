@@ -14,7 +14,7 @@
           </div>
           <div class="metric-label">Total Investment</div>
         </div>
-        <div class="metric-value">{{ (overviewData?.capital_summary?.total_commitment | getCurrencyByUnits:true:true) || '-' }}</div>
+        <div class="metric-value">{{ (overviewData?.capital_summary?.funded | getCurrencyByUnits:true:true) || '-' }}</div>
         <div class="metric-submetrics">
           <div class="submetric border-right">
             <div class="submetric-label">Committed Amt</div>

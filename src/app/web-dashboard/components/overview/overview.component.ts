@@ -104,7 +104,7 @@ export class OverviewComponent {
         this.overviewData.metadata.tvpi = tvpi.toLocaleString(this.numberFormat, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
-        });
+        })+'x';
         let xirr = this.overviewData.metadata.xirr ? Number(this.overviewData.metadata.xirr) : '-';
         this.overviewData.metadata.xirr = xirr.toLocaleString(this.numberFormat) + '%';
         let units = this.overviewData.metadata.units ? Number(this.overviewData.metadata.units) : '-';

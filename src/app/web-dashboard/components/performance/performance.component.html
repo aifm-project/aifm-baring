@@ -39,7 +39,7 @@
 
               <div class="nav-section">
                 <div class="nav-label mt-3">NAV from Invested Capital</div>
-                <div class="nav-value">{{ navValue }}</div>
+                <div class="nav-value">{{ (overviewData?.metadata?.nav | getCurrencyByUnits:true:false) || '-' }}</div>
               </div>
               <div class="metric-details">
                 <div class="metric-item">{{ grossMOIC }}</div>
