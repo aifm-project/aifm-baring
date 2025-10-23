@@ -17,70 +17,101 @@ interface OverviewData {
     growth: string;
     unfunded: string;
   },
-metadata: {
-  inception_date: string;
-  aum: string;
-  nav: string;
-  as_on_date: string;
-  benchmark_name: string;
-  units: string;
-  residual_value: string;
-  return: string;
-  tvpi: string;
-  xirr: string;
-  commitment: string;
-}
+  metadata: {
+    inception_date: string;
+    aum: string;
+    nav: string;
+    as_on_date: string;
+    benchmark_name: string;
+    units: string;
+    residual_value: string;
+    return: string;
+    tvpi: string;
+    xirr: string;
+    commitment: string;
+  }
 }
 
 @Component({
   selector: 'app-overview',
   standalone: true,
-  imports: [CommonModule,SharedModule],
-templateUrl: './overview.component.html',
+  imports: [CommonModule, SharedModule],
+  templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent {
   public overviewData: OverviewData = {
     capital_summary: {
-      total_commitment: 'N/A',
-      total_value: 'N/A',
-      distribution: 'N/A',
-      capital_redeemed: 'N/A',
-      residual_value: 'N/A',
-      funded: 'N/A',
-      growth: 'N/A',
-      unfunded: 'N/A'
+      total_commitment: '-',
+      total_value: '-',
+      distribution: '-',
+      capital_redeemed: '-',
+      residual_value: '-',
+      funded: '-',
+      growth: '-',
+      unfunded: '-'
     },
     metadata: {
-      inception_date: 'N/A',
-      aum: 'N/A',
-      nav: 'N/A',
-      as_on_date: 'N/A',
-      benchmark_name: 'N/A',
-      units: 'N/A',
-      residual_value: 'N/A',
-      return: 'N/A',
-      tvpi: 'N/A',
-      xirr: 'N/A',
-      commitment: 'N/A'
+      inception_date: '-',
+      aum: '-',
+      nav: '-',
+      as_on_date: '-',
+      benchmark_name: '-',
+      units: '',
+      residual_value: '-',
+      return: '-',
+      tvpi: '-',
+      xirr: '-',
+      commitment: '-'
     }
   };
   selectedFund: any;
-  fundConfig: Map<string, string>=new  Map<string, string>();
-  numberFormat: string;
+  fundConfig: Map<string, string> = new Map<string, string>();
   asOfDate: any;
-  constructor(private fundService: FundService, private store: Store) {}
+  private currencySymbol: string = '';
+  private numberFormat: string = 'en-IN';
+  private fundSizeUnit: string = ''
+  constructor(
+    private fundService: FundService,
+    private store: Store,
+
+  ) {
+    this.store.select(selectFundData).subscribe(fundState => {
+      if (fundState?.fund_configuration_classes?.length) {
+        this.fundConfig = new Map(
+          fundState.fund_configuration_classes.map(
+            (item: any) => [item?.fund_key, item?.fund_value]
+          )
+        );
+        this.currencySymbol = this.fundConfig.get('fund_currency') || 'INR';
+        this.fundSizeUnit = this.fundConfig.get('fund_size_unit') || 'Cr';
+        this.numberFormat = this.fundConfig.get('number_format') || 'en-IN';
+      }
+    });
+  }
 
   ngOnInit() {
     this.getStoreData();
   }
 
   fetchFundOverview() {
-    this.fundService.getPerformanceData({ fundGuid: this.selectedFund.guid, classGuid: this.selectedFund.guid, asOnDate: this.asOfDate },'CAPITAL_SUMMARY,METADATA').subscribe({
+    this.fundService.getPerformanceData({ fundGuid: this.selectedFund.guid, classGuid: this.selectedFund.guid, asOnDate: this.asOfDate }, 'CAPITAL_SUMMARY,METADATA').subscribe({
       next: (sk) => {
         console.log('Fund Performance Data:', sk);
         this.overviewData.capital_summary = sk.performance && sk.performance.capital_summary ? sk.performance.capital_summary : {};
         this.overviewData.metadata = sk.performance && sk.performance.metadata ? sk.performance.metadata : {};
+        let tvpi  =  this.overviewData.metadata.tvpi ? Number( this.overviewData.metadata.tvpi) : '-'
+        this.overviewData.metadata.tvpi = tvpi.toLocaleString(this.numberFormat, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        });
+        let xirr = this.overviewData.metadata.xirr ? Number(this.overviewData.metadata.xirr) : '-';
+        this.overviewData.metadata.xirr = xirr.toLocaleString(this.numberFormat) + '%';
+        let units = this.overviewData.metadata.units ? Number(this.overviewData.metadata.units) : '-';
+        this.overviewData.metadata.units = units.toLocaleString(this.numberFormat, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          });
       },
       error: (error) => {
         // Handle error response
@@ -91,14 +122,14 @@ export class OverviewComponent {
     this.store.select(selectSelectedDate).subscribe(fundState => {
       console.log('Fund State from Store:', fundState);
       this.asOfDate = fundState?.asOfDate;
-      this.selectedFund=fundState.fundDetails;
+      this.selectedFund = fundState.fundDetails;
       this.fundConfig = fundState.fundDetails?.fund_configuration_classes.reduce((map, obj) => {
         map.set(obj.fund_key, obj.fund_value);
         return map;
       }, new Map<string, string>());
-      
+
       console.log('Fund Configurations sk:', this.fundConfig);
-     this.numberFormat = this.fundConfig.get("number_format");
+      this.numberFormat = this.fundConfig.get("number_format");
       this.fetchFundOverview();
     })
   }

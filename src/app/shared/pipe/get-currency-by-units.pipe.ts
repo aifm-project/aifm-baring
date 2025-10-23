@@ -1,92 +1,103 @@
-import { Pipe, PipeTransform } from '@angular/core'
+import { Pipe, PipeTransform } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectFundData } from '../../store/fund';
 
 @Pipe({
-  name: 'getCurrencyByUnits'
+  name: 'getCurrencyByUnits',
+  pure: false
 })
 export class GetCurrencyByUnitsPipe implements PipeTransform {
-  fundConfigMap: Map<string, string>;
-  currencySymbol: string;
-  numberFormat: string;
+  private fundConfigMap: Map<string, string> = new Map();
+  private currencySymbol: string = '';
+  private numberFormat: string = 'en-IN';
+  private fundSizeUnit: string = '';
+
   constructor(private store: Store) {
-      this.store.select(selectFundData).subscribe(fundState => {
-          let fundConfig = fundState.fund_configuration_classes.map((item) => [item.fund_key, item.fund_value]);
-          this.fundConfigMap = new Map(fundConfig);
-         this.numberFormat = this.fundConfigMap.get("number_format");
-        })
-  }
-  transform(amount, addCurrency: boolean= false,addCurrencySymbol:boolean=false,fixedNumber:number=2): any {
-    if(!this.fundConfigMap && !this.fundConfigMap.size) {
-      this.getStoreData();
-    }
-    this.currencySymbol = this.fundConfigMap.get('fund_currency');
-    this.currencySymbol = this.formatCurrencySymbol(this.currencySymbol);
-
-    if(amount && amount!=='-' && amount!== -1000000){
-      if (['Cr','Cr.'].includes(this.fundConfigMap.get('fund_size_unit'))) {
-        amount = (amount / 10000000);
-        let coreAmount = this.numberWithCommas((amount).toString(),this.numberFormat,fixedNumber);
-
-        let amountData =   amount ? addCurrency ? coreAmount  + ' Cr' : coreAmount : amount;
-        return addCurrencySymbol ? this.currencySymbol +' '+  amountData : amountData;
-
-      } else if (this.fundConfigMap.get('fund_size_unit') === 'M') {
-        amount = (amount / 1000000);
-        let coreAmount = this.numberWithCommas((amount).toString(),this.numberFormat,fixedNumber);
-
-        let amountData =  amount ? addCurrency ? coreAmount + ' M' : coreAmount : amount;
-        return addCurrencySymbol ? this.currencySymbol +' '+  amountData : amountData;
-      }else if(this.fundConfigMap.get('fund_size_unit') === 'mm'){
-        amount = (amount / 100000000);
-        let amountData =   amount ? addCurrency ? (amount).toFixed(fixedNumber) + ' mm' : (amount / 100000000).toFixed(fixedNumber) : amount;
-        return addCurrencySymbol ? this.currencySymbol +' '+  amountData : amountData;
-      } else if(this.fundConfigMap.get('fund_size_unit') === 'Mn'){
-        amount = (amount / 1000000);
-        let amountData =   amount ? addCurrency ? (amount).toFixed(fixedNumber) + ' Mn' : (amount / 100000000).toFixed(fixedNumber) : amount;
-        return addCurrencySymbol ? this.currencySymbol +' '+  amountData : amountData;
-      }else if(this.fundConfigMap.get('fund_size_unit') === ''){
-        let coreAmount = this.numberWithCommas((amount).toString(),this.numberFormat,fixedNumber);
-        let amountData =   amount ? addCurrency ? coreAmount  + ' Cr' : coreAmount : amount;
-        return addCurrencySymbol ? this.currencySymbol +' '+  amountData : amountData;
-      }
-      else {
-        amount = (amount / 10000000);
-        let coreAmount = this.numberWithCommas((amount).toString(),this.numberFormat,fixedNumber);
-        return amount ? coreAmount :  amount ;
-      }
-    }else {
-      // if(amount == 0){
-      //   return 0;
-      // }else{
-      return ' - '
-      //}
-    }
-
-  }
-
-  numberWithCommas(value: string | number, localFormat: string, isDecimalDigits?: number): string {
-   return value ? (+value).toLocaleString(localFormat, {
-          minimumFractionDigits: (isDecimalDigits ? isDecimalDigits : 0),
-          maximumFractionDigits: isDecimalDigits,
-        }) : '';
-  }
-
-  getStoreData() {
     this.store.select(selectFundData).subscribe(fundState => {
-      this.fundConfigMap = fundState.fund_configuration_classes.reduce((map, obj) => {
-        map.set(obj.fund_key, obj.fund_value);
-        return map;
-      }, new Map<string, string>());
-      this.numberFormat = this.fundConfigMap.get("number_format");
+      if (fundState?.fund_configuration_classes?.length) {
+        this.fundConfigMap = new Map(
+          fundState.fund_configuration_classes.map(
+            (item: any) => [item?.fund_key, item?.fund_value]
+          )
+        );
+        this.currencySymbol = this.fundConfigMap.get('fund_currency') || 'INR';
+        this.fundSizeUnit = this.fundConfigMap.get('fund_size_unit') || 'Cr';
+        this.numberFormat = this.fundConfigMap.get('number_format') || 'en-IN';
+      }
     });
   }
 
-  formatCurrencySymbol(currencyCode: string): string {
-    if (!currencyCode) {
-      return '';
+  transform(
+    amount: number | string | null | undefined,
+    addCurrencyUnit: boolean = true,
+    addSymbol: boolean = false,
+    fixedDigits: number = 2,
+  
+  ): string {
+    if (
+      amount === null ||
+      amount === undefined ||
+      amount === '-' ||
+      amount === '' ||
+      amount === '-1000000' ||
+      amount === -1000000
+    ) {
+      return ' - ';
     }
-    switch(currencyCode.toUpperCase()) {
+    if(!this.fundConfigMap){
+      this.getStoreData();
+    }
+
+    const numericAmount = Number(amount);
+    if (isNaN(numericAmount)) return ' - ';
+
+    const fundCurrency = this.fundConfigMap.get('fund_currency') || 'INR';
+    const fundUnit = this.fundConfigMap.get('fund_size_unit') || '';
+    const localFormat = this.resolveLocale(fundCurrency);
+    this.currencySymbol = addSymbol ? this.formatCurrencySymbol(fundCurrency) : '';
+    
+    const { dividedAmount, displayUnit } = this.divideByUnit(numericAmount, fundUnit);
+
+    const formatted = this.formatNumber(dividedAmount, localFormat, fixedDigits);
+    if (formatted === 'NaN' || formatted === 'undefined') return ' - ';
+
+    let result = `${this.currencySymbol} ${formatted}`;
+    if (addCurrencyUnit && displayUnit) result += ` ${displayUnit}`;
+
+    return result.trim();
+  }
+
+  private divideByUnit(amount: number, unit: string): { dividedAmount: number; displayUnit: string } {
+    if (!unit) return { dividedAmount: amount, displayUnit: '' };
+
+    switch (unit) {
+      case 'Cr':
+      case 'Cr.':
+        return { dividedAmount: amount / 1e7, displayUnit: 'Cr' };
+      case 'M':
+      case 'Mn':
+        return { dividedAmount: amount / 1e6, displayUnit: unit };
+      case 'mm':
+        return { dividedAmount: amount / 1e8, displayUnit: 'mm' };
+      default:
+        return { dividedAmount: amount, displayUnit: '' };
+    }
+  }
+
+  private formatNumber(value: number, locale: string, digits: number): string {
+    try {
+      return value.toLocaleString(locale, {
+        minimumFractionDigits: digits,
+        maximumFractionDigits: digits,
+      });
+    } catch {
+      return ' - ';
+    }
+  }
+
+  private formatCurrencySymbol(code: string): string {
+    if (!code) return '';
+    switch (code.toUpperCase()) {
       case 'INR':
         return '₹';
       case 'USD':
@@ -96,8 +107,31 @@ export class GetCurrencyByUnitsPipe implements PipeTransform {
       case 'GBP':
         return '£';
       default:
-        return currencyCode;
+        return code;
     }
   }
 
+  private resolveLocale(currency: string): string {
+    if (!currency) return 'en-IN';
+    switch (currency.toUpperCase()) {
+      case 'INR':
+        return 'en-IN';
+      case 'USD':
+      case 'EUR':
+      case 'GBP':
+        return 'en-US';
+      default:
+        return 'en-IN';
+    }
+  }
+  
+  getStoreData() {
+    this.store.select(selectFundData).subscribe(fundState => {
+      this.fundConfigMap = fundState.fund_configuration_classes.reduce((map, obj) => {
+        map.set(obj.fund_key, obj.fund_value);
+        return map;
+      }, new Map<string, string>());
+      this.numberFormat = this.fundConfigMap.get("number_format");
+    });
+  }
 }

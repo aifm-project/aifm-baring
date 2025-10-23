@@ -106,32 +106,32 @@
       flex-shrink: 0;
     }
 
-    &.notification-btn {
-      background-color: #fff;
+    // &.notification-btn {
+    //   background-color: #fff;
 
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.9);
-      }
+    //   &:hover {
+    //     background-color: rgba(255, 255, 255, 0.9);
+    //   }
 
-      .notification-badge {
-        position: absolute;
-        top: -2px;
-        right: -2px;
-        width: 16px;
-        height: 16px;
-        background: #ff0000;
-        border: 2px solid #fff;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        font-family: 'Instrument Sans', sans-serif;
-        font-size: 9px;
-        font-weight: 600;
-        line-height: 1;
-      }
-    }
+    //   .notification-badge {
+    //     position: absolute;
+    //     top: -2px;
+    //     right: -2px;
+    //     width: 16px;
+    //     height: 16px;
+    //     background: #ff0000;
+    //     border: 2px solid #fff;
+    //     border-radius: 50%;
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: center;
+    //     color: #fff;
+    //     font-family: 'Instrument Sans', sans-serif;
+    //     font-size: 9px;
+    //     font-weight: 600;
+    //     line-height: 1;
+    //   }
+    // }
   }
 
   .user-menu-wrapper {
