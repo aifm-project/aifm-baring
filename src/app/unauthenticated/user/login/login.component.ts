@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
   isShowReCaptcha: any;
   accountInfo: any;
   returnUrl: any;
-
+  public emailPattern= "/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z]{2,})+$/";
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -53,7 +53,8 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/dashboard']);
     }
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email:  ['', Validators.required,Validators.email,Validators.pattern(this.emailPattern)
+  ],
       password: ['', [Validators.required]],
       userRole: ['', [Validators.required]],
     });

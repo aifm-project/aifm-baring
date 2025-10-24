@@ -1,7 +1,8 @@
 /* Global Styles for AIFM Frontend Application */
 /* Self-hosted fonts from src/assets/fonts/ */
-@import 'fonts';
-@import 'app/shared/styles/mixins';
+@use 'fonts' as *;
+@use 'app/shared/styles/mixins' as *;
+
 
 
 /* CSS Variables for consistent theming */
@@ -21,10 +22,10 @@
   --overlay: rgba(0, 0, 0, 0.2);
 
   /* Typography */
-  --font-primary: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
-  --font-secondary: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
-  --font-body: 'Inter', -apple-system, Roboto, Helvetica, sans-serif;
-  --font-system: 'DM Sans', -apple-system, Roboto, Helvetica, sans-serif;
+  --font-primary: 'Victor Serif Trial', -apple-system,  sans-serif;
+  --font-secondary: 'Instrument Sans', -apple-system,  sans-serif;
+  --font-body: 'Inter', -apple-system,  sans-serif;
+  --font-system: 'DM Sans', -apple-system,  sans-serif;
 
   /* Spacing */
   --spacing-xs: 4px;
