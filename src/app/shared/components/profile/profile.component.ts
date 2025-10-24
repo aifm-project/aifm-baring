@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
-
+import { Store } from '@ngrx/store';
+import { selectAuthState } from '../../../store/auth';
+import { User } from '../../../model/models';
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -18,23 +20,22 @@ export class ProfileComponent implements OnInit {
   showConfirmPassword = false;
   isEditingLinkedIn = false;
   
-  userProfile = {
-    name: 'Aniruddh Shetty',
-    email: 'Aniruddh.shetty@gmail.com',
-    mobile: '+91 92981 08121',
-    linkedIn: '',
-    photo: 'https://api.builder.io/api/v1/image/assets/TEMP/023d8b20aea6edb9e740f361cede5ec3fded98e6?width=392'
-  };
-
+  userProfile:User;
+  userPhoto:string="https://www.w3schools.com/howto/img_avatar.png";
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private store: Store
   ) {
-    this.profileForm = this.fb.group({
-      name: [{ value: this.userProfile.name, disabled: true }],
-      email: [{ value: this.userProfile.email, disabled: true }],
-      mobile: [{ value: this.userProfile.mobile, disabled: true }],
-      linkedIn: [this.userProfile.linkedIn]
+   
+  }
+
+  ngOnInit(): void {
+     this.profileForm = this.fb.group({
+      name: [{ value:'', disabled: true }],
+      email: [{ value:'', disabled: true }],
+      mobile: [{ value: '', disabled: true }],
+      linkedIn: ['', Validators.pattern('https?://.+')]
     });
 
     this.passwordForm = this.fb.group({
@@ -42,14 +43,7 @@ export class ProfileComponent implements OnInit {
       newPassword: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required]
     }, { validators: this.passwordMatchValidator });
-  }
-
-  ngOnInit(): void {
-    const userEmail = this.authService.getUserEmail();
-    if (userEmail) {
-      this.userProfile.email = userEmail;
-      this.profileForm.patchValue({ email: userEmail });
-    }
+    this.getStoreData();
   }
 
   passwordMatchValidator(group: FormGroup) {
@@ -93,5 +87,17 @@ export class ProfileComponent implements OnInit {
       // Implement save logic
       this.passwordForm.reset();
     }
+  }
+  getStoreData(){
+    this.store.select(selectAuthState).subscribe(data=>{
+      console.log(data);
+      this.userProfile=data.userData;
+      this.profileForm.patchValue({
+        name: this.userProfile.first_name,
+        email: this.userProfile.email,
+        mobile: this.userProfile.phone_number,
+        linkedIn: this.userProfile.profile
+      });
+    });
   }
 }

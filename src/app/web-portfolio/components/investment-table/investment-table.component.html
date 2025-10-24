@@ -47,15 +47,15 @@
       <div class="portfolio-summary">
         <div class="summary-item">
           <div class="summary-label">Total Holdings</div>
-          <div class="summary-value">{{ portfolioSummary.totalHoldings }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalHoldings ? (portfolioSummary.totalHoldings | getCurrencyByUnits:true:true) : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label">Total Investment</div>
-          <div class="summary-value">{{ portfolioSummary.totalInvestment }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalInvestment ? (portfolioSummary.totalInvestment | getCurrencyByUnits:true:true) : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label">Total Market Value</div>
-          <div class="summary-value">{{ portfolioSummary.totalMarketValue }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalMarketValue ? (portfolioSummary.totalMarketValue | getCurrencyByUnits:true:true) : '-' }}</div>
         </div>
         <div class="summary-item ">
           <div class="summary-label d-flex align-items-center gap-1">
@@ -80,7 +80,7 @@
               </defs>
             </svg>
           </div>
-          <div class="summary-value">{{ portfolioSummary.totalGrossIRR }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalGrossIRR ? (portfolioSummary.totalGrossIRR | getCurrencyByUnits:true:true) : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label d-flex align-items-center gap-1">
@@ -105,11 +105,11 @@
               </defs>
             </svg>
           </div>
-          <div class="summary-value">{{ portfolioSummary.totalGrossMOIC }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalGrossMOIC ? (portfolioSummary.totalGrossMOIC | getCurrencyByUnits:true:true) : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label">Total Returns</div>
-          <div class="summary-value">{{ portfolioSummary.totalReturns }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalReturns ? (portfolioSummary.totalReturns | getCurrencyByUnits:true:true) : '-' }}</div>
         </div>
       </div>
     </div>

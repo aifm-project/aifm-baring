@@ -11,7 +11,6 @@ import { DistributionChartComponent } from './components/distribution-chart/dist
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { GetCurrencyByUnitsPipe } from './pipe/get-currency-by-units.pipe';
-
 @NgModule({
   declarations: [],
   imports: [

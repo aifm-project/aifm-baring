@@ -49,14 +49,14 @@
     <div class="distribution-body mt-4">
       <div class="row g-4 align-items-center">
         <div class="col-12 col-lg-6">
-          <div class="pie-visual">
-            <div class="pie-chart-placeholder"></div>
+          <div class="chart-container">
+            <div class="chart-host" [chart]="chart"></div>
           </div>
         </div>
         <div class="col-12 col-lg-6">
           <div class="chart-legend">
             <h4 class="legend-title">Industry Sectors</h4>
-            <div class="legend-items">
+            <div class="">
               <div *ngFor="let item of industryData" class="legend-item">
                 <div class="legend-color" [style.background-color]="item.color"></div>
                 <span class="legend-label">{{ item.name }}</span>

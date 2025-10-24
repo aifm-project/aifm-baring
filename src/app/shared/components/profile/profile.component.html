@@ -13,7 +13,7 @@
       <!-- Profile Photo Section -->
       <div class="profile-photo-section">
         <div class="photo-wrapper">
-          <img [src]="userProfile.photo" alt="Profile Photo" class="profile-photo" />
+          <img [src]="userPhoto" alt="Profile Photo" class="profile-photo" />
         </div>
         <button class="update-photo-btn" (click)="onUpdatePhoto()">Update photo</button>
       </div>
@@ -24,7 +24,7 @@
           <!-- Name Field -->
           <div class="form-field">
             <label class="field-label">Name</label>
-            <div class="field-value">{{ userProfile.name }}</div>
+            <div class="field-value">{{ userProfile.display_name }}</div>
             <div class="field-divider"></div>
           </div>
 
@@ -38,7 +38,7 @@
           <!-- Mobile Number Field -->
           <div class="form-field">
             <label class="field-label">Mobile Number</label>
-            <div class="field-value">{{ userProfile.mobile }}</div>
+            <div class="field-value">{{ userProfile.phone_number }}</div>
             <div class="field-divider"></div>
           </div>
 

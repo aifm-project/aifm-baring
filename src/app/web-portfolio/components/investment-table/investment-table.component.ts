@@ -122,12 +122,12 @@ export class InvestmentTableComponent implements OnInit {
 
         if(response.portfolio && response.portfolio.total_investment_portfolio){
           this.portfolioSummary = {
-            totalHoldings: response.portfolio.total_investment_portfolio.total_holdings ? response.portfolio.total_investment_portfolio.total_holdings : '-',
+            totalHoldings: response.portfolio.total_investment_portfolio.unrealisedCost ? response.portfolio.total_investment_portfolio.unrealisedCost : '-',
             totalInvestment: response.portfolio.total_investment_portfolio.total_investment ? response.portfolio.total_investment_portfolio.total_investment : '- ',
             totalMarketValue: response.portfolio.total_investment_portfolio.total_market_value ? response.portfolio.total_investment_portfolio.total_market_value : '-' ,
-            totalGrossIRR: response.portfolio.total_investment_portfolio.total_gross_irr ? response.portfolio.total_investment_portfolio.total_gross_irr : '-'  ,
-            totalGrossMOIC: response.portfolio.total_investment_portfolio.total_gross_moic ? response.portfolio.total_investment_portfolio.total_gross_moic : '-'   ,
-            totalReturns: response.portfolio.total_investment_portfolio.total_returns ? response.portfolio.total_investment_portfolio.total_returns : '-'  ,
+            totalGrossIRR: response.portfolio.total_investment_portfolio.unrealisedIRR ? response.portfolio.total_investment_portfolio.unrealisedIRR : '-'  ,
+            totalGrossMOIC: response.portfolio.total_investment_portfolio.unrealisedMOIC ? response.portfolio.total_investment_portfolio.unrealisedMOIC : '-'   ,
+            totalReturns: response.portfolio.total_investment_portfolio.unrealisedPrice ? response.portfolio.total_investment_portfolio.unrealisedPrice : '-'  ,
           }
         }
       },
@@ -157,4 +157,6 @@ export class InvestmentTableComponent implements OnInit {
     }
     return this.companies;
   }
+
+  
 }
