@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { setFundData } from '../../../store/fund/fund.action';
 import { setAllDates, setSelectedDate } from '../../../store/date/date.action';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { FundService } from '../../../core/services/fund.service';
 import { CommonModule } from '@angular/common';
 
@@ -22,7 +22,7 @@ export class FundSelectorComponent {
   asOfDate: any;
   dataDates: any = [];
 
-  constructor(private fundService: FundService, private store: Store) {
+  constructor(private fundService: FundService, private store: Store, private router: Router) {
   }
 
   onFundChange(fund: string) {
@@ -33,6 +33,10 @@ export class FundSelectorComponent {
 
   ngOnInit(): void {
     this.getFunds();
+  }
+
+  isActiveRoute(route: string): boolean {
+    return this.router.url.includes(route);
   }
 
   getFunds(){

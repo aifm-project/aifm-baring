@@ -137,13 +137,18 @@
         letter-spacing: -0.14px;
         border: none;
         border-radius: 0;
-        transition: background-color 0.2s ease;
+        border-bottom: 2px solid transparent;
+        transition: background-color 0.2s ease, border-bottom 0.2s ease;
         white-space: nowrap;
         position: relative;
         cursor: pointer;
 
         &:hover {
           background-color: transparent;
+
+          img.nav-icon {
+            filter: brightness(1.15);
+          }
         }
 
         &:focus {
@@ -153,15 +158,11 @@
 
         &.active {
           background-color: transparent;
+          border-bottom: 5px solid #ffffff;
+          padding: 11px 7px;
 
-          &::after {
-            content: '';
-            position: absolute;
-            bottom: -17px;
-            left: 7px;
-            right: 7px;
-            height: 4px;
-            background-color: #F3F5F7;
+          img.nav-icon {
+            filter: brightness(1);
           }
         }
 
@@ -169,6 +170,11 @@
           width: 24px;
           height: 24px;
           flex-shrink: 0;
+          transition: filter 0.2s ease;
+
+          &.nav-icon {
+            transition: filter 0.2s ease;
+          }
         }
       }
     }

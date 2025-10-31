@@ -24,6 +24,10 @@ export class NavbarComponent implements OnInit {
     this.userEmail = this.authService.getUserEmail();
   }
 
+  isActiveRoute(route: string): boolean {
+    return this.router.url.includes(route);
+  }
+
   toggleUserMenu(): void {
     this.showUserMenu = !this.showUserMenu;
   }

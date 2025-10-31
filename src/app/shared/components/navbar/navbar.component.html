@@ -3,53 +3,38 @@
   <div class="navbar-top">
     <div class="container">
       <div class="navbar-brand">
-        <h1 class="brand-title">BARING PRIVATE EQUITY PARTNERS</h1>
+        <img src="./../../../assets/icons1/logo.png" alt="Funds" width="51" height="44" />
       </div>
       <nav class="navbar-links">
-        <a href="#" class="nav-link-top">
-          <img src="./../../../assets/icons/Cards.png" alt="Funds" width="22" height="22" />
+        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="nav-link-top">
+          <img [src]="isActiveRoute('/dashboard') ? './../../../assets/icons1/Cards-Fill.png' : './../../../assets/icons1/Cards.png'" alt="Funds" width="22" height="22" class="nav-icon" />
           <span>Funds</span>
         </a>
-        <a href="#" class="nav-link-top">
-          <img src="./../../../assets/icons/AI-Ask.png" alt="Ask Baring" width="22" height="22" />
-          <span>Ask Baring</span>
-        </a>
-        <a routerLink="/insights" class="nav-link-top">
-          <img
-            src="./../../../assets/icons/Insights-Icon.png"
-            alt="Insights"
-            width="22"
-            height="22"
-          />
+        <a routerLink="/insights" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="nav-link-top">
+          <img [src]="isActiveRoute('/insights') ? './../../../assets/icons1/Insight-Fill.png' : './../../../assets/icons1/Insight.png'" alt="Insights" width="22" height="22" class="nav-icon" />
           <span>Insights</span>
+        </a>
+        <a href="#" class="nav-link-top nav-link-ai" [class.active]="isActiveRoute('/ai') || isActiveRoute('/ask-baring')">
+          <img [src]="isActiveRoute('/ai') || isActiveRoute('/ask-baring') ? './../../../assets/icons1/AI-Fill.png' : './../../../assets/icons1/AI.png'" alt="Ask Baring" width="22" height="22" class="nav-icon" />
+          <span>Ask Baring</span>
         </a>
       </nav>
       <div class="navbar-actions">
-        <button class="navbar-action-btn" aria-label="Search">
-          <img src="./../../../assets/icons/Search.png" alt="Search" width="26" height="26" />
+        <button class="navbar-action-btn search-btn" aria-label="Search">
+          <img src="./../../../assets/icons1/Search.png" alt="Search" width="26" height="26" class="action-icon" />
         </button>
-        <button class="navbar-action-btn notification-btn" aria-label="Notifications" (click)="onNotifications()">
-          <img
-            src="./../../../assets/icons/BellSimple.png"
-            alt="Notifications"
-            width="26"
-            height="26" 
-          />
-          <!-- <span class="notification-badge" *ngIf="unreadNotifications > 0">{{ unreadNotifications }}</span> -->
+        <button class="navbar-action-btn notification-btn" aria-label="Notifications" (click)="onNotifications()" [class.active]="isActiveRoute('/notifications')">
+          <img src="./../../../assets/icons1/BellSimple.png" alt="Notifications" width="26" height="26" class="action-icon" />
         </button>
         <div class="user-menu-wrapper">
-          <img
-            src="https://api.builder.io/api/v1/image/assets/TEMP/899375dd69020662549bdee7cc9d4cee1aa27d93?width=76"
-            alt="Profile"
-            class="profile-avatar"
-            (click)="toggleUserMenu()"
-          />
+          <img src="./../../../assets/icons1/User.png" alt="Profile" class="profile-avatar"
+            (click)="toggleUserMenu()" />
           <div class="user-dropdown" *ngIf="showUserMenu">
             <div class="user-info">
-            <p class="user-email">{{ userEmail }}</p>
-          </div>
-          <a routerLink="/profile" class="dropdown-link" (click)="toggleUserMenu()">Profile</a>
-          <button class="logout-btn" (click)="onLogout()">Logout</button>
+              <p class="user-email">{{ userEmail }}</p>
+            </div>
+            <a routerLink="/profile" class="dropdown-link" (click)="toggleUserMenu()">Profile</a>
+            <button class="logout-btn" (click)="onLogout()">Logout</button>
           </div>
         </div>
       </div>

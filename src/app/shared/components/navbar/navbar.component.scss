@@ -61,6 +61,8 @@
     letter-spacing: -0.14px;
     transition: opacity 0.2s ease;
     white-space: nowrap;
+    position: relative;
+    padding-bottom: 12px;
 
     &:first-child {
       font-weight: 600;
@@ -68,13 +70,52 @@
 
     &:hover {
       opacity: 0.8;
+
+      img.nav-icon {
+        filter: brightness(1.15);
+      }
+    }
+
+    &.active {
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background-color: #fff;
+        animation: slideInUnderline 0.3s ease;
+      }
+
+      img.nav-icon {
+        filter: brightness(1);
+      }
     }
 
     img {
       width: 22px;
       height: 22px;
       flex-shrink: 0;
+      transition: filter 0.2s ease;
+
+      &.nav-icon {
+        transition: filter 0.2s ease;
+      }
     }
+  }
+}
+
+@keyframes slideInUnderline {
+  from {
+    width: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  to {
+    width: 100%;
+    left: 0;
+    transform: translateX(0);
   }
 }
 
@@ -100,38 +141,34 @@
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.1);
+
+      img.action-icon {
+        filter: brightness(1.15);
+      }
+    }
+
+    &.active {
+      background-color: rgba(255, 255, 255, 0.15);
+
+      img.action-icon {
+        filter: brightness(1);
+      }
     }
 
     img {
       flex-shrink: 0;
+      transition: filter 0.2s ease;
+
+      &.action-icon {
+        transition: filter 0.2s ease;
+      }
     }
 
-    // &.notification-btn {
-    //   background-color: #fff;
-
-    //   &:hover {
-    //     background-color: rgba(255, 255, 255, 0.9);
-    //   }
-
-    //   .notification-badge {
-    //     position: absolute;
-    //     top: -2px;
-    //     right: -2px;
-    //     width: 16px;
-    //     height: 16px;
-    //     background: #ff0000;
-    //     border: 2px solid #fff;
-    //     border-radius: 50%;
-    //     display: flex;
-    //     align-items: center;
-    //     justify-content: center;
-    //     color: #fff;
-    //     font-family: 'Instrument Sans', sans-serif;
-    //     font-size: 9px;
-    //     font-weight: 600;
-    //     line-height: 1;
-    //   }
-    // }
+    &.notification-btn {
+      &.active {
+        background-color: rgba(255, 255, 255, 0.15);
+      }
+    }
   }
 
   .user-menu-wrapper {
