@@ -176,13 +176,14 @@ export class PerformanceComponent implements OnInit {
       return getCurrencyByUnitsPipe.transform(value, true);
     }
     this.chartOptions = {
-      chart: { type: 'line', backgroundColor: 'transparent', height: 352, spacing: [20, 20, 20, 80] },
+      chart: { type: 'line', backgroundColor: 'transparent', height: 450, spacing: [20, 20, 20, 20] },
       title: { text: '' },
       xAxis: {
         categories: labels,
         type: 'datetime',
         lineColor: '#181818',
         lineWidth: 2,
+        tickamount:10,
         tickColor: 'transparent',
         labels: {
           style: { color: '#757575', fontSize: '14px', fontFamily: 'Instrument Sans' },
@@ -192,11 +193,12 @@ export class PerformanceComponent implements OnInit {
             const year = date.getFullYear();
             return `${month} ${year}`;
           }
-        }
+        },
       },
       yAxis: {
         title: { text: '' },
-        tickInterval: 0.2,
+        // tickInterval: 100,
+        tickAmount: 6,
         gridLineColor: '#DCDCDC',
         gridLineWidth: 1,
         min: 0,

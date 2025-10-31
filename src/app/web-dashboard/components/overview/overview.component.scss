@@ -67,11 +67,6 @@
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
-
-          svg {
-            width: 28px;
-            height: 28px;
-          }
         }
 
         .metric-label {
@@ -102,7 +97,7 @@
       .metric-submetrics {
         display: flex;
         align-items: flex-start;
-        gap: 10px;
+        gap: 25px;
 
         .submetric {
           display: flex;
@@ -367,4 +362,8 @@
 .border-right{
   border-right: 1px solid #CBCBCB;
   padding-right: 15px;
+}
+.metric-label-seperator{
+  border-right: 1px solid #FFFFFF;
+  width: 5px;
 }

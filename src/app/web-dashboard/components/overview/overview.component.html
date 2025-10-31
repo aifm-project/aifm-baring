@@ -1,7 +1,7 @@
 <section class="investment-overview">
   <div class="overview-header">
       <h3 class="overview-title">Investment Overview</h3>
-      <img src="./../../../assets/icons/Info.png" alt="Investment Overview" width="22" height="22">
+      <img src="./../../../assets/icons1/Info-Black.png" alt="Investment Overview" width="22" height="22">
     </div>
 
     <!-- Main Investment Metrics -->
@@ -10,8 +10,9 @@
       <div class="main-metric-card border-right">
         <div class="metric-header">
           <div class="metric-icon">
-            <img src="./../../../assets/icons/Stack.png" alt="Total Investment" width="28" height="28">
+            <img src="./../../../assets/icons1/Stack.png" alt="Total Investment" width="28" height="28">
           </div>
+          <div class="metric-label-seperator"></div>
           <div class="metric-label">Total Investment</div>
         </div>
         <div class="metric-value">{{ (overviewData?.capital_summary?.funded | getCurrencyByUnits:true:true) || '-' }}</div>
@@ -37,6 +38,7 @@
           <div class="metric-icon">
             <img src="./../../../assets/icons/Coins.png" alt="Current Value" width="28" height="28">
           </div>
+           <div class="metric-label-seperator"></div>
           <div class="metric-label">Current Value</div>
         </div>
         <div class="metric-value">{{ (overviewData?.capital_summary?.total_value | getCurrencyByUnits:true:true) || '-' }}</div>
@@ -64,6 +66,7 @@
           <div class="metric-icon">
             <img src="./../../../assets/icons/ChartLine.png" alt="Current Value" width="28" height="28">
           </div>
+           <div class="metric-label-seperator"></div>
           <div class="metric-label">Gross IRR</div>
         </div>
         <div class="metric-value">{{ overviewData.metadata.xirr }}</div>

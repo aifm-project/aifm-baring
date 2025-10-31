@@ -1,7 +1,9 @@
 .fund-selector-wrapper {
   background-color: #181818;
   height: 204px;
-  position: relative;
+  position: sticky;
+  top: 67px;
+  z-index: 1000;
 
   .container {
     width: 100%;
