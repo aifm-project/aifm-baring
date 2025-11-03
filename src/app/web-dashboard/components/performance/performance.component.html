@@ -1,5 +1,4 @@
 <div class="performance-container">
-  <!-- Header -->
   <div class="performance-header">
     <div class="performance-title-section">
       <h3 class="performance-title">Fund Performance</h3>
@@ -14,20 +13,17 @@
     </div>
   </div>
 
-  <!-- Content: Bootstrap grid 8/4 split -->
   <div class="performance-content">
     <div class="container-fluid px-0">
       <div class="row g-0 align-items-start">
-        <!-- Chart: col-8 -->
         <div class="col-sm-12 col-md-8 col-lg-8 col-xl-8">
           <div class="chart-section">
             <div class="chart-container">
-              <div   class="chart-host" [chart]="chart"></div>
+              <div class="chart-host" [chart]="chart"></div>
             </div>
           </div>
         </div>
 
-        <!-- Metrics: col-4 -->
         <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 d-flex justify-content-end">
           <div class="metrics-sidebar">
             <div class="metric-section">
@@ -35,16 +31,16 @@
                 <div class="legend-indicator growth"></div>
                 <span class="legend-label float-left">Growth</span>
               </div>
-              <div class="current-date float-right">{{ currentDate }}</div>
+              <div class="current-date float-right">{{ selectedChartDate }}</div>
 
               <div class="nav-section">
                 <div class="nav-label mt-3">NAV from Invested Capital</div>
-                <div class="nav-value">{{ (overviewData?.metadata?.nav | getCurrencyByUnits:true:false) || '-' }}</div>
+                <div class="nav-value">{{ selectedNav }}</div>
               </div>
               <div class="metric-details">
-                <div class="metric-item">{{ grossMOIC }}</div>
-                <div class="metric-item">{{ grossIRR }}</div>
-                <div class="metric-item">{{ returnOnCapital }}</div>
+                <div class="metric-item">{{ selectedGrossMOIC }}</div>
+                <div class="metric-item">{{ selectedGrossIRR }}</div>
+                <div class="metric-item">{{ selectedReturnOnCapital }}</div>
               </div>
             </div>
 
@@ -55,7 +51,7 @@
                 <div class="legend-indicator drawdowns"></div>
                 <span class="legend-label">Drawdowns</span>
               </div>
-              <div class="drawdowns-value">{{ drawdownsValue }}</div>
+              <div class="drawdowns-value">{{ selectedDrawdowns }}</div>
             </div>
           </div>
         </div>

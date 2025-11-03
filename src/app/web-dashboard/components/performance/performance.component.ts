@@ -9,10 +9,19 @@ import moment from 'moment';
 import { GetCurrencyByUnitsPipe } from '../../../shared/pipe/get-currency-by-units.pipe';
 import { selectDateState, selectSelectedDate } from '../../../store/date';
 import { SharedModule } from '../../../shared/shared.module';
+
 interface ChartDataPoint {
   x: number;
   y: number;
+  // Assuming your API data point has these fields for full dynamic display
+  nav?: number;
+  moic?: string; // or number, depends on your data
+  irr?: string;  // or number
+  return_on_capital?: number;
+  drawdowns?: number;
+  as_on_date?: string;
 }
+
 interface OverviewData {
   capital_summary: {
     total_commitment: string;
@@ -38,6 +47,7 @@ interface OverviewData {
     commitment: string;
   }
 }
+
 @Component({
   selector: 'app-performance',
   standalone: true,
@@ -83,18 +93,30 @@ export class PerformanceComponent implements OnInit {
     { label: 'Max', value: 'Max' }
   ];
 
+  // ** ORIGINAL DEFAULT VALUES **
   navValue = '0.69 Cr';
   drawdownsValue = '0.65 Cr';
   currentDate = 'Sep 30, 2023';
   grossMOIC = 'Gross MOIC: 1.06×';
   grossIRR = 'Gross IRR: 6.15%';
   returnOnCapital = 'Return on Invested Capital: +0.04 Cr';
+
+  // ** NEW PROPERTIES ** - These will be bound to the HTML and updated on chart hover
+  selectedChartDate: string = this.currentDate;
+  selectedNav: string = this.navValue;
+  selectedGrossMOIC: string = this.grossMOIC;
+  selectedGrossIRR: string = this.grossIRR;
+  selectedReturnOnCapital: string = this.returnOnCapital;
+  selectedDrawdowns: string = this.drawdownsValue;
+  chartDataPoints: any[] = []; // To store the full data array for lookup
+
   selectedFund: any;
   fundConfig: any;
   asOfDate: any;
   currencySymbol: string = '';
   numberFormat: string = 'en-IN';
   fundSizeUnit: string = ''
+
   constructor(private store: Store, private fundService: FundService, private getCurrencyByUnitsPipe: GetCurrencyByUnitsPipe) {
     this.store.select(selectFundData).subscribe(fundState => {
       if (fundState?.fund_configuration_classes?.length) {
@@ -109,8 +131,8 @@ export class PerformanceComponent implements OnInit {
       }
     });
   }
+
   ngOnInit() {
-    // this.initializeChart();
     this.getStoreData();
   }
 
@@ -137,8 +159,6 @@ export class PerformanceComponent implements OnInit {
         startDate = moment(endDate).subtract(5, 'years').format('YYYY-MM-DD');
         break;
       case 'Max':
-        // For Max, set a very early date (e.g., 100 years back)
-        // API will return all available data
         startDate = moment(endDate).subtract(100, 'years').format('YYYY-MM-DD');
         break;
       default:
@@ -149,6 +169,9 @@ export class PerformanceComponent implements OnInit {
   }
 
   private initializeChart(chartData?: any[]) {
+    // 1. ** NEW ** Store the chart data for lookup
+    this.chartDataPoints = chartData;
+
     let labels = [];
     let drawdowns: any[] = [];
     let residualValues: any[] = [];
@@ -158,9 +181,12 @@ export class PerformanceComponent implements OnInit {
     let xirrArray: any[] = [];
     let numberFormat = this.fundConfig.get('number_format')
     let getCurrencyByUnitsPipe = this.getCurrencyByUnitsPipe
+
     chartData.forEach((point) => {
+      // NOTE: Ensure your API data has 'moic', 'irr', 'return_on_capital', and 'drawdowns'
+      // These are crucial for updating the metric sidebar correctly.
       const x = moment(point.as_on_date).format('YYYY-MM-DD');
-      drawdowns.push(+point.funded_committed);
+      drawdowns.push(+point.funded_committed); // Assuming funded_committed is a proxy for drawdowns line
       residualValues.push(+point.residal_value);
       capitalReedemed.push(+point.redemption_amount);
       distributions.push(+point.distibution);
@@ -175,21 +201,70 @@ export class PerformanceComponent implements OnInit {
       let labelFormat = ''
       return getCurrencyByUnitsPipe.transform(value, true);
     }
+
+    // ** NEW ** Get the component instance to update its properties
+    const component = this;
+
     this.chartOptions = {
-      chart: { type: 'line', backgroundColor: 'transparent', height: 450, spacing: [20, 20, 20, 20] },
+      chart: {
+        type: 'line',
+        backgroundColor: 'transparent',
+        height: 450,
+        spacing: [20, 20, 20, 20],
+        // ** CHART EVENT MODIFICATION ** - Add mousemove handler for "slider" effect
+        events: {
+          mousemove: function (e: any) {
+            const chart = this;
+            // Highcharts utility to find the closest point in the series
+            const points = chart.series.map(series => series.searchPoint(e, true));
+
+            if (points && points.length > 0 && points[0]) {
+              const pointIndex = points[0].index;
+              const dataPoint = component.chartDataPoints[pointIndex];
+
+              if (dataPoint) {
+                // Update component properties with the data from the hovered point
+                component.selectedChartDate = moment(dataPoint.as_on_date).format('MMM DD, YYYY');
+                component.selectedNav = component.getCurrencyByUnitsPipe.transform(dataPoint.nav, true, false) || '-';
+
+                // *** IMPORTANT: Map these properties to your actual data structure (dataPoint.moic, etc.) ***
+                // Using dummy data fields for MOIC/IRR/Return as they are not explicitly defined in the chart series
+                component.selectedGrossMOIC = `Gross MOIC: ${dataPoint.moic || 'N/A'}`;
+                component.selectedGrossIRR = `Gross IRR: ${dataPoint.irr || 'N/A'}`;
+                component.selectedReturnOnCapital = `Return on Invested Capital: ${component.getCurrencyByUnitsPipe.transform(dataPoint.return_on_capital || 0, false, false)}`;
+                component.selectedDrawdowns = component.getCurrencyByUnitsPipe.transform(dataPoint.drawdowns || 0, true, false);
+              }
+            } else {
+              // Reset to the "As Of" date values when the mouse leaves the plot area
+              component.selectedChartDate = component.currentDate;
+              component.selectedNav = component.getCurrencyByUnitsPipe.transform(component.overviewData?.metadata?.nav, true, false) || '-';
+              component.selectedGrossMOIC = component.grossMOIC;
+              component.selectedGrossIRR = component.grossIRR;
+              component.selectedReturnOnCapital = component.returnOnCapital;
+              component.selectedDrawdowns = component.drawdownsValue;
+            }
+          }
+        }
+      },
       title: { text: '' },
       xAxis: {
         categories: labels,
         type: 'datetime',
         lineColor: '#181818',
         lineWidth: 2,
-        tickamount:10,
+        tickamount: 10,
         tickColor: 'transparent',
+        crosshair: {
+          width: 2,           // Set the line thickness to 2px
+          color: '#000000',   // Set the line color to black
+          dashStyle: 'Solid', // Optional: ensures it's a solid line
+          snap: true
+        },
         labels: {
           style: { color: '#757575', fontSize: '14px', fontFamily: 'Instrument Sans' },
           formatter: function () {
             const date = new Date(this.value as number);
-            const month = date.toLocaleDateString(this.numberFormat, { month: 'short' });
+            const month = date.toLocaleDateString(component.numberFormat, { month: 'short' });
             const year = date.getFullYear();
             return `${month} ${year}`;
           }
@@ -197,7 +272,6 @@ export class PerformanceComponent implements OnInit {
       },
       yAxis: {
         title: { text: '' },
-        // tickInterval: 100,
         tickAmount: 6,
         gridLineColor: '#DCDCDC',
         gridLineWidth: 1,
@@ -209,27 +283,96 @@ export class PerformanceComponent implements OnInit {
       },
       plotOptions: {
         line: {
-          marker: { enabled: true, radius: 3.5, states: { hover: { radius: 5 } } },
+          marker: {
+            enabled: true,
+            radius: 3.5,
+            // Add state to highlight the point aggressively on hover/crosshair
+            states: {
+              hover: {
+                radius: 6, // Make the marker bigger on hover
+                enabled: true,
+                fillColor: 'white', // Optional: change color to make it stand out
+                lineWidth: 2,       // Optional: add a border
+                lineColor: 'auto'   // Use series color for the border
+              },
+              // Ensure the default selection state is handled
+              select: {
+                radius: 6,
+                enabled: true
+              }
+            }
+          },
           lineWidth: 3,
           states: { hover: { lineWidth: 3 } }
-        }
+        },
+        series: {
+          // Keep the line thick/defined on hover
+          states: {
+            hover: {
+              lineWidth: 3, // Keep line width consistent or slightly increased
+              halo: {
+                size: 0 // Remove the faint grey glow
+              }
+            }
+          },
+          // Marker configuration
+          marker: {
+            enabled: true,
+            radius: 3.5, // Default size
+            states: {
+              hover: {
+                // ** This creates the look from your image **
+                enabled: true,
+                radius: 6,           // Larger size on hover
+                lineWidth: 2,        // Border width
+                lineColor: 'auto',   // Border color = Series color
+                fillColor: 'white'   // ** WHITE FILL **
+              },
+              select: {
+                radius: 6,
+                enabled: true
+              }
+            }
+          },
+        },
+        // The 'line' block is now redundant, but harmless if kept simple.
+        // Let's remove it for clarity, relying only on plotOptions.series.
+        // If you need line-specific settings, you can re-add it.
       },
+      // tooltip: {
+      //   shared: true,
+      //   backgroundColor: 'white',
+      //   borderColor: '#DCDCDC',
+      //   borderRadius: 4,
+      //   shadow: false,
+      //   useHTML: true,
+      //   formatter: function () {
+      //     const date = new Date((this as any).category);
+      //     const formattedDate = date.toLocaleDateString(numberFormat, { month: 'short', day: 'numeric', year: 'numeric' });
+      //     let tooltip = `<div style=\"font-size: 12px; margin-bottom: 4px;\">${formattedDate}</div>`;
+      //     (this as any).points.forEach((point: any) => {
+      //       const color = point.series.color;
+      //       tooltip += `<div style=\"margin: 2px 0;\">\n<span style=\"color: ${color};\">●</span>\n<span style=\"margin-left: 4px;\">${point.series.name}: ${getCurrencyByUnitsPipe.transform(point.y, true)}</span>\n</div>`;
+      //     });
+      //     return tooltip;
+      //   }
+      // },
       series: [
         { name: 'Growth', type: 'line', data: residualValues, color: '#00305B' },
         { name: 'Drawdowns', type: 'line', data: drawdowns, color: '#C08A84' },
         { name: 'Capital Redeemed', type: 'line', data: capitalReedemed, color: '#28a745' },
         { name: 'Distributions', type: 'line', data: distributions, color: '#ffc107' },
         { name: 'NAV', type: 'line', data: navArray, color: '#17a2b8' },
-        { name: 'XIRR', type: 'line', data: xirrArray, color: '#6f42c1' }
+        { name: 'XIRR', type: 'line', data: xirrArray, color: '#6f42c1' },
       ],
       legend: { enabled: true },
       tooltip: {
-        shared: true,
-        backgroundColor: 'white',
-        borderColor: '#DCDCDC',
-        borderRadius: 4,
-        shadow: true,
-        useHTML: true,
+         shared: true,
+        // ** MODIFICATION ** - Disable Highcharts default tooltip since we are displaying the info in the sidebar
+        enabled: true,
+        // We leave the formatter here in case you want to re-enable it later
+        // or for other use cases, but it's set to disabled above.
+         useHTML: true,
         formatter: function () {
           const date = new Date((this as any).category);
           const formattedDate = date.toLocaleDateString(numberFormat, { month: 'short', day: 'numeric', year: 'numeric' });
@@ -249,16 +392,12 @@ export class PerformanceComponent implements OnInit {
   }
 
   private updateChartData() {
-    // Calculate date range based on selected period
     const dateRange = this.calculateDateRange(this.selectedPeriod);
-
-    // Fetch performance data with the new date range
     this.fetchPerformanceData(dateRange.startDate, dateRange.endDate);
   }
 
   getStoreData() {
     this.store.select(selectSelectedDate).subscribe(fundState => {
-      console.log('Fund State from Store:', fundState);
       this.asOfDate = fundState?.asOfDate;
       this.selectedFund = fundState?.fundDetails;
       this.fundConfig = fundState.fundDetails?.fund_configuration_classes.reduce((map, obj) => {
@@ -266,18 +405,20 @@ export class PerformanceComponent implements OnInit {
         return map;
       }, new Map<string, string>());
 
-      console.log('Fund Configurations:', this.fundConfig);
+      // Update the initial value of the dynamic properties with the latest "As Of Date" data
+      this.currentDate = moment(this.asOfDate).format('MMM DD, YYYY');
+      this.selectedChartDate = this.currentDate;
+
       this.fetchPerformanceData();
       this.fetchFundOverview();
     })
   }
+
   fetchPerformanceData(startDate?: string, endDate?: string) {
-    // Use provided dates or calculate from selected period if not provided
     const dateRange = startDate && endDate
       ? { startDate, endDate }
       : this.calculateDateRange(this.selectedPeriod);
 
-    // Build API request parameters
     const apiParams = {
       fundGuid: this.selectedFund.guid,
       classGuid: this.selectedFund.guid,
@@ -288,8 +429,6 @@ export class PerformanceComponent implements OnInit {
 
     this.fundService.getPerformanceData(apiParams, 'VC_VD_GRAPH').subscribe({
       next: (sk) => {
-        console.log('Fund Performance Graph Data:', sk.performance.vc_vd_graph);
-        console.log('Date Range:', dateRange);
         this.initializeChart(sk.performance.vc_vd_graph);
       },
       error: (error) => {
@@ -301,11 +440,12 @@ export class PerformanceComponent implements OnInit {
   fetchFundOverview() {
     this.fundService.getPerformanceData({ fundGuid: this.selectedFund.guid, classGuid: this.selectedFund.guid, asOnDate: this.asOfDate }, 'CAPITAL_SUMMARY,METADATA').subscribe({
       next: (sk) => {
-        console.log('Fund Performance Data:', sk);
         this.overviewData.capital_summary = sk.performance && sk.performance.capital_summary ? sk.performance.capital_summary : {};
         this.overviewData.metadata = sk.performance && sk.performance.metadata ? sk.performance.metadata : {};
 
+        // Update initial dynamic values based on the latest overview data
         this.overviewData.metadata.nav = this.overviewData.metadata.nav ? this.overviewData.metadata.nav : '-';
+        this.selectedNav = this.getCurrencyByUnitsPipe.transform(this.overviewData.metadata.nav, true, false) || '-';
       },
       error: (error) => {
         // Handle error response
