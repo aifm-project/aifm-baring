@@ -16,7 +16,7 @@ interface ChartDataPoint {
   // Assuming your API data point has these fields for full dynamic display
   nav?: number;
   moic?: string; // or number, depends on your data
-  irr?: string;  // or number
+  irr?: string; // or number
   return_on_capital?: number;
   drawdowns?: number;
   as_on_date?: string;
@@ -32,7 +32,7 @@ interface OverviewData {
     funded: string;
     growth: string;
     unfunded: string;
-  },
+  };
   metadata: {
     inception_date: string;
     aum: string;
@@ -45,7 +45,7 @@ interface OverviewData {
     tvpi: string;
     xirr: string;
     commitment: string;
-  }
+  };
 }
 
 @Component({
@@ -53,7 +53,7 @@ interface OverviewData {
   standalone: true,
   imports: [CommonModule, ChartModule, SharedModule],
   templateUrl: './performance.component.html',
-  styleUrls: ['./performance.component.scss']
+  styleUrls: ['./performance.component.scss'],
 })
 export class PerformanceComponent implements OnInit {
   chartOptions: any = {};
@@ -68,7 +68,7 @@ export class PerformanceComponent implements OnInit {
       residual_value: '-',
       funded: '-',
       growth: '-',
-      unfunded: '-'
+      unfunded: '-',
     },
     metadata: {
       inception_date: '-',
@@ -81,8 +81,8 @@ export class PerformanceComponent implements OnInit {
       return: '-',
       tvpi: '-',
       xirr: '-',
-      commitment: '-'
-    }
+      commitment: '-',
+    },
   };
 
   periods = [
@@ -90,7 +90,7 @@ export class PerformanceComponent implements OnInit {
     { label: '6M', value: '6M' },
     { label: '1Y', value: '1Y' },
     { label: '5Y', value: '5Y' },
-    { label: 'Max', value: 'Max' }
+    { label: 'Max', value: 'Max' },
   ];
 
   // ** ORIGINAL DEFAULT VALUES **
@@ -115,15 +115,20 @@ export class PerformanceComponent implements OnInit {
   asOfDate: any;
   currencySymbol: string = '';
   numberFormat: string = 'en-IN';
-  fundSizeUnit: string = ''
+  fundSizeUnit: string = '';
 
-  constructor(private store: Store, private fundService: FundService, private getCurrencyByUnitsPipe: GetCurrencyByUnitsPipe) {
-    this.store.select(selectFundData).subscribe(fundState => {
+  constructor(
+    private store: Store,
+    private fundService: FundService,
+    private getCurrencyByUnitsPipe: GetCurrencyByUnitsPipe
+  ) {
+    this.store.select(selectFundData).subscribe((fundState) => {
       if (fundState?.fund_configuration_classes?.length) {
         this.fundConfig = new Map(
-          fundState.fund_configuration_classes.map(
-            (item: any) => [item?.fund_key, item?.fund_value]
-          )
+          fundState.fund_configuration_classes.map((item: any) => [
+            item?.fund_key,
+            item?.fund_value,
+          ])
         );
         this.currencySymbol = this.fundConfig.get('fund_currency') || 'INR';
         this.fundSizeUnit = this.fundConfig.get('fund_size_unit') || 'Cr';
@@ -179,8 +184,8 @@ export class PerformanceComponent implements OnInit {
     let distributions: any[] = [];
     let navArray: any[] = [];
     let xirrArray: any[] = [];
-    let numberFormat = this.fundConfig.get('number_format')
-    let getCurrencyByUnitsPipe = this.getCurrencyByUnitsPipe
+    let numberFormat = this.fundConfig.get('number_format');
+    let getCurrencyByUnitsPipe = this.getCurrencyByUnitsPipe;
 
     chartData.forEach((point) => {
       // NOTE: Ensure your API data has 'moic', 'irr', 'return_on_capital', and 'drawdowns'
@@ -197,10 +202,10 @@ export class PerformanceComponent implements OnInit {
 
     // Update chart options
     let yAxisLableFormatter = function () {
-      let value = this.value
-      let labelFormat = ''
+      let value = this.value;
+      let labelFormat = '';
       return getCurrencyByUnitsPipe.transform(value, true);
-    }
+    };
 
     // ** NEW ** Get the component instance to update its properties
     const component = this;
@@ -216,7 +221,7 @@ export class PerformanceComponent implements OnInit {
           mousemove: function (e: any) {
             const chart = this;
             // Highcharts utility to find the closest point in the series
-            const points = chart.series.map(series => series.searchPoint(e, true));
+            const points = chart.series.map((series) => series.searchPoint(e, true));
 
             if (points && points.length > 0 && points[0]) {
               const pointIndex = points[0].index;
@@ -225,26 +230,40 @@ export class PerformanceComponent implements OnInit {
               if (dataPoint) {
                 // Update component properties with the data from the hovered point
                 component.selectedChartDate = moment(dataPoint.as_on_date).format('MMM DD, YYYY');
-                component.selectedNav = component.getCurrencyByUnitsPipe.transform(dataPoint.nav, true, false) || '-';
+                component.selectedNav =
+                  component.getCurrencyByUnitsPipe.transform(dataPoint.nav, true, true) || '-';
 
                 // *** IMPORTANT: Map these properties to your actual data structure (dataPoint.moic, etc.) ***
                 // Using dummy data fields for MOIC/IRR/Return as they are not explicitly defined in the chart series
                 component.selectedGrossMOIC = `Gross MOIC: ${dataPoint.moic || 'N/A'}`;
                 component.selectedGrossIRR = `Gross IRR: ${dataPoint.irr || 'N/A'}`;
-                component.selectedReturnOnCapital = `Return on Invested Capital: ${component.getCurrencyByUnitsPipe.transform(dataPoint.return_on_capital || 0, false, false)}`;
-                component.selectedDrawdowns = component.getCurrencyByUnitsPipe.transform(dataPoint.drawdowns || 0, true, false);
+                component.selectedReturnOnCapital = `Return on Invested Capital: ${component.getCurrencyByUnitsPipe.transform(
+                  dataPoint.return_on_capital || 0,
+                  false,
+                  false
+                )}`;
+                component.selectedDrawdowns = component.getCurrencyByUnitsPipe.transform(
+                  dataPoint.drawdowns || 0,
+                  true,
+                  true
+                );
               }
             } else {
               // Reset to the "As Of" date values when the mouse leaves the plot area
               component.selectedChartDate = component.currentDate;
-              component.selectedNav = component.getCurrencyByUnitsPipe.transform(component.overviewData?.metadata?.nav, true, false) || '-';
+              component.selectedNav =
+                component.getCurrencyByUnitsPipe.transform(
+                  component.overviewData?.metadata?.nav,
+                  true,
+                  false
+                ) || '-';
               component.selectedGrossMOIC = component.grossMOIC;
               component.selectedGrossIRR = component.grossIRR;
               component.selectedReturnOnCapital = component.returnOnCapital;
               component.selectedDrawdowns = component.drawdownsValue;
             }
-          }
-        }
+          },
+        },
       },
       title: { text: '' },
       xAxis: {
@@ -255,10 +274,10 @@ export class PerformanceComponent implements OnInit {
         tickamount: 10,
         tickColor: 'transparent',
         crosshair: {
-          width: 2,           // Set the line thickness to 2px
-          color: '#000000',   // Set the line color to black
+          width: 2, // Set the line thickness to 2px
+          color: '#000000', // Set the line color to black
           dashStyle: 'Solid', // Optional: ensures it's a solid line
-          snap: true
+          snap: true,
         },
         labels: {
           style: { color: '#757575', fontSize: '14px', fontFamily: 'Instrument Sans' },
@@ -267,7 +286,7 @@ export class PerformanceComponent implements OnInit {
             const month = date.toLocaleDateString(component.numberFormat, { month: 'short' });
             const year = date.getFullYear();
             return `${month} ${year}`;
-          }
+          },
         },
       },
       yAxis: {
@@ -278,8 +297,8 @@ export class PerformanceComponent implements OnInit {
         min: 0,
         labels: {
           style: { color: '#000', fontSize: '14px', fontFamily: 'Instrument Sans' },
-          formatter: yAxisLableFormatter
-        }
+          formatter: yAxisLableFormatter,
+        },
       },
       plotOptions: {
         line: {
@@ -292,18 +311,18 @@ export class PerformanceComponent implements OnInit {
                 radius: 6, // Make the marker bigger on hover
                 enabled: true,
                 fillColor: 'white', // Optional: change color to make it stand out
-                lineWidth: 2,       // Optional: add a border
-                lineColor: 'auto'   // Use series color for the border
+                lineWidth: 2, // Optional: add a border
+                lineColor: 'auto', // Use series color for the border
               },
               // Ensure the default selection state is handled
               select: {
                 radius: 6,
-                enabled: true
-              }
-            }
+                enabled: true,
+              },
+            },
           },
           lineWidth: 3,
-          states: { hover: { lineWidth: 3 } }
+          states: { hover: { lineWidth: 3 } },
         },
         series: {
           // Keep the line thick/defined on hover
@@ -311,28 +330,32 @@ export class PerformanceComponent implements OnInit {
             hover: {
               lineWidth: 3, // Keep line width consistent or slightly increased
               halo: {
-                size: 0 // Remove the faint grey glow
-              }
-            }
+                size: 0, // Remove the faint grey glow
+              },
+            },
           },
           // Marker configuration
+          // Inside plotOptions.series.marker
           marker: {
             enabled: true,
-            radius: 3.5, // Default size
+            radius: 6,
+            fillColor: undefined, // uses series color automatically
+            lineWidth: 0, // no border in normal state
             states: {
               hover: {
-                // ** This creates the look from your image **
                 enabled: true,
-                radius: 6,           // Larger size on hover
-                lineWidth: 2,        // Border width
-                lineColor: 'auto',   // Border color = Series color
-                fillColor: 'white'   // ** WHITE FILL **
+                fillColor: '#fff',
+                lineColor: 'red',
+                lineWidth: 2,
               },
               select: {
+                enabled: true,
                 radius: 6,
-                enabled: true
-              }
-            }
+                lineWidth: 2,
+                lineColor: undefined,
+                fillColor: '#ffffff',
+              },
+            },
           },
         },
         // The 'line' block is now redundant, but harmless if kept simple.
@@ -360,32 +383,37 @@ export class PerformanceComponent implements OnInit {
       series: [
         { name: 'Growth', type: 'line', data: residualValues, color: '#00305B' },
         { name: 'Drawdowns', type: 'line', data: drawdowns, color: '#C08A84' },
-        { name: 'Capital Redeemed', type: 'line', data: capitalReedemed, color: '#28a745' },
-        { name: 'Distributions', type: 'line', data: distributions, color: '#ffc107' },
-        { name: 'NAV', type: 'line', data: navArray, color: '#17a2b8' },
-        { name: 'XIRR', type: 'line', data: xirrArray, color: '#6f42c1' },
+        // { name: 'Capital Redeemed', type: 'line', data: capitalReedemed, color: '#28a745' },
+        // { name: 'Distributions', type: 'line', data: distributions, color: '#ffc107' },
+        // { name: 'NAV', type: 'line', data: navArray, color: '#17a2b8' },
+        // { name: 'XIRR', type: 'line', data: xirrArray, color: '#6f42c1' },
       ],
-      legend: { enabled: true },
+      legend: { enabled: false },
       tooltip: {
-         shared: true,
+        shared: true,
         // ** MODIFICATION ** - Disable Highcharts default tooltip since we are displaying the info in the sidebar
         enabled: true,
         // We leave the formatter here in case you want to re-enable it later
         // or for other use cases, but it's set to disabled above.
-         useHTML: true,
+        useHTML: true,
         formatter: function () {
           const date = new Date((this as any).category);
-          const formattedDate = date.toLocaleDateString(numberFormat, { month: 'short', day: 'numeric', year: 'numeric' });
+          const formattedDate = date.toLocaleDateString(numberFormat, {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+          });
           let tooltip = `<div style=\"font-size: 12px; margin-bottom: 4px;\">${formattedDate}</div>`;
           (this as any).points.forEach((point: any) => {
             const color = point.series.color;
-            tooltip += `<div style=\"margin: 2px 0;\">\n<span style=\"color: ${color};\">●</span>\n<span style=\"margin-left: 4px;\">${point.series.name}: ${getCurrencyByUnitsPipe.transform(point.y, true)}</span>\n</div>`;
+            tooltip += `<div style=\"margin: 2px 0;\">\n<span style=\"color: ${color};\">●</span>\n<span style=\"margin-left: 4px;\">${
+              point.series.name
+            }: ${getCurrencyByUnitsPipe.transform(point.y, true)}</span>\n</div>`;
           });
           return tooltip;
-        }
+        },
       },
       credits: { enabled: false },
-
     };
     // Recreate chart with new data
     this.chart = new Chart(this.chartOptions);
@@ -397,7 +425,7 @@ export class PerformanceComponent implements OnInit {
   }
 
   getStoreData() {
-    this.store.select(selectSelectedDate).subscribe(fundState => {
+    this.store.select(selectSelectedDate).subscribe((fundState) => {
       this.asOfDate = fundState?.asOfDate;
       this.selectedFund = fundState?.fundDetails;
       this.fundConfig = fundState.fundDetails?.fund_configuration_classes.reduce((map, obj) => {
@@ -411,20 +439,19 @@ export class PerformanceComponent implements OnInit {
 
       this.fetchPerformanceData();
       this.fetchFundOverview();
-    })
+    });
   }
 
   fetchPerformanceData(startDate?: string, endDate?: string) {
-    const dateRange = startDate && endDate
-      ? { startDate, endDate }
-      : this.calculateDateRange(this.selectedPeriod);
+    const dateRange =
+      startDate && endDate ? { startDate, endDate } : this.calculateDateRange(this.selectedPeriod);
 
     const apiParams = {
       fundGuid: this.selectedFund.guid,
       classGuid: this.selectedFund.guid,
       asOnDate: this.asOfDate,
       startDate: dateRange.startDate,
-      endDate: dateRange.endDate
+      endDate: dateRange.endDate,
     };
 
     this.fundService.getPerformanceData(apiParams, 'VC_VD_GRAPH').subscribe({
@@ -433,23 +460,38 @@ export class PerformanceComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error fetching performance data:', error);
-      }
+      },
     });
   }
 
   fetchFundOverview() {
-    this.fundService.getPerformanceData({ fundGuid: this.selectedFund.guid, classGuid: this.selectedFund.guid, asOnDate: this.asOfDate }, 'CAPITAL_SUMMARY,METADATA').subscribe({
-      next: (sk) => {
-        this.overviewData.capital_summary = sk.performance && sk.performance.capital_summary ? sk.performance.capital_summary : {};
-        this.overviewData.metadata = sk.performance && sk.performance.metadata ? sk.performance.metadata : {};
+    this.fundService
+      .getPerformanceData(
+        {
+          fundGuid: this.selectedFund.guid,
+          classGuid: this.selectedFund.guid,
+          asOnDate: this.asOfDate,
+        },
+        'CAPITAL_SUMMARY,METADATA'
+      )
+      .subscribe({
+        next: (sk) => {
+          this.overviewData.capital_summary =
+            sk.performance && sk.performance.capital_summary ? sk.performance.capital_summary : {};
+          this.overviewData.metadata =
+            sk.performance && sk.performance.metadata ? sk.performance.metadata : {};
 
-        // Update initial dynamic values based on the latest overview data
-        this.overviewData.metadata.nav = this.overviewData.metadata.nav ? this.overviewData.metadata.nav : '-';
-        this.selectedNav = this.getCurrencyByUnitsPipe.transform(this.overviewData.metadata.nav, true, false) || '-';
-      },
-      error: (error) => {
-        // Handle error response
-      }
-    });
+          // Update initial dynamic values based on the latest overview data
+          this.overviewData.metadata.nav = this.overviewData.metadata.nav
+            ? this.overviewData.metadata.nav
+            : '-';
+          this.selectedNav =
+            this.getCurrencyByUnitsPipe.transform(this.overviewData.metadata.nav, true, false) ||
+            '-';
+        },
+        error: (error) => {
+          // Handle error response
+        },
+      });
   }
 }

@@ -22,8 +22,8 @@
       font-family: 'Victor Serif Trial', serif;
       font-size: 24px;
       font-weight: 500;
-      line-height: 24px;
-      letter-spacing: -0.24px;
+      line-height: 28px;
+      letter-spacing: 0;
       text-transform: capitalize;
       margin: 0;
     }
@@ -62,7 +62,7 @@
         .metric-icon {
           width: 39px;
           height: 39px;
-          background-color: rgba(210, 219, 225, 0.7);
+          background-color: #D4DCE2;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -71,16 +71,16 @@
 
         .metric-label {
           height: 39px;
-          background-color: rgba(210, 219, 225, 0.7);
-          padding: 11px 13px;
+          background-color: #D4DCE2;
+          padding: 16px 8px;
           display: flex;
           align-items: center;
           color: #000;
           font-family: 'Instrument Sans', sans-serif;
           font-size: 14px;
           font-weight: 400;
-          letter-spacing: -0.14px;
-          line-height: normal;
+          letter-spacing: 0;
+          line-height: 18px;
           white-space: nowrap;
         }
       }
@@ -105,11 +105,12 @@
           gap: 11px;
 
           .submetric-label {
-            color: #CBCBCB;
+            color: #000000;
             font-family: 'Instrument Sans', sans-serif;
             font-size: 14px;
             font-weight: 400;
-            line-height: 16px;
+            line-height: 18px;
+            opacity: 50%;
           }
 
           .submetric-value {
@@ -117,7 +118,7 @@
             font-family: 'Instrument Sans', sans-serif;
             font-size: 22px;
             font-weight: 500;
-            line-height: 16px;
+            line-height: 26px;
           }
         }
 
@@ -137,7 +138,7 @@
         font-size: 14px;
         font-weight: 400;
         line-height: 18px;
-        letter-spacing: -0.14px;
+        letter-spacing: 0;
         margin-top: 25px;
       }
     }
