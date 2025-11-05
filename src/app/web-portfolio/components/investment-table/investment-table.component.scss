@@ -403,7 +403,7 @@
         }
 
         .company-cell {
-          width: 377px;
+          width: 224px;
           padding: 14px 30px 14px 0 !important;
           display: table-cell;
 
@@ -820,4 +820,8 @@
       height: 25px;
     }
   }
+}
+
+.text-right{
+  text-align: right !important;
 }
