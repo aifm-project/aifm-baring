@@ -11,9 +11,21 @@
 
 .performance-header {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  gap: 0;
   margin-bottom: 32px;
+
+  .col-8 {
+    flex: 0 0 66.666%;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .col-4 {
+    flex: 0 0 33.334%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
 
   .performance-title-section {
     display: flex;
@@ -36,12 +48,20 @@
     }
   }
 
+  .time-period-container {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    padding-left: 60px;
+  }
+
   .time-period-selector {
     display: flex;
     border: 0.8px solid #AEAEAE;
+    gap: 0;
 
     .period-btn {
-      width: 48px;
+      flex: 1;
       height: 39px;
       border: none;
       background: transparent;
@@ -55,6 +75,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      min-width: 48px;
+      padding: 0;
+      border-right: 0.8px solid #AEAEAE;
+
+      &:last-child {
+        border-right: none;
+      }
 
       &:hover:not(.active) {
         background: rgba(0, 0, 0, 0.05);
@@ -64,14 +91,6 @@
         background: #000;
         color: #FFF;
         font-weight: 600;
-      }
-
-      &:first-child {
-        width: 50px;
-      }
-
-      &:last-child {
-        width: 50px;
       }
     }
   }
@@ -313,7 +332,20 @@
   .performance-header {
     flex-direction: column;
     gap: 16px;
-    align-items: flex-start;
+
+    .col-8 {
+      flex: 0 0 100%;
+    }
+
+    .col-4 {
+      flex: 0 0 100%;
+      justify-content: flex-end;
+    }
+
+    .time-period-container {
+      justify-content: flex-end;
+      width: 100%;
+    }
 
     .time-period-selector {
       align-self: flex-end;
@@ -354,6 +386,23 @@
   }
 
   .performance-header {
+    flex-direction: column;
+    gap: 16px;
+
+    .col-8 {
+      flex: 0 0 100%;
+    }
+
+    .col-4 {
+      flex: 0 0 100%;
+      justify-content: flex-start;
+    }
+
+    .time-period-container {
+      justify-content: flex-start;
+      width: 100%;
+    }
+
     .performance-title-section {
       .performance-title {
         font-size: 20px;
@@ -363,6 +412,7 @@
     .time-period-selector {
       align-self: stretch;
       justify-content: center;
+      width: 100%;
 
       .period-btn {
         flex: 1;
@@ -401,7 +451,26 @@
   }
 
   .performance-header {
+    flex-direction: column;
+    gap: 12px;
+
+    .col-8 {
+      flex: 0 0 100%;
+    }
+
+    .col-4 {
+      flex: 0 0 100%;
+      justify-content: flex-start;
+    }
+
+    .time-period-container {
+      justify-content: flex-start;
+      width: 100%;
+    }
+
     .time-period-selector {
+      width: 100%;
+
       .period-btn {
         height: 35px;
         font-size: 12px;

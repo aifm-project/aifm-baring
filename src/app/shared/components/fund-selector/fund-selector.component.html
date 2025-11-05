@@ -4,7 +4,7 @@
       <!-- Fund Selection Area -->
       <div class="fund-selection">
         <div class="inception-info">
-          <span class="inception-date">{{ selectedFund ? (selectedFund.inception_date | date: 'longDate') : '' }}</span>
+          <span class="inception-date">Inception: {{ selectedFund ? (selectedFund.inception_date | date: 'dd MMM, y') : '' }}</span>
         </div>
         <div class="fund-main">
           <div class="fund-dropdown">
@@ -46,11 +46,11 @@
       </nav>
       <div class="dropdown fund-dropdown">
         <button type="button" class="fund-dropdown-trigger dropdown-toggle" data-bs-toggle="dropdown">
-          {{ asOfDate ? 'As of ' + (asOfDate | date: 'mediumDate') : 'Select Date' }}
+          {{ asOfDate ? 'As of ' + (asOfDate | date: 'MMMM dd, y') : 'Select Date' }}
         </button>
         <ul class="dropdown-menu">
           <li *ngFor="let fund of dataDates" (click)="onDateChange(fund)">
-            <a class="dropdown-item">{{ fund | date: 'mediumDate' }}</a>
+            <a class="dropdown-item">{{ fund | date: 'MMMM dd, y' }}</a>
           </li>
         </ul>
       </div>

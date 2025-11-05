@@ -1,15 +1,19 @@
 <div class="performance-container">
   <div class="performance-header">
-    <div class="performance-title-section">
-      <h3 class="performance-title">Fund Performance</h3>
-      <img src="../../../../assets/icons1/Info-Black.png" height="25" width="25" alt="">
+    <div class="col-8">
+      <div class="performance-title-section">
+        <h3 class="performance-title">Fund Performance</h3>
+        <img src="../../../../assets/icons1/Info-Black.png" height="25" width="25" alt="">
+      </div>
     </div>
 
-    <div class="time-period-selector">
-      <button *ngFor="let period of periods" class="period-btn" [class.active]="selectedPeriod === period.value"
-        (click)="selectPeriod(period.value)">
-        {{ period.label }}
-      </button>
+    <div class="col-4 time-period-container">
+      <div class="time-period-selector">
+        <button *ngFor="let period of periods" class="period-btn" [class.active]="selectedPeriod === period.value"
+          (click)="selectPeriod(period.value)">
+          {{ period.label }}
+        </button>
+      </div>
     </div>
   </div>
 
