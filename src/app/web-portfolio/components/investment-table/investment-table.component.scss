@@ -322,14 +322,13 @@
 
       // Table Headers
       thead .table-header-row {
-        opacity: 0.9;
         height: 20px;
         display: table-row;
         width: 100%;
 
         th {
           color: #000;
-          font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+          font-family: 'Instrument Sans';
           font-size: 14px;
           font-weight: 500;
           line-height: 18px;

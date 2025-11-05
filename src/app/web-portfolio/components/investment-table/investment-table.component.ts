@@ -79,7 +79,10 @@ export class InvestmentTableComponent implements OnInit {
   private maxWeight = Math.max(...this.companies.map((company) => company.weight ? parseFloat(company.weight) : 0));
   private progressCache = new Map<number, number>();
   asOfDate: string;
+  public portfolioInvestment: {};
+  public totalMaxWeight: number;
   constructor(private fundService: FundService, private store: Store) { }
+  
   getProgressPercent(weightPercent: number): number {
     if (this.progressCache.has(weightPercent)) {
       return this.progressCache.get(weightPercent)!;
@@ -119,7 +122,25 @@ export class InvestmentTableComponent implements OnInit {
       next: (response) => {
         console.log('Portfolio Data fetched successfully:', response);
         this.companies = response.portfolio && response.portfolio.investment_portfolio ? response.portfolio.investment_portfolio : [];
-
+        if(response.portfolio && response.portfolio.investment_portfolio){
+          this.portfolioInvestment = {
+            unrealisedIRR:
+              response.portfolio.investment_portfolio &&
+              response.portfolio.investment_portfolio.unrealisedIRR
+                ? response.portfolio.investment_portfolio.unrealisedIRR.toFixed(2)
+                : '-',
+            unrealisedMOIC:
+              response.portfolio.investment_portfolio &&
+              response.portfolio.investment_portfolio.unrealisedMOIC
+                ? response.portfolio.investment_portfolio.unrealisedMOIC.toFixed(2)
+                : '-',
+            weight:
+              response.portfolio.investment_portfolio &&
+              response.portfolio.investment_portfolio.weight
+                ? response.portfolio.investment_portfolio.weight.toFixed(2)
+                : '-',
+          };
+        }  
         if(response.portfolio && response.portfolio.total_investment_portfolio){
           this.portfolioSummary = {
             totalHoldings: response.portfolio.total_investment_portfolio.unrealisedCost ? response.portfolio.total_investment_portfolio.unrealisedCost : '-',
@@ -130,6 +151,49 @@ export class InvestmentTableComponent implements OnInit {
             totalReturns: response.portfolio.total_investment_portfolio.unrealisedPrice ? response.portfolio.total_investment_portfolio.unrealisedPrice : '-'  ,
           }
         }
+        this.totalMaxWeight = this.companies.reduce((acc, curr) => acc + (+curr.weight || 0), 0);
+        console.log(this.totalMaxWeight,"totalmax");
+        
+
+        // this.companies = portfolioInvestment.map(data => {
+        //   if (data.value && data.value != '-' && +data.value) {
+        //     if (this.calculateToata.includes(this.LOADTYPE)) {
+        //       this.totalCal = +data.value + +(this.totalCal ? +this.totalCal : 0);
+
+
+        //     }
+        //     if (this.barMax) {
+        //       data['barWidth'] = (+data.value / maxValue) * 100
+        //     } else {
+        //       data['barWidth'] = data.value
+        //     }
+        //     if (this.multiples.includes(this.LOADTYPE)) {
+        //       data.value = +data.value * 100
+        //     } else if (this.weight) {
+        //       data.value = +data.value * 100
+        //     } else if (this.pmsJsonVersion == 2) {
+        //       data.value = +data.value / 100
+        //     }
+        //     data.value = this.numberFormate.transform(data.value) + '%'
+        //   } else {
+        //     data.value = '-'
+        //     data['barWidth'] = 0
+        //   }
+        //   if (this.subHeader2) {
+        //     if (data['total_return']) {
+        //       if (this.multiples.includes(this.LOADTYPE)) {
+        //         data.total_return = +data.total_return * 100
+        //       } else if (this.weight) {
+        //         data.total_return = +data.total_return * 100
+        //       }
+        //       data.total_return = this.numberFormate.transform(data.total_return) + '%'
+        //     } else {
+        //       data['total_return'] = '-'
+        //     }
+        //   }
+
+        //   return data
+        // });
       },
       error: (error) => {
         console.error('Error fetching Portfolio Data:', error);

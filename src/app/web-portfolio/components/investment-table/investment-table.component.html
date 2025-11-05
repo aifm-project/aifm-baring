@@ -241,7 +241,7 @@
             <td class="data-cell percentage-cell" data-label="IRR">
               <div class="value-stack percentage-stack">
                 <span class="value-amount">
-                  {{ company.unrealisedIRR ? (company.unrealisedIRR | getCurrencyByUnits:true:true) : '-' }}
+                  {{ company.unrealisedIRR ? (company.unrealisedIRR | number : '1.2-2') + '%' : '-' }}
                 </span>
                 <!-- <span class="value-unit" *ngIf="hasPercentageValue(company.irr)">{{ company.irr.suffix }}</span> -->
               </div>
@@ -249,7 +249,7 @@
             <td class="data-cell percentage-cell" data-label="MOIC">
               <div class="value-stack percentage-stack">
                 <span class="value-amount">
-                  {{ company.unrealisedMOIC ? (company.unrealisedMOIC | getCurrencyByUnits:true:true) : '-' }}
+                  {{ company.unrealisedMOIC ? (company.unrealisedMOIC  | number : '1.2-2' ) : '-' }}
                 </span>
                 <!-- <span class="value-unit" *ngIf="hasPercentageValue(company.moic)">{{ company.moic.suffix }}</span> -->
               </div>
@@ -257,15 +257,15 @@
             <td class="weight-cell" data-label="Weight">
               <div class="value-stack weight-text">
                 <span class="value-amount">
-                  {{ company.weight ? (company.weight | getCurrencyByUnits:true:true) : '-' }}
+                  {{ company.weight ? (company.weight | number : '1.2-2' ) + '%' : '-' }}
                 </span>
                 <!-- <span class="value-unit" *ngIf="hasPercentageValue(company.weight)">{{ company.weight }}</span> -->
               </div>
               <div class="progress" *ngIf="company.weight">
-                <!-- <div class="progress-bar" role="progressbar"
-                  [style.width.%]="getProgressPercent(company.weightPercent)"
-                  [attr.aria-valuenow]="getProgressPercent(company.weightPercent)" aria-valuemin="0" aria-valuemax="100"
-                  [attr.aria-label]="'Weight: ' + company.weight + company.weight"></div> -->
+                <div class="progress-bar" role="progressbar"
+                  [style.width.%]="company.weight"
+                  [attr.aria-valuenow]="company.weight" aria-valuemin="0" aria-valuemax="100"
+                  [attr.aria-label]="'Weight: ' + company.weight + company.weight"></div>
               </div>
             </td>
           </tr>
