@@ -7,7 +7,7 @@
       </div>
       <nav class="navbar-links">
         <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="nav-link-top">
-          <img [src]="isActiveRoute('/dashboard') ? './../../../assets/icons1/Cards-Fill.png' : './../../../assets/icons1/Cards.png'" alt="Funds" width="22" height="22" class="nav-icon" />
+          <img [src]="(isActiveRoute('/dashboard') || isActiveRoute('/portfolio') || isActiveRoute('/documents')) ? './../../../assets/icons1/Cards-Fill.png' : './../../../assets/icons1/Cards.png'" alt="Funds" width="22" height="22" class="nav-icon" />
           <span>Funds</span>
         </a>
         <a routerLink="/insights" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="nav-link-top">

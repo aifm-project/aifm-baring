@@ -301,93 +301,71 @@ export class PerformanceComponent implements OnInit {
         },
       },
       plotOptions: {
-        line: {
-          marker: {
-            enabled: true,
-            radius: 3.5,
-            // Add state to highlight the point aggressively on hover/crosshair
-            states: {
-              hover: {
-                radius: 6, // Make the marker bigger on hover
-                enabled: true,
-                fillColor: 'white', // Optional: change color to make it stand out
-                lineWidth: 2, // Optional: add a border
-                lineColor: 'auto', // Use series color for the border
-              },
-              // Ensure the default selection state is handled
-              select: {
-                radius: 6,
-                enabled: true,
-              },
-            },
-          },
-          lineWidth: 3,
-          states: { hover: { lineWidth: 3 } },
-        },
         series: {
-          // Keep the line thick/defined on hover
           states: {
             hover: {
-              lineWidth: 3, // Keep line width consistent or slightly increased
-              halo: {
-                size: 0, // Remove the faint grey glow
-              },
+              lineWidth: 3,
+              halo: { size: 0 },
             },
           },
-          // Marker configuration
-          // Inside plotOptions.series.marker
           marker: {
             enabled: true,
+            symbol: 'circle',
             radius: 6,
-            fillColor: undefined, // uses series color automatically
-            lineWidth: 0, // no border in normal state
+            fillColor: undefined,
+            lineWidth: 0,
             states: {
               hover: {
                 enabled: true,
-                fillColor: '#fff',
-                lineColor: 'red',
+                fillColor: '#ffffff',
                 lineWidth: 2,
+                lineWidthPlus: 0,
               },
               select: {
                 enabled: true,
                 radius: 6,
                 lineWidth: 2,
-                lineColor: undefined,
                 fillColor: '#ffffff',
               },
             },
           },
         },
-        // The 'line' block is now redundant, but harmless if kept simple.
-        // Let's remove it for clarity, relying only on plotOptions.series.
-        // If you need line-specific settings, you can re-add it.
       },
-      // tooltip: {
-      //   shared: true,
-      //   backgroundColor: 'white',
-      //   borderColor: '#DCDCDC',
-      //   borderRadius: 4,
-      //   shadow: false,
-      //   useHTML: true,
-      //   formatter: function () {
-      //     const date = new Date((this as any).category);
-      //     const formattedDate = date.toLocaleDateString(numberFormat, { month: 'short', day: 'numeric', year: 'numeric' });
-      //     let tooltip = `<div style=\"font-size: 12px; margin-bottom: 4px;\">${formattedDate}</div>`;
-      //     (this as any).points.forEach((point: any) => {
-      //       const color = point.series.color;
-      //       tooltip += `<div style=\"margin: 2px 0;\">\n<span style=\"color: ${color};\">●</span>\n<span style=\"margin-left: 4px;\">${point.series.name}: ${getCurrencyByUnitsPipe.transform(point.y, true)}</span>\n</div>`;
-      //     });
-      //     return tooltip;
-      //   }
-      // },
       series: [
-        { name: 'Growth', type: 'line', data: residualValues, color: '#00305B' },
-        { name: 'Drawdowns', type: 'line', data: drawdowns, color: '#C08A84' },
-        // { name: 'Capital Redeemed', type: 'line', data: capitalReedemed, color: '#28a745' },
-        // { name: 'Distributions', type: 'line', data: distributions, color: '#ffc107' },
-        // { name: 'NAV', type: 'line', data: navArray, color: '#17a2b8' },
-        // { name: 'XIRR', type: 'line', data: xirrArray, color: '#6f42c1' },
+        {
+          name: 'Growth',
+          type: 'line',
+          data: residualValues,
+          color: '#00305B',
+          marker: {
+            symbol: 'circle',
+            states: {
+              hover: {
+                fillColor: '#ffffff',
+                lineColor: '#00305B',
+                lineWidth: 2,
+              },
+            },
+          },
+        },
+        {
+          name: 'Drawdowns',
+          type: 'line',
+          data: drawdowns,
+          color: '#C08A84',
+          marker: {
+            symbol: 'circle',
+            states: {
+              hover: {
+                fillColor: '#ffffff',
+                lineColor: '#C08A84',
+                lineWidth: 2,
+              },
+            },
+          },
+        },
       ],
+
       legend: { enabled: false },
       tooltip: {
         shared: true,
