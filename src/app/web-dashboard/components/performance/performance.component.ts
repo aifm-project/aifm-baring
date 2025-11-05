@@ -388,7 +388,14 @@ export class PerformanceComponent implements OnInit {
               point.series.name
             }: ${getCurrencyByUnitsPipe.transform(point.y, true)}</span>\n</div>`;
           });
-          return tooltip;
+          // return tooltip;
+          return '';
+        },
+        backgroundColor: 'transparent',
+        borderWidth: 0,
+        shadow: false,
+        style: {
+          color: 'transparent',
         },
       },
       credits: { enabled: false },

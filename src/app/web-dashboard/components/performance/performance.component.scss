@@ -511,3 +511,11 @@
 .float-right {
   float: right;
 }
+
+.highcharts-tooltip {
+  display: none !important;
+}
+.highcharts-tooltip .highcharts-color-0,
+.highcharts-tooltip .highcharts-color-1 {
+  display: none !important;
+}
