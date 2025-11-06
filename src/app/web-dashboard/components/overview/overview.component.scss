@@ -47,7 +47,7 @@
       min-width: 0;
 
       &.gross-irr-card {
-        background-color: #E7EBEE;
+        background-color: #e7ebee;
         padding: 21px 28px;
         border-radius: 0;
         max-width: 386px;
@@ -62,7 +62,7 @@
         .metric-icon {
           width: 39px;
           height: 39px;
-          background-color: #D4DCE2;
+          background-color: #d4dce2;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -71,7 +71,7 @@
 
         .metric-label {
           height: 39px;
-          background-color: #D4DCE2;
+          background-color: #d4dce2;
           padding: 16px 8px;
           display: flex;
           align-items: center;
@@ -124,7 +124,7 @@
         .separator {
           width: 39px;
           height: 1px;
-          background-color: #CBCBCB;
+          background-color: #cbcbcb;
           margin-top: 27px;
           flex-shrink: 0;
         }
@@ -145,11 +145,11 @@
     .gross-irr-card {
       .metric-header {
         .metric-icon {
-          background-color: #D4DCE2;
+          background-color: #d4dce2;
         }
 
         .metric-label {
-          background-color: #D4DCE2;
+          background-color: #d4dce2;
         }
       }
     }
@@ -358,14 +358,20 @@
     }
   }
 }
-.border-right{
-  border-right: 1px solid #CBCBCB;
+.border-right {
+  border-right: 1px solid #cbcbcb;
   padding-right: 15px;
 }
-.metric-label-seperator{
-  border-right: 1px solid #FFFFFF;
+.metric-label-seperator {
+  border-right: 1px solid #ffffff;
   width: 5px;
 }
-.padding-top21{
+.padding-top21 {
   padding-top: 21px;
+}
+.main-metric-card-seperator {
+  width: 1px;
+  background: #d6d6d6;
+  height: 175px;
+  margin-top: 21px;
 }
