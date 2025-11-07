@@ -3,14 +3,14 @@
     <div class="fund-selector-content">
       <!-- Fund Selection Area -->
       <div class="fund-selection">
-        <div class="inception-info">
+        <div class="inception-info-date">
           <span class="inception-date">Inception: {{ selectedFund ? (selectedFund.inception_date | date: 'dd MMM, y') : '' }}</span>
         </div>
         <div class="fund-main">
           <div class="fund-dropdown">
             <div class="dropdown fund-dropdown">
               <button type="button" class="fund-dropdown-trigger dropdown-toggle" data-bs-toggle="dropdown">
-                Select fund
+                Select fund&nbsp;&nbsp;<img src="./../../../../assets/icons1/CaretDown.png" height="14" alt="Select Fund">
               </button>
               <ul class="dropdown-menu">
                 <li *ngFor="let fund of fundList" (click)="onFundSelect(fund)">
@@ -29,7 +29,7 @@
 <header class="navbar-wrapper">
   <!-- Secondary Navigation Bar -->
   <div class="navbar-secondary">
-    <div class="container">
+    <div class="container padding-top44">
       <nav class="navbar-main-nav">
         <a routerLink="/dashboard" class="nav-link-main" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
           <img [src]="isActiveRoute('/dashboard') ? './../../../assets/icons1/SquaresFour-Fill.png' : './../../../assets/icons1/SquaresFour.png'" alt="Dashboard" width="24" height="24" class="nav-icon">
@@ -46,7 +46,7 @@
       </nav>
       <div class="dropdown fund-dropdown">
         <button type="button" class="fund-dropdown-trigger dropdown-toggle" data-bs-toggle="dropdown">
-          {{ asOfDate ? 'As of ' + (asOfDate | date: 'MMMM dd, y') : 'Select Date' }}
+          {{ asOfDate ? 'As of ' + (asOfDate | date: 'MMMM dd, y') : 'Select Date' }}&nbsp;&nbsp;<img src="./../../../../assets/icons1/CaretDown.png" height="14" alt="Select Fund">
         </button>
         <ul class="dropdown-menu">
           <li *ngFor="let fund of dataDates" (click)="onDateChange(fund)">

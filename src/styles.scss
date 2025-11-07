@@ -609,7 +609,7 @@ a:hover {
 .nav-link.active {
   background-color: var(--white);
   color: var(--primary-dark);
-  border-radius: var(--radius-md);
+  // border-radius: var(--radius-md);
 }
 
 /* Cards */
@@ -1027,7 +1027,7 @@ a:hover {
 .fund-selector-content {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  // gap: var(--spacing-lg);
   position: relative;
 }
 .account-info {
