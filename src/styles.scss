@@ -1117,7 +1117,6 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-sm);
-  margin-bottom: var(--spacing-lg);
 }
 .overview-title {
   color: var(--text-primary);
@@ -1245,7 +1244,7 @@ a:hover {
 .investment-main-metrics {
   display: flex;
   gap: var(--spacing-xxl);
-  margin-top: var(--spacing-lg);
+  margin-top: 30px;
 }
 .main-metric-card {
   display: flex;

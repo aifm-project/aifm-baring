@@ -97,7 +97,8 @@
         display: flex;
         align-items: flex-start;
         gap: 25px;
-
+        padding-top: 26px;
+        
         .submetric {
           display: flex;
           flex-direction: column;
@@ -138,6 +139,7 @@
         font-weight: 400;
         line-height: 18px;
         letter-spacing: 0;
+        padding-top: 25px;
       }
     }
 
@@ -372,6 +374,6 @@
 .main-metric-card-seperator {
   width: 1px;
   background: #d6d6d6;
-  height: 175px;
+  height: 200px;
   margin-top: 21px;
 }
