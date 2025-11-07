@@ -214,8 +214,8 @@ export class PerformanceComponent implements OnInit {
       chart: {
         type: 'line',
         backgroundColor: 'transparent',
-        height: 450,
-        spacing: [20, 20, 20, 20],
+        height: 410,
+        spacing: [20,20,20,20],
       },
       title: { text: '' },
       xAxis: {
@@ -223,7 +223,8 @@ export class PerformanceComponent implements OnInit {
         type: 'datetime',
         lineColor: '#181818',
         lineWidth: 2,
-        tickamount: 10,
+        maxStaggerLines: 12 ,
+        interval:4,
         tickColor: 'transparent',
           plotLines: [{
           value: labels.indexOf(this.asOfDate),
@@ -243,7 +244,7 @@ export class PerformanceComponent implements OnInit {
       },
       yAxis: {
         title: { text: '' },
-        tickAmount: 6,
+        tickAmount: 10,
         gridLineColor: '#DCDCDC',
         gridLineWidth: 1,
         min: 0,
@@ -284,8 +285,8 @@ export class PerformanceComponent implements OnInit {
 
                   // *** IMPORTANT: Map these properties to your actual data structure (dataPoint.moic, etc.) ***
                   // Using dummy data fields for MOIC/IRR/Return as they are not explicitly defined in the chart series
-                  component.selectedGrossMOIC = `Gross MOIC: ${dataPoint.moic || 'N/A'}`;
-                  component.selectedGrossIRR = `Gross IRR: ${dataPoint.irr || 'N/A'}`;
+                  component.selectedGrossMOIC = `Gross MOIC: ${dataPoint.moic || '-'}`;
+                  component.selectedGrossIRR = `Gross IRR: ${dataPoint.irr || '-'}`;
                   component.selectedReturnOnCapital = `Return on Invested Capital: ${component.getCurrencyByUnitsPipe.transform(
                     dataPoint.return_on_capital || 0,
                     false,
@@ -450,7 +451,7 @@ export class PerformanceComponent implements OnInit {
             ? this.overviewData.metadata.nav
             : '-';
           this.selectedNav =
-            this.getCurrencyByUnitsPipe.transform(this.overviewData.metadata.nav, true, false) ||
+            this.getCurrencyByUnitsPipe.transform(this.overviewData.metadata.nav, true, true) ||
             '-';
         },
         error: (error) => {
