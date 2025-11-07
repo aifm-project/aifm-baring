@@ -37,7 +37,7 @@ export class DocumentsGridComponent {
           date: '09 July 2025',
           size: '14 KB',
           type: 'pdf',
-          bgImage: 'https://cdn.builder.io/api/v1/image/assets%2F563a90ce06cf47e7b58977a93621d124%2F01914b9d6f024348a2f20aaf19ae6542?format=webp&width=800'
+          bgImage: 'https://api.builder.io/api/v1/image/assets/TEMP/7e4df20ed3436c041c1beeb4d7c9d2a08d7fea6b?width=620'
         },
         {
           title: 'Income Statement',

@@ -57,7 +57,7 @@ interface OverviewData {
 })
 export class PerformanceComponent implements OnInit {
   chartOptions: any = {};
-  chart!: Chart;
+  chart!: any;
   selectedPeriod = '1Y';
   public overviewData: OverviewData = {
     capital_summary: {
@@ -100,7 +100,7 @@ export class PerformanceComponent implements OnInit {
   grossMOIC = 'Gross MOIC: 1.06×';
   grossIRR = 'Gross IRR: 6.15%';
   returnOnCapital = 'Return on Invested Capital: +0.04 Cr';
-
+  public seletedDate;
   // ** NEW PROPERTIES ** - These will be bound to the HTML and updated on chart hover
   selectedChartDate: string = this.currentDate;
   selectedNav: string = this.navValue;
@@ -216,54 +216,6 @@ export class PerformanceComponent implements OnInit {
         backgroundColor: 'transparent',
         height: 450,
         spacing: [20, 20, 20, 20],
-        // ** CHART EVENT MODIFICATION ** - Add mousemove handler for "slider" effect
-        events: {
-          mousemove: function (e: any) {
-            const chart = this;
-            // Highcharts utility to find the closest point in the series
-            const points = chart.series.map((series) => series.searchPoint(e, true));
-
-            if (points && points.length > 0 && points[0]) {
-              const pointIndex = points[0].index;
-              const dataPoint = component.chartDataPoints[pointIndex];
-
-              if (dataPoint) {
-                // Update component properties with the data from the hovered point
-                component.selectedChartDate = moment(dataPoint.as_on_date).format('MMM DD, YYYY');
-                component.selectedNav =
-                  component.getCurrencyByUnitsPipe.transform(dataPoint.nav, true, true) || '-';
-
-                // *** IMPORTANT: Map these properties to your actual data structure (dataPoint.moic, etc.) ***
-                // Using dummy data fields for MOIC/IRR/Return as they are not explicitly defined in the chart series
-                component.selectedGrossMOIC = `Gross MOIC: ${dataPoint.moic || 'N/A'}`;
-                component.selectedGrossIRR = `Gross IRR: ${dataPoint.irr || 'N/A'}`;
-                component.selectedReturnOnCapital = `Return on Invested Capital: ${component.getCurrencyByUnitsPipe.transform(
-                  dataPoint.return_on_capital || 0,
-                  false,
-                  false
-                )}`;
-                component.selectedDrawdowns = component.getCurrencyByUnitsPipe.transform(
-                  dataPoint.drawdowns || 0,
-                  true,
-                  true
-                );
-              }
-            } else {
-              // Reset to the "As Of" date values when the mouse leaves the plot area
-              component.selectedChartDate = component.currentDate;
-              component.selectedNav =
-                component.getCurrencyByUnitsPipe.transform(
-                  component.overviewData?.metadata?.nav,
-                  true,
-                  false
-                ) || '-';
-              component.selectedGrossMOIC = component.grossMOIC;
-              component.selectedGrossIRR = component.grossIRR;
-              component.selectedReturnOnCapital = component.returnOnCapital;
-              component.selectedDrawdowns = component.drawdownsValue;
-            }
-          },
-        },
       },
       title: { text: '' },
       xAxis: {
@@ -273,12 +225,12 @@ export class PerformanceComponent implements OnInit {
         lineWidth: 2,
         tickamount: 10,
         tickColor: 'transparent',
-        crosshair: {
+          plotLines: [{
+          value: labels.indexOf(this.asOfDate),
           width: 2, // Set the line thickness to 2px
           color: '#000000', // Set the line color to black
-          dashStyle: 'Solid', // Optional: ensures it's a solid line
-          snap: true,
-        },
+          zIndex: 10
+        }],
         labels: {
           style: { color: '#757575', fontSize: '14px', fontFamily: 'Instrument Sans' },
           formatter: function () {
@@ -302,32 +254,59 @@ export class PerformanceComponent implements OnInit {
       },
       plotOptions: {
         series: {
-          states: {
-            hover: {
-              lineWidth: 3,
-              halo: { size: 0 },
-            },
-          },
           marker: {
             enabled: true,
             symbol: 'circle',
             radius: 6,
             fillColor: undefined,
             lineWidth: 0,
-            states: {
-              hover: {
-                enabled: true,
-                fillColor: '#ffffff',
-                lineWidth: 2,
-                lineWidthPlus: 0,
-              },
-              select: {
-                enabled: true,
-                radius: 6,
-                lineWidth: 2,
-                fillColor: '#ffffff',
-              },
-            },
+            // states: {
+            //   select: {
+            //     enabled: true,
+            //     radius: 6,
+            //     lineWidth: 2,
+            //     fillColor: '#ffffff',
+            //   },
+            // },
+          },
+          point: {
+            events: {
+              click: function () {
+                let index = this.index;
+
+                const dataPoint = component.chartDataPoints[index];
+
+                if (dataPoint) {
+                  // Update component properties with the data from the hovered point
+                  component.selectedChartDate = moment(dataPoint.as_on_date).format('MMM DD, YYYY');
+                  component.selectedNav =
+                    component.getCurrencyByUnitsPipe.transform(dataPoint.nav, true, true) || '-';
+
+                  // *** IMPORTANT: Map these properties to your actual data structure (dataPoint.moic, etc.) ***
+                  // Using dummy data fields for MOIC/IRR/Return as they are not explicitly defined in the chart series
+                  component.selectedGrossMOIC = `Gross MOIC: ${dataPoint.moic || 'N/A'}`;
+                  component.selectedGrossIRR = `Gross IRR: ${dataPoint.irr || 'N/A'}`;
+                  component.selectedReturnOnCapital = `Return on Invested Capital: ${component.getCurrencyByUnitsPipe.transform(
+                    dataPoint.return_on_capital || 0,
+                    false,
+                    false
+                  )}`;
+                  component.selectedDrawdowns = component.getCurrencyByUnitsPipe.transform(
+                    dataPoint.drawdowns || 0,
+                    true,
+                    true
+                  );
+                }
+                this.series.xAxis.update({
+                  plotLines: [{
+                    color: '#000000',
+                    width: 2,
+                    value: this.x
+                  }]
+                })
+
+              }
+            }
           },
         },
       },

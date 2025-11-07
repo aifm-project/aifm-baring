@@ -43,8 +43,8 @@
 
   <!-- Grid View -->
   <div class="documents-grid" *ngIf="viewMode === 'grid'">
-    <div class="document-card" *ngFor="let doc of displayedDocuments">
-      <div class="document-card-overlay" [style.background-image]="'linear-gradient(0deg, #122334 0%, #122334 100%), url(' + doc.bgImage + ')'">
+    <div class="document-card" [style.background-image]="'url(' + doc.bgImage + ')'"   *ngFor="let doc of displayedDocuments">
+ 
         <div class="document-card-content">
           <div class="document-info">
             <h4 class="document-title">{{ doc.title }}</h4>
@@ -120,7 +120,6 @@
             </div>
           </div>
         </div>
-      </div>
     </div>
   </div>
 
