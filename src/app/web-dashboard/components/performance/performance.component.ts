@@ -204,7 +204,7 @@ export class PerformanceComponent implements OnInit {
     let yAxisLableFormatter = function () {
       let value = this.value;
       let labelFormat = '';
-      return getCurrencyByUnitsPipe.transform(value, true);
+      return getCurrencyByUnitsPipe.transform(value, false);
     };
 
     // ** NEW ** Get the component instance to update its properties

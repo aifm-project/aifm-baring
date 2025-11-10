@@ -1203,7 +1203,17 @@ a:hover {
   font-family: var(--font-primary);
   font-size: 24px;
   font-weight: 500;
-  line-height: 1;
+  line-height: 28px;
+  margin-bottom: var(--spacing-md);
+}
+
+.documents-preview .section-title,
+.insights .section-title {
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 500;
   margin-bottom: var(--spacing-md);
 }
 .placeholder-chart {
