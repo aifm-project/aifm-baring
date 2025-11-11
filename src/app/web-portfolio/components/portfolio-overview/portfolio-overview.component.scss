@@ -9,12 +9,39 @@
     padding: 0 70px;
     box-sizing: border-box;
   }
+  .header-content {
+    margin-bottom: 60px;
 
+    .documents-title {
+      color: #000;
+      font-family: 'Victor Serif Trial', serif;
+      font-size: 52px;
+      font-weight: 500;
+      line-height: 56px;
+      margin: 0 0 20px 0;
+
+      @media (max-width: 768px) {
+        font-size: 36px;
+        line-height: 40px;
+      }
+    }
+
+    .documents-subtitle {
+      max-width: 100%;
+      color: #000;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 18px;
+      opacity: 0.6;
+      margin: 0;
+    }
+  }
   .overview-header {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 59px;
+    margin-bottom: 31px;
     height: 28px;
 
     .overview-title {
@@ -38,7 +65,7 @@
 
   .portfolio-metrics {
     display: flex;
-    gap: 76px;
+    gap: 71px;
     margin-bottom: 0;
     position: relative;
     height: 118px;
@@ -78,7 +105,7 @@
         .portfolio-metric-icon {
           width: 39px;
           height: 39px;
-          background-color: #D4DCE2;
+          background-color: #d4dce2;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -92,7 +119,7 @@
         }
 
         .portfolio-metric-label {
-          background-color: #D4DCE2;
+          background-color: #d4dce2;
           padding: 11px 13px;
           font-family: 'Instrument Sans', sans-serif;
           font-size: 14px;
@@ -128,7 +155,7 @@
     top: 0;
     width: 1px;
     height: 0;
-    background: rgba(0, 0, 0, 0.20);
+    background: rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -253,5 +280,8 @@
   }
 }
 .border-right {
-  position: relative;
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+.padding-top-82{
+  padding-top: 82px !important;
 }

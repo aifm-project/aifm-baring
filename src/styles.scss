@@ -419,7 +419,6 @@ a:hover {
 .portfolio-summary {
   display: flex;
   justify-content: space-between;
-  padding: 20px 0;
   background-color: var(--light-bg);
   margin-bottom: var(--spacing-sm);
 }
@@ -2203,4 +2202,8 @@ a:hover {
     background: var(--white);
     color: var(--text-primary);
   }
+}
+.metric-label-seperator {
+  border-right: 1px solid #ffffff;
+  width: 5px;
 }
