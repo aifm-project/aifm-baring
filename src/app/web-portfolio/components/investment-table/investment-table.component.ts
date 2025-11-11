@@ -81,6 +81,8 @@ export class InvestmentTableComponent implements OnInit {
   asOfDate: string;
   public portfolioInvestment: {};
   public totalMaxWeight: number;
+  fundCurrency: any='INR';
+  fundUnit:any='Cr';
   constructor(private fundService: FundService, private store: Store) { }
   
   getProgressPercent(weightPercent: number): number {
@@ -210,6 +212,8 @@ export class InvestmentTableComponent implements OnInit {
         map.set(obj.fund_key, obj.fund_value);
         return map;
       }, new Map<string, string>());
+      this.fundCurrency = this.fundConfig.get('fund_currency');
+      this.fundUnit = this.fundConfig.get('fund_size_unit');
       console.log('Fund Configurations:', this.fundConfig);
       this.getPortfolioData();
     })

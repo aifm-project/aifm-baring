@@ -204,7 +204,7 @@ export class PerformanceComponent implements OnInit {
     let yAxisLableFormatter = function () {
       let value = this.value;
       let labelFormat = '';
-      return getCurrencyByUnitsPipe.transform(value, false);
+      return getCurrencyByUnitsPipe.transform(value, false,false,0);
     };
 
     // ** NEW ** Get the component instance to update its properties
@@ -216,6 +216,14 @@ export class PerformanceComponent implements OnInit {
         backgroundColor: 'transparent',
         height: 410,
         spacing: [20,20,20,20],
+        events: {
+        load: function () {
+          const chart = this;
+          const series = chart.series[0];
+          const lastPoint = series.data[series.data.length - 1];
+          lastPoint.firePointEvent('click');
+        }
+      }
       },
       title: { text: '' },
       xAxis: {
@@ -287,11 +295,11 @@ export class PerformanceComponent implements OnInit {
                   // Using dummy data fields for MOIC/IRR/Return as they are not explicitly defined in the chart series
                   component.selectedGrossMOIC = `Gross MOIC: ${dataPoint.moic || '-'}`;
                   component.selectedGrossIRR = `Gross IRR: ${dataPoint.irr || '-'}`;
-                  component.selectedReturnOnCapital = `Return on Invested Capital: ${component.getCurrencyByUnitsPipe.transform(
+                  component.selectedReturnOnCapital = `Return on Invested Capital:  ${ dataPoint.return_on_capital ? component.getCurrencyByUnitsPipe.transform(
                     dataPoint.return_on_capital || 0,
                     false,
                     false
-                  )}`;
+                  ) : '-' }`;
                   component.selectedDrawdowns = component.getCurrencyByUnitsPipe.transform(
                     dataPoint.drawdowns || 0,
                     true,

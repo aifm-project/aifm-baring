@@ -32,6 +32,7 @@ export class GetCurrencyByUnitsPipe implements PipeTransform {
     addCurrencyUnit: boolean = true,
     addSymbol: boolean = false,
     fixedDigits: number = 2,
+    isAbsolute: boolean = false
   
   ): string {
     if (
@@ -56,7 +57,7 @@ export class GetCurrencyByUnitsPipe implements PipeTransform {
     const localFormat = this.resolveLocale(fundCurrency);
     this.currencySymbol = addSymbol ? this.formatCurrencySymbol(fundCurrency) : '';
     
-    const { dividedAmount, displayUnit } = this.divideByUnit(numericAmount, fundUnit);
+    const { dividedAmount, displayUnit } = this.divideByUnit(numericAmount, fundUnit, isAbsolute);
 
     const formatted = this.formatNumber(dividedAmount, localFormat, fixedDigits);
     if (formatted === 'NaN' || formatted === 'undefined') return ' - ';
@@ -67,18 +68,18 @@ export class GetCurrencyByUnitsPipe implements PipeTransform {
     return result.trim();
   }
 
-  private divideByUnit(amount: number, unit: string): { dividedAmount: number; displayUnit: string } {
+  private divideByUnit(amount: number, unit: string,isAbsolute: boolean): { dividedAmount: number; displayUnit: string } {
     if (!unit) return { dividedAmount: amount, displayUnit: '' };
 
     switch (unit) {
       case 'Cr':
       case 'Cr.':
-        return { dividedAmount: amount / 1e7, displayUnit: 'Cr' };
+        return { dividedAmount: isAbsolute ? amount : (amount / 1e7), displayUnit: 'Cr' };
       case 'M':
       case 'Mn':
-        return { dividedAmount: amount / 1e6, displayUnit: unit };
+        return { dividedAmount: isAbsolute ? amount : (amount / 1e6), displayUnit: unit };
       case 'mm':
-        return { dividedAmount: amount / 1e8, displayUnit: 'mm' };
+        return { dividedAmount: isAbsolute ? amount : (amount / 1e8), displayUnit: 'mm' };
       default:
         return { dividedAmount: amount, displayUnit: '' };
     }

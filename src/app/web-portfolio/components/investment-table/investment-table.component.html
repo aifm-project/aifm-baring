@@ -205,13 +205,13 @@
             </td>
             <td class="industry">{{ company.industry }}</td>
             <td class="investment text-right">
-              {{company.unrealisedCost ? (company.unrealisedCost | getCurrencyByUnits:true:true) : '-' }}
+              {{company.unrealisedCost ? (company.unrealisedCost | getCurrencyByUnits:true:true:2:true) : '-' }}
             </td>
             <td class="marketValue  text-right">
-              {{company.unrealisedCost ? (company.unrealisedCost | getCurrencyByUnits:true:true) : '-' }}
+              {{company.unrealisedCost ? (company.unrealisedCost | getCurrencyByUnits:true:true:2:true) : '-' }}
             </td>
             <td class="irr  text-right">
-              {{ company.unrealisedIRR ? (company.unrealisedIRR | number : '1.2-2') + '%' : '-' }}
+              {{ company.unrealisedIRR ? (company.unrealisedIRR | number : '1.2-2') + ' %' : '-' }}
             </td>
             <td class="moic  text-right">
               <span class="value-amount">
@@ -221,7 +221,7 @@
             <td class="weight  text-left">
               <div class="value-stack weight-text">
                 <span class="value-amount">
-                  {{ company.weight ? (company.weight | number : '1.2-2' ) + '%' : '-' }}
+                  {{ company.weight ? (company.weight | number : '1.2-2' ) + ' %' : '-' }}
                 </span>
               </div>
               <div class="progress margin-top6" *ngIf="company.weight">
