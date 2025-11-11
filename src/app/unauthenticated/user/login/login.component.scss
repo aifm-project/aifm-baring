@@ -37,12 +37,6 @@
     position: absolute;
     top: 57px;
     left: 70px;
-    width: 200px;
-    color: #fff;
-    font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
-    font-size: 22px;
-    font-weight: 500;
-    line-height: 1.125;
     margin: 0;
     z-index: 1;
   }
@@ -53,7 +47,7 @@
   align-items: center;
   justify-content: center;
   width: 43%;
-  padding: 48px;
+  padding: 58px;
   background: #fff;
 
   .login-form-wrapper {
@@ -66,11 +60,12 @@
 
     .login-title {
       color: #000;
-      font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+      font-family: 'Victor Serif Trial', sans-serif;
       font-size: 40px;
       font-weight: 500;
-      line-height: 1.1;
-      margin: 0 0 16px 0;
+      line-height: 44px;
+      margin: 0 0 18px 0;
+      letter-spacing: 0;
     }
 
     .login-subtitle {
@@ -78,7 +73,7 @@
       font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
       font-size: 14px;
       font-weight: 400;
-      line-height: 1.29;
+      line-height: 18px;
       opacity: 0.6;
       margin: 0;
     }
@@ -87,7 +82,6 @@
   .login-form {
     display: flex;
     flex-direction: column;
-    gap: 43px;
 
     .error-message {
       padding: 12px;
@@ -109,7 +103,7 @@
         font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
         font-size: 20px;
         font-weight: 400;
-        line-height: 1.2;
+        line-height: 24px;
         margin-bottom: 24px;
       }
 
@@ -121,7 +115,7 @@
         font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
         font-size: 14px;
         font-weight: 400;
-        line-height: 1.29;
+        line-height: 18px;
         padding: 0;
         outline: none;
 
@@ -160,7 +154,7 @@
         font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
         font-size: 14px;
         font-weight: 400;
-        line-height: 1;
+        line-height: 18px;
         text-decoration: none;
 
         &:hover {
@@ -219,7 +213,7 @@
   }
 
   .login-footer {
-    margin-top: 48px;
+    margin-top: 80px;
 
     .terms-text {
       color: #717171;
@@ -233,6 +227,7 @@
       .terms-link {
         color: #181818;
         text-decoration: underline;
+       text-decoration-color:  #D6D6D6;
 
         &:hover {
           opacity: 0.7;
@@ -254,7 +249,7 @@
         font-weight: 400;
         line-height: normal;
         text-decoration: underline;
-
+        text-decoration-color: #D6D6D6;
         &:hover {
           opacity: 0.7;
         }
@@ -316,4 +311,12 @@
       gap: 32px;
     }
   }
+}
+
+.margin-bottom-43 {
+  margin-bottom: 43px;
+}
+
+.margin-bottom-48 {
+  margin-bottom: 48px;
 }

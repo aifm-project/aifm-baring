@@ -9,7 +9,7 @@
       />
       <div class="background-overlay"></div>
     </div>
-    <h1 class="brand-logo">BARING PRIVATE EQUITY PARTNERS</h1>
+    <img class="brand-logo" src="./../../../../assets/icons1/login_logo.png" alt="logo"  height="99" />
   </div>
 
   <!-- Right Side - Login Form -->
@@ -23,7 +23,7 @@
       <form [formGroup]="loginForm" (ngSubmit)="onLogin(loginForm)" class="login-form">
         <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
-        <div class="form-group">
+        <div class="form-group margin-bottom-43">
           <label for="email" class="form-label">Email</label>
           <input
             type="email"
@@ -39,7 +39,7 @@
           <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</small>
           <small *ngIf="loginForm.get('email')?.errors?.['pattern']">Please enter a valid email address.</small>
         </div>
-        <div class="form-group">
+        <div class="form-group margin-bottom-43">
           <label for="password" class="form-label">Password</label>
           <input
             [type]="showPassword ? 'text' : 'password'"
@@ -53,7 +53,7 @@
           <a href="#" class="forgot-password">Forgot Password?</a>
         </div>
 
-        <div class="form-group">
+        <div class="form-group margin-bottom-48">
           <label for="userRole" class="form-label">User Role</label>
           <div class="select-wrapper">
             <select
