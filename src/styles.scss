@@ -949,7 +949,7 @@ a:hover {
 }
 .navbar-secondary {
   background-color: var(--secondary-dark);
-  padding: 16px 0 9px;
+  padding: 16px 0 0;
 }
 .navbar-secondary .container {
   display: flex;
@@ -1099,7 +1099,6 @@ a:hover {
   flex-direction: column;
 }
 .dashboard-content,
-.portfolio-content,
 .documents-content {
   flex: 1;
   padding: var(--spacing-xxl) 0;
@@ -1523,7 +1522,6 @@ a:hover {
   background-size: cover;
   background-position: center;
   background-blend-mode: overlay;
-  border-radius: var(--radius-lg);
   position: relative;
   overflow: hidden;
   color: var(--accent-light);
@@ -1858,7 +1856,6 @@ a:hover {
   background-size: cover;
   background-position: center;
   background-blend-mode: overlay;
-  border-radius: var(--radius-lg);
   position: relative;
   overflow: hidden;
   color: var(--accent-light);
@@ -1867,7 +1864,7 @@ a:hover {
   justify-content: space-between;
 }
 .document-card-content {
-  padding: 26px;
+  padding: 27px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -1883,9 +1880,7 @@ a:hover {
   border-radius: 22px;
   cursor: pointer;
 }
-.document-info {
-  margin-top: var(--spacing-md);
-}
+
 .document-title {
   font-family: var(--font-primary);
   font-size: 30px;

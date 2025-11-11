@@ -60,7 +60,7 @@
   .document-card {
     position: relative;
     aspect-ratio: 310/293;
-    border-radius: 0;
+    border-radius: 0 !important;
     overflow: hidden;
     border-radius:var(--radius-lg);
     .document-card-overlay {

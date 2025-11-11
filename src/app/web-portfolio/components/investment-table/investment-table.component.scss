@@ -523,7 +523,7 @@
           }
 
           .progress {
-            width: 86px;
+            width: 86px !important;
             height: 13px;
             background-color: rgba(0, 0, 0, 0.1);
             border-radius: 0;
@@ -862,7 +862,7 @@ td {
 }
 .company-name1{
   padding-left: 20px;
-  width: 241px;
+  width: 271px;
   vertical-align: middle;
   color: #000000;
   font-family: 'Victor Serif Trial';
@@ -891,6 +891,7 @@ th {
 
 .progress, .progress-stacked{
   height: 13px;
+  width: 86px;
   border-radius: 0px;
   background-color: rgba(0, 0, 0, 0.1);
 }
@@ -917,4 +918,8 @@ th {
     justify-content: center;
     flex-shrink: 0;
     color: #fff;
+}
+
+.industry{
+  width: 200px;
 }
