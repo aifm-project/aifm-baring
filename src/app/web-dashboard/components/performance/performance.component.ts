@@ -238,7 +238,7 @@ export class PerformanceComponent implements OnInit {
           value: labels.indexOf(this.asOfDate),
           width: 2, // Set the line thickness to 2px
           color: '#000000', // Set the line color to black
-          zIndex: 10
+          zIndex: 100
         }],
         labels: {
           style: { color: '#757575', fontSize: '14px', fontFamily: 'Instrument Sans' },
@@ -310,7 +310,8 @@ export class PerformanceComponent implements OnInit {
                   plotLines: [{
                     color: '#000000',
                     width: 2,
-                    value: this.x
+                    value: this.x,
+                    zIndex: 100
                   }]
                 })
 

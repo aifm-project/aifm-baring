@@ -124,6 +124,10 @@
         .highcharts-tooltip {
           font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif !important;
         }
+
+        .highcharts-plot-line {
+          z-index: 100 !important;
+        }
       }
     }
   }
