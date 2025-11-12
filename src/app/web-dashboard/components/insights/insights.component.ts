@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { DashboardNavigationButton } from '../../../shared/components/dashboard-navigation-button/dashboard-navigation-button';
 
 @Component({
   selector: 'app-insights',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,DashboardNavigationButton],
   templateUrl: './insights.component.html',
   styleUrls: ['./insights.component.scss']
 })

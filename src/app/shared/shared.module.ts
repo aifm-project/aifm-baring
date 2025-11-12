@@ -11,6 +11,7 @@ import { DistributionChartComponent } from './components/distribution-chart/dist
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { GetCurrencyByUnitsPipe } from './pipe/get-currency-by-units.pipe';
+import { DashboardNavigationButton } from './components/dashboard-navigation-button/dashboard-navigation-button';
 @NgModule({
   declarations: [],
   imports: [
@@ -24,7 +25,8 @@ import { GetCurrencyByUnitsPipe } from './pipe/get-currency-by-units.pipe';
     DistributionChartComponent,
     NotificationsComponent,
     ProfileComponent,
-    GetCurrencyByUnitsPipe
+    GetCurrencyByUnitsPipe,
+    DashboardNavigationButton
   ],
   exports: [
     NavbarComponent,
@@ -34,7 +36,8 @@ import { GetCurrencyByUnitsPipe } from './pipe/get-currency-by-units.pipe';
     DistributionChartComponent,
     NotificationsComponent,
     ProfileComponent,
-    GetCurrencyByUnitsPipe
+    GetCurrencyByUnitsPipe,
+    DashboardNavigationButton
   ],
   providers: [GetCurrencyByUnitsPipe],
 })

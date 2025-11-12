@@ -99,6 +99,12 @@ export class OverviewComponent {
       next: (sk) => {
         console.log('Fund Performance Data:', sk);
         this.overviewData.capital_summary = sk.performance && sk.performance.capital_summary ? sk.performance.capital_summary : {};
+        if(this.overviewData.capital_summary.hasOwnProperty('distribution')){
+          let distribution = this.overviewData.capital_summary.distribution;
+          let capital_redeemed = this.overviewData.capital_summary.capital_redeemed;
+          let totalDistribution:any = ((+distribution) + (+capital_redeemed));
+          this.overviewData.capital_summary.distribution = totalDistribution;
+        }
         this.overviewData.metadata = sk.performance && sk.performance.metadata ? sk.performance.metadata : {};
         let tvpi  =  this.overviewData.metadata.tvpi ? Number( this.overviewData.metadata.tvpi) : '-'
         this.overviewData.metadata.tvpi = tvpi.toLocaleString(this.numberFormat, {
@@ -109,8 +115,8 @@ export class OverviewComponent {
         this.overviewData.metadata.xirr = xirr!='-' ?  xirr.toLocaleString(this.numberFormat) + '%' : xirr;
         let units = this.overviewData.metadata.units ? Number(this.overviewData.metadata.units) : '-';
         this.overviewData.metadata.units = units.toLocaleString(this.numberFormat, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
           });
       },
       error: (error) => {

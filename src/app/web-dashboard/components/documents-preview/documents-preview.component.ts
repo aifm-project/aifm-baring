@@ -4,11 +4,12 @@ import { FundService } from '../../../core/services/fund.service';
 import { Store } from '@ngrx/store';
 import { selectFundData, setDocumentData } from '../../../store/fund';
 import { DocumentsGridComponent } from '../../../web-documents/components/documents-grid/documents-grid.component';
+import { DashboardNavigationButton } from '../../../shared/components/dashboard-navigation-button/dashboard-navigation-button';
 
 @Component({
   selector: 'app-documents-preview',
   standalone: true,
-  imports: [CommonModule, DocumentsGridComponent],
+  imports: [CommonModule, DocumentsGridComponent, DashboardNavigationButton],
   templateUrl: './documents-preview.component.html',
   styleUrls: ['./documents-preview.component.scss']
 })

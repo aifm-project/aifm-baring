@@ -1,0 +1,22 @@
+<div 
+  (mouseenter)="onMouseEnter()" 
+  (mouseleave)="onMouseLeave()" style="display: inline-flex;">
+
+  <!-- Default version (not hovered or white-hover disabled) -->
+  <ng-template [ngIf]="showWhiteHover">
+    <button (click)="onClickEvent()" [class]="(isHovered ? 'summit-cta-text' : 'view-all-text')">{{ label }}</button>
+    <!-- <div class="metric-label-seperator"></div> -->
+    <button (click)="onClickEvent()" aria-label="{{ label }}" [class]="(isHovered ? 'summit-cta-arrow' : 'view-all-arrow')">
+      <img [src]="(isHovered ? './../../../assets/icons/CaretRight.png' : './../../../../assets/icons1/RightCaret.png')" height="20" alt="{{ label }}">
+    </button>
+  </ng-template>
+
+  <!-- Hover white version (only visible when hovered and showWhiteHover is true) -->
+  <ng-template [ngIf]="!showWhiteHover">
+      <button (click)="onClickEvent()" [class]="(!isHovered ? 'summit-cta-text' : 'view-all-text')">{{ label }}</button>
+      <button (click)="onClickEvent()" [class]="(!isHovered ? 'summit-cta-arrow' : 'view-all-arrow')" aria-label="{{ label }}">
+        <img [src]="(!isHovered ? './../../../assets/icons/CaretRight.png' : './../../../../assets/icons1/RightCaret.png')" alt="{{ label }}" height="20">
+      </button>
+  </ng-template>
+</div>
+

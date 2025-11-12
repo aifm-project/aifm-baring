@@ -93,11 +93,12 @@
         </div>
 
         <div class="view-all-container" routerLink="/portfolio">
-          <button class="view-all-text">View Portfolio</button>
+          <app-dashboard-navigation-button routerLink="portfolio" [showWhiteHover]="true" label="View Portfolio"></app-dashboard-navigation-button>
+          <!-- <button class="view-all-text">View Portfolio</button>
           <div class="metric-label-seperator"></div>
           <button class="view-all-arrow" aria-label="View Portfolio">
             <img src="./../../../../assets/icons1/RightCaret.png" height="20" alt="View Portfolio">
-          </button>
+          </button> -->
         </div>
       </div>
     </div>

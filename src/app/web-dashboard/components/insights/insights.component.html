@@ -29,7 +29,8 @@
       <div class="col-auto ms-auto">
         <div class="d-flex align-items-center">
           <!-- <button class="btn summarize-btn me-2" (click)="onSummarizeInsights()">Summarize</button> -->
-          <button class="btn insights-btn-text" (click)="onViewAllInsights()">All Insights</button>
+          <app-dashboard-navigation-button (onClickChild)="onViewAllInsights()" [showWhiteHover]="true" label="All Insights"></app-dashboard-navigation-button>
+          <!-- <button class="btn insights-btn-text" (click)="onViewAllInsights()">All Insights</button>
           <button class="btn insights-btn-arrow" (click)="onViewAllInsights()">
             <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0_11_725)">
@@ -42,7 +43,7 @@
                 </clipPath>
               </defs>
             </svg>
-          </button>
+          </button> -->
         </div>
       </div>
     </div>

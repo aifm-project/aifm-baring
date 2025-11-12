@@ -60,6 +60,6 @@
   }
 }
 
-body > app-root > app-authenticated-layout > app-web-dashboard > div > main > div > app-investment-table > section> .investment-table{
-   padding: 0 !important;
+::ng-deep app-investment-table .investment-table {
+  padding: 0 !important;
 }
