@@ -6,25 +6,7 @@
         <div class="d-flex justify-content-between align-items-center investment-header">
           <div class="d-flex align-items-center gap-2">
             <h3 id="investment-portfolio-title" class="investment-title mb-0">Investment Portfolio</h3>
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true">
-              <g clip-path="url(#clip0_1_223)">
-                <path
-                  d="M11 19.25C15.5563 19.25 19.25 15.5563 19.25 11C19.25 6.44365 15.5563 2.75 11 2.75C6.44365 2.75 2.75 6.44365 2.75 11C2.75 15.5563 6.44365 19.25 11 19.25Z"
-                  stroke="black" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-                <path
-                  d="M10.3125 10.3125C10.4948 10.3125 10.6697 10.3849 10.7986 10.5139C10.9276 10.6428 11 10.8177 11 11V14.4375C11 14.6198 11.0724 14.7947 11.2014 14.9236C11.3303 15.0526 11.5052 15.125 11.6875 15.125"
-                  stroke="black" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
-                <path
-                  d="M10.6562 8.25C11.2258 8.25 11.6875 7.78829 11.6875 7.21875C11.6875 6.64921 11.2258 6.1875 10.6562 6.1875C10.0867 6.1875 9.625 6.64921 9.625 7.21875C9.625 7.78829 10.0867 8.25 10.6562 8.25Z"
-                  fill="black" />
-              </g>
-              <defs>
-                <clipPath id="clip0_1_223">
-                  <rect width="22" height="22" fill="white" />
-                </clipPath>
-              </defs>
-            </svg>
+            <img src="./../../../../assets/icons1/Info-Black.png" alt="Investment Portfolio" width="22" height="22" data-bs-toggle="tooltip" data-bs-placement="top" title="The detailed list of current investments held by the fund.">
           </div>
 
           <button class="btn btn-dark d-flex align-items-center investment-sort" type="button"
@@ -63,7 +45,7 @@
         <div class="summary-item ">
           <div class="summary-label d-flex align-items-center gap-1">
             Total Gross IRR
-            <img src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="Weight Info" width="16" height="16">
+            <img src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="Weight Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top" title="The overall annualized return of the fund before fees, showing performance across all investments.">
           </div>
           <div class="summary-value">{{ portfolioSummary.totalGrossIRR ? (portfolioSummary.totalGrossIRR |
             getCurrencyByUnits:true:true) : '-' }}</div>
@@ -71,7 +53,7 @@
         <div class="summary-item">
           <div class="summary-label d-flex align-items-center gap-1">
             Total Gross MOIC
-            <img src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="Weight Info" width="16" height="16">
+            <img src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="Weight Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top" title="The overall multiple of money invested versus money gained, before fees.">
           </div>
           <div class="summary-value">{{ portfolioSummary.totalGrossMOIC ? (portfolioSummary.totalGrossMOIC |
             getCurrencyByUnits:true:true) : '-' }}</div>
@@ -89,7 +71,7 @@
       <div class="section-header">
         <div class="section-title-container">
           <h3 class="section-title">Top 5 Company Holdings</h3>
-          <img src="./../../../assets/icons/Info.png" alt="Latest Documents" width="22" height="22">
+          <img src="./../../../assets/icons/Info.png" alt="Top 5 Company Holdings" width="22" height="22" data-bs-toggle="tooltip" data-bs-placement="top" title="The five largest investments in the portfolio, ranked by size or value.">
         </div>
 
         <div class="view-all-container" routerLink="/portfolio">
@@ -185,11 +167,11 @@
             <th class="investment text-right">Investment</th>
             <th class="marketValue text-right">Market Value</th>
             <th class="irr  text-right">IRR&nbsp;&nbsp;<img src="./../../../../assets/icons1/Info-Black-Portfolio.png"
-                alt="IRR Info" width="16" height="16"></th>
+                alt="IRR Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top" title="A measure of how quickly investments are growing, expressed as an annual percentage return."></th>
             <th class="moic  text-right">MOIC&nbsp;&nbsp;<img src="./../../../../assets/icons1/Info-Black-Portfolio.png"
-                alt="IRR Info" width="16" height="16"></th>
+                alt="IRR Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top" title="Shows how many times the invested money has grown (e.g., 2.0x means doubling the investment)."></th>
             <th class="weight  text-left">weight&nbsp;&nbsp;<img src="./../../../../assets/icons1/Info-Black-Portfolio.png"
-                alt="IRR Info" width="16" height="16"></th>
+                alt="IRR Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top" title="The percentage share of each company or investment within the overall portfolio."></th>
           </tr>
         </thead>
         <tbody>

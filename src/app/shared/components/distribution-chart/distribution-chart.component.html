@@ -4,7 +4,7 @@
       <div class="col-12">
         <div class="distribution-title-wrapper">
           <h3 class="distribution-title">{{ title }}</h3>
-          <img  src="./../../../../assets/icons1/Info-Black.png" height="22" alt="{{ title }}">
+          <img  src="./../../../../assets/icons1/Info-Black.png" height="22" alt="{{ title }}" data-bs-toggle="tooltip" data-bs-placement="top" title="A breakdown of the portfolio by industry sector (e.g., healthcare, technology, consumer).">
         </div>
       </div>
     </div>
@@ -21,7 +21,9 @@
           <div class="chart-legend">
             <h4 class="legend-title">Industry Sectors</h4>
             <div *ngFor="let item of industryData" class="legend-item">
-              <div class="legend-color" [style.background-color]="item.color"></div>
+              <div class="legend-color-width">
+                <div class="legend-color" [style.background-color]="item.color"></div>
+              </div>
               <div class="display-block">
                 <div class="legend-label">{{ item.name }}</div>
               <div class="legend-sub-label">{{ item.name }}</div>
