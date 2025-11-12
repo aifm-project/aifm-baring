@@ -46,15 +46,15 @@
       position: absolute;
       right: 0;
       top: 0;
-      width: 206px;
+      width: 212px;
       height: 36px;
       display: flex;
 
       .view-all-text {
-        width: 166px;
         height: 36px;
+        width: 170px;
         background: #122334;
-        color: #FFF;
+        color: #fff;
         font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
         font-size: 16px;
         font-weight: 400;
@@ -72,7 +72,10 @@
           background: #000;
         }
       }
-
+      .summit-cta-text,
+      .view-all-text {
+        width: 170px !important;
+      }
       .view-all-arrow {
         width: 36px;
         height: 36px;
@@ -108,7 +111,7 @@
       position: relative;
       width: 310px;
       height: 293px;
-      background: linear-gradient(0deg, #122334 0%, #122334 100%), #00192F;
+      background: linear-gradient(0deg, #122334 0%, #122334 100%), #00192f;
       overflow: hidden;
       cursor: pointer;
       transition: transform 0.2s ease;
@@ -167,7 +170,7 @@
         width: 189px;
 
         .document-title {
-          color: #EAF1F7;
+          color: #eaf1f7;
           font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
           font-size: 29px;
           font-weight: 500;
@@ -179,7 +182,7 @@
         }
 
         .document-date {
-          color: #EAF1F7;
+          color: #eaf1f7;
           font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
           font-size: 12px;
           font-weight: 400;
@@ -212,7 +215,7 @@
           }
 
           .file-size {
-            color: #EAF1F7;
+            color: #eaf1f7;
             font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
             font-size: 12px;
             font-weight: 400;
@@ -230,7 +233,7 @@
           .document-action {
             width: 30px;
             height: 30px;
-            background: #EAF1F7;
+            background: #eaf1f7;
             border: none;
             cursor: pointer;
             display: flex;
@@ -240,7 +243,7 @@
             color: #122334;
 
             &:hover {
-              background: #D4DCE2;
+              background: #d4dce2;
             }
 
             svg {
@@ -258,7 +261,7 @@
           .readmore-text {
             width: 85px;
             height: 30px;
-            background: #EAF1F7;
+            background: #eaf1f7;
             border: none;
             color: #122334;
             font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
@@ -275,7 +278,7 @@
           .readmore-arrow {
             width: 30px;
             height: 30px;
-            background: #EAF1F7;
+            background: #eaf1f7;
             border: none;
             display: flex;
             align-items: center;
@@ -292,12 +295,18 @@
 
       // Variant styles by type
       &.report {
-        .document-actions { display: none; }
-        .document-readmore { display: flex; }
+        .document-actions {
+          display: none;
+        }
+        .document-readmore {
+          display: flex;
+        }
       }
 
       &.default {
-        .document-readmore { display: none; }
+        .document-readmore {
+          display: none;
+        }
       }
     }
   }
@@ -441,4 +450,23 @@
       }
     }
   }
+}
+
+app-documents-preview
+  > div.view-all-container
+  > app-dashboard-navigation-button
+  > div
+  > button.summit-cta-text {
+  // width: 150px;
+}
+.view-all-container .summit-cta-text {
+  width: 200px !important;
+}
+.view-all-container .view-all-text {
+  width: 200px !important;
+}
+
+.summit-cta-text,
+.view-all-text {
+  width: 170px !important;
 }
