@@ -106,7 +106,7 @@ export class OverviewComponent {
           maximumFractionDigits: 2
         })+'x';
         let xirr = this.overviewData.metadata.xirr ? Number(this.overviewData.metadata.xirr) : '-';
-        this.overviewData.metadata.xirr = xirr.toLocaleString(this.numberFormat) + '%';
+        this.overviewData.metadata.xirr = xirr!='-' ?  xirr.toLocaleString(this.numberFormat) + '%' : xirr;
         let units = this.overviewData.metadata.units ? Number(this.overviewData.metadata.units) : '-';
         this.overviewData.metadata.units = units.toLocaleString(this.numberFormat, {
             minimumFractionDigits: 2,

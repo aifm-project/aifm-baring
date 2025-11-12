@@ -144,3 +144,7 @@
     }
   }
 }
+
+:host ::ng-deep .investment-table{
+  padding: 0 !important;
+}

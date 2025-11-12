@@ -542,6 +542,20 @@
   }
 
   :host-context(.web-dashboard) {
+    padding: 0;
+
+    @media (max-width: 1200px) {
+      padding: 0;
+    }
+
+    @media (max-width: 768px) {
+      padding: 0;
+    }
+
+    @media (max-width: 480px) {
+      padding: 0;
+    }
+
     .investment-data {
       .table {
         thead .table-header-row {

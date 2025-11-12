@@ -1,6 +1,6 @@
 .distribution-chart {
   background-color: transparent;
-  padding: 56px 0;
+  padding: 90px 0 0 0;
 
   .container-fluid {
     max-width: 1440px;
@@ -12,185 +12,85 @@
   .distribution-header {
     margin: 0;
   }
-
-  .distribution-title-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    .distribution-title {
-      margin: 0;
-      color: #000;
-      font-family: 'Victor Serif Trial', serif;
-      font-size: 24px;
-      font-weight: 500;
-      line-height: 1;
-      text-transform: capitalize;
-    }
-
-    .info-icon {
-      width: 22px;
-      height: 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-
-      svg {
-        width: 100%;
-        height: 100%;
-      }
-    }
-  }
-
-  .filter-action {
-    width: 100%;
-    justify-content: flex-start;
-  }
-
-  .filter-trigger {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #122334;
-    border: none;
-    border-radius: 999px;
-    padding: 0;
-    color: #FFF;
-    font-family: 'Instrument Sans', sans-serif;
-    font-size: 16px;
+  .distribution-title {
+    font-family: 'Victor Serif Trial';
+    font-size: 24px;
     font-weight: 500;
-    line-height: 1;
-    min-height: 36px;
-    transition: background 0.2s ease, opacity 0.2s ease;
-
-    &:hover {
-      background: #0d1a29;
-    }
-
-    &__icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 42px;
-      height: 36px;
-      border-radius: 999px 0 0 999px;
-      background: rgba(255, 255, 255, 0.08);
-
-      svg {
-        width: 24px;
-        height: 24px;
-      }
-    }
-
-    &__label {
-      padding: 0 18px 0 12px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-      letter-spacing: -0.16px;
-    }
-  }
-
-  .distribution-body {
-    .pie-visual {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 360px;
-
-      .pie-chart-placeholder {
-        width: 300px;
-        height: 300px;
-        border-radius: 50%;
-        background: conic-gradient(
-          #122334 0deg 136deg,
-          #4A90A4 136deg 228deg,
-          #83C5FF 228deg 303deg,
-          #B8D4FF 303deg 325deg,
-          #E1ECFF 325deg 360deg
-        );
-        position: relative;
-
-        &::after {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 120px;
-          height: 120px;
-          background-color: var(--light-bg);
-          border-radius: 50%;
-        }
-      }
-    }
-
-    .chart-legend {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-lg);
-
-      .legend-title {
-        margin: 0;
-        color: var(--text-primary);
-        font-family: var(--font-primary);
-        font-size: 20px;
-        font-weight: 500;
-        line-height: 1.2;
-      }
-
-      .legend-items {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-md);
-
-        .legend-item {
-          display: flex;
-          align-items: center;
-          gap: var(--spacing-sm);
-          padding: var(--spacing-sm);
-          background-color: var(--white);
-          border-radius: var(--radius-sm);
-          box-shadow: var(--shadow-sm);
-
-          .legend-color {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            flex-shrink: 0;
-          }
-
-          .legend-label {
-            color: var(--text-primary);
-            font-family: var(--font-secondary);
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 1.5;
-            flex: 1;
-          }
-
-          .legend-percentage {
-            color: var(--text-primary);
-            font-family: var(--font-secondary);
-            font-size: 16px;
-            font-weight: 600;
-            line-height: 1.5;
-            margin-left: auto;
-
-            &::after {
-              content: ' ↓';
-              color: var(--text-muted);
-              font-size: 12px;
-            }
-          }
-        }
-      }
-    }
+    line-height: 28px;
+    letter-spacing: 0;
+    margin: 0;
+    margin-right: 8px;
   }
 }
+.distribution-title-wrapper {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+}
+.chart-background {
+  background-color: transparent;
+  margin-top: 44px;
+}
+.chart-legend {
+  font-family: 'Instrument Sans';
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0;
+  margin-top: 52px;
+  margin-bottom: 10px;
+}
+.legend-item {
+  height: 60px;
+  width: 80%;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(0, 0, 0, 0.1); 
+}
+.legend-color {
+  height: 16px;
+  width: 16px;
+  border-radius: 50% !important;
+}
+.legend-label {
+  margin-left: 16px;
+  font-family: 'Instrument Sans';
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: #000000;
+  width: 250px;
+  white-space: initial;
+  overflow: hidden;
+  text-overflow: clip;
+}
+.legend-sub-label {
+  margin-left: 16px;
+  // margin-top: 6px;
+  font-family: 'Instrument Sans';
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0;
+  color: #717171;
+}
 
+.display-block {
+  display: block;
+}
+.legend-percentage {
+  font-family: 'Victor Serif Trial';
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 36px;
+  letter-spacing: 0;
+  color: #000000;
+  text-align: right;
+}
+.caret-align {
+  margin-left: 22.5px;
+  vertical-align: top !important;
+}
 @media (max-width: 1200px) {
   .distribution-chart {
     padding: 40px 0;

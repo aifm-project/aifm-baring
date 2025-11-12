@@ -92,7 +92,7 @@
 
   .navbar-secondary {
     background-color: #181818;
-    height: 65px;
+    height: 58px;
     display: flex;
     align-items: center;
     border-top: none;
@@ -157,7 +157,7 @@
         &.active {
           background-color: transparent;
           border-bottom: 5px solid #ffffff;
-          padding: 11px 7px;
+          // padding: 0 7px;
 
           img.nav-icon {
             filter: brightness(1);
