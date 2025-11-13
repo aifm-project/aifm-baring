@@ -68,11 +68,13 @@ export class DistributionChartComponent implements OnInit {
         console.log('Portfolio Data fetched successfully:', response);
         this.industryData = [];
         if (response.portfolio && response.portfolio.distribution_industry) {
-          const allData = response.portfolio.distribution_industry.map((item: any, index: number) => ({
-            name: item.key,
-            percentage: item.value.toFixed(2),
-            color: this.colorSeries[index % this.colorSeries.length],
-          }));
+          const allData = response.portfolio.distribution_industry.map(
+            (item: any, index: number) => ({
+              name: item.key,
+              percentage: item.value.toFixed(2),
+              color: this.colorSeries[index % this.colorSeries.length],
+            })
+          );
           // Sort by percentage descending and take top 5
           this.industryData = allData
             .sort((a, b) => parseFloat(b.percentage) - parseFloat(a.percentage))
@@ -95,15 +97,15 @@ export class DistributionChartComponent implements OnInit {
     this.chartOptions = {
       chart: {
         type: 'pie',
-        height:"360px",
+        height: '360px',
         plotBackgroundColor: null,
         plotBorderWidth: null,
         plotShadow: false,
-        backgroundColor: "#E7EBEE",
+        backgroundColor: '#E7EBEE',
         custom: {
           labelContent: {
-            name: 'Total',
-            value: '28,77,820',
+            name: '',
+            value: '',
           },
           label: null,
         },
@@ -162,8 +164,8 @@ export class DistributionChartComponent implements OnInit {
       legend: {
         enabled: false,
       },
-      credits:{
-        enabled:false,
+      credits: {
+        enabled: false,
       },
       plotOptions: {
         series: {
@@ -206,8 +208,8 @@ export class DistributionChartComponent implements OnInit {
                 const chart = this.series.chart;
                 // Reset the custom content to the default "Total"
                 chart.options.chart.custom.labelContent = {
-                  name: 'Total',
-                  value: '28,77,820',
+                  name: '',
+                  value: '',
                 };
                 // Re-render the chart to update the center label
                 chart.redraw();
@@ -228,6 +230,4 @@ export class DistributionChartComponent implements OnInit {
     };
     this.chart = new Chart(this.chartOptions);
   }
-
-  
 }
