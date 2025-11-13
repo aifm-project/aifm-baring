@@ -29,6 +29,7 @@ export class DistributionChartComponent implements OnInit {
   fundConfig: any;
   public chartOptions: any = {};
   chart!: Chart;
+  colorSeries: string[] = ['#CEDAE3', '#85BCE3', '#00305B', '#181818', '#BCD8EC'];
   constructor(public store: Store, public fundService: FundService) {}
 
   ngOnInit(): void {
@@ -67,11 +68,15 @@ export class DistributionChartComponent implements OnInit {
         console.log('Portfolio Data fetched successfully:', response);
         this.industryData = [];
         if (response.portfolio && response.portfolio.distribution_industry) {
-          this.industryData = response.portfolio.distribution_industry.map((item: any) => ({
+          const allData = response.portfolio.distribution_industry.map((item: any, index: number) => ({
             name: item.key,
             percentage: item.value.toFixed(2),
-            color: '#' + Math.floor(Math.random() * 16777215).toString(16), // Random color
+            color: this.colorSeries[index % this.colorSeries.length],
           }));
+          // Sort by percentage descending and take top 5
+          this.industryData = allData
+            .sort((a, b) => parseFloat(b.percentage) - parseFloat(a.percentage))
+            .slice(0, 5);
         }
         this.drawPieChart();
       },
@@ -90,15 +95,15 @@ export class DistributionChartComponent implements OnInit {
     this.chartOptions = {
       chart: {
         type: 'pie',
-        height:"435.5px",
+        height:"360px",
         plotBackgroundColor: null,
         plotBorderWidth: null,
         plotShadow: false,
-        background: 'transparent',
+        backgroundColor: "#E7EBEE",
         custom: {
           labelContent: {
             name: 'Total',
-            value: '2 877 820',
+            value: '28,77,820',
           },
           label: null,
         },
@@ -202,7 +207,7 @@ export class DistributionChartComponent implements OnInit {
                 // Reset the custom content to the default "Total"
                 chart.options.chart.custom.labelContent = {
                   name: 'Total',
-                  value: '2 877 820',
+                  value: '28,77,820',
                 };
                 // Re-render the chart to update the center label
                 chart.redraw();

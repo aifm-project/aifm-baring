@@ -28,7 +28,7 @@
   margin: 0;
 }
 .chart-background {
-  background-color: transparent;
+  background-color: #E7EBEE;
   margin-top: 44px;
 }
 .chart-legend {
@@ -42,9 +42,17 @@
 }
 .legend-item {
   height: 60px;
-  width: 80%;
+  width: 83%;
   padding-bottom: 10px;
-  border-bottom: 1px solid rgb(0, 0, 0, 0.1); 
+  border-bottom: 1px solid rgb(0, 0, 0, 0.1);
+
+  &:first-child {
+    border-bottom: none;
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
 }
 .legend-color {
   height: 16px;
@@ -255,4 +263,7 @@
       }
     }
   }
+}
+.highcharts-background{
+  background-color: #E7EBEE;
 }

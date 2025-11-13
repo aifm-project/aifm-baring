@@ -116,7 +116,7 @@ export class InvestmentTableComponent implements OnInit {
   }
 
   getPortfolioData(){
-    let queryParams = {asOnDate:this.asOfDate,type:'INVESTMENT_PORTFOLIO,TOTAL_INVESTMENT_PORTFOLIO',currentAsOnDate:'2023-10-31'};
+    let queryParams = {asOnDate:this.asOfDate,type:'INVESTMENT_PORTFOLIO,TOTAL_INVESTMENT_PORTFOLIO,ALL_INVESTMENTS',currentAsOnDate:'2023-10-31'};
     if(this.limit){
       queryParams['limit'] = this.limit.toString();
     }
@@ -152,6 +152,9 @@ export class InvestmentTableComponent implements OnInit {
             totalGrossMOIC: response.portfolio.total_investment_portfolio.unrealisedMOIC ? response.portfolio.total_investment_portfolio.unrealisedMOIC : '-'   ,
             totalReturns: response.portfolio.total_investment_portfolio.unrealisedPrice ? response.portfolio.total_investment_portfolio.unrealisedPrice : '-'  ,
           }
+        }
+        if(response.portfolio){
+          
         }
         this.totalMaxWeight = this.companies.reduce((acc, curr) => acc + (+curr.weight || 0), 0);
         console.log(this.totalMaxWeight,"totalmax");

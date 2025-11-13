@@ -29,39 +29,33 @@
       <div class="portfolio-summary">
         <div class="summary-item">
           <div class="summary-label">Total Holdings</div>
-          <div class="summary-value">{{ portfolioSummary.totalHoldings ? (portfolioSummary.totalHoldings |
-            getCurrencyByUnits:true:true) : '-' }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalHoldings ? (portfolioSummary.totalHoldings  | getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label">Total Investment</div>
-          <div class="summary-value">{{ portfolioSummary.totalInvestment ? (portfolioSummary.totalInvestment |
-            getCurrencyByUnits:true:true) : '-' }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalInvestment ? (portfolioSummary.totalInvestment  | getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label">Total Market Value</div>
-          <div class="summary-value">{{ portfolioSummary.totalMarketValue ? (portfolioSummary.totalMarketValue |
-            getCurrencyByUnits:true:true) : '-' }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalMarketValue ? (portfolioSummary.totalMarketValue  | getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
         <div class="summary-item ">
           <div class="summary-label d-flex align-items-center gap-1">
             Total Gross IRR
             <img src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="Weight Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top" title="The overall annualized return of the fund before fees, showing performance across all investments.">
           </div>
-          <div class="summary-value">{{ portfolioSummary.totalGrossIRR ? (portfolioSummary.totalGrossIRR |
-            getCurrencyByUnits:true:true) : '-' }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalGrossIRR ? (portfolioSummary.totalGrossIRR  | getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label d-flex align-items-center gap-1">
             Total Gross MOIC
             <img src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="Weight Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top" title="The overall multiple of money invested versus money gained, before fees.">
           </div>
-          <div class="summary-value">{{ portfolioSummary.totalGrossMOIC ? (portfolioSummary.totalGrossMOIC |
-            getCurrencyByUnits:true:true) : '-' }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalGrossMOIC ? (portfolioSummary.totalGrossMOIC  | getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label">Total Returns</div>
-          <div class="summary-value">{{ portfolioSummary.totalReturns ? (portfolioSummary.totalReturns |
-            getCurrencyByUnits:true:true) : '-' }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalReturns ? (portfolioSummary.totalReturns  | getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
       </div>
     </div>
