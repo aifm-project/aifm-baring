@@ -11,20 +11,20 @@
           <span>Funds</span>
         </a>
         <a routerLink="/insights" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}" class="nav-link-top">
-          <img [src]="isActiveRoute('/insights') ? './../../../assets/icons1/Insight-Fill.png' : './../../../assets/icons1/Insight.png'" alt="Insights" width="22" height="22" class="nav-icon" />
+          <img [src]="isActiveRoute('/insights') ? './../../../assets/icons1/Insight-Fill.png' : './../../../assets/icons1/Insight.png'" alt="Insights"  [width]="isActiveRoute('/insights') ? 22 : 17" [height]="isActiveRoute('/insights') ? 22 : 17" class="nav-icon" />
           <span>Insights</span>
         </a>
-        <a href="#" class="nav-link-top nav-link-ai" [class.active]="isActiveRoute('/ai') || isActiveRoute('/ask-baring')">
+        <!-- <a href="#" class="nav-link-top nav-link-ai" [class.active]="isActiveRoute('/ai') || isActiveRoute('/ask-baring')">
           <img [src]="isActiveRoute('/ai') || isActiveRoute('/ask-baring') ? './../../../assets/icons1/AI-Fill.png' : './../../../assets/icons1/AI.png'" alt="Ask Baring" width="22" height="22" class="nav-icon" />
           <span>Ask Baring</span>
-        </a>
+        </a> -->
       </nav>
       <div class="navbar-actions">
         <button class="navbar-action-btn search-btn" aria-label="Search">
           <img src="./../../../assets/icons1/Search.png" alt="Search" width="26" height="26" class="action-icon" />
         </button>
         <button class="navbar-action-btn notification-btn" aria-label="Notifications" (click)="onNotifications()" [class.active]="isActiveRoute('/notifications')">
-          <img src="./../../../assets/icons1/BellSimple.png" alt="Notifications" width="26" height="26" class="action-icon" />
+          <img src="./../../../assets/icons1/BellSimple.png" alt="Notifications" width="21" height="21" class="action-icon" />
         </button>
         <div class="user-menu-wrapper">
           <img src="./../../../assets/icons1/User.png" alt="Profile" class="profile-avatar"

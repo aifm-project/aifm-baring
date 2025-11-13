@@ -133,7 +133,7 @@
     .investment-sort {
       background-color: #122334;
       border: none;
-      border-radius: 2px;
+      border-radius: 0px;
       padding: 0;
       height: 36px;
 
@@ -166,8 +166,8 @@
       }
 
       .sort-divider {
-        width: 2px;
-        height: 35px;
+        width: 3px;
+        height: 37px;
         background: #fff;
         display: inline-block;
         margin: 0 8px;
@@ -837,7 +837,7 @@
 }
 
 .icon-company {
-  width: 300px;
+  width: 23%; //300px;
   padding: 0px 20px;
 }
 .industry,
@@ -846,15 +846,15 @@
 .irr,
 .moic,
 .weight {
-  width: 140px;
+  width: 12%; //100px;
   padding: 0px 20px;
-  font-family: "Instrument Sans";
+  font-family: 'Instrument Sans';
   font-size: 16px;
   line-height: 20px;
   color: #000000;
   letter-spacing: 0;
   font-weight: 400;
-
+  text-transform: capitalize !important;
 }
 .investmentTable {
   width: 100%;
@@ -872,7 +872,7 @@ td {
   border-bottom: 6px solid #f3f5f7;
   background-color: #e7ebee;
 }
-.company-name1{
+.company-name1 {
   padding-left: 20px;
   width: 271px;
   vertical-align: middle;
@@ -883,15 +883,16 @@ td {
   line-height: 24px;
   letter-spacing: 0;
   overflow: hidden;
-  text-overflow: clip; 
-   white-space: normal; 
+  text-overflow: clip;
+  white-space: normal;
+  text-transform: capitalize !important;
 }
 .investmentTable thead,
 th {
   background-color: transparent;
   color: #000000;
   font-size: 14px !important;
-  font-family: "Instrument Sans" !important;
+  font-family: 'Instrument Sans' !important;
   font-weight: 600 !important;
   line-height: 25px;
   height: 25px;
@@ -901,37 +902,38 @@ th {
   vertical-align: top;
 }
 
-.progress, .progress-stacked{
+.progress,
+.progress-stacked {
   height: 13px;
   width: 86px;
   border-radius: 0px;
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.progress-bar{
-    height: 13px;
-    border-radius: 0px;
-    background-color: #122334;
-    opacity: 90%;
+.progress-bar {
+  height: 13px;
+  border-radius: 0px;
+  background-color: #122334;
+  opacity: 90%;
 }
-.margin-top6{
+.margin-top6 {
   margin-top: 6px;
 }
-.margin-top8{
+.margin-top8 {
   margin-top: 8px;
 }
 
 .company-logo {
-    width: 61px;
-    height: 61px;
-    background-color: var(--primary-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    color: #fff;
+  width: 61px;
+  height: 61px;
+  background-color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #fff;
 }
 
-.industry{
-  width: 200px;
+.industry {
+  width: 17%; //200px;
 }
