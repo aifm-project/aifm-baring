@@ -185,7 +185,7 @@
               {{company.unrealisedCost ? (company.unrealisedCost | getCurrencyByUnits:true:true:2:true) : '-' }}
             </td>
             <td class="marketValue  text-right">
-              {{company.unrealisedCost ? (company.unrealisedCost | getCurrencyByUnits:true:true:2:true) : '-' }}
+              {{company.unrealisedPrice ? (company.unrealisedPrice | getCurrencyByUnits:true:true:2:true) : '-' }}
             </td>
             <td class="irr  text-right">
               {{ company.unrealisedIRR ? (company.unrealisedIRR | number : '1.2-2') + ' %' : '-' }}

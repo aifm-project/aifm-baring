@@ -147,7 +147,7 @@ export class InvestmentTableComponent implements OnInit {
           this.portfolioSummary = {
             totalHoldings: response.portfolio.total_investment_portfolio.unrealisedCost ? response.portfolio.total_investment_portfolio.unrealisedCost : '-',
             totalInvestment: response.portfolio.total_investment_portfolio.total_investment ? response.portfolio.total_investment_portfolio.total_investment : '- ',
-            totalMarketValue: response.portfolio.total_investment_portfolio.total_market_value ? response.portfolio.total_investment_portfolio.total_market_value : '-' ,
+            totalMarketValue: response.portfolio.total_investment_portfolio.unrealisedPrice ? response.portfolio.total_investment_portfolio.unrealisedPrice : '-' ,
             totalGrossIRR: response.portfolio.total_investment_portfolio.unrealisedIRR ? response.portfolio.total_investment_portfolio.unrealisedIRR : '-'  ,
             totalGrossMOIC: response.portfolio.total_investment_portfolio.unrealisedMOIC ? response.portfolio.total_investment_portfolio.unrealisedMOIC : '-'   ,
             totalReturns: response.portfolio.total_investment_portfolio.unrealisedPrice ? response.portfolio.total_investment_portfolio.unrealisedPrice : '-'  ,
