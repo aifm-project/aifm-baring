@@ -1610,11 +1610,7 @@ a:hover {
 .insights-filter:hover {
   background-color: var(--border-color);
 }
-.insights-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--spacing-lg);
-}
+
 .insight-card {
   background-color: var(--white);
   border-radius: var(--radius-lg);
