@@ -68,6 +68,8 @@ export class WebDocumentsComponent {
     this.searchedKey = searchTerm
     if(this.searchedKey){
         this.documentList = this.allDocuments.filter(doc => doc.type.toLowerCase().includes(searchTerm) || doc.date==searchTerm);
+    }else {
+      this.documentList = this.allDocuments
     }
     
   }
