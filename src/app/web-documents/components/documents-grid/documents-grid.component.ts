@@ -17,7 +17,7 @@ export class DocumentsGridComponent {
   public typeBackgroundImages = [{
     type:'Drawdown Receipt',
     value:'https://api.builder.io/api/v1/image/assets/TEMP/be9ca3232984139ab8074fa047ab507acc3a62fb?width=620',
-  },{type:'Investor Document',value:'https://api.builder.io/api/v1/image/assets/TEMP/7e4df20ed3436c041c1beeb4d7c9d2a08d7fea6b?width=620'}]
+  },{type:'Quarterly Update Report',value:'https://api.builder.io/api/v1/image/assets/TEMP/7e4df20ed3436c041c1beeb4d7c9d2a08d7fea6b?width=620'}]
 
   viewMode: 'grid' | 'list' = 'grid';
   constructor(private fundService:FundService){
@@ -28,52 +28,45 @@ export class DocumentsGridComponent {
     if (this.documents.length === 0) {
       this.documents = [
         {
-          title: 'Drawdown Receipt',
-          date: '23 July 2025',
+          type: 'Drawdown Receipt',
+          date: '2025-11-14',
           size: '14 KB',
-          type: 'pdf',
           bgImage: 'https://api.builder.io/api/v1/image/assets/TEMP/be9ca3232984139ab8074fa047ab507acc3a62fb?width=620'
         },
         {
-          title: 'Statement of Account',
-          date: '20 July 2025',
+          type: 'Statement of Account',
+          date: '2025-11-14',
           size: '14 KB',
-          type: 'pdf',
           bgImage: 'https://api.builder.io/api/v1/image/assets/TEMP/be9ca3232984139ab8074fa047ab507acc3a62fb?width=620'
         },
         {
-          title: 'Quarterly Update Report',
-          date: '09 July 2025',
+          type: 'Quarterly Update Report',
+          date: '2025-11-14',
           size: '14 KB',
-          type: 'pdf',
           bgImage: 'https://api.builder.io/api/v1/image/assets/TEMP/7e4df20ed3436c041c1beeb4d7c9d2a08d7fea6b?width=620'
         },
         {
-          title: 'Income Statement',
-          date: '02 July 2025',
+          type: 'Income Statement',
+          date: '2025-11-14',
           size: '14 KB',
-          type: 'pdf',
           bgImage: 'https://api.builder.io/api/v1/image/assets/TEMP/be9ca3232984139ab8074fa047ab507acc3a62fb?width=620'
         },
         {
-          title: 'K1 Certificate',
-          date: '07 May 2025',
+          type: 'K1 Certificate',
+          date: '2025-11-14',
           size: '14 KB',
-          type: 'pdf',
           bgImage: 'https://api.builder.io/api/v1/image/assets/TEMP/be9ca3232984139ab8074fa047ab507acc3a62fb?width=620'
         },
         {
-          title: 'Drawdown Notice',
-          date: '12 March 2025',
+          type: 'Drawdown Notice',
+          date: '2025-11-14',
           size: '14 KB',
-          type: 'pdf',
           bgImage: 'https://api.builder.io/api/v1/image/assets/TEMP/be9ca3232984139ab8074fa047ab507acc3a62fb?width=620'
         },
         {
-          title: 'Form 64C',
-          date: '02 Dec 2024',
+          type: 'Form 64C',
+          date: '2025-11-14',
           size: '14 KB',
-          type: 'pdf',
           bgImage: 'https://api.builder.io/api/v1/image/assets/TEMP/be9ca3232984139ab8074fa047ab507acc3a62fb?width=620'
         }
       ];

@@ -43,12 +43,12 @@
 
   <!-- Grid View -->
   <div class="documents-grid" *ngIf="viewMode === 'grid'">
-    <div class="document-card"  *ngFor="let doc of displayedDocuments" [style.background-image]="getBackgrounUrl(doc.type)" >
+    <div class="document-card"  *ngFor="let doc of displayedDocuments" [style.background-image]="'url(' + getBackgrounUrl(doc.type) + ')'" >
  
         <div class="document-card-content">
           <div class="document-info">
             <h4 class="document-title">{{ doc.type }}</h4>
-            <p class="document-date">Issued on {{ doc.date }}</p>
+            <p class="document-date">Issued on {{ (doc.date | date:'dd MMM, yyyy') }}</p>
           </div>
 
           <div class="document-footer">
@@ -138,7 +138,7 @@
       </div>
       
       <div class="list-column date-column">
-        <span class="date-text">{{ doc.date }}</span>
+        <span class="date-text">{{ doc.date | date:'dd MMM, yyyy' }}</span>
       </div>
       
       <div class="list-column file-size-column">
