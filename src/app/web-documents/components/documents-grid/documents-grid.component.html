@@ -43,11 +43,11 @@
 
   <!-- Grid View -->
   <div class="documents-grid" *ngIf="viewMode === 'grid'">
-    <div class="document-card" [style.background-image]="'url(' + doc.bgImage + ')'"   *ngFor="let doc of displayedDocuments">
+    <div class="document-card"  *ngFor="let doc of displayedDocuments" [style.background-image]="getBackgrounUrl(doc.type)" >
  
         <div class="document-card-content">
           <div class="document-info">
-            <h4 class="document-title">{{ doc.title }}</h4>
+            <h4 class="document-title">{{ doc.type }}</h4>
             <p class="document-date">Issued on {{ doc.date }}</p>
           </div>
 
@@ -86,7 +86,7 @@
                 </svg>
               </button>
 
-              <button class="document-action" (click)="onDownload(doc)" title="Download Document">
+              <button class="document-action" (click)="onDownloadDocument(doc)" title="Download Document">
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <g clip-path="url(#clip0_download)">
                     <path d="M11 12.375V2.75" stroke="#122334" stroke-width="1.03125" stroke-linecap="round" stroke-linejoin="round"/>
@@ -134,7 +134,7 @@
 
     <div class="list-row" *ngFor="let doc of displayedDocuments">
       <div class="list-column document-type-column">
-        <span class="document-type-text">{{ doc.title }}</span>
+        <span class="document-type-text">{{ doc.type }}</span>
       </div>
       
       <div class="list-column date-column">
@@ -178,7 +178,7 @@
             </svg>
           </button>
 
-          <button class="list-action-btn" (click)="onDownload(doc)" title="Download Document">
+          <button class="list-action-btn" (click)="onDownloadDocument(doc)" title="Download Document">
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clip-path="url(#clip0_download_list)">
                 <path d="M11 12.375V2.75" stroke="white" stroke-width="1.03125" stroke-linecap="round" stroke-linejoin="round"/>
