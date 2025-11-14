@@ -83,6 +83,22 @@ export class InvestmentTableComponent implements OnInit {
   public totalMaxWeight: number;
   fundCurrency: any='INR';
   fundUnit:any='Cr';
+
+  // Sort properties
+  sortField: string = 'weight';
+  sortDirection: 'asc' | 'desc' = 'desc';
+  showSortMenu: boolean = false;
+
+  sortOptions = [
+    { field: 'weight', label: 'Weight (Highest First)', type: 'numeric' },
+    { field: 'name', label: 'Company Name (A-Z)', type: 'alphabetical' },
+    { field: 'industry', label: 'Industry (A-Z)', type: 'alphabetical' },
+    { field: 'unrealisedCost', label: 'Investment Amount', type: 'numeric' },
+    { field: 'unrealisedPrice', label: 'Market Value', type: 'numeric' },
+    { field: 'unrealisedIRR', label: 'IRR', type: 'numeric' },
+    { field: 'unrealisedMOIC', label: 'MOIC', type: 'numeric' },
+  ];
+
   constructor(private fundService: FundService, private store: Store) { }
   
   getProgressPercent(weightPercent: number): number {
@@ -110,6 +126,60 @@ export class InvestmentTableComponent implements OnInit {
   trackByCompany(index: number, company: Company): string {
     return company.name;
   }
+
+  toggleSortMenu(): void {
+    this.showSortMenu = !this.showSortMenu;
+  }
+
+  closeSortMenu(): void {
+    this.showSortMenu = false;
+  }
+
+  setSortOption(field: string, type: string): void {
+    if (this.sortField === field) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortField = field;
+      this.sortDirection = field === 'weight' || type === 'numeric' ? 'desc' : 'asc';
+    }
+    this.sortCompanies();
+    this.closeSortMenu();
+  }
+
+  sortCompanies(): void {
+    const fieldKey = this.sortField as keyof Company;
+
+    this.companies.sort((a, b) => {
+      let aVal = a[fieldKey];
+      let bVal = b[fieldKey];
+
+      if (aVal === '-' || aVal === null || aVal === undefined) aVal = '';
+      if (bVal === '-' || bVal === null || bVal === undefined) bVal = '';
+
+      let comparison = 0;
+
+      const sortOption = this.sortOptions.find(opt => opt.field === this.sortField);
+      const isNumeric = sortOption?.type === 'numeric' || this.isNumericField(this.sortField);
+
+      if (isNumeric) {
+        const numA = parseFloat(String(aVal)) || 0;
+        const numB = parseFloat(String(bVal)) || 0;
+        comparison = numA - numB;
+      } else {
+        const strA = String(aVal).toLowerCase().trim();
+        const strB = String(bVal).toLowerCase().trim();
+        comparison = strA.localeCompare(strB);
+      }
+
+      return this.sortDirection === 'asc' ? comparison : -comparison;
+    });
+  }
+
+  private isNumericField(field: string): boolean {
+    const numericFields = ['unrealisedCost', 'unrealisedPrice', 'unrealisedIRR', 'unrealisedMOIC', 'weight'];
+    return numericFields.includes(field);
+  }
+
 
   ngOnInit(): void {
     this.getStoreData();
@@ -154,11 +224,13 @@ export class InvestmentTableComponent implements OnInit {
           }
         }
         if(response.portfolio){
-          
+
         }
         this.totalMaxWeight = this.companies.reduce((acc, curr) => acc + (+curr.weight || 0), 0);
         console.log(this.totalMaxWeight,"totalmax");
-        
+
+        // Sort companies by weight (highest first) by default
+        this.sortCompanies();
 
         // this.companies = portfolioInvestment.map(data => {
         //   if (data.value && data.value != '-' && +data.value) {
