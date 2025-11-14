@@ -1,7 +1,7 @@
 <section class="investment-table" aria-labelledby="investment-portfolio-title">
   <div [ngClass]="[containerClass, 'investment-inner']">
     <!-- Section Header (dynamic) -->
-    <div *ngIf="showHeader" class="row mb-4">
+    <div *ngIf="showHeader" class="row">
       <div class="col-12">
         <div class="d-flex justify-content-between align-items-center investment-header">
           <div class="d-flex align-items-center gap-2">
@@ -9,16 +9,33 @@
             <img src="./../../../../assets/icons1/Info-Black.png" alt="Investment Portfolio" width="22" height="22" data-bs-toggle="tooltip" data-bs-placement="top" title="The detailed list of current investments held by the fund.">
           </div>
 
-          <button class="btn btn-dark d-flex align-items-center investment-sort" type="button"
-            aria-label="Sort investments">
-            <span class="sort-icon">
-              <img src="../../../../assets/icons/Sort.png" height="24" width="24" alt="Sort Icon">
-            </span>
+          <div class="sort-button-wrapper" style="position: relative;">
+            <button class="btn btn-dark d-flex align-items-center investment-sort" type="button"
+              aria-label="Sort investments" (click)="toggleSortMenu()"
+              [attr.aria-expanded]="showSortMenu">
+              <span class="sort-icon">
+                <img src="../../../../assets/icons/Sort.png" height="24" width="24" alt="Sort Icon">
+              </span>
 
-            <span class="sort-divider" aria-hidden="true"></span>
+              <span class="sort-divider" aria-hidden="true"></span>
 
-            <span class="sort-label">Sort by</span>
-          </button>
+              <span class="sort-label">Sort by</span>
+            </button>
+
+            <div class="sort-dropdown" *ngIf="showSortMenu" role="menu">
+              <button *ngFor="let option of sortOptions"
+                type="button"
+                role="menuitem"
+                class="sort-option"
+                [class.active]="sortField === option.field"
+                (click)="setSortOption(option.field, option.type)">
+                <span class="option-label">{{ option.label }}</span>
+                <span class="option-indicator" *ngIf="sortField === option.field">
+                  <span class="direction">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
+                </span>
+              </button>
+            </div>
+          </div>
 
         </div>
       </div>

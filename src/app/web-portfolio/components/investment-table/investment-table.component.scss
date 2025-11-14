@@ -42,6 +42,7 @@
     height: auto;
 
     .view-all-text {
+      width: 166px;
       height: 36px;
       background: #122334;
       color: #fff;
@@ -130,61 +131,141 @@
       }
     }
 
-    .investment-sort {
-      background-color: #122334;
-      border: none;
-      border-radius: 0px;
-      padding: 0;
-      height: 36px;
+    .sort-button-wrapper {
+      position: relative;
 
-      .sort-icon {
-        width: 36px;
-        height: 36px;
+      .investment-sort {
         background-color: #122334;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        border: none;
+        border-radius: 2px;
+        padding: 0;
+        height: 36px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
 
-        img {
-          width: 24px;
-          height: 24px;
+        .sort-icon {
+          width: 36px;
+          height: 36px;
+          background-color: #122334;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          img {
+            width: 24px;
+            height: 24px;
+          }
         }
-      }
 
-      .sort-label {
-        color: #fff;
-        font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 1.05;
-        letter-spacing: -0.16px;
-        padding: 9px 13px;
-        height: 36px;
-        display: flex;
-        align-items: center;
-        background-color: #122334;
-      }
-
-      .sort-divider {
-        width: 3px;
-        height: 37px;
-        background: #fff;
-        display: inline-block;
-        margin: 0 8px;
-        border-radius: 0;
-      }
-
-      &:hover {
-        background-color: #1a3a4f;
-
-        .sort-icon,
         .sort-label {
+          color: #fff;
+          font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 1.05;
+          letter-spacing: -0.16px;
+          padding: 9px 13px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          background-color: #122334;
+          white-space: nowrap;
+        }
+
+        .sort-divider {
+          width: 2px;
+          height: 35px;
+          background: #fff;
+          display: inline-block;
+          margin: 0 8px;
+          border-radius: 0;
+        }
+
+        &:hover {
           background-color: #1a3a4f;
+
+          .sort-icon,
+          .sort-label {
+            background-color: #1a3a4f;
+          }
+        }
+
+        &:focus {
+          box-shadow: 0 0 0 0.2rem rgba(18, 35, 52, 0.25);
         }
       }
 
-      &:focus {
-        box-shadow: 0 0 0 0.2rem rgba(18, 35, 52, 0.25);
+      .sort-dropdown {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        background-color: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        min-width: 280px;
+        z-index: 1000;
+        overflow: hidden;
+
+        .sort-option {
+          width: 100%;
+          padding: 12px 16px;
+          border: none;
+          background: transparent;
+          text-align: left;
+          cursor: pointer;
+          font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+          font-size: 14px;
+          font-weight: 400;
+          color: #000;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          transition: background-color 0.2s ease;
+          border-bottom: 1px solid #f0f0f0;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          &:hover {
+            background-color: #f5f5f5;
+          }
+
+          &.active {
+            background-color: #e8f0f7;
+            font-weight: 500;
+            color: #122334;
+
+            .option-indicator {
+              color: #122334;
+              font-weight: 600;
+            }
+          }
+
+          .option-label {
+            flex: 1;
+          }
+
+          .option-indicator {
+            margin-left: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #666;
+            font-weight: 600;
+
+            .checkmark {
+              font-size: 16px;
+              color: #122334;
+            }
+
+            .direction {
+              font-size: 14px;
+              color: #122334;
+            }
+          }
+        }
       }
     }
   }
@@ -233,7 +314,7 @@
         color: #000;
         font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
         font-size: 32px;
-        font-weight: 400;
+        font-weight: 500;
         line-height: 36px;
         white-space: nowrap;
       }
@@ -788,6 +869,7 @@
   display: flex;
 
   .view-all-text {
+    width: 166px;
     height: 36px;
     background: #122334;
     color: #fff;
@@ -837,7 +919,7 @@
 }
 
 .icon-company {
-  width: 23%; //300px;
+  width: 300px;
   padding: 0px 20px;
 }
 .industry,
@@ -846,15 +928,15 @@
 .irr,
 .moic,
 .weight {
-  width: 12%; //100px;
+  width: 140px;
   padding: 0px 20px;
-  font-family: 'Instrument Sans';
+  font-family: "Instrument Sans";
   font-size: 16px;
   line-height: 20px;
   color: #000000;
   letter-spacing: 0;
   font-weight: 400;
-  text-transform: capitalize !important;
+
 }
 .investmentTable {
   width: 100%;
@@ -872,7 +954,7 @@ td {
   border-bottom: 6px solid #f3f5f7;
   background-color: #e7ebee;
 }
-.company-name1 {
+.company-name1{
   padding-left: 20px;
   width: 271px;
   vertical-align: middle;
@@ -883,16 +965,15 @@ td {
   line-height: 24px;
   letter-spacing: 0;
   overflow: hidden;
-  text-overflow: clip;
-  white-space: normal;
-  text-transform: capitalize !important;
+  text-overflow: clip; 
+   white-space: normal; 
 }
 .investmentTable thead,
 th {
   background-color: transparent;
   color: #000000;
   font-size: 14px !important;
-  font-family: 'Instrument Sans' !important;
+  font-family: "Instrument Sans" !important;
   font-weight: 600 !important;
   line-height: 25px;
   height: 25px;
@@ -902,38 +983,37 @@ th {
   vertical-align: top;
 }
 
-.progress,
-.progress-stacked {
+.progress, .progress-stacked{
   height: 13px;
   width: 86px;
   border-radius: 0px;
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.progress-bar {
-  height: 13px;
-  border-radius: 0px;
-  background-color: #122334;
-  opacity: 90%;
+.progress-bar{
+    height: 13px;
+    border-radius: 0px;
+    background-color: #122334;
+    opacity: 90%;
 }
-.margin-top6 {
+.margin-top6{
   margin-top: 6px;
 }
-.margin-top8 {
+.margin-top8{
   margin-top: 8px;
 }
 
 .company-logo {
-  width: 61px;
-  height: 61px;
-  background-color: var(--primary-dark);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  color: #fff;
+    width: 61px;
+    height: 61px;
+    background-color: var(--primary-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #fff;
 }
 
-.industry {
-  width: 17%; //200px;
+.industry{
+  width: 200px;
 }
