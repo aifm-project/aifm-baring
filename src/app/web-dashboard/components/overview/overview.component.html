@@ -21,13 +21,9 @@
             <div class="submetric-label">Committed Amt</div>
             <div class="submetric-value">{{ overviewData?.capital_summary?.total_commitment ? (overviewData?.capital_summary?.total_commitment | getCurrencyByUnits:true:true) : '-' }}</div>
           </div>
-          <div class="submetric border-right">
+          <div class="submetric">
             <div class="submetric-label">Units</div>
             <div class="submetric-value">{{ overviewData.metadata.units }}</div>
-          </div>
-          <div class="submetric">
-            <div class="submetric-label">Drawndowns</div>
-            <div class="submetric-value">{{ (overviewData?.capital_summary?.funded | getCurrencyByUnits:true:true) || '-'  }}</div>
           </div>
         </div>
       </div>
@@ -46,6 +42,11 @@
           <div class="submetric border-right">
             <div class="submetric-label">Distribution</div>
             <div class="submetric-value">{{ overviewData?.capital_summary?.distribution ? (overviewData?.capital_summary?.distribution | getCurrencyByUnits:true:true) : '-'}}</div>
+          </div>
+          <!-- <div class="separator"></div> -->
+          <div class="submetric border-right">
+            <div class="submetric-label">Redemption</div>
+            <div class="submetric-value">{{ overviewData?.capital_summary?.capital_redeemed ? (overviewData?.capital_summary?.capital_redeemed | getCurrencyByUnits:true:true) : '-'}}</div>
           </div>
           <!-- <div class="separator"></div> -->
           <div class="submetric border-right">
