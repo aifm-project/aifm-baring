@@ -46,7 +46,7 @@ export class WebDocumentsComponent {
           return map;
         }, new Map<string, string>());
         this.getDocumentTypes();
-        this.documentRangeChange({value:'ty'})
+        this.documentRangeChange({value:'l3m'})
       });
   }
 

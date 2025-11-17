@@ -46,7 +46,7 @@
       <div class="portfolio-summary">
         <div class="summary-item">
           <div class="summary-label">Total Holdings</div>
-          <div class="summary-value">{{ portfolioSummary.totalHoldings ? (portfolioSummary.totalHoldings  | getCurrencyByUnits:true:true:2:true) : '-' }}</div>
+          <div class="summary-value">{{ companies && companies.length ? (companies.length) : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label">Total Investment</div>

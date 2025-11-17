@@ -289,7 +289,7 @@ export class PerformanceComponent implements OnInit {
                   // Update component properties with the data from the hovered point
                   component.selectedChartDate = moment(dataPoint.as_on_date).format('MMM DD, YYYY');
                   component.selectedNav =
-                    component.getCurrencyByUnitsPipe.transform(dataPoint.nav, true, true) || '-';
+                    component.getCurrencyByUnitsPipe.transform(dataPoint.nav, true, true,2,true) || '-';
 
                   // *** IMPORTANT: Map these properties to your actual data structure (dataPoint.moic, etc.) ***
                   // Using dummy data fields for MOIC/IRR/Return as they are not explicitly defined in the chart series
@@ -460,7 +460,7 @@ export class PerformanceComponent implements OnInit {
             ? this.overviewData.metadata.nav
             : '-';
           this.selectedNav =
-            this.getCurrencyByUnitsPipe.transform(this.overviewData.metadata.nav, true, true) ||
+            this.getCurrencyByUnitsPipe.transform(this.overviewData.metadata.nav, true, true,2,true) ||
             '-';
         },
         error: (error) => {
