@@ -1352,8 +1352,8 @@ a:hover {
 }
 .legend-item {
   display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
+  // align-items: center;
+  // gap: var(--spacing-sm);
 }
 .legend-color {
   width: 12px;
@@ -2064,7 +2064,7 @@ a:hover {
   .distribution-chart .legend-items {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-sm);
+    // gap: var(--spacing-sm);
   }
   /* Navbar Mobile */
   .navbar-top {

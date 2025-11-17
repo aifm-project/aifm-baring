@@ -17,8 +17,8 @@ export class NewsAndInsightsComponent {
   newsItems = [
     {
       id: 1,
-      category: 'Macroeconomics',
-      title: 'Covid-19 lockdown and the strange investment conundrum',
+      category: 'MACROECONOMICS',
+      title: 'Future of Digital Transformation in Enterprise',
       date: 'Jul 6, 2025',
       readTime: '7 mins',
       image: 'https://api.builder.io/api/v1/image/assets/TEMP/9c20b86987460e8b8058daf80661f02810665486?width=1720',
@@ -27,8 +27,8 @@ export class NewsAndInsightsComponent {
     },
     {
       id: 2,
-      category: 'Macroeconomics',
-      title: 'Achieving sustainable growth: Make sustainability the focus',
+      category: 'MACROECONOMICS',
+      title: 'Covid-19 lockdown and the strange investment conundrum',
       date: 'Jul 6, 2025',
       readTime: '7 mins',
       image: 'https://api.builder.io/api/v1/image/assets/TEMP/034c892bfc7c29406cc130cb54307fd822277c5e?width=840',
@@ -36,8 +36,8 @@ export class NewsAndInsightsComponent {
     },
     {
       id: 3,
-      category: 'Fund News',
-      title: 'Rahul Bhasin on where to look for big returns over the next 5-10 years',
+      category: 'MACROECONOMICS',
+      title: 'Achieving sustainable growth: Make sustainability the focus',
       date: 'Jul 6, 2025',
       readTime: '7 mins',
       image: 'https://api.builder.io/api/v1/image/assets/TEMP/41a0b697b32c347e388fec71acc61dfe0562cfc0?width=342',
@@ -45,8 +45,8 @@ export class NewsAndInsightsComponent {
     },
     {
       id: 4,
-      category: 'Macroeconomics',
-      title: 'Key is to deliver returns over a 20-year period',
+      category: 'FUND NEWS',
+      title: 'Rahul Bhasin on where to look for big returns over the next 5-10 years',
       date: 'Jul 6, 2025',
       readTime: '7 mins',
       image: 'https://api.builder.io/api/v1/image/assets/TEMP/b72feb79b0bbd2a3a375500e2810ef82ce50ee8f?width=840',
@@ -54,7 +54,16 @@ export class NewsAndInsightsComponent {
     },
     {
       id: 5,
-      category: 'Portfolio Highlights',
+      category: 'MACROECONOMICS',
+      title: 'Key is to deliver returns over a 20-year period',
+      date: 'Jul 6, 2025',
+      readTime: '7 mins',
+      image: 'https://api.builder.io/api/v1/image/assets/TEMP/b72feb79b0bbd2a3a375500e2810ef82ce50ee8f?width=840',
+      hasVideo: false
+    },
+    {
+      id: 6,
+      category: 'PORTFOLIO HIGHLIGHTS',
       title: 'Baring PE exits Muthoot Finance, it\'s third in 3 weeks',
       date: 'Jul 6, 2025',
       readTime: '7 mins',
@@ -62,8 +71,8 @@ export class NewsAndInsightsComponent {
       hasVideo: false
     },
     {
-      id: 6,
-      category: 'Macroeconomics',
+      id: 7,
+      category: 'MACROECONOMICS',
       title: 'Achieving sustainable growth: Make sustainability the focus',
       date: 'Jul 6, 2025',
       readTime: '7 mins',
@@ -71,8 +80,8 @@ export class NewsAndInsightsComponent {
       hasVideo: true
     },
     {
-      id: 7,
-      category: 'Macroeconomics',
+      id: 8,
+      category: 'MACROECONOMICS',
       title: 'An attractive time to get more aggressive: Baring India',
       date: 'Jul 6, 2025',
       readTime: '7 mins',
@@ -80,8 +89,8 @@ export class NewsAndInsightsComponent {
       hasVideo: false
     },
     {
-      id: 8,
-      category: 'Portfolio Highlights',
+      id: 9,
+      category: 'PORTFOLIO HIGHLIGHTS',
       title: 'Covid-19 lockdown and the strange investment conundrum',
       date: 'Jul 6, 2025',
       readTime: '7 mins',
@@ -89,8 +98,8 @@ export class NewsAndInsightsComponent {
       hasVideo: false
     },
     {
-      id: 9,
-      category: 'Macroeconomics',
+      id: 10,
+      category: 'MACROECONOMICS',
       title: 'Baring\'s Rahul Bhasin remains a big bull in long-term India story',
       date: 'Jul 6, 2025',
       readTime: '7 mins',
@@ -98,8 +107,8 @@ export class NewsAndInsightsComponent {
       hasVideo: false
     },
     {
-      id: 10,
-      category: 'Fund News',
+      id: 11,
+      category: 'FUND NEWS',
       title: 'Baring Scores 4th Exit in a month with Vardhman',
       date: 'Jul 6, 2025',
       readTime: '7 mins',
@@ -107,8 +116,8 @@ export class NewsAndInsightsComponent {
       hasVideo: false
     },
     {
-      id: 11,
-      category: 'Macroeconomics',
+      id: 12,
+      category: 'MACROECONOMICS',
       title: 'Baring Private Equity India invests $12 mn in Aditya Auto',
       date: 'Jul 6, 2025',
       readTime: '7 mins',
@@ -116,8 +125,8 @@ export class NewsAndInsightsComponent {
       hasVideo: false
     },
     {
-      id: 12,
-      category: 'Macroeconomics',
+      id: 13,
+      category: 'MACROECONOMICS',
       title: 'Baring Scores 4th Exit in a month with Vardhman',
       date: 'Jul 6, 2025',
       readTime: '7 mins',
@@ -127,19 +136,20 @@ export class NewsAndInsightsComponent {
   ];
 
   spotlightArticle = {
-    category: 'Industry Spotlight',
+    category: 'INDUSTRY SPOTLIGHT',
     title: 'Electric Vehicles and the Future of Transportation',
-    description: 'Once a niche bet, electric vehicles now stand at the crossroads of policy, innovation, and consumer demand. This moment offers a lens into how industries and investments evolve.',
+    description: 'Once a niche bet, electric vehicles now stand at the crossroads of policy, innovation, and consumer demand. This moment offers a lens into how industries and investments  evolve.',
     relatedNews: [
       {
-        category: 'Portfolio Highlights',
+        category: 'PORTFOLIO HIGHLIGHTS',
         title: 'Baring Private Equity India invests $12 mn in Aditya Auto',
         date: 'Jul 6, 2025',
         readTime: '7 mins',
-        image: 'https://api.builder.io/api/v1/image/assets/TEMP/f099eb391b416577aefcbd57cb7b4216f56e845a?width=342'
+        image: 'https://api.builder.io/api/v1/image/assets/TEMP/f099eb391b416577aefcbd57cb7b4216f56e845a?width=342',
+        hasVideo: false
       },
       {
-        category: 'Macroeconomics',
+        category: 'MACROECONOMICS',
         title: 'The Rise and Fall of Electric Vehicle Industry in India',
         date: 'Jul 6, 2025',
         readTime: '7 mins',
@@ -147,11 +157,12 @@ export class NewsAndInsightsComponent {
         hasVideo: true
       },
       {
-        category: 'Fund News',
+        category: 'FUND NEWS',
         title: 'Rahul Bhasin on where to look for big returns over the next 5-10 years',
         date: 'Jul 6, 2025',
         readTime: '7 mins',
-        image: 'https://api.builder.io/api/v1/image/assets/TEMP/41a0b697b32c347e388fec71acc61dfe0562cfc0?width=342'
+        image: 'https://api.builder.io/api/v1/image/assets/TEMP/41a0b697b32c347e388fec71acc61dfe0562cfc0?width=342',
+        hasVideo: false
       }
     ]
   };

@@ -99,7 +99,7 @@ export class DistributionChartComponent implements OnInit {
         type: 'pie',
         height: '360px',
         plotBackgroundColor: null,
-        plotBorderWidth: null,
+        plotBorderWidth: 0,
         plotShadow: false,
         backgroundColor: '#E7EBEE',
         custom: {
@@ -172,13 +172,15 @@ export class DistributionChartComponent implements OnInit {
           allowPointSelect: true,
           cursor: 'pointer',
           borderRadius: 0,
+          slicedOffset: 6, // Original offset applied to all slices
+          padAngle: 0,
           dataLabels: [
             {
               enabled: false,
               distance: 20,
               format: '{point.name}',
-              padding: 8, // adds space between each label
-              connectorPadding: 10, // increases space before the connector line
+              padding: 8,
+              connectorPadding: 10,
             },
             {
               enabled: false,
@@ -190,28 +192,39 @@ export class DistributionChartComponent implements OnInit {
             },
           ],
           showInLegend: true,
-          // 3. Add point events for dynamic center label
+
+          states: {
+            hover: {
+              // Color Fixes: Retain original color/look
+              brightness: 0,
+              color: null,
+              opacity: 1,
+              shadow: false,
+              halo: {
+                size: 0,
+                attributes: {
+                  fill: 'transparent',
+                },
+              }, // Thickness Effect: Double the slice offset
+              slicedOffset: 12, // Double the default offset of 6
+            },
+          },
           point: {
             events: {
               mouseOver: function () {
                 const chart = this.series.chart;
-                // Set the custom content to the hovered point's data
                 chart.options.chart.custom.labelContent = {
                   name: this.name,
-                  // Use a more specific format for the percentage
                   value: Highcharts.numberFormat(this.percentage, 0, '.', ',') + '%',
                 };
-                // Re-render the chart to update the center label
                 chart.redraw();
               },
               mouseOut: function () {
                 const chart = this.series.chart;
-                // Reset the custom content to the default "Total"
                 chart.options.chart.custom.labelContent = {
                   name: '',
                   value: '',
                 };
-                // Re-render the chart to update the center label
                 chart.redraw();
               },
             },
@@ -224,6 +237,9 @@ export class DistributionChartComponent implements OnInit {
           type: 'pie',
           colorByPoint: true,
           innerSize: '95%',
+          borderWidth: 0,
+          slicedOffset: 6,
+          padAngle: 0,
           data: data,
         },
       ],
