@@ -4,7 +4,8 @@
     <div class="content-container">
       <h1 class="main-title">News and Insights</h1>
       <p class="main-subtitle">
-        Stay informed with the latest perspectives, updates, and sectoral trends shaping our investments and the markets.
+        Stay informed with the latest perspectives, updates, and sectoral trends shaping our investments and the
+        markets.
       </p>
     </div>
   </header>
@@ -33,13 +34,8 @@
           <span class="dropdown-arrow"></span>
         </div>
         <div class="filter-item search-item">
-          <input
-            type="text"
-            class="search-input"
-            placeholder="SEARCH BY TITLE, TYPE OR DATE"
-            [(ngModel)]="searchQuery"
-            (input)="onSearch()"
-          />
+          <input type="text" class="search-input" placeholder="SEARCH BY TITLE, TYPE OR DATE" [(ngModel)]="searchQuery"
+            (input)="onSearch()" />
           <span class="search-icon-css"></span>
         </div>
       </div>
@@ -74,9 +70,9 @@
         <!-- Side Articles List -->
         <aside class="hero-side-list">
           <article class="hero-side-item" *ngFor="let item of newsItems.slice(1, 5)">
-            <span class="badge-light">{{ item.category }}</span>
+            <span class="badge-light">{{ item.category }}</span><span class="meta-text-dark margin-left-12">{{ item.date }}</span>
             <h3 class="hero-side-title">{{ item.title }}</h3>
-            <span class="meta-text-dark">{{ item.date }} • {{ item.readTime }}</span>
+            
             <div class="divider-line"></div>
           </article>
         </aside>
@@ -103,11 +99,12 @@
               <div *ngIf="article.hasVideo" class="css-play-icon"></div>
             </div>
             <div class="article-info">
-              <span class="article-badge">{{ article.category }}</span>
+              <div class="flex">
+                <span class="article-badge">{{ article.category }}</span>
+                <span class="article-meta margin-left-12">{{ article.date }}</span>
+              </div>
               <h4 class="article-heading">{{ article.title }}</h4>
-              <span class="article-meta">{{ article.date }} • {{ article.readTime }}</span>
             </div>
-            <div *ngIf="!last" class="article-separator"></div>
           </article>
         </div>
       </div>
