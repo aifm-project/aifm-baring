@@ -105,6 +105,7 @@ export class OverviewComponent {
           let totalDistribution:any = ((+distribution) + (+capital_redeemed));
           this.overviewData.capital_summary.distribution = totalDistribution;
         }
+        
         this.overviewData.metadata = sk.performance && sk.performance.metadata ? sk.performance.metadata : {};
         let tvpi  =  this.overviewData.metadata.tvpi ? Number( this.overviewData.metadata.tvpi) : '-'
         this.overviewData.metadata.tvpi = tvpi.toLocaleString(this.numberFormat, {

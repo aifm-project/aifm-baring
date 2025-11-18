@@ -45,6 +45,7 @@ interface OverviewData {
     tvpi: string;
     xirr: string;
     commitment: string;
+    funded_committed: string;
   };
 }
 
@@ -82,6 +83,7 @@ export class PerformanceComponent implements OnInit {
       tvpi: '-',
       xirr: '-',
       commitment: '-',
+      funded_committed: '-',
     },
   };
 
@@ -204,7 +206,7 @@ export class PerformanceComponent implements OnInit {
     let yAxisLableFormatter = function () {
       let value = this.value;
       let labelFormat = '';
-      return getCurrencyByUnitsPipe.transform(value, false,false,0);
+      return getCurrencyByUnitsPipe.transform(value, false,false,0,true);
     };
 
     // ** NEW ** Get the component instance to update its properties
@@ -289,7 +291,7 @@ export class PerformanceComponent implements OnInit {
                   // Update component properties with the data from the hovered point
                   component.selectedChartDate = moment(dataPoint.as_on_date).format('MMM DD, YYYY');
                   component.selectedNav =
-                    component.getCurrencyByUnitsPipe.transform(dataPoint.nav, true, true,2,true) || '-';
+                    component.getCurrencyByUnitsPipe.transform(dataPoint.nav, false, true,2,true) || '-';
 
                   // *** IMPORTANT: Map these properties to your actual data structure (dataPoint.moic, etc.) ***
                   // Using dummy data fields for MOIC/IRR/Return as they are not explicitly defined in the chart series
@@ -301,7 +303,7 @@ export class PerformanceComponent implements OnInit {
                     false
                   ) : '-' }`;
                   component.selectedDrawdowns = component.getCurrencyByUnitsPipe.transform(
-                    dataPoint.drawdowns || 0,
+                    dataPoint.funded_committed || 0,
                     true,
                     true
                   );
@@ -324,7 +326,7 @@ export class PerformanceComponent implements OnInit {
         {
           name: 'Growth',
           type: 'line',
-          data: residualValues,
+          data: navArray,
           color: '#00305B',
           marker: {
             symbol: 'circle',
@@ -333,6 +335,7 @@ export class PerformanceComponent implements OnInit {
                 fillColor: '#ffffff',
                 lineColor: '#00305B',
                 lineWidth: 2,
+                zIndex:100000,
               },
             },
           },
@@ -349,6 +352,7 @@ export class PerformanceComponent implements OnInit {
                 fillColor: '#ffffff',
                 lineColor: '#C08A84',
                 lineWidth: 2,
+                zIndex:100000,
               },
             },
           },
@@ -460,8 +464,15 @@ export class PerformanceComponent implements OnInit {
             ? this.overviewData.metadata.nav
             : '-';
           this.selectedNav =
-            this.getCurrencyByUnitsPipe.transform(this.overviewData.metadata.nav, true, true,2,true) ||
+            this.getCurrencyByUnitsPipe.transform(this.overviewData.metadata.nav, false, true,2,true) ||
             '-';
+
+             this.overviewData.metadata.funded_committed = this.overviewData.metadata.funded_committed
+            ? this.overviewData.metadata.funded_committed
+            : '-';
+          // this.selectedDrawdowns =
+          //   this.getCurrencyByUnitsPipe.transform(this.overviewData.metadata.funded_committed, true, true,2,true) ||
+          //   '-';
         },
         error: (error) => {
           // Handle error response

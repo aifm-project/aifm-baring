@@ -46,7 +46,7 @@
           <!-- <div class="separator"></div> -->
           <div class="submetric border-right">
             <div class="submetric-label">Redemption</div>
-            <div class="submetric-value">{{ overviewData?.capital_summary?.capital_redeemed ? (overviewData?.capital_summary?.capital_redeemed | getCurrencyByUnits:true:true) : '-'}}</div>
+            <div class="submetric-value">{{ +overviewData?.capital_summary?.capital_redeemed ? (overviewData?.capital_summary?.capital_redeemed | getCurrencyByUnits:true:true) : '-'}}</div>
           </div>
           <!-- <div class="separator"></div> -->
           <div class="submetric border-right">
