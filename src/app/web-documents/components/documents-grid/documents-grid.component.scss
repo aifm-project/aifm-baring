@@ -181,7 +181,7 @@
     align-items: center;
     padding: 8px 26px;
     margin-bottom: 8px;
-    
+
     .list-column {
       color: #181818;
       font-family: 'Instrument Sans', sans-serif;
@@ -189,24 +189,24 @@
       font-weight: 500;
       line-height: 20px;
       letter-spacing: -0.14px;
-      
+      text-align: left;
+      padding-right: 20px;
+
       &.document-type-column {
-        flex: 0 0 447px;
+        flex: 2;
       }
-      
+
       &.date-column {
-        flex: 0 0 117px;
-        margin-left: 121px;
+        flex: 1;
       }
-      
+
       &.file-size-column {
-        flex: 0 0 117px;
-        margin-left: 121px;
+        flex: 0.8;
       }
-      
+
       &.actions-column {
-        flex: 0 0 102px;
-        margin-left: 121px;
+        flex: 0.6;
+        padding-right: 0;
       }
     }
   }
@@ -214,69 +214,84 @@
   .list-row {
     display: flex;
     align-items: center;
-    min-height: 80px;
+    height: auto;
+    min-height: 60px;
     padding: 20px 26px;
     background: #E7EBEE;
     margin-bottom: 8px;
-    
+
     &:hover {
       background: #dde1e4;
     }
-    
+
     .list-column {
+      display: flex;
+      align-items: center;
+      text-align: left;
+      padding-right: 20px;
+
       &.document-type-column {
-        flex: 0 0 447px;
-        
+        flex: 2;
+
         .document-type-text {
           color: #000;
           font-family: 'Victor Serif Trial', serif;
           font-size: 20px;
           font-weight: 500;
           line-height: 24px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
-      
+
       &.date-column {
-        flex: 0 0 117px;
-        margin-left: 121px;
-        
+        flex: 1;
+
         .date-text {
           color: #000;
           font-family: 'Instrument Sans', sans-serif;
           font-size: 16px;
           font-weight: 400;
           line-height: 20px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
-      
+
       &.file-size-column {
-        flex: 0 0 117px;
-        margin-left: 121px;
-        
+        flex: 0.8;
+
         .file-info-wrapper {
           display: flex;
           align-items: center;
           gap: 8px;
-          
+          white-space: nowrap;
+
           .file-size-text {
             color: #000;
             font-family: 'Instrument Sans', sans-serif;
             font-size: 16px;
             font-weight: 400;
             line-height: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
       }
-      
+
       &.actions-column {
-        flex: 0 0 102px;
-        margin-left: 121px;
-        
+        flex: 0.6;
+        padding-right: 0;
+
         .list-actions {
           display: flex;
           gap: 4px;
-          // justify-content: space-between;
-          
+          align-items: center;
+          justify-content: flex-start;
+
           .list-action-btn {
             width: 30px;
             height: 30px;
@@ -287,11 +302,11 @@
             border: none;
             cursor: pointer;
             transition: background-color 0.2s ease;
-            
+
             &:hover {
               background: #1a3144;
             }
-            
+
             svg {
               width: 22px;
               height: 22px;
@@ -307,19 +322,10 @@
     .list-header,
     .list-row {
       .list-column {
-        &.document-type-column {
-          flex: 1 1 auto;
-          min-width: 200px;
-        }
-        
-        &.date-column,
-        &.file-size-column {
-          margin-left: 40px;
-        }
-        
+        padding-right: 16px;
+
         &.actions-column {
-          margin-left: 40px;
-          flex: 0 0 102px;
+          padding-right: 0;
         }
       }
     }
@@ -329,30 +335,32 @@
     .list-header {
       display: none;
     }
-    
+
     .list-row {
       flex-direction: column;
       align-items: flex-start;
+      gap: 0;
       padding: 20px;
-      
+
       .list-column {
-        margin-left: 0 !important;
         margin-bottom: 12px;
-        
+        width: 100%;
+        flex: 1 1 auto !important;
+
         &:last-child {
           margin-bottom: 0;
         }
-        
+
         &.document-type-column {
           width: 100%;
         }
-        
+
         &.date-column,
         &.file-size-column,
         &.actions-column {
           width: 100%;
         }
-        
+
         &.actions-column .list-actions {
           justify-content: flex-start;
         }
