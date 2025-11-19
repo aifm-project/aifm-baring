@@ -168,6 +168,9 @@ export class DistributionChartComponent implements OnInit {
         enabled: false,
       },
       plotOptions: {
+        pie:{
+          borderRadius: 0
+        },
         series: {
           allowPointSelect: true,
           cursor: 'pointer',
@@ -200,6 +203,7 @@ export class DistributionChartComponent implements OnInit {
               color: null,
               opacity: 1,
               shadow: false,
+              borderRadius:0,
               halo: {
                 size: 0,
                 attributes: {
@@ -218,7 +222,8 @@ export class DistributionChartComponent implements OnInit {
                   value: Highcharts.numberFormat(this.percentage, 0) + '%'
                 };
                 this.update({
-                  borderWidth: 9,
+                  borderWidth: 15,
+                  borderRadius:0,
                   borderColor: this.color
                 }, false);
 

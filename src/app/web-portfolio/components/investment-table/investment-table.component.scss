@@ -114,7 +114,7 @@
 
   // Header Styles
   .investment-header {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     height: 36px;
 
     .investment-title {
@@ -137,9 +137,9 @@
       .investment-sort {
         background-color: #122334;
         border: none;
-        border-radius: 2px;
+        border-radius: 0px;
         padding: 0;
-        height: 36px;
+        height: 35px;
         cursor: pointer;
         transition: background-color 0.2s ease;
 
@@ -152,8 +152,8 @@
           justify-content: center;
 
           img {
-            width: 24px;
-            height: 24px;
+            width: 36px;
+            height: 36px;
           }
         }
 
@@ -273,7 +273,7 @@
   // Portfolio Summary Styles
   .portfolio-summary-container {
     width: 100%;
-    margin-bottom: 43px;
+    margin-bottom: 24px;
   }
 
   .portfolio-summary {
@@ -959,7 +959,7 @@ td {
   width: 271px;
   vertical-align: middle;
   color: #000000;
-  font-family: 'Victor Serif Trial';
+  font-family: "Instrument Sans" !important;
   font-weight: 500;
   font-size: 20px;
   line-height: 24px;
@@ -1016,4 +1016,12 @@ th {
 
 .industry{
   width: 200px;
+}
+.irr,
+.moic,
+.weight {
+  width: 100px;
+}
+.btn{
+  gap: 0;
 }

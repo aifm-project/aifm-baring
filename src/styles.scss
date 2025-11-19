@@ -3,8 +3,6 @@
 @use 'fonts' as *;
 @use 'app/shared/styles/mixins' as *;
 
-
-
 /* CSS Variables for consistent theming */
 :root {
   /* Colors */
@@ -22,10 +20,10 @@
   --overlay: rgba(0, 0, 0, 0.2);
 
   /* Typography */
-  --font-primary: 'Victor Serif Trial', -apple-system,  sans-serif;
-  --font-secondary: 'Instrument Sans', -apple-system,  sans-serif;
-  --font-body: 'Inter', -apple-system,  sans-serif;
-  --font-system: 'DM Sans', -apple-system,  sans-serif;
+  --font-primary: 'Victor Serif Trial', -apple-system, sans-serif;
+  --font-secondary: 'Instrument Sans', -apple-system, sans-serif;
+  --font-body: 'Inter', -apple-system, sans-serif;
+  --font-system: 'DM Sans', -apple-system, sans-serif;
 
   /* Spacing */
   --spacing-xs: 4px;
@@ -138,9 +136,7 @@ a:hover {
   font-size: 16px;
   color: var(--text-primary);
   background-color: var(--white);
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .form-input:focus {
   outline: none;
@@ -1196,7 +1192,7 @@ a:hover {
 /* Performance */
 .performance .section-title,
 .documents-preview .section-title,
-.insights .section-title {
+.section-title {
   color: var(--text-primary);
   font-family: var(--font-primary);
   font-size: 24px;
@@ -1206,7 +1202,7 @@ a:hover {
 }
 
 .documents-preview .section-title,
-.insights .section-title {
+.section-title {
   color: var(--text-primary);
   font-family: var(--font-primary);
   font-size: 28px;
@@ -1289,7 +1285,7 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 56px;
+  margin-bottom: 55px;
 }
 .performance-title {
   display: flex;
@@ -1585,18 +1581,18 @@ a:hover {
 .latest-insights {
   margin-bottom: var(--spacing-xxl);
 }
-.insights-header {
+-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--spacing-lg);
 }
-.insights-controls {
+-controls {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
 }
-.insights-filter {
+-filter {
   padding: 6px 12px;
   background-color: var(--gray-light);
   border: none;
@@ -1607,7 +1603,7 @@ a:hover {
   cursor: pointer;
   transition: all 0.2s ease;
 }
-.insights-filter:hover {
+-filter:hover {
   background-color: var(--border-color);
 }
 
@@ -2135,12 +2131,12 @@ a:hover {
     gap: var(--spacing-md);
     align-items: flex-start;
   }
-  .insights-header {
+  -header {
     flex-direction: column;
     gap: var(--spacing-md);
     align-items: flex-start;
   }
-  .insights-controls {
+  -controls {
     align-self: stretch;
     justify-content: space-between;
   }
