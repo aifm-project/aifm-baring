@@ -13,7 +13,7 @@
           <div class="filter-group">
             <button class="filter-dropdown">
               <select class="form-select"  (change)="documentTypeChange($event.target)">
-              <option value="ALL">SORT BY TOPIC</option>
+              <option value="ALL">SORT BY TOPIC (ALL DOCUMENTS)</option>
               <option *ngFor="let sk of documentTypes" [value]="sk">{{sk}}</option>
             </select>
             </button>
