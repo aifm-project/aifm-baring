@@ -2,7 +2,9 @@
   width: 100%;
   min-height: 100vh;
   background: #fff;
-  
+  position: relative;
+  z-index: 1;
+
   .documents-content {
     padding: 80px 0;
     
@@ -148,4 +150,10 @@
 .form-select{
   border-radius: 0;
   background-color: transparent;
+}
+
+::ng-deep app-newsletter .newsletter-section {
+  &::before {
+    background: #fff;
+  }
 }

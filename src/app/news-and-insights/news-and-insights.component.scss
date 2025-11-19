@@ -2,6 +2,14 @@
   width: 100%;
   background: #fff;
   min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+::ng-deep app-newsletter .newsletter-section {
+  &::before {
+    background: #fff;
+  }
 }
 
 .content-container {

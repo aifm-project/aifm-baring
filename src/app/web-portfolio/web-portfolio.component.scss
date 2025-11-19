@@ -3,11 +3,14 @@
   background-color: #f3f5f7;
   display: flex;
   flex-direction: column;
+  position: relative;
 
   .portfolio-content {
     background-color: #f3f5f7;
     flex: 1;
     width: 100%;
+    position: relative;
+    z-index: 1;
 
     .container {
       width: 100%;
