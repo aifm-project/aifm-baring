@@ -114,7 +114,12 @@ export class DistributionChartComponent implements OnInit {
             const chart = this,
               series = chart.series[0],
               custom = chart.options.chart.custom;
-
+            chart.series[0].points.forEach((p) => {
+              if (p.graphic && p.graphic.element) {
+                p.graphic.element.removeAttribute('stroke-linejoin');
+                p.graphic.element.removeAttribute('stroke-linecap');
+              }
+            });
             let customLabel = custom.label;
             let currentContent = custom.labelContent;
             const htmlContent = `${currentContent.name}<br/>
@@ -168,8 +173,12 @@ export class DistributionChartComponent implements OnInit {
         enabled: false,
       },
       plotOptions: {
-        pie:{
-          borderRadius: 0
+        pie: {
+          borderRadius: 0,
+          borderWidth: 0,
+          states: {
+            hover: { halo: false },
+          },
         },
         series: {
           allowPointSelect: true,
@@ -203,7 +212,7 @@ export class DistributionChartComponent implements OnInit {
               color: null,
               opacity: 1,
               shadow: false,
-              borderRadius:0,
+              borderRadius: 0,
               halo: {
                 size: 0,
                 attributes: {
@@ -213,20 +222,22 @@ export class DistributionChartComponent implements OnInit {
               slicedOffset: 12, // Double the default offset of 6
             },
           },
-            point: {
+          point: {
             events: {
               select() {
                 const chart = this.series.chart;
                 chart.options.chart.custom.labelContent = {
                   name: this.name,
-                  value: Highcharts.numberFormat(this.percentage, 0) + '%'
+                  value: Highcharts.numberFormat(this.percentage, 0) + '%',
                 };
-                this.update({
-                  borderWidth: 15,
-                  borderRadius:0,
-                  borderColor: this.color
-                }, false);
-
+                this.update(
+                  {
+                    borderWidth: 15,
+                    borderRadius: 0,
+                    borderColor: this.color,
+                  },
+                  false
+                );
 
                 chart.redraw();
               },
@@ -236,9 +247,9 @@ export class DistributionChartComponent implements OnInit {
                 this.update({ slicedOffset: 6, borderWidth: 0 }, false);
 
                 chart.redraw();
-              }
-            }
-          }
+              },
+            },
+          },
         },
       },
       series: [
@@ -248,9 +259,9 @@ export class DistributionChartComponent implements OnInit {
           colorByPoint: true,
           innerSize: '95%',
           borderWidth: 0,
-          slicedOffset:16,
+          slicedOffset: 16,
           padAngle: 0,
-          data: data
+          data: data,
         },
       ],
     };

@@ -278,3 +278,10 @@
 .padding-0{
   padding: 0;
 }
+.highcharts-series path {
+    border-radius: 0;
+}
+.highcharts-series path {
+  stroke-linejoin: miter !important;
+  stroke-linecap: butt !important;
+}
