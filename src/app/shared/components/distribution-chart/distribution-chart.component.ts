@@ -110,6 +110,12 @@ export class DistributionChartComponent implements OnInit {
           label: null,
         },
         events: {
+          load: function () {
+            const chart = this;
+            const series = chart.series[0];
+            const lastPoint = series.data[0];
+            lastPoint.firePointEvent('click');
+          },
           render() {
             const chart = this,
               series = chart.series[0],
@@ -228,7 +234,7 @@ export class DistributionChartComponent implements OnInit {
                 const chart = this.series.chart;
                 chart.options.chart.custom.labelContent = {
                   name: this.name,
-                  value: Highcharts.numberFormat(this.percentage, 0) + '%',
+                  value: Highcharts.numberFormat(this.y, 0) + '%',
                 };
                 this.update(
                   {
