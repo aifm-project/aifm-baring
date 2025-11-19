@@ -1,0 +1,90 @@
+<div class="pdf-viewer-modal-overlay" *ngIf="config?.isOpen" (click)="closePdf()">
+  <div class="pdf-viewer-container" (click)="$event.stopPropagation()">
+    <!-- Header with controls -->
+    <div class="pdf-viewer-header">
+      <div class="pdf-viewer-title">
+        <h3>{{ config?.fileName || 'Document' }}</h3>
+      </div>
+
+      <div class="pdf-viewer-controls">
+        <!-- Zoom Controls -->
+        <div class="control-group">
+          <button
+            class="control-btn"
+            title="Zoom Out"
+            (click)="zoomOut()"
+            [disabled]="zoomLevel <= 50">
+            <span class="icon">−</span>
+          </button>
+          <span class="zoom-level">{{ zoomLevel }}%</span>
+          <button
+            class="control-btn"
+            title="Zoom In"
+            (click)="zoomIn()"
+            [disabled]="zoomLevel >= 400">
+            <span class="icon">+</span>
+          </button>
+          <button
+            class="control-btn"
+            title="Reset Zoom"
+            (click)="resetZoom()">
+            <span class="icon">✓</span>
+          </button>
+        </div>
+
+        <!-- Download Button -->
+        <button
+          class="control-btn download-btn"
+          title="Download PDF"
+          (click)="downloadPdf()">
+          <span class="icon">⬇</span>
+        </button>
+
+        <!-- Fullscreen Toggle -->
+        <button
+          class="control-btn fullscreen-btn"
+          title="Toggle Fullscreen"
+          (click)="toggleFullscreen()">
+          <span class="icon">⛶</span>
+        </button>
+
+        <!-- Close Button -->
+        <button
+          class="control-btn close-btn"
+          title="Close PDF"
+          (click)="closePdf()">
+          <span class="icon">✕</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- PDF Viewer -->
+    <div class="pdf-viewer-content">
+      <ngx-extended-pdf-viewer
+        #pdfViewer
+        [src]="pdfUrl"
+        [zoom]="zoomLevel"
+        [externalLinkTarget]="'blank'"
+        [downloadFileName]="config?.fileName || 'document.pdf'"
+        [showSpinner]="true"
+        [renderText]="true"
+        [originalSize]="false"
+        [fitToPage]="true"
+        [autoresize]="true"
+        [showSearchButton]="searchEnabled"
+        [showPrintButton]="false"
+        [showOpenButton]="false"
+        [showDownloadButton]="false"
+        [showToolbar]="false"
+        [showBorders]="false"
+        [showHandToolButton]="false"
+        [showPropertiesButton]="false"
+        [showRotateButton]="false"
+        [showPresentationMode]="false"
+        [showSidebarButton]="false"
+        [showSecondaryToolbarToggle]="false"
+        (onDocumentLoad)="onPdfLoaded()">
+      </ngx-extended-pdf-viewer>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FundService } from '../../../core/services/fund.service';
+import { PdfViewerService } from '../../../shared/services/pdf-viewer.service';
 
 @Component({
   selector: 'app-documents-grid',
@@ -20,7 +21,10 @@ export class DocumentsGridComponent {
   },{type:'Quarterly Update Report',value:'https://api.builder.io/api/v1/image/assets/TEMP/7e4df20ed3436c041c1beeb4d7c9d2a08d7fea6b?width=620'}]
 
   viewMode: 'grid' | 'list' = 'grid';
-  constructor(private fundService:FundService){
+  constructor(
+    private fundService: FundService,
+    private pdfViewerService: PdfViewerService
+  ){
 
   }
   ngOnInit() {
@@ -82,11 +86,20 @@ export class DocumentsGridComponent {
   }
 
   onView(document: any) {
-    console.log('View document:', document.title);
-  }
+    const fileName = document.type || document.title || 'document.pdf';
 
-  onDownload(document: any) {
-    console.log('Download document:', document.title);
+    // Use the same path as download
+    if (document.guid) {
+      // Construct the download/view path using the same endpoint as download
+      const documentPath = this.fundService.getDocumentDownloadPath(document.guid);
+      this.pdfViewerService.openPdf(documentPath, `${fileName}.pdf`);
+    } else if (document.url) {
+      this.pdfViewerService.openPdf(document.url, `${fileName}.pdf`);
+    } else if (document.blob) {
+      this.pdfViewerService.openPdfBlob(document.blob, `${fileName}.pdf`);
+    } else {
+      console.warn('No path, URL or blob available for document:', document);
+    }
   }
 
   onAISummary(document: any) {

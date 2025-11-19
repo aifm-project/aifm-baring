@@ -49,6 +49,10 @@ downloadDocument(documentId, onlyBlob = false): Promise<any> {
     return this.getContent(endPoint, onlyBlob);
 }
 
+getDocumentDownloadPath(documentId: string): string {
+    return environment.serverEndPoint + "dataroom/" + documentId + "/download/";
+}
+
   public async getContent(url, onlyBlob = false) {
     let options = {
       responseType: 'blob' as 'json'

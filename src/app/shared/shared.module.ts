@@ -10,8 +10,10 @@ import { FundSelectorComponent } from './components/fund-selector/fund-selector.
 import { DistributionChartComponent } from './components/distribution-chart/distribution-chart.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { PdfViewerComponent } from './components/pdf-viewer/pdf-viewer.component';
 import { GetCurrencyByUnitsPipe } from './pipe/get-currency-by-units.pipe';
 import { DashboardNavigationButton } from './components/dashboard-navigation-button/dashboard-navigation-button';
+
 @NgModule({
   declarations: [],
   imports: [
@@ -25,6 +27,7 @@ import { DashboardNavigationButton } from './components/dashboard-navigation-but
     DistributionChartComponent,
     NotificationsComponent,
     ProfileComponent,
+    PdfViewerComponent,
     GetCurrencyByUnitsPipe,
     DashboardNavigationButton
   ],
@@ -36,6 +39,7 @@ import { DashboardNavigationButton } from './components/dashboard-navigation-but
     DistributionChartComponent,
     NotificationsComponent,
     ProfileComponent,
+    PdfViewerComponent,
     GetCurrencyByUnitsPipe,
     DashboardNavigationButton
   ],
