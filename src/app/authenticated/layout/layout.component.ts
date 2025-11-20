@@ -21,7 +21,7 @@ import { PdfViewerComponent } from '../../shared/components/pdf-viewer/pdf-viewe
   ],
   template: `
     <app-navbar></app-navbar>
-    <app-fund-selector *ngIf="!isNewsAndInsightsPage()"></app-fund-selector>
+    <app-fund-selector *ngIf="!isNewsAndInsightsPage() && !isNotificationPage()"></app-fund-selector>
     <router-outlet></router-outlet>
     <app-pdf-viewer></app-pdf-viewer>
     <app-newsletter></app-newsletter>
@@ -34,5 +34,8 @@ export class AuthenticatedLayoutComponent {
 
   isNewsAndInsightsPage(): boolean {
     return this.router.url.includes('/insights');
+  }
+  isNotificationPage(): boolean {
+    return this.router.url.includes('/notifications');
   }
 }

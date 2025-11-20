@@ -84,113 +84,116 @@
   }
 
   .filter-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
     gap: 20px;
+    flex-wrap: wrap;
 
-    @media (max-width: 992px) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    @media (max-width: 576px) {
-      grid-template-columns: 1fr;
+    @media (max-width: 768px) {
+      flex-direction: column;
       gap: 12px;
     }
   }
 
-  .filter-item {
+  .filter-dropdown {
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    width: 420px;
+    height: 36px;
+    background: #F5F7F8;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
 
-    .filter-select {
+    @media (max-width: 768px) {
       width: 100%;
-      height: 36px;
+    }
+
+    &:hover {
+      background: #eaecee;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 12px;
+      width: 12px;
+      height: 12px;
+      border-right: 2px solid #122334;
+      border-bottom: 2px solid #122334;
+      transform: rotate(45deg);
+      pointer-events: none;
+      flex-shrink: 0;
+    }
+
+    .form-select {
+      flex: 1;
+      height: 100%;
       padding: 4px 35px 4px 10px;
-      background: #f5f7f8;
+      background: transparent;
       border: none;
       color: #122334;
       font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
       font-size: 14px;
       font-weight: 400;
-      letter-spacing: -0.14px;
+      line-height: 18px;
       text-transform: uppercase;
       appearance: none;
       cursor: pointer;
+      outline: none;
 
       &:focus {
         outline: none;
-        background: #f5f7f8;
+      }
+
+      option {
+        color: #122334;
+      }
+    }
+  }
+
+  .search-wrapper {
+    position: relative;
+    width: 420px;
+
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 36px;
+      padding: 4px 40px 4px 10px;
+      background: #F5F7F8;
+      border: none;
+      color: #122334;
+      font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 18px;
+      text-transform: uppercase;
+
+      &::placeholder {
+        color: #122334;
+        opacity: 0.5;
+      }
+
+      &:focus {
+        outline: none;
+        background: #eaecee;
       }
     }
 
-    .dropdown-arrow {
+    .search-icon {
       position: absolute;
-      right: 12px;
+      right: 10px;
       top: 50%;
       transform: translateY(-50%);
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-width: 6px 5.5px 0 5.5px;
-      border-color: #122334 transparent transparent transparent;
+      width: 28px;
+      height: 28px;
       pointer-events: none;
-    }
-
-    &.search-item {
-      .search-input {
-        width: 100%;
-        height: 36px;
-        padding: 4px 45px 4px 10px;
-        background: #f5f7f8;
-        border: none;
-        color: #122334;
-        font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
-        font-size: 14px;
-        font-weight: 400;
-        letter-spacing: -0.14px;
-        text-transform: uppercase;
-
-        &::placeholder {
-          color: #122334;
-          opacity: 0.5;
-        }
-
-        &:focus {
-          outline: none;
-          background: #f5f7f8;
-        }
-      }
-
-      .search-icon-css {
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 18px;
-        height: 18px;
-        pointer-events: none;
-
-        &::before {
-          content: '';
-          position: absolute;
-          width: 14px;
-          height: 14px;
-          border: 1.5px solid #122334;
-          border-radius: 50%;
-          top: 0;
-          left: 0;
-        }
-
-        &::after {
-          content: '';
-          position: absolute;
-          width: 2px;
-          height: 7px;
-          background: #122334;
-          transform: rotate(45deg);
-          bottom: 0;
-          right: 1px;
-        }
-      }
     }
   }
 }
