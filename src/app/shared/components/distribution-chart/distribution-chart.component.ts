@@ -170,7 +170,7 @@ export class DistributionChartComponent implements OnInit {
         },
       },
       tooltip: {
-        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>',
+        pointFormat: '{series.name}: <b>{this.y:.1f}%</b>',
       },
       legend: {
         enabled: false,
