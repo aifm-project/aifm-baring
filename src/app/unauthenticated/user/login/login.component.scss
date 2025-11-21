@@ -320,3 +320,7 @@
 .margin-bottom-48 {
   margin-bottom: 48px;
 }
+
+button:disabled {
+    cursor: not-allowed !important;
+}

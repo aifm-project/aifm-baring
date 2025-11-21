@@ -85,14 +85,16 @@ export class DocumentsGridComponent {
     this.viewMode = mode;
   }
 
-  onView(document: any) {
+  async onView(document: any) {
     const fileName = document.type || document.title || 'document.pdf';
-
+   
     // Use the same path as download
     if (document.guid) {
+      let  response = await this.fundService.downloadDocument(document.guid);
       // Construct the download/view path using the same endpoint as download
-      const documentPath = this.fundService.getDocumentDownloadPath(document.guid);
-      this.pdfViewerService.openPdf(documentPath, `${fileName}.pdf`);
+      // const documentPath = this.fundService.getDocumentDownloadPath(document.guid);
+      this.pdfViewerService.openPdfBlob(response, `${fileName}.pdf`);
+      // this.pdfViewerService.openPdf(documentPath, `${fileName}.pdf`);
     } else if (document.url) {
       this.pdfViewerService.openPdf(document.url, `${fileName}.pdf`);
     } else if (document.blob) {

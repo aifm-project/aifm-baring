@@ -57,6 +57,7 @@ export class FundSelectorComponent {
   }
 
   onFundSelect(fund: string) {
+    this.selectedFund = fund
     this.getAsOfDates('PERFORMANCE');
     console.log('Selected fund:', fund);
   }
@@ -103,5 +104,9 @@ export class FundSelectorComponent {
       }
     }));
     console.log('Selected date:', date);
+  }
+
+  loadAsOfDate(activeTab){
+    // this.getAsOfDates(activeTab);
   }
 }
