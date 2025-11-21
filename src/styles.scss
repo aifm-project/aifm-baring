@@ -1,12 +1,7 @@
 /* Global Styles for AIFM Frontend Application */
-/* PrimeNG Theme and Icons */
-@import 'primeng/resources/themes/lara-light-blue/theme.css';
-@import 'primeng/resources/primeng.min.css';
-@import 'primeicons/primeicons.css';
-
 /* Self-hosted fonts from src/assets/fonts/ */
-@use 'fonts' as *;
-@use 'app/shared/styles/mixins' as *;
+@import 'fonts';
+@import 'app/shared/styles/mixins';
 
 /* CSS Variables for consistent theming */
 :root {
