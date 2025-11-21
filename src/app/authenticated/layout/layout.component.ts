@@ -1,6 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ToastModule } from 'primeng/toast';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
 import { FundSelectorComponent } from '../../shared/components/fund-selector/fund-selector.component';
 import { NewsletterComponent } from '../../shared/components/newsletter/newsletter.component';
@@ -12,6 +13,7 @@ import { PdfViewerComponent } from '../../shared/components/pdf-viewer/pdf-viewe
   standalone: true,
   imports: [
     CommonModule,
+    ToastModule,
     NavbarComponent,
     FundSelectorComponent,
     RouterOutlet,
@@ -20,6 +22,7 @@ import { PdfViewerComponent } from '../../shared/components/pdf-viewer/pdf-viewe
     PdfViewerComponent,
   ],
   template: `
+    <p-toast></p-toast>
     <app-navbar></app-navbar>
     <app-fund-selector *ngIf="!isNewsAndInsightsPage() && !isNotificationPage()"></app-fund-selector>
     <router-outlet></router-outlet>

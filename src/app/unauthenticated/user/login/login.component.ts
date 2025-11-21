@@ -16,9 +16,10 @@ import { ToastModule } from 'primeng/toast';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,ToastModule ],
+  imports: [CommonModule, ReactiveFormsModule, ToastModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
+  providers: [MessageService]
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
@@ -56,13 +57,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-     this.messageService.add({
-              key: 'successSkKey',
-              severity: 'error',
-              sticky: true,
-              summary: 'User account disabled. Please reset your password to login (note - reset password link is sent to your registered email post Reset Password request)',
-              detail: ''
-            });
     // Redirect if already logged in
     if (this.authService.isAuthenticated()) {
       this.router.navigate(['/dashboard']);
@@ -106,40 +100,36 @@ export class LoginComponent implements OnInit {
           }, 100);
         }
           else if (this.loginResponse.maximumAttempt) {
-            this.messageService.clear();
+            this.isLoading = false;
             this.messageService.add({
-              key: 'errorKey',
               severity: 'error',
-              sticky: true,
-              summary: 'User account disabled. Please reset your password to login (note - reset password link is sent to your registered email post Reset Password request)',
-              detail: ''
+              summary: 'Account Disabled',
+              detail: 'User account disabled. Please reset your password to login.',
+              life: 5000
             });
           } else if (this.loginResponse.attempts) {
-            this.messageService.clear();
+            this.isLoading = false;
             this.messageService.add({
-              key: 'errorKey',
               severity: 'error',
-              sticky: true,
-              summary: 'Incorrect password. After 3 unsuccessfull attempts, your account will be blocked',
-              detail: ''
+              summary: 'Incorrect Password',
+              detail: 'Incorrect password. After 3 unsuccessful attempts, your account will be blocked.',
+              life: 5000
             });
           } else if (this.loginResponse.maxWrongOTPAttempt) {
-            this.messageService.clear();
+            this.isLoading = false;
             this.messageService.add({
-              key: 'errorKey',
               severity: 'error',
-              sticky: true,
-              summary: this.loginResponse.message,
-              detail: ''
+              summary: 'Error',
+              detail: this.loginResponse.message,
+              life: 5000
             });
           } else if (this.loginResponse.errorMessage) {
-            this.messageService.clear();
+            this.isLoading = false;
             this.messageService.add({
-              key: 'errorKey',
               severity: 'error',
-              sticky: true,
-              summary: this.loginResponse.errorMessage,
-              detail: ''
+              summary: 'Login Failed',
+              detail: this.loginResponse.errorMessage,
+              life: 5000
             });
           } else {
             // if (this.loginResponse.user) {
@@ -157,13 +147,12 @@ export class LoginComponent implements OnInit {
               // }
 
             } else {
-              this.messageService.clear();
+              this.isLoading = false;
               this.messageService.add({
-                key: 'errorKey',
-                severity: 'error',
-                sticky: true,
-                summary: 'Please set/reset the password to login',
-                detail: ''
+                severity: 'warn',
+                summary: 'Password Required',
+                detail: 'Please set/reset the password to login.',
+                life: 5000
               });
               this.router.navigate(['reset'], { state: { email: form.value.email } });
             }
@@ -172,46 +161,56 @@ export class LoginComponent implements OnInit {
 
         },
         errResponse => {
-  
+          this.isLoading = false;
+          console.error('Login error:', errResponse);
+
           switch (errResponse.status) {
             case 401:
-              this.messageService.clear();
               this.messageService.add({
-                key: 'errorKey',
                 severity: 'error',
-                sticky: true,
-                summary: 'Email and password not matched!',
-                detail: ''
+                summary: 'Authentication Failed',
+                detail: 'Email and password do not match!',
+                life: 5000
               });
               break;
             case 404:
-              console.log(JSON.stringify(errResponse));
-              this.messageService.clear();
               this.messageService.add({
-                key: 'errorKey',
                 severity: 'error',
-                sticky: true,
-                summary: errResponse.error.message,
-                detail: ''
+                summary: 'User Not Found',
+                detail: errResponse.error?.message || 'User account not found!',
+                life: 5000
               });
               break;
             default:
-              if (errResponse.error != null) {
-                console.log(JSON.stringify(errResponse));
-              }
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Login Error',
+                detail: errResponse.error?.message || 'An error occurred during login. Please try again.',
+                life: 5000
+              });
           }
         }
       );
   }
 
   userValidate(data:any) {
-   this.isLoading = false
+    this.isLoading = false;
     sessionStorage.setItem('activeSession', 'true');
-  this.accountInfo = this.loginResponse.user.account;
-  this.store.dispatch(setAccountInfo({ accountInfo: this.accountInfo }));
+    this.accountInfo = this.loginResponse.user.account;
+    this.store.dispatch(setAccountInfo({ accountInfo: this.accountInfo }));
+
+    // Show success message
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Login Successful!',
+      detail: `Welcome back, ${this.loginResponse.user.display_name || 'User'}!`,
+      life: 3000
+    });
     if (this.loginResponse.user.user_role === 'SuperAdmin') {
       console.log('User login : ' + JSON.stringify(this.loginResponse.user));
-      window.location.href = '/superadmin';
+      setTimeout(() => {
+        window.location.href = '/superadmin';
+      }, 500);
     } else {
        if (data.multi_user_role.length > 1 && data.multiUserId == 0) {
         this.multiUserRole = true;
@@ -223,15 +222,21 @@ export class LoginComponent implements OnInit {
           this.showPanNumber = true;
         } else {
           if (data && data.returnUrl) {
-            this.router.navigate([data.returnUrl], { queryParams: { returnUrl: this.returnUrl } });
+            setTimeout(() => {
+              this.router.navigate([data.returnUrl], { queryParams: { returnUrl: this.returnUrl } });
+            }, 500);
           } else {
             if (this.returnUrl) {
-              this.router.navigate([this.returnUrl]);
+              setTimeout(() => {
+                this.router.navigate([this.returnUrl]);
+              }, 500);
             } else {
               // Optionally, store activeTabFundmanager in Redux or sessionStorage if needed
               this.store.dispatch(setAuthData({ userData: this.loginResponse.user, token: data.token }));
               localStorage.setItem('authToken', data.token);
-              window.location.href = "/dashboard";
+              setTimeout(() => {
+                window.location.href = "/dashboard";
+              }, 500);
             }
           }
         }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ToastModule } from 'primeng/toast';
 import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
@@ -8,6 +9,6 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes), LoginComponent],
+  imports: [RouterModule.forChild(routes), ToastModule, LoginComponent],
 })
 export class UserModule {}

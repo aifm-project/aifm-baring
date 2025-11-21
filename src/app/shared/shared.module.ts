@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ToastModule } from 'primeng/toast';
 
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -20,6 +21,7 @@ import { DashboardNavigationButton } from './components/dashboard-navigation-but
     CommonModule,
     RouterModule,
     FormsModule,
+    ToastModule,
     NavbarComponent,
     FooterComponent,
     NewsletterComponent,
@@ -32,6 +34,7 @@ import { DashboardNavigationButton } from './components/dashboard-navigation-but
     DashboardNavigationButton
   ],
   exports: [
+    ToastModule,
     NavbarComponent,
     FooterComponent,
     NewsletterComponent,

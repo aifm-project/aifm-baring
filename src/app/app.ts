@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +8,6 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.scss',
+  providers: [MessageService],
 })
 export class App {}
