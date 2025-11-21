@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 interface IndustryData {
   name: string;
   percentage: number;
+  actualValue: number;
   color: string;
 }
 
@@ -72,6 +73,7 @@ export class DistributionChartComponent implements OnInit {
             (item: any, index: number) => ({
               name: item.key,
               percentage: item.value.toFixed(2),
+              actualValue: parseFloat(item.value.toFixed(2)) + ' %',
               color: this.colorSeries[index % this.colorSeries.length],
             })
           );
@@ -170,7 +172,7 @@ export class DistributionChartComponent implements OnInit {
         },
       },
       tooltip: {
-        pointFormat: '{series.name}: <b>{this.y:.1f}%</b>',
+       pointFormat: '{series.name}: <b>{point.y}' +' %'+'</b>'
       },
       legend: {
         enabled: false,
@@ -203,7 +205,7 @@ export class DistributionChartComponent implements OnInit {
             {
               enabled: false,
               distance: -15,
-              format: '{point.percentage:.0f}%',
+              format: '{point.y} %',
               style: {
                 fontSize: '0.9em',
               },
@@ -234,7 +236,7 @@ export class DistributionChartComponent implements OnInit {
                 const chart = this.series.chart;
                 chart.options.chart.custom.labelContent = {
                   name: this.name,
-                  value: Highcharts.numberFormat(this.y, 0) + '%',
+                  value: Highcharts.numberFormat(this.y, 2)+ ' %',
                 };
                 this.update(
                   {

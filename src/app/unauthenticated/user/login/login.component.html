@@ -66,6 +66,7 @@
             <input [type]="showPassword ? 'text' : 'password'" id="pan" formControlName="pan" class="form-control"
               placeholder="Enter your PAN"
               [class.error]="loginForm && loginForm.get('pan')?.invalid && loginForm.get('pan')?.touched" />
+            <div class="form-divider"></div>
           </div>
         </ng-template>
         <button type="submit" class="btn-login" [disabled]="isLoading || loginForm.invalid">

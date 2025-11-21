@@ -110,6 +110,6 @@ export class FundSelectorComponent {
   }
 
   loadAsOfDate(activeTab){
-    // this.getAsOfDates(activeTab);
+    this.getAsOfDates(activeTab);
   }
 }
