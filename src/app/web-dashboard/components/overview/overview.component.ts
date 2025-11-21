@@ -95,7 +95,7 @@ export class OverviewComponent {
   }
 
   fetchFundOverview() {
-    this.fundService.getPerformanceData({ fundGuid: this.selectedFund.guid, classGuid: this.selectedFund.guid, asOnDate: this.asOfDate }, 'CAPITAL_SUMMARY,METADATA').subscribe({
+    this.fundService.getPerformanceData({ fundGuid: this.selectedFund.guid, classGuid: (this.selectedFund.isInvestorCard ? this.selectedFund.user_guid :  this.selectedFund.guid), asOnDate: this.asOfDate }, 'CAPITAL_SUMMARY,METADATA').subscribe({
       next: (sk) => {
         console.log('Fund Performance Data:', sk);
         this.overviewData.capital_summary = sk.performance && sk.performance.capital_summary ? sk.performance.capital_summary : {};

@@ -90,7 +90,7 @@ export class DocumentsGridComponent {
    
     // Use the same path as download
     if (document.guid) {
-      let  response = await this.fundService.downloadDocument(document.guid);
+      let  response = await this.fundService.downloadDocument(document.guid,true);
       // Construct the download/view path using the same endpoint as download
       // const documentPath = this.fundService.getDocumentDownloadPath(document.guid);
       this.pdfViewerService.openPdfBlob(response, `${fileName}.pdf`);

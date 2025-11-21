@@ -426,7 +426,7 @@ export class PerformanceComponent implements OnInit {
 
     const apiParams = {
       fundGuid: this.selectedFund.guid,
-      classGuid: this.selectedFund.guid,
+      classGuid:this.selectedFund.isInvestorCard ? this.selectedFund.user_guid :  this.selectedFund.guid,
       asOnDate: this.asOfDate,
       startDate: dateRange.startDate,
       endDate: dateRange.endDate,
@@ -447,7 +447,7 @@ export class PerformanceComponent implements OnInit {
       .getPerformanceData(
         {
           fundGuid: this.selectedFund.guid,
-          classGuid: this.selectedFund.guid,
+          classGuid: this.selectedFund.isInvestorCard ? this.selectedFund.user_guid :  this.selectedFund.guid,
           asOnDate: this.asOfDate,
         },
         'CAPITAL_SUMMARY,METADATA'

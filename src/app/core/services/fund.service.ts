@@ -16,7 +16,12 @@ export class FundService {
     }
 
     getPerformanceData(params: { fundGuid: string, classGuid: string, asOnDate: string }, type?: any): Observable<any> {
-        var url = 'funds/' + params.fundGuid + '/classes/' + params.classGuid + '/performance?asOnDate=' + params.asOnDate;
+       var url = 'funds/' + params.fundGuid + '/classes/' + params.classGuid + '/performance?asOnDate=' + params.asOnDate;
+       if(localStorage.getItem('userRole')=='Investor Role'){
+
+        url = 'funds/' + params.fundGuid + '/investors/' + params.classGuid + '/performance?asOnDate=' + params.asOnDate;
+       }
+       
         if (type) {
             url += '&type=' + type
         }

@@ -10,7 +10,6 @@ import { PdfViewerService, PdfViewerConfig } from '../../services/pdf-viewer.ser
   imports: [CommonModule, FormsModule, NgxExtendedPdfViewerModule],
   templateUrl: './pdf-viewer.component.html',
   styleUrls: ['./pdf-viewer.component.scss'],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PdfViewerComponent implements OnInit {
   @ViewChild('pdfViewer') pdfViewer: any;
@@ -43,7 +42,7 @@ export class PdfViewerComponent implements OnInit {
       if (config.url) {
         this.pdfUrl = config.url;
       } else if (config.blob) {
-        this.pdfUrl = URL.createObjectURL(config.blob);
+        this.pdfUrl = window.URL.createObjectURL(config.blob) + '#toolbar=0';
       }
       this.cdr.detectChanges();
     });

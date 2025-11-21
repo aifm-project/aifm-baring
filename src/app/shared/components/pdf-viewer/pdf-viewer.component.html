@@ -1,4 +1,4 @@
-<div class="pdf-viewer-modal-overlay" *ngIf="config?.isOpen" (click)="closePdf()">
+<div class="pdf-viewer-modal-overlay" *ngIf="config?.isOpen && pdfUrl" (click)="closePdf()">
   <div class="pdf-viewer-container" (click)="$event.stopPropagation()">
     <!-- Header with controls -->
     <div class="pdf-viewer-header">
@@ -62,28 +62,17 @@
     <div class="pdf-viewer-content">
       <ngx-extended-pdf-viewer
         #pdfViewer
-        [src]="pdfUrl"
+        [(src)]="pdfUrl"
+        [textLayer]="true"
         [zoom]="zoomLevel"
-        [externalLinkTarget]="'blank'"
-        [downloadFileName]="config?.fileName || 'document.pdf'"
-        [showSpinner]="true"
-        [renderText]="true"
-        [originalSize]="false"
-        [fitToPage]="true"
-        [autoresize]="true"
-        [showSearchButton]="searchEnabled"
         [showPrintButton]="false"
-        [showOpenButton]="false"
         [showDownloadButton]="false"
         [showToolbar]="false"
         [showBorders]="false"
         [showHandToolButton]="false"
         [showPropertiesButton]="false"
         [showRotateButton]="false"
-        [showPresentationMode]="false"
-        [showSidebarButton]="false"
-        [showSecondaryToolbarToggle]="false"
-        (onDocumentLoad)="onPdfLoaded()">
+        [showSidebarButton]="false">
       </ngx-extended-pdf-viewer>
     </div>
   </div>

@@ -198,14 +198,6 @@ export class LoginComponent implements OnInit {
     sessionStorage.setItem('activeSession', 'true');
     this.accountInfo = this.loginResponse.user.account;
     this.store.dispatch(setAccountInfo({ accountInfo: this.accountInfo }));
-
-    // Show success message
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Login Successful!',
-      detail: `Welcome back, ${this.loginResponse.user.display_name || 'User'}!`,
-      life: 3000
-    });
     if (this.loginResponse.user.user_role === 'SuperAdmin') {
       console.log('User login : ' + JSON.stringify(this.loginResponse.user));
       setTimeout(() => {
@@ -220,6 +212,7 @@ export class LoginComponent implements OnInit {
         this.loginForm.get('userRole').removeValidators(Validators.required)
         if (this.loginResponse.user.user_role === 'Investor' && this.loginResponse.is_taxId == 0) {
           this.showPanNumber = true;
+          this.loginForm.get('pan').addValidators(Validators.required)
         } else {
           if (data && data.returnUrl) {
             setTimeout(() => {
@@ -235,42 +228,21 @@ export class LoginComponent implements OnInit {
               this.store.dispatch(setAuthData({ userData: this.loginResponse.user, token: data.token }));
               localStorage.setItem('authToken', data.token);
               setTimeout(() => {
+                 localStorage.setItem('userGuid',this.loginResponse.user.user_guid);
+                localStorage.setItem('userRole',this.loginResponse.user.user_sub_role);
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Login Successful!',
+                  detail: `Welcome back, ${this.loginResponse.user.display_name || 'User'}!`,
+                  life: 3000
+                });
                 window.location.href = "/dashboard";
               }, 500);
             }
           }
         }
       }
-      //  if (data && data.returnUrl) {
-      //         this.router.navigate([data.returnUrl], { queryParams: { returnUrl: this.returnUrl } });
-      //       } else {
-      //         if (this.returnUrl) {
-      //           this.router.navigate([this.returnUrl]);
-      //         } else if (this.loginResponse.user.account.account_type === "distributor") {
-      //           if (this.loginResponse.user.user_sub_role == "IT Admin Role") {
-      //             this.router.navigate(['wealthadmin'])
-      //           } else if (this.loginResponse.user.user_sub_role === "Investor Role") {
-      //             // Optionally, store activeTabInvestor in Redux or sessionStorage if needed
-      //             window.location.href = "/dashboard/investor";
-      //           } else {
-      //             // Optionally, store activeTabWealthDashboard in Redux or sessionStorage if needed
-      //             window.location.href = "/dashboard/distributor";
-      //           }
-      //         } else if (this.loginResponse.user.user_sub_role === "Investor Role") {
-      //           // Optionally, store activeTabInvestor in Redux or sessionStorage if needed
-      //           window.location.href = "/dashboard/investor";
-      //         } else if (this.loginResponse.user.user_role === "Distributor" &&
-      //           this.loginResponse.user.user_sub_role == "Single Login Distributor Role") {
-      //           // Optionally, store activeTabFundmanager in Redux or sessionStorage if needed
-      //           window.location.href = "/dashboard/user/distributor";
-      //         } else if (this.loginResponse.user.user_role === "AMC" &&
-      //           this.loginResponse.user.user_sub_role == "IT Admin Role") {
-      //           this.router.navigate(['admin'])
-      //         } else {
-      //           // Optionally, store activeTabFundmanager in Redux or sessionStorage if needed
-      //           window.location.href = "/dashboard";
-      //         }
-      //       }
+     
     }
   }
 

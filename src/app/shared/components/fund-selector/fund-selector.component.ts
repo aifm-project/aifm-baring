@@ -58,6 +58,9 @@ export class FundSelectorComponent {
 
   onFundSelect(fund: string) {
     this.selectedFund = fund
+    if(this.selectedFund.isInvestorCard){
+      localStorage.setItem('userGuid',this.selectedFund.user_guid)
+    }
     this.getAsOfDates('PERFORMANCE');
     console.log('Selected fund:', fund);
   }
