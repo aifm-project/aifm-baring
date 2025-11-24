@@ -1,21 +1,27 @@
 <section class="documents-display-section">
   <!-- View Toggle Controls -->
   <div class="view-toggle-controls" *ngIf="showViewToggle">
-    <button 
-      class="view-toggle-btn" 
+    <button
+      class="view-toggle-btn"
       [class.active]="viewMode === 'list'"
       (click)="toggleView('list')"
       title="List View">
       <img src="./../../../../assets/icons1/ListDashes.png" alt="listing view" height="24" height="24">
     </button>
-    
-    <button 
-      class="view-toggle-btn" 
+
+    <button
+      class="view-toggle-btn"
       [class.active]="viewMode === 'grid'"
       (click)="toggleView('grid')"
       title="Grid View">
       <img src="./../../../../assets/icons1/GridFour.png" alt="grid view" height="24" height="24">
     </button>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div class="loading-indicator" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading documents...</p>
   </div>
 
   <!-- Grid View -->
@@ -93,5 +99,67 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Pagination Controls (Only show if more than one page) -->
+  <div class="pagination-controls" *ngIf="displayedDocuments.length > 0 && totalPages > 1">
+    <div class="pagination-info">
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    </div>
+
+    <div class="pagination-buttons">
+      <button
+        class="pagination-btn prev-btn"
+        [disabled]="!hasPreviousPage"
+        (click)="onPreviousPage()"
+        title="Previous Page">
+        <span>&lt;</span> Previous
+      </button>
+
+      <div class="page-numbers">
+        <button
+          *ngIf="visiblePageNumbers[0] > 1"
+          class="page-number-btn"
+          (click)="onPageChange(1)">
+          1
+        </button>
+
+        <span *ngIf="visiblePageNumbers[0] > 2" class="page-ellipsis">...</span>
+
+        <button
+          *ngFor="let pageNum of visiblePageNumbers"
+          class="page-number-btn"
+          [class.active]="pageNum === currentPage"
+          (click)="onPageChange(pageNum)">
+          {{ pageNum }}
+        </button>
+
+        <span *ngIf="visiblePageNumbers[visiblePageNumbers.length - 1] < totalPages - 1" class="page-ellipsis">...</span>
+
+        <button
+          *ngIf="visiblePageNumbers[visiblePageNumbers.length - 1] < totalPages"
+          class="page-number-btn"
+          (click)="onPageChange(totalPages)">
+          {{ totalPages }}
+        </button>
+      </div>
+
+      <button
+        class="pagination-btn next-btn"
+        [disabled]="!hasNextPage"
+        (click)="onNextPage()"
+        title="Next Page">
+        Next <span>&gt;</span>
+      </button>
+    </div>
+
+    <div class="page-size-info">
+      <span>Showing {{ (currentPage - 1) * currentPageSize + 1 }} - {{ Math.min(currentPage * currentPageSize, totalDocuments || documents.length) }} of {{ totalDocuments || documents.length }}</span>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div class="empty-documents" *ngIf="documents.length === 0 && !isLoading">
+    <p>No documents found</p>
   </div>
 </section>
