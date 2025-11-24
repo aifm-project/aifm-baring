@@ -80,7 +80,7 @@ export class PdfViewerComponent implements OnInit {
   }
 
   zoomOut(): void {
-    this.zoomLevel = Math.max(this.zoomLevel - 10, 50);
+    this.zoomLevel = Math.max(this.zoomLevel - 10, 100);
   }
 
   downloadPdf(): void {
