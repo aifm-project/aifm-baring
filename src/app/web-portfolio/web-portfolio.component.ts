@@ -18,4 +18,4 @@ import { DistributionChartComponent } from '../shared/components/distribution-ch
   templateUrl: './web-portfolio.component.html',
   styleUrls: ['./web-portfolio.component.scss'],
 })
-export class WebPortfolioComponent {}
+export class WebPortfolioComponent  {}

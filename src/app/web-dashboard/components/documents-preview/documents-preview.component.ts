@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FundService } from '../../../core/services/fund.service';
+import { DocumentService } from '../../../core/services/document.service';
 import { Store } from '@ngrx/store';
 import { selectFundData, setDocumentData } from '../../../store/fund';
 import { DocumentsGridComponent } from '../../../web-documents/components/documents-grid/documents-grid.component';
@@ -18,7 +19,7 @@ export class DocumentsPreviewComponent {
   fundConfig: any;
   selectedFund: any;
 
-  constructor(private fundService: FundService, private store: Store) { }
+  constructor(private fundService: FundService, private store: Store,private documentService:DocumentService) { }
   ngOnInit(): void {
     this.getStoreData()
   }
@@ -39,9 +40,9 @@ export class DocumentsPreviewComponent {
   }
 
   getDocumentList() {
-    this.fundService.getDocuments(this.selectedFund.guid).subscribe({
+    this.documentService.loadLatestDocuments(this.selectedFund.guid).subscribe({
       next: (response) => {
-        let reducebyTYpe = response.documents.reduce((acc, doc) => {
+        let reducebyTYpe = response.data.reduce((acc, doc) => {
           acc[doc.type] = [...(acc[doc.type] || []), doc];
           return acc;
         }, {});

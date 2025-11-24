@@ -19,4 +19,8 @@ export class DocumentService {
     loadDocuments(fundGuid, config):Observable<any> {
         return this.httpClient.get<any>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents", { params: config });
     }
+
+     loadLatestDocuments(fundGuid):Observable<any> {
+        return this.httpClient.get<any>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents/latest");
+    }
 }

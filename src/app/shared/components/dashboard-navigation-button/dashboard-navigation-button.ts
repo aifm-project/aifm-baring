@@ -26,7 +26,7 @@ export class DashboardNavigationButton {
 
   onClickEvent() {
     if(this.routerLink){
-      this.router.navigateByUrl(this.routerLink);
+      this.router.navigate([this.routerLink]);
     }else {
       this.onClickChild.emit();
     }

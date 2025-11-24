@@ -57,21 +57,14 @@ export interface PortfolioSummary {
   styleUrls: ['./investment-table.component.scss']
 })
 export class InvestmentTableComponent implements OnInit {
-
-  @Input() portfolioSummary: PortfolioSummary = {
-    totalHoldings: 20,
-    totalInvestment: '₹985.12 Cr',
-    totalMarketValue: '₹1300.07 Cr',
-    totalGrossIRR: '20.04%',
-    totalGrossMOIC: '1.32X',
-    totalReturns: '₹349.94 Cr'
-  };
+   @Input() public loadType:string = 'INVESTMENT_PORTFOLIO,TOTAL_INVESTMENT_PORTFOLIO,ALL_INVESTMENTS';
+  @Input() portfolioSummary: PortfolioSummary;
   @Input() showHeader!: boolean;
   @Input() showPortfolioSummary!: boolean;
   @Input() showStaticContent!: boolean;
   @Input() limit!: number | null;
   @Input() containerClass: 'container' | 'container-fluid' = 'container';
-
+  @Input() public latestPortfolio:boolean = false
   companies: Company[] = [];
   fundConfig: Map<unknown, unknown>;
   selectedFund: any;
@@ -182,11 +175,16 @@ export class InvestmentTableComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getStoreData();
+    if(this.latestPortfolio){
+      this.getStoreDataFund();
+    }else {
+      this.getStoreData();
+    }
+    
   }
 
   getPortfolioData(){
-    let queryParams = {asOnDate:this.asOfDate,type:'INVESTMENT_PORTFOLIO,TOTAL_INVESTMENT_PORTFOLIO,ALL_INVESTMENTS',currentAsOnDate:'2023-10-31'};
+    let queryParams = {asOnDate:this.asOfDate,type:this.loadType,currentAsOnDate:this.asOfDate};
     if(this.limit){
       queryParams['limit'] = this.limit.toString();
     }
@@ -282,7 +280,7 @@ export class InvestmentTableComponent implements OnInit {
     this.store.select(selectSelectedDate).subscribe(fundState => {
       console.log('Fund State from Store:', fundState);
       this.selectedFund=fundState.fundDetails;
-      this.asOfDate = fundState?.asOfDate;
+       this.asOfDate = fundState?.asOfDate;
        this.fundConfig = fundState.fundDetails?.fund_configuration_classes.reduce((map, obj) => {
         map.set(obj.fund_key, obj.fund_value);
         return map;
@@ -301,5 +299,33 @@ export class InvestmentTableComponent implements OnInit {
     return this.companies;
   }
 
+  getAsOfDate(){
+  this.fundService.getDates(this.selectedFund.guid,'PORTFOLIO').subscribe(perfDates => {
+      const perfDate = perfDates.dates;
+      this.companies = []
+      this.portfolioSummary = {
+         totalHoldings:null,
+    totalInvestment:null,
+    totalMarketValue: null,
+    totalGrossIRR: null,
+    totalGrossMOIC:null,
+    totalReturns: null
+      }
+      this.portfolioInvestment = {}
+      if(perfDate && perfDate.length){
+        this.asOfDate = perfDate[0];
+        this.getPortfolioData();
+      }
+
+    });
+  }
+
+  getStoreDataFund(){
+       this.store.select(selectFundData).subscribe(fundData => {
+      console.log('Fund State from Store:', fundData);
+      this.selectedFund=fundData;
+         this.getAsOfDate();
+    })
+  }
   
 }

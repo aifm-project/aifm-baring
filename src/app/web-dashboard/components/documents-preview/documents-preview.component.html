@@ -7,7 +7,7 @@
         <img src="./../../../../assets/icons1/Info-Black.png" alt="Latest Documents" width="22" height="22" data-bs-toggle="tooltip" data-bs-placement="top" title="The most recent reports, presentations, or updates shared with investors.">
       </div>
 
-      <div class="view-all-container" routerLink="/documents">
+      <div class="view-all-container">
         <app-dashboard-navigation-button routerLink="documents" class="view-all-container" (onClickChild)="onViewAllDocuments()" [showWhiteHover]="true" label="View all documents"></app-dashboard-navigation-button>
         <!-- <button class="view-all-text" (click)="onViewAllDocuments()">View all documents</button>
         <button class="view-all-arrow" (click)="onViewAllDocuments()">
@@ -18,7 +18,7 @@
 
     <!-- Documents Grid (max 4 documents, no view toggle) -->
     <app-documents-grid 
-      [maxDocuments]="4"
+      [documents]="documents"
       [showViewToggle]="false">
     </app-documents-grid>
   </div>

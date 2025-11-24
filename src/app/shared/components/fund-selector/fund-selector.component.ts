@@ -2,8 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { setFundData } from '../../../store/fund/fund.action';
 import { setAllDates, setSelectedDate } from '../../../store/date/date.action';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule, Router,NavigationStart } from '@angular/router';
 import { FundService } from '../../../core/services/fund.service';
+import {filter} from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -32,6 +33,7 @@ export class FundSelectorComponent {
   }
 
   ngOnInit(): void {
+    this.loadRouterChange()
     this.getFunds();
   }
 
@@ -47,7 +49,13 @@ export class FundSelectorComponent {
        if(this.fundList.length > 0){
         this.selectedFund = this.fundList[0];
         this.store.dispatch(setFundData({ fundData: this.selectedFund, date: this.inceptionDate }));
-        this.getAsOfDates('PERFORMANCE');
+        let skurls = ['/dashboard','/portfolio'];
+        if(this.router.url =='/dashboard'){
+           this.getAsOfDates('PERFORMANCE');
+        }else if(this.router.url =='/portfolio') {
+          this.getAsOfDates('PORTFOLIO');
+        }
+
        }
       },
       error: (error) => {
@@ -110,6 +118,19 @@ export class FundSelectorComponent {
   }
 
   loadAsOfDate(activeTab){
-    this.getAsOfDates(activeTab);
+    // this.getAsOfDates(activeTab);
+  }
+
+  loadRouterChange(){
+     this.router.events.pipe(
+      filter((event) => event instanceof NavigationStart)
+    ).subscribe((sk:any) => {
+        if(sk.url.includes('/portfolio')){
+           this.getAsOfDates('PORTFOLIO');
+        }else if(sk.url.includes('/dashboard')) {
+          this.getAsOfDates('PERFORMANCE');
+        }
+        console.log("")
+    });
   }
 }

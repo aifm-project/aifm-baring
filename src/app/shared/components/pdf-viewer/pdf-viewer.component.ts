@@ -22,8 +22,7 @@ export class PdfViewerComponent implements OnInit {
   searchText = '';
   searchEnabled = true;
   zoomLevel = 100;
-
-  pdfUrl: string | undefined;
+  @Input() pdfUrl: string | undefined;
 
   constructor(
     private pdfViewerService: PdfViewerService,
@@ -42,9 +41,9 @@ export class PdfViewerComponent implements OnInit {
       if (config.url) {
         this.pdfUrl = config.url;
       } else if (config.blob) {
-        this.pdfUrl = window.URL.createObjectURL(config.blob) + '#toolbar=0';
+       this.pdfUrl = URL.createObjectURL(config.blob)
       }
-      this.cdr.detectChanges();
+      // this.cdr.detectChanges();
     });
   }
 
