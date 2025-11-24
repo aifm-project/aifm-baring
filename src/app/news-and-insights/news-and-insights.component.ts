@@ -236,7 +236,7 @@ export class NewsAndInsightsComponent {
           if(isFirstRow){
             let {content,...rest} = sk1
             this.firstRowInfo = {
-              rest,
+              ...rest,
               ...content
             }
             isFirstRow = false

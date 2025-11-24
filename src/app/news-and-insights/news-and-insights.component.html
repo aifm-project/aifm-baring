@@ -53,14 +53,14 @@
             <div class="hero-gradient-overlay"></div>
           </div>
           <div class="hero-featured-overlay">
-            <button class="video-btn" *ngIf="!firstRowInfo?.isImage && firstRowInfo?.video">
+            <button class="video-btn"*ngIf="!firstRowInfo?.isImage && firstRowInfo?.video" >
               <span class="play-triangle-icon"></span>
-              <span>Watch Video</span>
+              <span >Watch Video</span>
             </button>
             <div class="hero-featured-info">
               <div class="hero-meta">
                 <span class="badge-white">{{ firstRowInfo.section_name }}</span>
-                <span class="meta-text-white">{{ firstRowInfo.created_at | date:'MMMM DD,yyyy' }}</span>
+                <span class="meta-text-white">{{ firstRowInfo.created_at | date:'MMMM dd,yyyy' }}</span>
               </div>
               <h2 class="hero-featured-heading">{{ firstRowInfo.header }}</h2>
             </div>
@@ -70,7 +70,7 @@
         <!-- Side Articles List -->
         <aside class="hero-side-list">
           <article class="hero-side-item" *ngFor="let item of explorData.slice(1, 5)">
-            <span class="badge-light">{{ item.section_name }}</span><span class="meta-text-dark margin-left-12">{{ item.created_at | date:'MMMM DD,yyyy' }}</span>
+            <span class="badge-light">{{ item.section_name }}</span><span class="meta-text-dark margin-left-12">{{ item.created_at | date:'MMMM dd,yyyy' }}</span>
             <h3 class="hero-side-title">{{ item.header }}</h3>
             
             <div class="divider-line"></div>
