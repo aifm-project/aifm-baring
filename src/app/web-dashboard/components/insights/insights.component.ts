@@ -55,4 +55,8 @@ export class InsightsComponent {
   onReadInsight(type: string) {
     console.log('Read insight:', type);
   }
+
+  getExploreKeys(){
+    
+  }
 }

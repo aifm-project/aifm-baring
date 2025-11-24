@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { ExploreService } from '../core/services/explore.service';
+import { environment } from '../../environments/environment';
+import { IframVideoPipe } from '../shared/pipe/ifram-video.pipe';
 @Component({
   selector: 'app-news-and-insights',
   standalone: true,
   imports: [CommonModule, FormsModule],
+  providers:[IframVideoPipe],
   templateUrl: './news-and-insights.component.html',
   styleUrls: ['./news-and-insights.component.scss']
 })
@@ -166,11 +169,22 @@ export class NewsAndInsightsComponent {
       }
     ]
   };
-
+  public staticSanctions = ['MACROECONOMICS','PORTFOLIO HIGHLIGHTS','FUNDNEWS']
   newsletterEmail = '';
+  typeOfExploreList: any[] = [];
+  explorData: any[];
+  public firstRowInfo: any = {};
+   constructor(
+      public explorService:ExploreService,
+       public IframVideo: IframVideoPipe,
+    ) { }
 
+   ngOnInit(): void {
+    this.getExplorTypes()
+  }
   onTopicChange() {
-    console.log('Topic changed:', this.selectedTopic);
+    // console.log('Topic changed:', this.selectedTopic);
+    this.getExplorDetails()
   }
 
   onSortChange() {
@@ -186,5 +200,51 @@ export class NewsAndInsightsComponent {
       console.log('Subscribe:', this.newsletterEmail);
       this.newsletterEmail = '';
     }
+  }
+
+  getExplorTypes(){
+    this.explorService.getExplorTypes().subscribe(sk=>{
+      this.typeOfExploreList = sk.exploreKeys.filter(sk=>this.staticSanctions.includes(sk.section_name));
+      if(this.typeOfExploreList && this.typeOfExploreList.length){
+        this.selectedTopic = this.typeOfExploreList[0].tab_id
+        this.getExplorDetails()
+      }
+    })
+  }
+
+  getExplorDetails(){
+    let query = {
+      row:0,
+      offset:1000,
+      type:'fund_updates',
+      tabId:this.selectedTopic
+    }
+     let skInfo = []
+      let isFirstRow = true
+      this.firstRowInfo = {}
+    this.explorService.getExploreDetails(query).subscribe(sk=>{
+      console.log("sk",sk.exploreData)
+     
+      for (const sk1 of sk.exploreData) {
+        sk1.content = JSON.parse(sk1.content);
+        if(this.staticSanctions.includes(sk1.section_name)){
+        if (sk1.content.isImage == true || sk1.content.isImage == 'true') {
+            sk1.content.images = environment.exploreURL + sk1?.content?.images
+          } else {
+            sk1.content.video = this.IframVideo.transform(sk1?.content?.video);
+          }
+          if(isFirstRow){
+            let {content,...rest} = sk1
+            this.firstRowInfo = {
+              rest,
+              ...content
+            }
+            isFirstRow = false
+          }
+          skInfo.push(sk1)
+        }
+      }
+      this.explorData = skInfo
+    })
   }
 }
