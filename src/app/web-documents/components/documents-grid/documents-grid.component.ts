@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FundService } from '../../../core/services/fund.service';
 import { PdfViewerService } from '../../../shared/services/pdf-viewer.service';
@@ -10,10 +10,15 @@ import { PdfViewerService } from '../../../shared/services/pdf-viewer.service';
   templateUrl: './documents-grid.component.html',
   styleUrls: ['./documents-grid.component.scss']
 })
-export class DocumentsGridComponent {
+export class DocumentsGridComponent implements OnChanges {
   @Input() maxDocuments: number | null = null;
   @Input() showViewToggle: boolean = true;
   @Input() documents: any[] = [];
+  @Input() totalDocuments: number = 0;
+  @Input() isLoading: boolean = false;
+  @Output() pageChange = new EventEmitter<{ page: number; pageSize: number }>();
+  @Output() loadMore = new EventEmitter<{ page: number; pageSize: number }>();
+
   public defaultBackground = 'https://api.builder.io/api/v1/image/assets/TEMP/be9ca3232984139ab8074fa047ab507acc3a62fb?width=620'
   public typeBackgroundImages = [{
     type:'Drawdown Receipt',
@@ -21,12 +26,18 @@ export class DocumentsGridComponent {
   },{type:'Quarterly Update Report',value:'https://api.builder.io/api/v1/image/assets/TEMP/7e4df20ed3436c041c1beeb4d7c9d2a08d7fea6b?width=620'}]
 
   viewMode: 'grid' | 'list' = 'grid';
+  currentPage: number = 1;
+  gridPageSize: number = 12;
+  listPageSize: number = 10;
+  Math = Math;
+
   constructor(
     private fundService: FundService,
     private pdfViewerService: PdfViewerService
   ){
 
   }
+
   ngOnInit() {
     // If no documents provided via Input, use default sample data
     if (this.documents.length === 0) {
@@ -77,12 +88,94 @@ export class DocumentsGridComponent {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['documents']) {
+      this.currentPage = 1;
+    }
+  }
+
+  get currentPageSize(): number {
+    return this.viewMode === 'grid' ? this.gridPageSize : this.listPageSize;
+  }
+
   get displayedDocuments() {
-    return this.maxDocuments ? this.documents.slice(0, this.maxDocuments) : this.documents;
+    if (this.maxDocuments) {
+      return this.documents.slice(0, this.maxDocuments);
+    }
+
+    const startIndex = (this.currentPage - 1) * this.currentPageSize;
+    const endIndex = startIndex + this.currentPageSize;
+    return this.documents.slice(startIndex, endIndex);
+  }
+
+  get totalPages(): number {
+    if (this.maxDocuments) {
+      return Math.ceil(this.maxDocuments / this.currentPageSize);
+    }
+    const total = this.totalDocuments || this.documents.length;
+    return Math.ceil(total / this.currentPageSize);
+  }
+
+  get pages(): number[] {
+    const pagesArray = [];
+    for (let i = 1; i <= this.totalPages; i++) {
+      pagesArray.push(i);
+    }
+    return pagesArray;
+  }
+
+  get hasNextPage(): boolean {
+    return this.currentPage < this.totalPages;
+  }
+
+  get hasPreviousPage(): boolean {
+    return this.currentPage > 1;
+  }
+
+  get visiblePageNumbers(): number[] {
+    const totalPages = this.totalPages;
+    const current = this.currentPage;
+    const maxVisible = 5;
+    let startPage = Math.max(1, current - Math.floor(maxVisible / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+
+    if (endPage - startPage + 1 < maxVisible) {
+      startPage = Math.max(1, endPage - maxVisible + 1);
+    }
+
+    const pageNumbers = [];
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(i);
+    }
+    return pageNumbers;
   }
 
   toggleView(mode: 'grid' | 'list') {
     this.viewMode = mode;
+    this.currentPage = 1;
+  }
+
+  onPageChange(page: number) {
+    if (page > 0 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.pageChange.emit({ page: this.currentPage, pageSize: this.currentPageSize });
+    }
+  }
+
+  onNextPage() {
+    if (this.hasNextPage) {
+      this.onPageChange(this.currentPage + 1);
+    }
+  }
+
+  onPreviousPage() {
+    if (this.hasPreviousPage) {
+      this.onPageChange(this.currentPage - 1);
+    }
+  }
+
+  onLoadMore() {
+    this.loadMore.emit({ page: this.currentPage + 1, pageSize: this.currentPageSize });
   }
 
   async onView(document: any) {

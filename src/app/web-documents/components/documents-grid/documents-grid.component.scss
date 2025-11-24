@@ -369,24 +369,206 @@
   }
 }
 
+// Loading Indicator
+.loading-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 16px;
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e0e0e0;
+    border-top-color: #122334;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  p {
+    color: #666;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 14px;
+    margin: 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Pagination Controls
+.pagination-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px 0 24px 0;
+  border-top: 1px solid #e0e0e0;
+  align-items: flex-end;
+
+  .pagination-info {
+    text-align: right;
+    color: #666;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 14px;
+  }
+
+  .pagination-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    .pagination-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 16px;
+      background: #f5f7f8;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: #122334;
+      transition: all 0.2s ease;
+
+      &:hover:not(:disabled) {
+        background: #122334;
+        color: #ffffff;
+        border-color: #122334;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      span {
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+
+    .page-numbers {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      .page-number-btn {
+        min-width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        background: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        cursor: pointer;
+        font-family: 'Instrument Sans', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        color: #122334;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: #f5f7f8;
+          border-color: #122334;
+        }
+
+        &.active {
+          background: #122334;
+          color: #ffffff;
+          border-color: #122334;
+          font-weight: 600;
+        }
+      }
+
+      .page-ellipsis {
+        padding: 0 4px;
+        color: #999;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .page-size-info {
+    text-align: right;
+    color: #666;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 12px;
+  }
+}
+
+// Empty State
+.empty-documents {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+
+  p {
+    color: #999;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 16px;
+    margin: 0;
+  }
+}
+
 // Mobile specific adjustments
 @media (max-width: 768px) {
   .view-toggle-controls {
     margin-bottom: 24px;
   }
-  
+
   .documents-grid {
     gap: 16px;
-    
+
     .document-card {
       .document-card-overlay {
         padding: 20px;
       }
-      
+
       .document-info {
         .document-title {
           font-size: 24px;
           line-height: 28px;
+        }
+      }
+    }
+  }
+
+  .pagination-controls {
+    .pagination-buttons {
+      .page-numbers {
+        gap: 2px;
+
+        .page-number-btn {
+          min-width: 36px;
+          height: 36px;
+          font-size: 12px;
+        }
+
+        .page-ellipsis {
+          display: none;
+        }
+      }
+
+      .prev-btn,
+      .next-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+
+        span {
+          font-size: 14px;
         }
       }
     }
