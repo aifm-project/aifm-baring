@@ -96,12 +96,12 @@ export class PerformanceComponent implements OnInit {
   ];
 
   // ** ORIGINAL DEFAULT VALUES **
-  navValue = '0.69 Cr';
-  drawdownsValue = '0.65 Cr';
-  currentDate = 'Sep 30, 2023';
-  grossMOIC = 'Gross MOIC: 1.06×';
-  grossIRR = 'Gross IRR: 6.15%';
-  returnOnCapital = 'Return on Invested Capital: +0.04 Cr';
+  navValue = '-';
+  drawdownsValue = '-';
+  currentDate = '-';
+  grossMOIC = 'Gross MOIC: -';
+  grossIRR = 'Gross IRR: -';
+  returnOnCapital = 'Return on Invested Capital: -';
   public seletedDate;
   // ** NEW PROPERTIES ** - These will be bound to the HTML and updated on chart hover
   selectedChartDate: string = this.currentDate;
