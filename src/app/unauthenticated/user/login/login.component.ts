@@ -24,6 +24,7 @@ import { ToastModule } from 'primeng/toast';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   showPassword = false;
+  showPan = false;
   isLoading = false;
   errorMessage = '';
 
@@ -73,6 +74,10 @@ export class LoginComponent implements OnInit {
 
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;
+  }
+
+  togglePanVisibility(): void {
+    this.showPan = !this.showPan;
   }
 
   onLogin(form: any) {
