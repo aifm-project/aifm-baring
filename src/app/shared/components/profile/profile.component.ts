@@ -5,6 +5,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { Store } from '@ngrx/store';
 import { selectAuthState } from '../../../store/auth';
 import { User } from '../../../model/models';
+import { CustomValidators } from '../../../core/validators/custom-validators';
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -32,10 +33,14 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
      this.profileForm = this.fb.group({
-      name: [{ value:'', disabled: true }],
-      email: [{ value:'', disabled: true }],
+      name: [{ value: '', disabled: true }],
+      email: [{ value: '', disabled: true }],
       mobile: [{ value: '', disabled: true }],
-      linkedIn: ['', Validators.pattern('https?://.+')]
+      // LinkedIn URL validator: must be valid LinkedIn profile URL
+      linkedIn: ['', [
+        CustomValidators.linkedInUrlValidator(),
+        CustomValidators.httpsUrlValidator()
+      ]]
     });
 
     this.passwordForm = this.fb.group({

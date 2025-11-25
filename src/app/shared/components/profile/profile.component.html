@@ -60,10 +60,21 @@
               type="text"
               formControlName="linkedIn"
               class="field-input"
-              placeholder="LinkedIn URL"
+              placeholder="https://www.linkedin.com/in/your-profile"
+              [class.error]="profileForm.get('linkedIn')?.invalid && profileForm.get('linkedIn')?.touched"
             />
-            <div *ngIf="!isEditingLinkedIn" class="field-value placeholder">LinkedIn URL</div>
+            <div *ngIf="!isEditingLinkedIn" class="field-value placeholder">
+              {{ profileForm.get('linkedIn')?.value || 'LinkedIn URL' }}
+            </div>
             <div class="field-divider"></div>
+            <div *ngIf="isEditingLinkedIn && profileForm.get('linkedIn')?.touched && profileForm.get('linkedIn')?.invalid" class="error-message">
+              <small *ngIf="profileForm.get('linkedIn')?.errors?.['invalidLinkedIn']">
+                {{ profileForm.get('linkedIn')?.errors?.['invalidLinkedIn']?.message }}
+              </small>
+              <small *ngIf="profileForm.get('linkedIn')?.errors?.['insecureUrl']">
+                {{ profileForm.get('linkedIn')?.errors?.['insecureUrl']?.message }}
+              </small>
+            </div>
           </div>
         </form>
 

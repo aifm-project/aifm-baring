@@ -12,6 +12,7 @@ import { setAccountInfo } from '../../../store/auth';
 import { setAuthData } from '../../../store/auth/auth.actions';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
+import { CustomValidators } from '../../../core/validators/custom-validators';
 
 @Component({
   selector: 'app-login',
@@ -64,10 +65,16 @@ export class LoginComponent implements OnInit {
     }
     this.loadConfig()
     this.loginForm = this.fb.group({
-      email:  ['', [Validators.required]],
+      // Email or Username validator: accepts either valid email or alphanumeric username
+      email: ['', [
+        Validators.required,
+        CustomValidators.emailOrUsername(),
+        CustomValidators.noSpacesValidator()
+      ]],
       password: ['', [Validators.required]],
       userRole: [''],
-      pan:[]
+      // PAN validator: AAAAA0000A format (5 letters, 4 digits, 1 letter)
+      pan: ['', [CustomValidators.panValidator()]]
     });
     this.loadInitialData(); // Call to load initial data
   }
@@ -258,24 +265,34 @@ export class LoginComponent implements OnInit {
 
   }
 
-    onRoleChange(event) {
+  onRoleChange(event: any): void {
     this.multiUserId = +event.value;
 
-    var selectedRole: any = this.multiUserRoles.find((e: any) => (e.user_id === +event.value));
+    const selectedRole: any = this.multiUserRoles.find((e: any) => (e.user_id === +event.value));
     this.multiUserSubRole = selectedRole.user_sub_role;
+
+    const panControl = this.loginForm.get('pan');
+
     if (selectedRole.user_sub_role === 'Investor Role') {
       this.showPanNumber = true;
-      this.loginForm.get('pan').addValidators(Validators.required)
+      // Add PAN validators: required + format validation
+      panControl?.addValidators([
+        Validators.required,
+        CustomValidators.panValidator()
+      ]);
     } else {
-      this.loginForm.get('pan').removeValidators(Validators.required)
+      // Remove all validators and clear value
+      panControl?.removeValidators([Validators.required, CustomValidators.panValidator()]);
       this.loginForm.patchValue({
-        pan:null
-      })
+        pan: null
+      });
       this.showPanNumber = false;
     }
+
+    // Update validity after changing validators
     setTimeout(() => {
-      this.loginForm.get('pan').updateValueAndValidity()
-    },100);
+      panControl?.updateValueAndValidity();
+    }, 100);
   }
 
     loadConfig() {

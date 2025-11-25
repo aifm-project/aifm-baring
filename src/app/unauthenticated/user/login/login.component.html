@@ -22,14 +22,15 @@
         <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
         <div class="form-group margin-bottom-43">
-          <label for="email" class="form-label">Email</label>
-          <input type="email" id="email" formControlName="email" class="form-control" placeholder="Enter your email"
+          <label for="email" class="form-label">Email or Username</label>
+          <input type="text" id="email" formControlName="email" class="form-control" placeholder="Enter your email (user@domain.com) or username"
             [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" />
           <div class="form-divider"></div>
         </div>
         <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="error-message">
-          <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</small>
-          <small *ngIf="loginForm.get('email')?.errors?.['pattern']">Please enter a valid email address.</small>
+          <small *ngIf="loginForm.get('email')?.errors?.['required']">Email or username is required.</small>
+          <small *ngIf="loginForm.get('email')?.errors?.['emailOrUsername']">{{ loginForm.get('email')?.errors?.['emailOrUsername']?.message }}</small>
+          <small *ngIf="loginForm.get('email')?.errors?.['spaces']">{{ loginForm.get('email')?.errors?.['spaces']?.message }}</small>
         </div>
         <div class="form-group margin-bottom-43">
           <label for="password" class="form-label">Password</label>
@@ -91,6 +92,10 @@
               </button>
             </div>
             <div class="form-divider"></div>
+          </div>
+          <div *ngIf="loginForm.get('pan')?.touched && loginForm.get('pan')?.invalid" class="error-message">
+            <small *ngIf="loginForm.get('pan')?.errors?.['required']">PAN is required for Investor Role.</small>
+            <small *ngIf="loginForm.get('pan')?.errors?.['invalidPan']">{{ loginForm.get('pan')?.errors?.['invalidPan']?.message }}</small>
           </div>
         </ng-template>
         <button type="submit" class="btn-login" [disabled]="isLoading || loginForm.invalid">
