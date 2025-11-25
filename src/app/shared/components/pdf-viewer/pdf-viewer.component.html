@@ -61,21 +61,6 @@
       </div>
     </div>
 
-    <!-- Loading Indicator -->
-    <div class="pdf-loading-indicator" *ngIf="isLoading">
-      <div class="spinner"></div>
-      <p>Loading PDF...</p>
-    </div>
-
-    <!-- Error Message -->
-    <div class="pdf-error-message" *ngIf="pdfLoadError">
-      <div class="error-icon">⚠️</div>
-      <div class="error-content">
-        <h4>Error Loading PDF</h4>
-        <p>{{ pdfLoadError }}</p>
-        <button class="error-close-btn" (click)="closePdf()">Close</button>
-      </div>
-    </div>
 
     <!-- PDF Viewer Content -->
     <div class="pdf-viewer-content" *ngIf="safePdfUrl && !pdfLoadError">

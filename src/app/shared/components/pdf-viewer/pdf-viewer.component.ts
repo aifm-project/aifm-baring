@@ -24,7 +24,7 @@ export class PdfViewerComponent implements OnInit {
   @Input() filePath?: string;
   @Input() pdfUrl: string | undefined;
   // Trusted resource URL for safe binding
-  safePdfUrl: SafeResourceUrl | null = null;
+  safePdfUrl:any = null;
 
   config: PdfViewerConfig | null = null;
   isFullscreen = false;
@@ -74,8 +74,12 @@ export class PdfViewerComponent implements OnInit {
         // Create safe blob URL
         try {
           const blobUrl = URL.createObjectURL(config.blob);
-          this.safePdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
-          this.pdfUrl = blobUrl;
+          let safePdfUrl:any = this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl);
+          if (safePdfUrl.changingThisBreaksApplicationSecurity) {
+            this.safePdfUrl = safePdfUrl.changingThisBreaksApplicationSecurity
+          } else {
+            this.safePdfUrl = this.safePdfUrl
+          }
         } catch (error) {
           console.error('Error creating blob URL:', error);
           this.pdfLoadError = 'Failed to load PDF from blob';
