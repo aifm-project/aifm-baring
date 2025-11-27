@@ -1,18 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ExploreService } from '../core/services/explore.service';
 import { environment } from '../../environments/environment';
 import { IframVideoPipe } from '../shared/pipe/ifram-video.pipe';
+import { aifmVideoFrame } from '../shared/components/video-frame/video-frame';
+
 @Component({
   selector: 'app-news-and-insights',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,aifmVideoFrame],
   providers:[IframVideoPipe],
   templateUrl: './news-and-insights.component.html',
   styleUrls: ['./news-and-insights.component.scss']
 })
 export class NewsAndInsightsComponent {
+  @ViewChildren(aifmVideoFrame) videoFrames!: QueryList<aifmVideoFrame>;
   selectedTopic = '';
   selectedSort = '';
   searchQuery = '';
@@ -172,7 +175,7 @@ export class NewsAndInsightsComponent {
   public staticSanctions = ['MACROECONOMICS','PORTFOLIO HIGHLIGHTS','FUNDNEWS']
   newsletterEmail = '';
   typeOfExploreList: any[] = [];
-  explorData: any[];
+  explorData: any[] = [];
   public firstRowInfo: any = {};
    constructor(
       public explorService:ExploreService,
@@ -233,18 +236,26 @@ export class NewsAndInsightsComponent {
           } else {
             sk1.content.video = this.IframVideo.transform(sk1?.content?.video);
           }
+          let {content,...rest} = sk1
           if(isFirstRow){
-            let {content,...rest} = sk1
             this.firstRowInfo = {
               ...rest,
               ...content
             }
             isFirstRow = false
           }
-          skInfo.push(sk1)
+          skInfo.push({
+             ...rest,
+             ...content
+          })
         }
       }
       this.explorData = skInfo
     })
+  }
+
+  playVideo(skFrameId:string){
+    const frame = this.videoFrames.find((vf:any) => vf.skFrameId === skFrameId);
+    frame?.playVideo();
   }
 }

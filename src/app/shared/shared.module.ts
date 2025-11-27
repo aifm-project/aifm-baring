@@ -31,7 +31,7 @@ import { DashboardNavigationButton } from './components/dashboard-navigation-but
     ProfileComponent,
     PdfViewerComponent,
     GetCurrencyByUnitsPipe,
-    DashboardNavigationButton
+    DashboardNavigationButton,
   ],
   exports: [
     ToastModule,

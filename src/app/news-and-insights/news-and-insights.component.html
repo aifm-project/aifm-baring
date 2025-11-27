@@ -49,11 +49,14 @@
         <!-- Featured Large Article -->
         <article class="hero-featured">
           <div class="hero-featured-image-wrapper">
-            <img [src]="firstRowInfo?.images" [alt]="firstRowInfo.header" />
+            <img *ngIf="firstRowInfo?.isImage" [src]="firstRowInfo?.images" [alt]="firstRowInfo.header" />
+             <!-- <iframe *ngIf="!firstRowInfo?.isImage && firstRowInfo?.video" width="100%" height="100%" type="video/mp4" [src]="firstRowInfo?.video" frameborder="0" 
+                       allowfullscreen></iframe> -->
+              <app-video-frame skFrameId='videoFrame'  *ngIf="!firstRowInfo?.isImage && firstRowInfo?.video" [videoUrl]="firstRowInfo?.video" ></app-video-frame>
             <div class="hero-gradient-overlay"></div>
           </div>
           <div class="hero-featured-overlay">
-            <button class="video-btn"*ngIf="!firstRowInfo?.isImage && firstRowInfo?.video" >
+            <button (click)="playVideo('videoFrame')" class="video-btn"*ngIf="!firstRowInfo?.isImage && firstRowInfo?.video" >
               <span class="play-triangle-icon"></span>
               <span >Watch Video</span>
             </button>
@@ -69,9 +72,9 @@
 
         <!-- Side Articles List -->
         <aside class="hero-side-list">
-          <article class="hero-side-item" *ngFor="let item of explorData.slice(1, 5)">
-            <span class="badge-light">{{ item.section_name }}</span><span class="meta-text-dark margin-left-12">{{ item.created_at | date:'MMMM dd,yyyy' }}</span>
-            <h3 class="hero-side-title">{{ item.header }}</h3>
+          <article class="hero-side-item" *ngFor="let sk of explorData?.slice(1, 5)">
+            <span class="badge-light">{{ sk.section_name }}</span><span class="meta-text-dark margin-left-12">{{ sk.created_at | date:'MMMM dd,yyyy' }}</span>
+            <h3 class="hero-side-title">{{ sk?.header }}</h3>
             
             <div class="divider-line"></div>
           </article>
@@ -115,17 +118,20 @@
   <section class="grid-section">
     <div class="content-container">
       <div class="news-grid">
-        <article class="grid-card" *ngFor="let item of newsItems.slice(4, 13)">
+        <article class="grid-card" *ngFor="let sk of explorData">
           <div class="grid-card-image">
-            <img [src]="item.image" [alt]="item.title" />
-            <div *ngIf="item.hasVideo" class="play-icon-large"></div>
+            <img *ngIf="sk.isImage" [src]="sk.images" [alt]="sk.header" />
+            <div *ngIf="!sk.isImage && sk.video" style="height: 100% !important;">
+              <iframe *ngIf="!sk.isImage && sk?.video" class="video" width="100%" height="100%" type="video/mp4" [src]="sk?.video" frameborder="0"
+                        allowfullscreen></iframe>
+            </div>
           </div>
           <div class="grid-card-content">
             <div class="grid-card-meta">
-              <span class="badge-light">{{ item.category }}</span>
-              <span class="meta-text-dark">{{ item.date }} • {{ item.readTime }}</span>
+              <span class="badge-light">{{ sk.section_name }}</span>
+              <span class="meta-text-dark">{{ sk.created_at | date:'MMMM dd,yyyy' }}</span>
             </div>
-            <h3 class="grid-card-title">{{ item.title }}</h3>
+            <h3 class="grid-card-title">{{ sk.header }}</h3>
           </div>
         </article>
       </div>

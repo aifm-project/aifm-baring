@@ -111,7 +111,7 @@ export class IframVideoPipe implements PipeTransform {
   private constructEmbedUrl(videoId: string): string {
     // Use youtube-nocookie.com for privacy (doesn't track user)
     // Fall back to regular youtube.com if needed
-    const embedDomain = 'https://www.youtube-nocookie.com/embed/';
+    const embedDomain = 'https://www.youtube.com/embed/';
 
     // Add security parameters
     const embedUrl = new URL(embedDomain + videoId);
