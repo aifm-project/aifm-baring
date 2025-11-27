@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
@@ -10,10 +12,12 @@ import { AuthService } from '../../../core/services/auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   userEmail: string | null = null;
   showUserMenu = false;
   unreadNotifications = 3;
+  currentUrl = '';
+  private destroy$ = new Subject<void>();
 
   constructor(
     private authService: AuthService,
@@ -22,10 +26,20 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.userEmail = this.authService.getUserEmail();
+    this.currentUrl = this.router.url;
+
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((event: NavigationEnd) => {
+        this.currentUrl = event.url;
+      });
   }
 
   isActiveRoute(route: string): boolean {
-    return this.router.url.includes(route);
+    return this.currentUrl.includes(route);
   }
 
   toggleUserMenu(): void {
@@ -38,5 +52,10 @@ export class NavbarComponent implements OnInit {
 
   onLogout(): void {
     this.authService.logout();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
