@@ -72,9 +72,9 @@
       }
 
       .image-gradient-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
+        // position: absolute;
+        // top: 0;
+        // left: 0;
         width: 100%;
         height: 100%;
         background: linear-gradient(180deg, rgba(0, 0, 0, 0) 14.25%, rgba(0, 0, 0, 0.6) 100%);
@@ -82,16 +82,16 @@
     }
 
     .featured-card-overlay-content {
-      position: absolute;
-      top: 0;
-      left: 0;
+      // position: absolute;
+      // top: 0;
+      // left: 0;
       width: 100%;
       height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       padding: 27px;
-      z-index: 2;
+      // z-index: 2;
 
       .video-watch-btn {
         width: 147px;
@@ -122,6 +122,8 @@
       }
 
       .featured-card-footer {
+        position: absolute;
+        bottom: 30px;
         .card-meta-info {
           display: flex;
           align-items: center;

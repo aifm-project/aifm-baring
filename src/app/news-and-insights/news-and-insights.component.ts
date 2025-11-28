@@ -291,14 +291,14 @@ export class NewsAndInsightsComponent {
   }
 
    getIndustrySplit(){
-     let query = {
-      row:0,
-      limit:5
-      }
+      let query = {
+        first: 0,
+        rows: 4,
+      };
      let skInfo = []
       let isFirstRow = true
       this.firstIndustory = {}
-    this.explorService.getExploreDetails(query,{isLatest:true,isGroupBy:true}).subscribe(sk=>{
+    this.explorService.getExploreDetails(query,{isLatest:true,isGroupBy:true,sectionName:this.staticSanctions.join(',')}).subscribe(sk=>{
       console.log("sk",sk.exploreData)
      
       for (const sk1 of sk.exploreData) {
