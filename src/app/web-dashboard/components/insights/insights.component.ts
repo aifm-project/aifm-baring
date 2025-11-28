@@ -73,7 +73,7 @@ export class InsightsComponent implements OnInit {
     getAllExplorDetails(){
        let query = {
         first:0,
-        rows:4
+        rows:3
         }
        let skInfo = []
         let isFirstRow = true
