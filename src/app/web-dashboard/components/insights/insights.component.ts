@@ -1,16 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { DashboardNavigationButton } from '../../../shared/components/dashboard-navigation-button/dashboard-navigation-button';
+import { ExploreService } from '../../../core/services/explore.service';
+import { environment } from '../../../../environments/environment';
+import { IframVideoPipe } from '../../../shared/pipe/ifram-video.pipe';
+import { aifmVideoFrame } from '../../../shared/components/video-frame/video-frame';
 
 @Component({
   selector: 'app-insights',
   standalone: true,
-  imports: [CommonModule,DashboardNavigationButton],
+  imports: [CommonModule,DashboardNavigationButton,aifmVideoFrame],
   templateUrl: './insights.component.html',
-  styleUrls: ['./insights.component.scss']
+  styleUrls: ['./insights.component.scss'],
+  providers:[IframVideoPipe]
 })
-export class InsightsComponent {
+export class InsightsComponent implements OnInit {
   featuredInsight = {
     id: 1,
     title: 'Future of Digital Transformation in Enterprise',
@@ -41,8 +46,13 @@ export class InsightsComponent {
       hasVideo: true
     }
   ];
-
-  constructor(private router: Router) {}
+  public staticSanctions = ['MACROECONOMICS','PORTFOLIO HIGHLIGHTS','FUNDNEWS']
+  explorAllData: any[] = [];
+  firstExplore: any = {};
+  constructor(private router: Router, public explorService:ExploreService,public IframVideo: IframVideoPipe,) {}
+  ngOnInit(): void {
+    this.getAllExplorDetails()
+  }
 
   onViewAllInsights() {
     this.router.navigate(['/insights']);
@@ -59,4 +69,42 @@ export class InsightsComponent {
   getExploreKeys(){
     
   }
+
+    getAllExplorDetails(){
+       let query = {
+        first:0,
+        rows:4
+        }
+       let skInfo = []
+        let isFirstRow = true
+      this.explorService.getExploreDetails(query,{isLatest:true,sectionName:this.staticSanctions.join(',')}).subscribe(sk=>{
+        console.log("sk",sk.exploreData)
+       
+        for (const sk1 of sk.exploreData) {
+          sk1.content = JSON.parse(sk1.content);
+          if(this.staticSanctions.includes(sk1.section_name)){
+          if (sk1.content.isImage == true || sk1.content.isImage == 'true') {
+              sk1.content.images = environment.exploreURL + sk1?.content?.images
+            } else {
+              sk1.content.video = this.IframVideo.transform(sk1?.content?.video);
+            }
+            let {content,...rest} = sk1
+            if(isFirstRow){
+                this.firstExplore = {
+               ...rest,
+               ...content
+            }
+            isFirstRow = false
+            }else {
+               skInfo.push({
+               ...rest,
+               ...content
+            })
+            }
+           
+          }
+        }
+        this.explorAllData = skInfo
+      })
+    }
 }

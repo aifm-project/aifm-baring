@@ -177,13 +177,18 @@ export class NewsAndInsightsComponent {
   typeOfExploreList: any[] = [];
   explorData: any[] = [];
   public firstRowInfo: any = {};
+  explorAllData: any[] = [];
+  getIndustryData: any[] = [];
+  firstIndustory: any;
    constructor(
       public explorService:ExploreService,
        public IframVideo: IframVideoPipe,
     ) { }
 
    ngOnInit(): void {
-    this.getExplorTypes()
+    this.getAllExplorDetails()
+    this.getExplorTypes();
+    this.getIndustrySplit()
   }
   onTopicChange() {
     // console.log('Topic changed:', this.selectedTopic);
@@ -208,6 +213,7 @@ export class NewsAndInsightsComponent {
   getExplorTypes(){
     this.explorService.getExplorTypes().subscribe(sk=>{
       this.typeOfExploreList = sk.exploreKeys.filter(sk=>this.staticSanctions.includes(sk.section_name));
+      this.typeOfExploreList.unshift({tab_id:'ALL',section_name:'All'})
       if(this.typeOfExploreList && this.typeOfExploreList.length){
         this.selectedTopic = this.typeOfExploreList[0].tab_id
         this.getExplorDetails()
@@ -217,15 +223,13 @@ export class NewsAndInsightsComponent {
 
   getExplorDetails(){
     let query = {
-      row:0,
-      offset:1000,
-      type:'fund_updates',
-      tabId:this.selectedTopic
+      first:0,
+      rows:1000
     }
      let skInfo = []
       let isFirstRow = true
       this.firstRowInfo = {}
-    this.explorService.getExploreDetails(query).subscribe(sk=>{
+    this.explorService.getExploreDetails(query,{tabId:this.selectedTopic,isLatest:true}).subscribe(sk=>{
       console.log("sk",sk.exploreData)
      
       for (const sk1 of sk.exploreData) {
@@ -257,5 +261,70 @@ export class NewsAndInsightsComponent {
   playVideo(skFrameId:string){
     const frame = this.videoFrames.find((vf:any) => vf.skFrameId === skFrameId);
     frame?.playVideo();
+  }
+
+  getAllExplorDetails(){
+     let query = { }
+     let skInfo = []
+      let isFirstRow = true
+      this.firstRowInfo = {}
+    this.explorService.getExploreDetails(query,{isLatest:true}).subscribe(sk=>{
+      console.log("sk",sk.exploreData)
+     
+      for (const sk1 of sk.exploreData) {
+        sk1.content = JSON.parse(sk1.content);
+        if(this.staticSanctions.includes(sk1.section_name)){
+        if (sk1.content.isImage == true || sk1.content.isImage == 'true') {
+            sk1.content.images = environment.exploreURL + sk1?.content?.images
+          } else {
+            sk1.content.video = this.IframVideo.transform(sk1?.content?.video);
+          }
+          let {content,...rest} = sk1
+          skInfo.push({
+             ...rest,
+             ...content
+          })
+        }
+      }
+      this.explorAllData = skInfo
+    })
+  }
+
+   getIndustrySplit(){
+     let query = {
+      row:0,
+      limit:5
+      }
+     let skInfo = []
+      let isFirstRow = true
+      this.firstIndustory = {}
+    this.explorService.getExploreDetails(query,{isLatest:true,isGroupBy:true}).subscribe(sk=>{
+      console.log("sk",sk.exploreData)
+     
+      for (const sk1 of sk.exploreData) {
+        sk1.content = JSON.parse(sk1.content);
+        if(this.staticSanctions.includes(sk1.section_name)){
+        if (sk1.content.isImage == true || sk1.content.isImage == 'true') {
+            sk1.content.images = environment.exploreURL + sk1?.content?.images
+          } else {
+            sk1.content.video = this.IframVideo.transform(sk1?.content?.video);
+          }
+          let {content,...rest} = sk1
+          if(isFirstRow){
+            this.firstIndustory = {
+              ...rest,
+              ...content
+            }
+            isFirstRow = false
+          }else {
+              skInfo.push({
+             ...rest,
+             ...content
+          })
+          }
+        }
+      }
+      this.getIndustryData = skInfo
+    })
   }
 }

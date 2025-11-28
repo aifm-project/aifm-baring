@@ -6,6 +6,8 @@ import { RouterModule, Router,NavigationStart } from '@angular/router';
 import { FundService } from '../../../core/services/fund.service';
 import {filter} from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
+import { selectAuthState } from '../../../store/auth';
+import { User } from '../../../model/models';
 
 @Component({
   selector: 'app-fund-selector',
@@ -22,6 +24,7 @@ export class FundSelectorComponent {
   activeTab: any;
   asOfDate: any;
   dataDates: any = [];
+  userDetails: User;
 
   constructor(private fundService: FundService, private store: Store, private router: Router) {
   }
@@ -33,6 +36,7 @@ export class FundSelectorComponent {
   }
 
   ngOnInit(): void {
+    this.getUserDetails()
     this.loadRouterChange()
     this.getFunds();
   }
@@ -48,6 +52,9 @@ export class FundSelectorComponent {
        console.log('Funds fetched successfully:', this.fundList);
        if(this.fundList.length > 0){
         this.selectedFund = this.fundList[0];
+         if(this.selectedFund.isInvestorCard && !this.selectedFund['user_guid']){
+        this.selectedFund['user_guid'] = this.userDetails.user_guid
+      }
         this.store.dispatch(setFundData({ fundData: this.selectedFund, date: this.inceptionDate }));
         let skurls = ['/dashboard','/portfolio'];
         if(this.router.url =='/dashboard'){
@@ -68,6 +75,9 @@ export class FundSelectorComponent {
     this.selectedFund = fund
     if(this.selectedFund.isInvestorCard){
       localStorage.setItem('userGuid',this.selectedFund.user_guid)
+      if(!this.selectedFund['user_guid']){
+        this.selectedFund['user_guid'] = this.userDetails.user_guid
+      }
     }
     this.getAsOfDates('PERFORMANCE');
     console.log('Selected fund:', fund);
@@ -132,5 +142,13 @@ export class FundSelectorComponent {
         }
         console.log("")
     });
+  }
+
+  getUserDetails(){
+      let hasAuth = false;
+        this.store.select(selectAuthState).subscribe(authState => {
+          this.userDetails = authState.userData
+        }).unsubscribe();
+        return hasAuth;
   }
 }

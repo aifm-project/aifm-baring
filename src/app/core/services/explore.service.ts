@@ -15,11 +15,11 @@ export class ExploreService {
         return this.httpClient.get<{ errorMessage:string, exploreKeys:any[]}>(environment.serverEndPoint + "explore/typesExplore", { params:{domain:environment.windowLocationHost} });
     }
 
-    getExploreDetails(params):Observable<{ errorMessage:string, exploreData:any[],totalRecords:number}> {
+    getExploreDetails(params,body):Observable<{ errorMessage:string, exploreData:any[],totalRecords:number}> {
         if(params){
           params['domain'] = environment.windowLocationHost
         }
-        return this.httpClient.get<{ errorMessage:string, exploreData:any[],totalRecords:number}>(environment.serverEndPoint + "explore/data", { params });
+        return this.httpClient.post<{ errorMessage:string, exploreData:any[],totalRecords:number}>(environment.serverEndPoint + "explore/baring/group/data",body, { params:params, });
     }
 
 

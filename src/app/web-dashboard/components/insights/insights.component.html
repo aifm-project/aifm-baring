@@ -16,23 +16,21 @@
       <!-- Featured Card - Left -->
       <article class="featured-insight-card" (click)="onReadInsight('featured')">
         <div class="featured-card-image">
-          <img 
-            src="https://api.builder.io/api/v1/image/assets/TEMP/c516dc706e2479c075f2791958eb9ffb50443b4a?width=1280" 
-            alt="Future of Digital Transformation in Enterprise"
-          />
+         <img *ngIf="firstExplore?.isImage" [src]="firstExplore?.images" [alt]="firstExplore.header" />
+          <app-video-frame skFrameId='videoFrame'  *ngIf="!firstExplore?.isImage && firstExplore?.video" [videoUrl]="firstExplore?.video" ></app-video-frame>
           <div class="image-gradient-overlay"></div>
         </div>
         <div class="featured-card-overlay-content">
-          <button class="video-watch-btn" (click)="onReadInsight('video'); $event.stopPropagation()">
+          <button class="video-watch-btn" *ngIf="!firstExplore?.isImage && firstExplore?.video" (click)="onReadInsight('video'); $event.stopPropagation()">
             <span class="play-triangle"></span>
             <span class="btn-text">Watch Video</span>
           </button>
           <div class="featured-card-footer">
             <div class="card-meta-info">
-              <span class="badge-category white-bg">MACROECONOMICS</span>
-              <span class="meta-date">Jun 5, 2025 • 12 mins</span>
+              <span class="badge-category white-bg">{{firstExplore.section_name}}</span>
+              <span class="meta-date">{{ firstExplore.created_at | date:'MMMM dd,yyyy' }}</span>
             </div>
-            <h2 class="featured-card-heading">Future of Digital Transformation in Enterprise</h2>
+            <h2 class="featured-card-heading">{{firstExplore.header}}</h2>
           </div>
         </div>
       </article>
@@ -40,41 +38,22 @@
       <!-- Side Cards Container - Right -->
       <div class="side-insights-container">
         <!-- Side Card 1 -->
-        <article class="side-insight-card" (click)="onReadInsight('side-1')">
+        <div class="row">
+          <article class="side-insight-card col-6"  *ngFor="let sk of explorAllData;let skIndex=index"  (click)="onReadInsight('side-1')">
           <div class="side-card-image-container">
-            <img 
-              src="https://api.builder.io/api/v1/image/assets/TEMP/ef25e34670c93b59e26fb25d6ee458d399d14b10?width=620" 
-              alt="Achieving sustainable growth: Make sustainability the focus"
-            />
+            <img *ngIf="sk?.isImage" [src]="sk?.images" [alt]="sk.header" />
+          <app-video-frame skFrameId='videoFrame'  *ngIf="!sk?.isImage && sk?.video" [videoUrl]="sk?.video" ></app-video-frame>
             <div class="side-image-overlay"></div>
           </div>
           <div class="side-card-text-content">
             <div class="side-card-meta">
-              <span class="badge-category">MACROECONOMICS</span>
-              <span class="meta-date">Jul 6, 2025 • 7 mins</span>
+              <span class="badge-category">{{sk.section_name}}</span>
+              <span class="meta-date">{{ sk.created_at | date:'MMMM dd,yyyy' }}</span>
             </div>
-            <h3 class="side-card-heading">Achieving sustainable growth: Make sustainability the focus</h3>
+            <h3 class="side-card-heading">{{sk.header}}</h3>
           </div>
         </article>
-
-        <!-- Side Card 2 -->
-        <article class="side-insight-card" (click)="onReadInsight('side-2')">
-          <div class="side-card-image-container">
-            <img 
-              src="https://api.builder.io/api/v1/image/assets/TEMP/4fa27752bfbd803b8391d32f6c9a70b1a46f6cac?width=620" 
-              alt="Baring Private Equity India invests $12 mn in Aditya Auto"
-            />
-            <div class="side-image-overlay"></div>
-            <div class="center-play-icon"></div>
-          </div>
-          <div class="side-card-text-content">
-            <div class="side-card-meta">
-              <span class="badge-category">PORTFOLIO HIGHLIGHTS</span>
-              <span class="meta-date">Jul 6, 2025 • 7 mins</span>
-            </div>
-            <h3 class="side-card-heading">Baring Private Equity India invests $12 mn in Aditya Auto</h3>
-          </div>
-        </article>
+        </div>
       </div>
     </div>
   </div>
