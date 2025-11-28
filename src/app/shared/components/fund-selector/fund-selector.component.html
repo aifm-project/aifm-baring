@@ -4,7 +4,7 @@
       <!-- Fund Selection Area -->
       <div class="fund-selection">
         <div class="inception-info-date">
-          <span class="inception-date">Inception: {{ selectedFund ? (selectedFund.inception_date | date: 'dd MMM, y') : '' }}</span>
+          <span class="inception-date">Inception: {{ selectedFund ? (selectedFund.inception_date | date: 'dd MMMM, y') : '' }}</span>
         </div>
         <div class="fund-main">
           <div class="fund-dropdown">
@@ -44,7 +44,7 @@
           <span>Documents</span>
         </a>
       </nav>
-      <div class="dropdown fund-dropdown">
+      <div class="dropdown fund-dropdown" *ngIf="!isActiveRoute('/documents')">
         <button type="button" class="fund-dropdown-trigger dropdown-toggle" data-bs-toggle="dropdown">
           {{ asOfDate ? 'As of ' + (asOfDate | date: 'MMMM dd, y') : 'Select Date' }}&nbsp;&nbsp;<img src="./../../../../assets/icons1/CaretDown.png" height="14" alt="Select Fund">
         </button>
