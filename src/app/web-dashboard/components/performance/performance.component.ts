@@ -400,7 +400,7 @@ export class PerformanceComponent implements OnInit {
         enabled: true,
         useHTML: true,
         formatter: function () {
-          const date = new Date((this as any).x);
+          const date = new Date(this.category);
           const formattedDate = date.toLocaleDateString(numberFormat, {
             month: 'short',
             day: 'numeric',
