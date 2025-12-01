@@ -38,7 +38,7 @@
           class="control-btn download-btn"
           title="Download PDF"
           (click)="downloadPdf()"
-          [disabled]="!safePdfUrl || isLoading">
+          >
           <span class="icon">⬇</span>
         </button>
 
@@ -47,7 +47,7 @@
           class="control-btn fullscreen-btn"
           title="Toggle Fullscreen"
           (click)="toggleFullscreen()"
-          [disabled]="!safePdfUrl || isLoading">
+          >
           <span class="icon">⛶</span>
         </button>
 
@@ -79,11 +79,6 @@
         (onDocumentLoad)="onPdfLoaded()"
         (onError)="onPdfLoadError($event)">
       </ngx-extended-pdf-viewer>
-    </div>
-
-    <!-- No PDF Message -->
-    <div class="pdf-viewer-empty" *ngIf="!safePdfUrl && !isLoading && !pdfLoadError">
-      <p>No PDF loaded</p>
     </div>
 
   </div>
