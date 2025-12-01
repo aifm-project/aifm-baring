@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
 
 @Injectable({
@@ -13,11 +13,11 @@ export class DocumentService {
     ) { }
 
     getDocumentTypes(fundGuid):Observable<any> {
-        return this.httpClient.get<any>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents/types");
+        return this.httpClient.get<any>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents/types").pipe(map(sk=>({...sk,data:sk.data.filter(t=>t.document_type!=='Zip File')})));
     }
 
     loadDocuments(fundGuid, config):Observable<any> {
-        return this.httpClient.get<any>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents", { params: config });
+        return this.httpClient.get<any>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents", { params: config }).pipe(map(sk=>({...sk,documents:sk.documents.filter(t=>t.type!=='Zip File')})));
     }
 
      loadLatestDocuments(fundGuid):Observable<any> {

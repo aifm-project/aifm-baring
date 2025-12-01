@@ -80,6 +80,8 @@ export class WebDocumentsComponent {
     let config = this.loadDocConfig
     if($event.value!='ALL'){
       config['type'] = $event.value
+    }else {
+      delete config['type']
     }
     this.loadDocuments(config)
   }
