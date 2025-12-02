@@ -173,7 +173,7 @@
       <table class="investmentTable">
         <thead>
           <tr>
-            <th class="icon-company">Company and Industry</th>
+            <th class="icon-company" colspan="2">Company</th>
             <th class="industry">Industry</th>
             <th class="investment text-right">Investment</th>
             <th class="marketValue text-right">Market Value</th>
@@ -181,21 +181,17 @@
                 alt="IRR Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top" title="A measure of how quickly investments are growing, expressed as an annual percentage return."></th>
             <th class="moic  text-right">MOIC&nbsp;&nbsp;<img src="./../../../../assets/icons1/Info-Black-Portfolio.png"
                 alt="IRR Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top" title="Shows how many times the invested money has grown (e.g., 2.0x means doubling the investment)."></th>
-            <th class="weight  text-left">weight&nbsp;&nbsp;<img src="./../../../../assets/icons1/Info-Black-Portfolio.png"
+            <th class="weight  text-left">Weight&nbsp;&nbsp;<img src="./../../../../assets/icons1/Info-Black-Portfolio.png"
                 alt="IRR Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top" title="The percentage share of each company or investment within the overall portfolio."></th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let company of limitedCompanies">
-            <td class="icon-company">
-              <div class="d-flex align-items-center">
-                <div class="company-logo d-flex align-items-center justify-content-center">
-                  <img [src]="company.logo" [alt]="company.name + ' logo'" loading="lazy" />
-                </div>
-                <div class="company-info1">
-                  <div class="company-name1">{{ company.name }}</div>
-                </div>
-              </div>
+            <td class="company-logo-cell">
+              <img class="company-logo1" [src]="company.logo" [alt]="company.name + ' logo'" loading="lazy" />
+            </td>
+            <td class="company-name-cell">
+              {{ company.name }}
             </td>
             <td class="industry">{{ company.industry }}</td>
             <td class="investment text-right">

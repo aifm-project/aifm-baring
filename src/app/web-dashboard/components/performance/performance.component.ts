@@ -255,36 +255,17 @@ export class PerformanceComponent implements OnInit {
           },
         },
       },
-      yAxis: [
-        {
-          title: { text: 'Drawdown' },
-          tickAmount: 10,
-          gridLineColor: '#DCDCDC',
-          gridLineWidth: 1,
-          min: 0,
-          opposite: false,
-          labels: {
-            style: { color: '#C08A84', fontSize: '14px', fontFamily: 'Instrument Sans' },
-            formatter: yAxisLableFormatter,
-          },
+      yAxis: {
+        title: { text: '' },
+        tickAmount: 10,
+        gridLineColor: '#DCDCDC',
+        gridLineWidth: 1,
+        min: 0,
+        labels: {
+          style: { color: '#000', fontSize: '14px', fontFamily: 'Instrument Sans' },
+          formatter: yAxisLableFormatter,
         },
-        {
-          title: { text: 'NAV' },
-          tickAmount: 10,
-          gridLineColor: '#DCDCDC',
-          gridLineWidth: 1,
-          min: 0,
-          interval:10000,
-          opposite: true,
-          labels: {
-            style: { color: '#00305B', fontSize: '14px', fontFamily: 'Instrument Sans' },
-            formatter: function () {
-              let value = this.value;
-              return getCurrencyByUnitsPipe.transform(value, false, false, 0, true);
-            },
-          },
-        },
-      ],
+      },
       plotOptions: {
         series: {
           marker: {
@@ -379,7 +360,7 @@ export class PerformanceComponent implements OnInit {
           type: 'line',
           data: navArray,
           color: '#00305B',
-          yAxis: 1,
+          yAxis: 0,
           marker: {
             symbol: 'circle',
             states: {
@@ -409,9 +390,8 @@ export class PerformanceComponent implements OnInit {
           let tooltip = `<div style="font-size: 13px; font-weight: 600; margin-bottom: 6px; font-family: 'Instrument Sans';">${formattedDate}</div>`;
           (this as any).points.forEach((point: any) => {
             const color = point.series.color;
-            tooltip += `<div style="margin: 4px 0; font-family: 'Instrument Sans'; font-size: 12px;">\n<span style="color: ${color}; margin-right: 4px;">●</span>\n<span>${
-              point.series.name
-            }: ${getCurrencyByUnitsPipe.transform(point.y, true, false, 2, false)}</span>\n</div>`;
+            const formattedValue = getCurrencyByUnitsPipe.transform(point.y, true, false, 0, false);
+            tooltip += `<div style="margin: 4px 0; font-family: 'Instrument Sans'; font-size: 12px;">\n<span style="color: ${color}; margin-right: 4px;">●</span>\n<span>${point.series.name}: ${formattedValue}</span>\n</div>`;
           });
           return tooltip;
         },
