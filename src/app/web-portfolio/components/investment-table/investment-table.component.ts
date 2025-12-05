@@ -41,7 +41,7 @@ export interface Company {
 }
 
 export interface PortfolioSummary {
-  totalHoldings: number;
+  totalHoldings: string;
   totalInvestment: string;
   totalMarketValue: string;
   totalGrossIRR: string;
@@ -219,6 +219,15 @@ export class InvestmentTableComponent implements OnInit {
             totalGrossIRR: response.portfolio.total_investment_portfolio.unrealisedIRR ? response.portfolio.total_investment_portfolio.unrealisedIRR : '-'  ,
             totalGrossMOIC: response.portfolio.total_investment_portfolio.unrealisedMOIC ? response.portfolio.total_investment_portfolio.unrealisedMOIC : '-'   ,
             totalReturns: response.portfolio.total_investment_portfolio.unrealisedPrice ? response.portfolio.total_investment_portfolio.unrealisedPrice : '-'  ,
+          }
+        }else {
+          this.portfolioSummary = {
+            totalHoldings: '-',
+            totalInvestment: '-',
+            totalMarketValue: '-',
+            totalGrossIRR: '-',
+            totalGrossMOIC: '-',
+            totalReturns: '-'
           }
         }
         if(response.portfolio){

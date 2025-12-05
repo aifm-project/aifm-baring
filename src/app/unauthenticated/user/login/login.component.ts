@@ -206,6 +206,7 @@ export class LoginComponent implements OnInit {
   }
 
   userValidate(data:any) {
+     localStorage.removeItem('fundInvestorToken');
     this.isLoading = false;
     sessionStorage.setItem('activeSession', 'true');
     this.accountInfo = this.loginResponse.user.account;

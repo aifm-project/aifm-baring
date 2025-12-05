@@ -116,7 +116,7 @@ export class DistributionChartComponent implements OnInit {
             const chart = this;
             const series = chart.series[0];
             const lastPoint = series.data[0];
-            lastPoint.firePointEvent('click');
+            lastPoint?.firePointEvent('click');
           },
           render() {
             const chart = this,

@@ -25,7 +25,7 @@ export function httpConfigInterceptor(
   }
   let req = request;
   if (!tokenSet) {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('fundInvestorToken') || localStorage.getItem('authToken');
     if (token) {
       req = req.clone({
         setHeaders: {

@@ -450,7 +450,12 @@ export class PerformanceComponent implements OnInit {
 
     this.fundService.getPerformanceData(apiParams, 'VC_VD_GRAPH').subscribe({
       next: (sk) => {
-        this.initializeChart(sk.performance.vc_vd_graph);
+        if(sk.performance['vc_vd_graph'] && sk.performance['vc_vd_graph'].length){
+          this.initializeChart(sk.performance.vc_vd_graph);
+        }else if(this.chart) {
+          this.chart.destroy();
+        }
+        
       },
       error: (error) => {
         console.error('Error fetching performance data:', error);
@@ -493,9 +498,9 @@ export class PerformanceComponent implements OnInit {
           this.overviewData.metadata.funded_committed = this.overviewData.metadata.funded_committed
             ? this.overviewData.metadata.funded_committed
             : '-';
-          // this.selectedDrawdowns =
-          //   this.getCurrencyByUnitsPipe.transform(this.overviewData.metadata.funded_committed, true, true,2,true) ||
-          //   '-';
+          this.selectedDrawdowns =
+            this.getCurrencyByUnitsPipe.transform(this.overviewData.metadata.funded_committed, true, true,2,true) ||
+            '-';
         },
         error: (error) => {
           // Handle error response

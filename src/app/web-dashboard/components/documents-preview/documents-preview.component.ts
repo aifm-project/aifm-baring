@@ -40,6 +40,7 @@ export class DocumentsPreviewComponent {
   }
 
   getDocumentList() {
+    this.documents = [];
     this.documentService.loadLatestDocuments(this.selectedFund.guid).subscribe({
       next: (response) => {
         let reducebyTYpe = response.data.reduce((acc, doc) => {

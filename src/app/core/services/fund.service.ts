@@ -97,4 +97,9 @@ getDocumentDownloadPath(documentId: string): string {
     }, 5000);
   }
 
+  getFundInvestorToken(userGuid): Observable<{errorMessage:string,user_token:string}>{
+    return this.httpClient.get<{errorMessage:string,user_token:string}>(
+      environment.aifEndPoint + 'users/'+ userGuid +'/check/grouping'
+    );
+  }
 }

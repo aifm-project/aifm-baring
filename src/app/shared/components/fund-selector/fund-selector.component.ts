@@ -71,7 +71,8 @@ export class FundSelectorComponent {
     });
   }
 
-  onFundSelect(fund: string) {
+  onFundSelect(fund:any) {
+    localStorage.removeItem('fundInvestorToken');
     this.selectedFund = fund
     if(this.selectedFund.isInvestorCard){
       localStorage.setItem('userGuid',this.selectedFund.user_guid)
@@ -79,7 +80,20 @@ export class FundSelectorComponent {
         this.selectedFund['user_guid'] = this.userDetails.user_guid
       }
     }
-    this.getAsOfDates('PERFORMANCE');
+     this.store.dispatch(setFundData({ fundData: this.selectedFund, date: this.inceptionDate }));
+     if(fund.isInvestorCard){
+      this.fundService.getFundInvestorToken(this.selectedFund['user_guid']).subscribe({
+        next: (response) => {
+          if(response && response.user_token){
+            localStorage.setItem('fundInvestorToken', response.user_token);
+          }
+          this.getAsOfDates('PERFORMANCE');
+        }
+      });
+     } else {
+       this.getAsOfDates('PERFORMANCE');
+     }
+   
     console.log('Selected fund:', fund);
   }
 
