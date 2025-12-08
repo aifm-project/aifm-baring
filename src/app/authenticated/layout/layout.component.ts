@@ -1,5 +1,5 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ToastModule } from 'primeng/toast';
 import { NavbarComponent } from '../../shared/components/navbar/navbar.component';
@@ -7,6 +7,7 @@ import { FundSelectorComponent } from '../../shared/components/fund-selector/fun
 import { NewsletterComponent } from '../../shared/components/newsletter/newsletter.component';
 import { FooterComponent } from '../../shared/components/footer/footer.component';
 import { PdfViewerComponent } from '../../shared/components/pdf-viewer/pdf-viewer.component';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-authenticated-layout',
@@ -32,8 +33,22 @@ import { PdfViewerComponent } from '../../shared/components/pdf-viewer/pdf-viewe
   `,
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AuthenticatedLayoutComponent {
+export class AuthenticatedLayoutComponent implements OnInit {
   constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    this.setupScrollToTop();
+  }
+
+  private setupScrollToTop(): void {
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd)
+      )
+      .subscribe(() => {
+        window.scrollTo(0, 0);
+      });
+  }
 
   isNewsAndInsightsPage(): boolean {
     return this.router.url.includes('/insights');

@@ -19,6 +19,7 @@ export class NewsAndInsightsComponent {
   selectedTopic = '';
   selectedSort = '';
   searchQuery = '';
+  filteredAllData: any[] = [];
 
   newsItems = [
     {
@@ -191,16 +192,54 @@ export class NewsAndInsightsComponent {
     this.getIndustrySplit()
   }
   onTopicChange() {
-    // console.log('Topic changed:', this.selectedTopic);
-    this.getExplorDetails()
+    this.getExplorDetails();
+    this.applyFiltersAndSort();
   }
 
   onSortChange() {
-    console.log('Sort changed:', this.selectedSort);
+    this.applyFiltersAndSort();
   }
 
   onSearch() {
-    console.log('Search:', this.searchQuery);
+    this.applyFiltersAndSort();
+  }
+
+  applyFiltersAndSort() {
+    let filtered = [...this.explorAllData];
+
+    if (this.searchQuery && this.searchQuery.trim()) {
+      const query = this.searchQuery.toLowerCase().trim();
+      filtered = filtered.filter(item => {
+        const sectionName = (item.section_name || '').toLowerCase();
+        const header = (item.header || '').toLowerCase();
+        const description = (item.description || '').toLowerCase();
+        const createdDate = item.created_at ? new Date(item.created_at).toLocaleDateString().toLowerCase() : '';
+
+        return (
+          sectionName.includes(query) ||
+          header.includes(query) ||
+          description.includes(query) ||
+          createdDate.includes(query)
+        );
+      });
+    }
+
+    const sortBy = this.selectedSort || 'latest';
+    filtered.sort((a, b) => {
+      const dateA = new Date(a.created_at).getTime();
+      const dateB = new Date(b.created_at).getTime();
+
+      if (sortBy === 'latest') {
+        return dateB - dateA;
+      } else if (sortBy === 'oldest') {
+        return dateA - dateB;
+      } else if (sortBy === 'popular') {
+        return (b.viewCount || 0) - (a.viewCount || 0);
+      }
+      return 0;
+    });
+
+    this.filteredAllData = filtered;
   }
 
   onSubscribeNewsletter() {
@@ -231,7 +270,7 @@ export class NewsAndInsightsComponent {
       this.firstRowInfo = {}
     this.explorService.getExploreDetails(query,{tabId:this.selectedTopic,isLatest:true}).subscribe(sk=>{
       console.log("sk",sk.exploreData)
-     
+
       for (const sk1 of sk.exploreData) {
         sk1.content = JSON.parse(sk1.content);
         if(this.staticSanctions.includes(sk1.section_name)){
@@ -254,7 +293,9 @@ export class NewsAndInsightsComponent {
           })
         }
       }
-      this.explorData = skInfo
+      this.explorData = skInfo;
+      this.explorAllData = skInfo;
+      this.applyFiltersAndSort();
     })
   }
 
@@ -270,7 +311,7 @@ export class NewsAndInsightsComponent {
       this.firstRowInfo = {}
     this.explorService.getExploreDetails(query,{isLatest:true}).subscribe(sk=>{
       console.log("sk",sk.exploreData)
-     
+
       for (const sk1 of sk.exploreData) {
         sk1.content = JSON.parse(sk1.content);
         if(this.staticSanctions.includes(sk1.section_name)){
@@ -280,13 +321,21 @@ export class NewsAndInsightsComponent {
             sk1.content.video = this.IframVideo.transform(sk1?.content?.video);
           }
           let {content,...rest} = sk1
+          if(isFirstRow){
+            this.firstRowInfo = {
+              ...rest,
+              ...content
+            }
+            isFirstRow = false
+          }
           skInfo.push({
              ...rest,
              ...content
           })
         }
       }
-      this.explorAllData = skInfo
+      this.explorAllData = skInfo;
+      this.applyFiltersAndSort();
     })
   }
 
