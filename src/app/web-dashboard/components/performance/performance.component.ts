@@ -427,7 +427,7 @@ export class PerformanceComponent implements OnInit {
 
       // Update the initial value of the dynamic properties with the latest "As Of Date" data
       this.currentDate = moment(this.asOfDate).format('MMM DD, YYYY');
-      this.selectedChartDate = this.currentDate;
+      this.selectedChartDate = '';
 
       this.fetchPerformanceData();
       this.fetchFundOverview();
@@ -499,7 +499,7 @@ export class PerformanceComponent implements OnInit {
             ? this.overviewData.metadata.funded_committed
             : '-';
           this.selectedDrawdowns =
-            this.getCurrencyByUnitsPipe.transform(this.overviewData.metadata.funded_committed, true, true,2,true) ||
+            this.getCurrencyByUnitsPipe.transform(this.overviewData.capital_summary.funded, true, true,2,false) ||
             '-';
         },
         error: (error) => {
