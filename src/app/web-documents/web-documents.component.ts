@@ -107,7 +107,7 @@ export class WebDocumentsComponent {
       config.endDate = moment(currentDate).subtract(6,'M').startOf('month').format('YYYY-MM-DD');
       config.startDate = moment(currentDate).endOf('month').format('YYYY-MM-DD');
     }else {
-      config.endDate = moment(currentDate).subtract(1,'y').startOf('month').format('YYYY-MM-DD');
+      config.endDate = moment('2015-01-01').startOf('month').format('YYYY-MM-DD');
       config.startDate = moment(currentDate).endOf('month').format('YYYY-MM-DD');
     }
     if(this.selectedDocType!='ALL'){
