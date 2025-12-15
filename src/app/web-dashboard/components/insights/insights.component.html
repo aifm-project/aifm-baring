@@ -29,7 +29,7 @@
         <div class="featured-card-footer">
           <div class="card-meta-info">
             <span class="badge-category">{{firstExplore.section_name}}</span>
-            <span class="meta-date">{{ firstExplore.created_at | date:'MMMM dd , yyyy' }}</span>
+            <span class="meta-date">{{ firstExplore.created_at | date:'MMMM dd , yyyy, h:mm a' }}</span>
           </div>
           <h2 class="featured-card-heading">{{firstExplore.header}}</h2>
         </div>
@@ -48,7 +48,7 @@
           <div class="side-card-text-content">
             <div class="side-card-meta">
               <span class="badge-category">{{sk.section_name}}</span>
-              <span class="meta-date">{{ sk.created_at | date:'MMMM dd , yyyy' }}</span>
+              <span class="meta-date">{{ sk.created_at | date:'MMMM dd , yyyy, h:mm a' }}</span>
             </div>
             <h3 class="side-card-heading">{{sk.header}}</h3>
           </div>

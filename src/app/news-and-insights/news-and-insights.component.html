@@ -63,7 +63,7 @@
           <div class="hero-featured-info">
             <div class="hero-meta">
               <span class="badge-light">{{ displayFeaturedArticle.section_name }}</span>
-              <span class="meta-text-white">{{ displayFeaturedArticle.created_at | date:'MMMM dd , yyyy' }}</span>
+              <span class="meta-text-white">{{ displayFeaturedArticle.created_at | date:'MMMM dd , yyyy, h:mm a' }}</span>
             </div>
             <h2 class="hero-featured-heading">{{ displayFeaturedArticle.header }}</h2>
           </div>
@@ -73,7 +73,7 @@
         <aside class="hero-side-list">
           <article class="hero-side-item" *ngFor="let sk of filteredExploreData?.slice(1, 5)">
             <span class="badge-light">{{ sk.section_name }}</span><span class="meta-text-dark margin-left-12">{{
-              sk.created_at | date:'MMMM dd , yyyy' }}</span>
+              sk.created_at | date:'MMMM dd , yyyy, h:mm a' }}</span>
             <h3 class="hero-side-title">{{ sk?.header }}</h3>
 
             <div class="divider-line"></div>
@@ -106,7 +106,7 @@
             <div class="article-info">
               <div class="flex">
                 <span class="article-badge">{{ sk.section_name }}</span>
-                <span class="article-meta margin-left-12">{{ sk.created_at | date:'MMMM dd , yyyy' }}</span>
+                <span class="article-meta margin-left-12">{{ sk.created_at | date:'MMMM dd , yyyy, h:mm a' }}</span>
               </div>
               <h4 class="article-heading">{{ sk.header }}</h4>
             </div>
@@ -131,7 +131,7 @@
           <div class="grid-card-content">
             <div class="grid-card-meta">
               <span class="badge-light">{{ sk.section_name }}</span>
-              <span class="meta-text-dark">{{ sk.created_at | date:'MMMM dd , yyyy' }}</span>
+              <span class="meta-text-dark">{{ sk.created_at | date:'MMMM dd , yyyy, h:mm a' }}</span>
             </div>
             <h3 class="grid-card-title">{{ sk.header }}</h3>
           </div>
