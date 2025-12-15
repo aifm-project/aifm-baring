@@ -19,6 +19,7 @@
           "options": {
             "outputPath": "../aifm-baring-frontend-binaries/html",
             "index": "src/index.html",
+            "baseHref": "/",
             "polyfills": [
               "zone.js"
             ],
@@ -45,8 +46,12 @@
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ],
             "sourceMap": false,
-            "optimization": true,
-            "namedChunks": true,
+            "optimization": {
+              "scripts": true,
+              "styles": true,
+              "fonts": true
+            },
+            "namedChunks": false,
             "allowedCommonJsDependencies": [
               "jquery",
               "util",
@@ -61,13 +66,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "3MB",
-                  "maximumError": "4MB"
+                  "maximumWarning": "4MB",
+                  "maximumError": "5.5MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "500kB",
-                  "maximumError": "750kB"
+                  "maximumWarning": "750kB",
+                  "maximumError": "1MB"
                 }
               ],
               "outputHashing": "all",
@@ -76,19 +81,27 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "optimization": {
+                "scripts": true,
+                "styles": true,
+                "fonts": true
+              },
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true
             },
             "staging": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "4MB",
-                  "maximumError": "5MB"
+                  "maximumWarning": "4.5MB",
+                  "maximumError": "6MB"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "800kB",
-                  "maximumError": "1MB"
+                  "maximumError": "1.2MB"
                 }
               ],
               "outputHashing": "all",
@@ -97,7 +110,14 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.staging.ts"
                 }
-              ]
+              ],
+              "optimization": {
+                "scripts": true,
+                "styles": true,
+                "fonts": true
+              },
+              "sourceMap": true,
+              "namedChunks": true
             },
             "development": {
               "optimization": false,

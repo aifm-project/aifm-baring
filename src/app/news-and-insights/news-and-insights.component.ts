@@ -20,6 +20,9 @@ export class NewsAndInsightsComponent {
   selectedSort = '';
   searchQuery = '';
   filteredAllData: any[] = [];
+  filteredExploreData: any[] = [];
+  filteredIndustryData: any[] = [];
+  displayFeaturedArticle: any = {};
 
   newsItems = [
     {
@@ -187,6 +190,7 @@ export class NewsAndInsightsComponent {
     ) { }
 
    ngOnInit(): void {
+    this.displayFeaturedArticle = this.firstRowInfo;
     this.getAllExplorDetails()
     this.getExplorTypes();
     this.getIndustrySplit()
@@ -205,11 +209,11 @@ export class NewsAndInsightsComponent {
   }
 
   applyFiltersAndSort() {
-    let filtered = [...this.explorAllData];
+    let allFiltered = [...this.explorAllData];
 
     if (this.searchQuery && this.searchQuery.trim()) {
       const query = this.searchQuery.toLowerCase().trim();
-      filtered = filtered.filter(item => {
+      allFiltered = allFiltered.filter(item => {
         const sectionName = (item.section_name || '').toLowerCase();
         const header = (item.header || '').toLowerCase();
         const description = (item.description || '').toLowerCase();
@@ -225,7 +229,7 @@ export class NewsAndInsightsComponent {
     }
 
     const sortBy = this.selectedSort || 'latest';
-    filtered.sort((a, b) => {
+    allFiltered.sort((a, b) => {
       const dateA = new Date(a.created_at).getTime();
       const dateB = new Date(b.created_at).getTime();
 
@@ -239,7 +243,48 @@ export class NewsAndInsightsComponent {
       return 0;
     });
 
-    this.filteredAllData = filtered;
+    this.filteredAllData = allFiltered;
+    this.applySearchToAllSections();
+  }
+
+  private applySearchToAllSections() {
+    if (this.searchQuery && this.searchQuery.trim()) {
+      const query = this.searchQuery.toLowerCase().trim();
+
+      this.filteredExploreData = this.explorData.filter(item => {
+        const sectionName = (item.section_name || '').toLowerCase();
+        const header = (item.header || '').toLowerCase();
+        const description = (item.description || '').toLowerCase();
+        const createdDate = item.created_at ? new Date(item.created_at).toLocaleDateString().toLowerCase() : '';
+
+        return (
+          sectionName.includes(query) ||
+          header.includes(query) ||
+          description.includes(query) ||
+          createdDate.includes(query)
+        );
+      });
+
+      this.filteredIndustryData = this.getIndustryData.filter(item => {
+        const sectionName = (item.section_name || '').toLowerCase();
+        const header = (item.header || '').toLowerCase();
+        const description = (item.description || '').toLowerCase();
+        const createdDate = item.created_at ? new Date(item.created_at).toLocaleDateString().toLowerCase() : '';
+
+        return (
+          sectionName.includes(query) ||
+          header.includes(query) ||
+          description.includes(query) ||
+          createdDate.includes(query)
+        );
+      });
+
+      this.displayFeaturedArticle = this.filteredExploreData.length > 0 ? this.filteredExploreData[0] : {};
+    } else {
+      this.filteredExploreData = this.explorData;
+      this.filteredIndustryData = this.getIndustryData;
+      this.displayFeaturedArticle = this.firstRowInfo;
+    }
   }
 
   onSubscribeNewsletter() {
@@ -295,6 +340,7 @@ export class NewsAndInsightsComponent {
       }
       this.explorData = skInfo;
       this.explorAllData = skInfo;
+      this.applySearchToAllSections();
       this.applyFiltersAndSort();
     })
   }
@@ -335,6 +381,7 @@ export class NewsAndInsightsComponent {
         }
       }
       this.explorAllData = skInfo;
+      this.applySearchToAllSections();
       this.applyFiltersAndSort();
     })
   }
@@ -373,7 +420,8 @@ export class NewsAndInsightsComponent {
           }
         }
       }
-      this.getIndustryData = skInfo
+      this.getIndustryData = skInfo;
+      this.applySearchToAllSections();
     })
   }
 }

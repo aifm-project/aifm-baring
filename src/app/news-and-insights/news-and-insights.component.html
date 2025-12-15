@@ -49,29 +49,29 @@
         <!-- Featured Large Article -->
         <article class="hero-featured">
           <div class="hero-featured-image-wrapper">
-            <img *ngIf="firstRowInfo?.isImage" [src]="firstRowInfo?.images" [alt]="firstRowInfo.header" />
-            <app-video-frame skFrameId='videoFrame' *ngIf="!firstRowInfo?.isImage && firstRowInfo?.video"
-              [videoUrl]="firstRowInfo?.video"></app-video-frame>
+            <img *ngIf="displayFeaturedArticle?.isImage" [src]="displayFeaturedArticle?.images" [alt]="displayFeaturedArticle.header" />
+            <app-video-frame skFrameId='videoFrame' *ngIf="!displayFeaturedArticle?.isImage && displayFeaturedArticle?.video"
+              [videoUrl]="displayFeaturedArticle?.video"></app-video-frame>
             <div class="hero-gradient-overlay"></div>
           </div>
           <!-- <div class="hero-featured-overlay">
-            <button (click)="playVideo('videoFrame')" class="video-btn" *ngIf="!firstRowInfo?.isImage && firstRowInfo?.video" >
+            <button (click)="playVideo('videoFrame')" class="video-btn" *ngIf="!displayFeaturedArticle?.isImage && displayFeaturedArticle?.video" >
               <span class="play-triangle-icon"></span>
               <span >Watch Video</span>
             </button>
           </div> -->
           <div class="hero-featured-info">
             <div class="hero-meta">
-              <span class="badge-light">{{ firstRowInfo.section_name }}</span>
-              <span class="meta-text-white">{{ firstRowInfo.created_at | date:'MMMM dd , yyyy' }}</span>
+              <span class="badge-light">{{ displayFeaturedArticle.section_name }}</span>
+              <span class="meta-text-white">{{ displayFeaturedArticle.created_at | date:'MMMM dd , yyyy' }}</span>
             </div>
-            <h2 class="hero-featured-heading">{{ firstRowInfo.header }}</h2>
+            <h2 class="hero-featured-heading">{{ displayFeaturedArticle.header }}</h2>
           </div>
         </article>
 
         <!-- Side Articles List -->
         <aside class="hero-side-list">
-          <article class="hero-side-item" *ngFor="let sk of explorData?.slice(1, 5)">
+          <article class="hero-side-item" *ngFor="let sk of filteredExploreData?.slice(1, 5)">
             <span class="badge-light">{{ sk.section_name }}</span><span class="meta-text-dark margin-left-12">{{
               sk.created_at | date:'MMMM dd , yyyy' }}</span>
             <h3 class="hero-side-title">{{ sk?.header }}</h3>
@@ -84,7 +84,7 @@
   </section>
 
   <!-- Industry Spotlight -->
-  <section class="industry-spotlight-section" *ngIf="getIndustryData && getIndustryData.length">
+  <section class="industry-spotlight-section" *ngIf="filteredIndustryData && filteredIndustryData.length">
     <div class="content-container">
       <div class="spotlight-layout">
         <!-- Left Content -->
@@ -96,7 +96,7 @@
 
         <!-- Right Articles List -->
         <div class="spotlight-articles-right">
-          <article class="spotlight-article-row" *ngFor="let sk of getIndustryData;let skIndex=index">
+          <article class="spotlight-article-row" *ngFor="let sk of filteredIndustryData;let skIndex=index">
             <div class="article-thumbnail">
               <img *ngIf="sk?.isImage" [src]="sk?.images" [alt]="sk.header" />
               <app-video-frame [skFrameId]="'videoFrameIndustry_'+ skIndex " *ngIf="!sk?.isImage && sk?.video"

@@ -31,15 +31,15 @@
   <div class="navbar-secondary">
     <div class="container padding-top44">
       <nav class="navbar-main-nav">
-        <a routerLink="/dashboard" class="nav-link-main" (click)="loadAsOfDate('PERFORMANCE')" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+        <a routerLink="/dashboard" class="nav-link-main" (click)="nagivationTab('PERFORMANCE')" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
           <img [src]="isActiveRoute('/dashboard') ? './../../../assets/icons1/SquaresFour-Fill.png' : './../../../assets/icons1/SquaresFour.png'" alt="Dashboard" width="24" height="24" class="nav-icon">
           <span>Dashboard</span>
         </a>
-        <a routerLink="/portfolio" class="nav-link-main" (click)="loadAsOfDate('PORTFOLIO')" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+        <a routerLink="/portfolio" class="nav-link-main" (click)="nagivationTab('PORTFOLIO')" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
           <img [src]="isActiveRoute('/portfolio') ? './../../../assets/icons1/ChartDonut-Fill.png' : './../../../assets/icons1/ChartDonut.png'" alt="Portfolio" width="24" height="24" class="nav-icon">
           <span>Portfolio</span>
         </a>
-        <a routerLink="/documents" class="nav-link-main" (click)="loadAsOfDate('PERFORMANCE')" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
+        <a routerLink="/documents" class="nav-link-main" (click)="nagivationTab('PERFORMANCE')" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
           <img [src]="isActiveRoute('/documents') ? './../../../assets/icons1/Files-Fill.png' : './../../../assets/icons1/Files.png'" alt="Documents" width="24" height="24" class="nav-icon">
           <span>Documents</span>
         </a>
