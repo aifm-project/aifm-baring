@@ -62,14 +62,28 @@
       </div>
       <!-- Gross IRR Card -->
       <div class="main-metric-card gross-irr-card">
-        <div class="metric-header">
-          <div class="metric-icon">
-            <img src="./../../../assets/icons1/ChartLine.png" alt="Current Value" width="28" height="28">
+        <div class="gross-irr-metrics-container">
+          <div class="gross-irr-metric-group">
+            <div class="metric-header">
+              <div class="metric-icon">
+                <img src="./../../../assets/icons1/ChartLine.png" alt="Current Value" width="28" height="28">
+              </div>
+              <div class="metric-label-seperator"></div>
+              <div class="metric-label">Gross IRR</div>
+            </div>
+            <div class="metric-value">{{ overviewData.metadata.xirr }}</div>
           </div>
-           <div class="metric-label-seperator"></div>
-          <div class="metric-label">Gross IRR</div>
+          <div class="gross-irr-metric-group">
+            <div class="metric-header">
+              <div class="metric-icon">
+                <img src="./../../../assets/icons1/ChartLine.png" alt="Current Value" width="28" height="28">
+              </div>
+              <div class="metric-label-seperator"></div>
+              <div class="metric-label">Gross MOIC</div>
+            </div>
+            <div class="metric-value">{{ overviewData.metadata.moic }}</div>
+          </div>
         </div>
-        <div class="metric-value">{{ overviewData.metadata.xirr }}</div>
         <div class="metric-description">
           Indicates the fund's overall performance from invested capital across companies.
         </div>

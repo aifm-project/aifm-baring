@@ -385,3 +385,36 @@
   height: 200px;
   margin-top: 21px;
 }
+.display-inline{
+  display: inline-flex;
+}
+
+.gross-irr-metrics-container {
+  display: flex;
+  gap: 0;
+  align-items: flex-start;
+}
+
+.gross-irr-metric-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  align-items: flex-start;
+
+  &:first-child {
+    padding-right: 25px;
+    border-right: 1px solid #cbcbcb;
+  }
+
+  &:last-child {
+    padding-left: 25px;
+  }
+
+  .metric-header {
+    margin-bottom: 13px;
+  }
+
+  .metric-value {
+    width: 100%;
+  }
+}

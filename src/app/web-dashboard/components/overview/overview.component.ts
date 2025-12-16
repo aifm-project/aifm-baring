@@ -29,6 +29,7 @@ interface OverviewData {
     tvpi: string;
     xirr: string;
     commitment: string;
+    moic : string;
   }
 }
 
@@ -62,7 +63,8 @@ export class OverviewComponent {
       return: '-',
       tvpi: '-',
       xirr: '-',
-      commitment: '-'
+      commitment: '-',
+      moic: '-'
     }
   };
   selectedFund: any;
@@ -114,6 +116,8 @@ export class OverviewComponent {
         })+'x';
         let xirr = this.overviewData.metadata.xirr ? Number(this.overviewData.metadata.xirr) : '-';
         this.overviewData.metadata.xirr = xirr!='-' ?  xirr.toLocaleString(this.numberFormat) + '%' : xirr;
+        let moic = this.overviewData.metadata.moic ? Number(this.overviewData.metadata.moic) : '-';
+        this.overviewData.metadata.moic = moic!='-' ?  moic.toLocaleString(this.numberFormat) + '%' : moic;
         let units = this.overviewData.metadata.units ? Number(this.overviewData.metadata.units) : '-';
         this.overviewData.metadata.units = units.toLocaleString(this.numberFormat, {
             minimumFractionDigits: 0,

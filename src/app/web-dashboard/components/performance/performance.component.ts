@@ -101,14 +101,14 @@ export class PerformanceComponent implements OnInit {
   drawdownsValue = '-';
   currentDate = '-';
   grossMOIC = 'Gross MOIC: -';
-  grossIRR = 'Gross IRR: -';
+  netIRR = 'Net IRR: -';
   returnOnCapital = 'Return on Invested Capital: -';
   public seletedDate;
   // ** NEW PROPERTIES ** - These will be bound to the HTML and updated on chart hover
   selectedChartDate: string = this.currentDate;
   selectedNav: string = this.navValue;
   selectedGrossMOIC: string = this.grossMOIC;
-  selectedGrossIRR: string = this.grossIRR;
+  selectedNetIRR: string = this.netIRR;
   selectedReturnOnCapital: string = this.returnOnCapital;
   selectedDrawdowns: string = this.drawdownsValue;
   chartDataPoints: any[] = []; // To store the full data array for lookup
@@ -304,8 +304,8 @@ export class PerformanceComponent implements OnInit {
 
                   // *** IMPORTANT: Map these properties to your actual data structure (dataPoint.moic, etc.) ***
                   // Using dummy data fields for MOIC/IRR/Return as they are not explicitly defined in the chart series
-                  component.selectedGrossMOIC = `Gross MOIC: ${dataPoint.moic || '-'}`;
-                  component.selectedGrossIRR = `Gross IRR: ${dataPoint.irr || '-'}`;
+                  // component.selectedGrossMOIC = `Gross MOIC: ${dataPoint.moic || '-'}`;
+                  component.selectedNetIRR = `Net IRR: ${dataPoint.irr || '-'}`;
                   component.selectedReturnOnCapital = `Return on Invested Capital:  ${
                     dataPoint.return_on_capital
                       ? component.getCurrencyByUnitsPipe.transform(
