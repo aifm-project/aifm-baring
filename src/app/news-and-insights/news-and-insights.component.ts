@@ -162,7 +162,7 @@ export class NewsAndInsightsComponent {
     category: 'INDUSTRY SPOTLIGHT',
     title: 'Electric Vehicles and the Future of Transportation',
     description:
-      'Once a niche bet, electric vehicles now stand at the crossroads of policy, innovation, and consumer demand. This moment offers a lens into how industries and investments  evolve.',
+      '',
     relatedNews: [
       {
         category: 'PORTFOLIO HIGHLIGHTS',

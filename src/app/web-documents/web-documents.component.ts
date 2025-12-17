@@ -20,10 +20,12 @@ export class WebDocumentsComponent {
   public documentTypes: any[] = [];
   public documentList: any = [];
   public allDocuments: any[] = [];
-  loadDocConfig: { startDate: string; endDate: string; };
+  loadDocConfig: any = { startDate: '', endDate: '', offset: 1, limit: 12 };
   selectedDocType: string = 'ALL';
   searchedKey: any;
   totalDocuments: number;
+  currentPage: number = 1;
+  currentPageSize: number = 12;
   constructor(private documentService:DocumentService, private store: Store) {}
 
 
@@ -66,30 +68,29 @@ export class WebDocumentsComponent {
   }
 
   searchDocuments($event: any){
-    // const searchTerm = value.toLowerCase();
-    // this.searchedKey = searchTerm
-
-    // if(this.searchedKey){
-    //     this.documentList = this.allDocuments.filter(doc => doc.type.toLowerCase().includes(searchTerm) || doc.date==searchTerm);
-    // }else {
-    //   this.documentList = this.allDocuments
-    // }
-     console.log("documentType: ",$event.value)
+    console.log("documentType: ",$event.value)
     this.searchedKey = $event.value
-    let config = this.loadDocConfig
+    this.currentPage = 1;
+    this.currentPageSize = 12;
+    let config = { ...this.loadDocConfig }
+    config['offset'] = 1;
+    config['limit'] = 12;
     if($event.value!='ALL'){
       config['search'] = $event.value
     }else {
       delete config['search']
     }
     this.loadDocuments(config)
-    
   }
 
   documentTypeChange($event){
     console.log("documentType: ",$event.value)
     this.selectedDocType = $event.value
-    let config = this.loadDocConfig
+    this.currentPage = 1;
+    this.currentPageSize = 12;
+    let config = { ...this.loadDocConfig }
+    config['offset'] = 1;
+    config['limit'] = 12;
     if($event.value!='ALL'){
       config['type'] = $event.value
     }else {
@@ -100,11 +101,15 @@ export class WebDocumentsComponent {
 
   documentRangeChange($event){
     console.log("documentRangeChange",$event.value)
+    this.currentPage = 1;
+    this.currentPageSize = 12;
     let currentDate = new Date()
     let key = $event.value
     let config = {
       startDate:'',
-      endDate:''
+      endDate:'',
+      offset: 0,
+      limit: 12
     }
     if(key=='cm'){
       config.endDate = moment(currentDate).startOf('month').format('YYYY-MM-DD');
@@ -139,9 +144,12 @@ export class WebDocumentsComponent {
 
   onPageChange(pageInfo){
     console.log('Page change requested:', pageInfo);
+    this.currentPage = pageInfo.page;
+    this.currentPageSize = pageInfo.pageSize;
+    const offset = (pageInfo.page) //* pageInfo.pageSize + 1;
     let config = {
       ...this.loadDocConfig,
-      offset: pageInfo.page,
+      offset: offset,
       limit: pageInfo.pageSize
     }
     this.loadDocuments(config);

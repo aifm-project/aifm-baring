@@ -16,8 +16,11 @@ export class DocumentsGridComponent implements OnChanges {
   @Input() documents: any[] = [];
   @Input() totalDocuments: number = 0;
   @Input() isLoading: boolean = false;
+  @Input() currentPage: number = 1;
   @Output() pageChange = new EventEmitter<{ page: number; pageSize: number }>();
   @Output() loadMore = new EventEmitter<{ page: number; pageSize: number }>();
+
+  private previousTotalDocuments: number = 0;
 
   public defaultBackground = 'https://api.builder.io/api/v1/image/assets/TEMP/be9ca3232984139ab8074fa047ab507acc3a62fb?width=620'
   public typeBackgroundImages = [{
@@ -26,7 +29,6 @@ export class DocumentsGridComponent implements OnChanges {
   },{type:'Quarterly Update Report',value:'https://api.builder.io/api/v1/image/assets/TEMP/7e4df20ed3436c041c1beeb4d7c9d2a08d7fea6b?width=620'}]
 
   viewMode: 'grid' | 'list' = 'grid';
-  currentPage: number = 1;
   gridPageSize: number = 12;
   listPageSize: number = 10;
   Math = Math;
@@ -89,8 +91,23 @@ export class DocumentsGridComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['documents']) {
-      this.currentPage = 1;
+    // Sync currentPage from parent input
+    if (changes['currentPage']) {
+      this.currentPage = changes['currentPage'].currentValue;
+    }
+
+    // Only reset page if totalDocuments changed (indicating a filter was applied)
+    // Don't reset if we're just loading data for the current page
+    if (changes['totalDocuments']) {
+      const newTotal = changes['totalDocuments'].currentValue;
+      const previousTotal = this.previousTotalDocuments;
+
+      // Only reset to page 1 if totalDocuments changed significantly (filter applied)
+      // Don't reset if totalDocuments is just loading the same filtered set
+      if (previousTotal > 0 && newTotal !== previousTotal) {
+        this.currentPage = 1;
+      }
+      this.previousTotalDocuments = newTotal;
     }
   }
 
@@ -103,9 +120,9 @@ export class DocumentsGridComponent implements OnChanges {
       return this.documents.slice(0, this.maxDocuments);
     }
 
-    const startIndex = (this.currentPage - 1) * this.currentPageSize;
-    const endIndex = startIndex + this.currentPageSize;
-    return this.documents.slice(startIndex, endIndex);
+    // API already returns paginated data, so just return all documents
+    // Do NOT slice again as the backend already handles pagination with offset/limit
+    return this.documents;
   }
 
   get totalPages(): number {

@@ -406,6 +406,10 @@
 
   // Left Side Content
   .spotlight-content-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
     .spotlight-tag {
       color: #d4dce2;
       font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
@@ -480,6 +484,7 @@
   .spotlight-articles-right {
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
   }
 
   .spotlight-article-row {

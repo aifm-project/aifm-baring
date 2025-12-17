@@ -31,8 +31,8 @@
 
           <div class="document-footer">
             <div class="document-file-info">
-              <img src="./../../../../assets/icons1/FilePdf-Light.png" alt="FilePdf Download" height="22" height="22">
-              <span class="file-size">{{ doc.size }}</span>
+              <!-- <img src="./../../../../assets/icons1/FilePdf-Light.png" alt="FilePdf Download" height="22" height="22">
+              <span class="file-size">{{ doc.size }}</span> -->
             </div>
 
             <div class="document-actions">
@@ -99,7 +99,7 @@
   <!-- Pagination Controls (Only show if more than one page) -->
   <div class="pagination-controls" *ngIf="totalDocuments > 0">
     <div class="pagination-info">
-      <span>Page {{ currentPage }} of {{ totalDocuments }}</span>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
     </div>
 
     <div class="pagination-buttons">

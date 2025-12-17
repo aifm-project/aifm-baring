@@ -44,11 +44,12 @@
       </section>
 
       <!-- Documents Grid with View Toggle -->
-      <app-documents-grid 
+      <app-documents-grid
         [showViewToggle]="true"
         (pageChange)="onPageChange($event)"
         [totalDocuments]="totalDocuments"
         [documents]="documentList"
+        [currentPage]="currentPage"
         [maxDocuments]="null">
       </app-documents-grid>
     </div>
