@@ -89,13 +89,14 @@ export class WebDocumentsComponent {
     this.currentPage = 1;
     this.currentPageSize = 12;
     let config = { ...this.loadDocConfig }
-    config['offset'] = 1;
+    config['offset'] = 0;
     config['limit'] = 12;
     if($event.value!='ALL'){
       config['type'] = $event.value
     }else {
       delete config['type']
     }
+    this.loadDocConfig = config
     this.loadDocuments(config)
   }
 

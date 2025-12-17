@@ -129,8 +129,8 @@ export class DocumentsGridComponent implements OnChanges {
     if (this.maxDocuments) {
       return Math.ceil(this.maxDocuments / this.currentPageSize);
     }
-    const total = this.totalDocuments;
-    return Math.ceil(total / this.currentPageSize);
+    const total = this.totalDocuments; // Adjust for zero-based index
+    return Math.ceil(total / this.currentPageSize) - 1;
   }
 
   get pages(): number[] {
