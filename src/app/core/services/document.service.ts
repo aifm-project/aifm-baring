@@ -16,11 +16,11 @@ export class DocumentService {
         return this.httpClient.get<any>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents/types").pipe(map(sk=>({...sk,data:sk.data.filter(t=>t.document_type!=='Zip File')})));
     }
 
-    loadDocuments(fundGuid, config):Observable<any> {
-        return this.httpClient.get<any>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents", { params: config }).pipe(map(sk=>({...sk,documents:sk.documents.filter(t=>t.type!=='Zip File')})));
+    loadDocuments(fundGuid, config):Observable<{count:number,data:any[]}> {
+        return this.httpClient.get<{count:number,data:any[]}>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents/data", { params: config }).pipe(map(sk=>({...sk,data:sk.data.filter(t=>t.type!=='Zip File')})));
     }
 
-     loadLatestDocuments(fundGuid):Observable<any> {
-        return this.httpClient.get<any>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents/latest");
+     loadLatestDocuments(fundGuid):Observable<{data:any[]}> {
+        return this.httpClient.get<{data:any[]}>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents/latest");
     }
 }

@@ -112,7 +112,7 @@ export class DocumentsGridComponent implements OnChanges {
     if (this.maxDocuments) {
       return Math.ceil(this.maxDocuments / this.currentPageSize);
     }
-    const total = this.totalDocuments || this.documents.length;
+    const total = this.totalDocuments;
     return Math.ceil(total / this.currentPageSize);
   }
 

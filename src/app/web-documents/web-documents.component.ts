@@ -23,6 +23,7 @@ export class WebDocumentsComponent {
   loadDocConfig: { startDate: string; endDate: string; };
   selectedDocType: string = 'ALL';
   searchedKey: any;
+  totalDocuments: number;
   constructor(private documentService:DocumentService, private store: Store) {}
 
 
@@ -53,24 +54,35 @@ export class WebDocumentsComponent {
   loadDocuments(config){
     this.documentService.loadDocuments(this.selectedFund.guid, config).subscribe((res)=>{
       console.log('Documents:', res);
-      this.allDocuments = res.documents;
+      this.totalDocuments = res.count;
+      this.allDocuments = res.data;
       
       if(this.searchedKey){
         this.searchDocuments(this.searchedKey)
       }else {
-        this.documentList = res.documents;
+        this.documentList = res.data;
       }
     });
   }
 
-  searchDocuments(value: any){
-    const searchTerm = value.toLowerCase();
-    this.searchedKey = searchTerm
-    if(this.searchedKey){
-        this.documentList = this.allDocuments.filter(doc => doc.type.toLowerCase().includes(searchTerm) || doc.date==searchTerm);
+  searchDocuments($event: any){
+    // const searchTerm = value.toLowerCase();
+    // this.searchedKey = searchTerm
+
+    // if(this.searchedKey){
+    //     this.documentList = this.allDocuments.filter(doc => doc.type.toLowerCase().includes(searchTerm) || doc.date==searchTerm);
+    // }else {
+    //   this.documentList = this.allDocuments
+    // }
+     console.log("documentType: ",$event.value)
+    this.searchedKey = $event.value
+    let config = this.loadDocConfig
+    if($event.value!='ALL'){
+      config['search'] = $event.value
     }else {
-      this.documentList = this.allDocuments
+      delete config['search']
     }
+    this.loadDocuments(config)
     
   }
 
@@ -117,4 +129,21 @@ export class WebDocumentsComponent {
     this.loadDocuments(config)
   }
 
+  onPreviousPage($event) {
+    console.log('Previous page requested');
+  }
+
+  onNextPage($event) {
+    console.log('Next page requested');
+  }
+
+  onPageChange(pageInfo){
+    console.log('Page change requested:', pageInfo);
+    let config = {
+      ...this.loadDocConfig,
+      offset: pageInfo.page,
+      limit: pageInfo.pageSize
+    }
+    this.loadDocuments(config);
+  }
 }
