@@ -119,6 +119,7 @@ export class PerformanceComponent implements OnInit {
   currencySymbol: string = '';
   numberFormat: string = 'en-IN';
   fundSizeUnit: string = '';
+  residualValue: string;
 
   constructor(
     private store: Store,
@@ -293,13 +294,12 @@ export class PerformanceComponent implements OnInit {
                 if (dataPoint) {
                   // Update component properties with the data from the hovered point
                   component.selectedChartDate = moment(dataPoint.as_on_date).format('MMM DD, YYYY');
-                  component.selectedNav =
+                  component.residualValue =
                     component.getCurrencyByUnitsPipe.transform(
-                      dataPoint.nav,
+                      dataPoint.residual_value,
                       false,
                       true,
-                      2,
-                      true
+                      2
                     ) || '-';
 
                   // *** IMPORTANT: Map these properties to your actual data structure (dataPoint.moic, etc.) ***
@@ -356,9 +356,9 @@ export class PerformanceComponent implements OnInit {
           },
         },
         {
-          name: 'Growth (NAV)',
+          name: 'Growth (Current Value)',
           type: 'line',
-          data: navArray,
+          data: residualValues,
           color: '#00305B',
           yAxis: 0,
           marker: {
@@ -486,13 +486,12 @@ export class PerformanceComponent implements OnInit {
           this.overviewData.metadata.nav = this.overviewData.metadata.nav
             ? this.overviewData.metadata.nav
             : '-';
-          this.selectedNav =
+          this.residualValue =
             this.getCurrencyByUnitsPipe.transform(
-              this.overviewData.metadata.nav,
-              false,
+              this.overviewData.metadata.residual_value,
               true,
-              2,
-              true
+              true,
+              2
             ) || '-';
 
           this.overviewData.metadata.funded_committed = this.overviewData.metadata.funded_committed
