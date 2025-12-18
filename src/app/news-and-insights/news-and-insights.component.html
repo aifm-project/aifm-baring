@@ -65,7 +65,7 @@
               <span class="badge-light">{{ displayFeaturedArticle.section_name }}</span>
               <span class="meta-text-white">{{ displayFeaturedArticle.created_at | date:'MMMM dd , yyyy, h:mm a' }}</span>
             </div>
-            <h2 class="hero-featured-heading">{{ displayFeaturedArticle.header }}</h2>
+            <h2 class="hero-featured-heading" (click)="redirect(displayFeaturedArticle)"  [ngClass]="(displayFeaturedArticle.link ? 'cursor' : '')">{{ displayFeaturedArticle.header }}</h2>
           </div>
         </article>
 
@@ -74,7 +74,7 @@
           <article class="hero-side-item" *ngFor="let sk of filteredExploreData?.slice(1, 5)">
             <span class="badge-light">{{ sk.section_name }}</span><span class="meta-text-dark margin-left-12">{{
               sk.created_at | date:'MMMM dd , yyyy, h:mm a' }}</span>
-            <h3 class="hero-side-title">{{ sk?.header }}</h3>
+            <h3 class="hero-side-title" (click)="redirect(sk)"  [ngClass]="(sk.link ? 'cursor' : '')">{{ sk?.header }}</h3>
 
             <div class="divider-line"></div>
           </article>
@@ -89,9 +89,9 @@
       <div class="spotlight-layout">
         <!-- Left Content -->
         <div class="spotlight-content-left">
-          <span class="spotlight-tag">Industry Spotlight</span>
+          <span class="spotlight-tag" [ngClass]="(firstIndustory.description ? '' : 'marginBottom200')">Industry Spotlight</span>
           <h2 class="spotlight-main-title">{{ firstIndustory?.header }}</h2>
-          <p class="spotlight-description" [innerHTML]="firstIndustory.description"></p>
+          <p class="spotlight-description" (click)="redirect(firstIndustory)" [ngClass]="(firstIndustory.link ? 'cursor' : '')" [innerHTML]="firstIndustory.description"></p>
         </div>
 
         <!-- Right Articles List -->
@@ -108,7 +108,7 @@
                 <span class="article-badge">{{ sk.section_name }}</span>
                 <span class="article-meta margin-left-12">{{ sk.created_at | date:'MMMM dd , yyyy, h:mm a' }}</span>
               </div>
-              <h4 class="article-heading">{{ sk.header }}</h4>
+              <h4 class="article-heading" (click)="redirect(sk)" [ngClass]="(sk.link ? 'cursor' : '')">{{ sk.header }}</h4>
             </div>
           </article>
         </div>
@@ -133,7 +133,7 @@
               <span class="badge-light">{{ sk.section_name }}</span>
               <span class="meta-text-dark">{{ sk.created_at | date:'MMMM dd , yyyy, h:mm a' }}</span>
             </div>
-            <h3 class="grid-card-title">{{ sk.header }}</h3>
+            <h3 class="grid-card-title" [ngClass]="(sk.link ? 'cursor' : '')" (click)="redirect(sk)">{{ sk.header }}</h3>
           </div>
         </article>
       </div>

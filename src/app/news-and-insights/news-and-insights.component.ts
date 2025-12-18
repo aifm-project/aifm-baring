@@ -432,4 +432,10 @@ export class NewsAndInsightsComponent {
         this.applyFiltersAndSort();
       });
   }
+  redirect(newsInfo){
+    const url = newsInfo.link ? newsInfo.link : null;
+    if (url) {
+      window.open(url, '_blank');
+    }
+  }
 }

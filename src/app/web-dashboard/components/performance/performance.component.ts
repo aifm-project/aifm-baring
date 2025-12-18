@@ -296,8 +296,8 @@ export class PerformanceComponent implements OnInit {
                   component.selectedChartDate = moment(dataPoint.as_on_date).format('MMM DD, YYYY');
                   component.residualValue =
                     component.getCurrencyByUnitsPipe.transform(
-                      dataPoint.residual_value,
-                      false,
+                      dataPoint.residal_value,
+                      true,
                       true,
                       2
                     ) || '-';
@@ -356,7 +356,7 @@ export class PerformanceComponent implements OnInit {
           },
         },
         {
-          name: 'Growth (Current Value)',
+          name: 'Growth',
           type: 'line',
           data: residualValues,
           color: '#00305B',
