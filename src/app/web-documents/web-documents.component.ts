@@ -59,27 +59,27 @@ export class WebDocumentsComponent {
       this.totalDocuments = res.count;
       this.allDocuments = res.data;
       
-      if(this.searchedKey){
-        this.searchDocuments(this.searchedKey)
-      }else {
-        this.documentList = res.data;
-      }
+      this.documentList = res.data
     });
   }
 
   searchDocuments($event: any){
-    console.log("documentType: ",$event.value)
+    console.log("searchValue: ",$event.value)
     this.searchedKey = $event.value
     this.currentPage = 1;
     this.currentPageSize = 12;
     let config = { ...this.loadDocConfig }
-    config['offset'] = 1;
+    config['offset'] = 0;
     config['limit'] = 12;
-    if($event.value!='ALL'){
+    if($event.value && $event.value!='ALL' && $event.value.trim()!=''){
       config['search'] = $event.value
     }else {
       delete config['search']
     }
+    if(this.selectedDocType!='ALL'){
+      config['type'] = this.selectedDocType
+    }
+    this.loadDocConfig = config
     this.loadDocuments(config)
   }
 
@@ -95,6 +95,9 @@ export class WebDocumentsComponent {
       config['type'] = $event.value
     }else {
       delete config['type']
+    }
+    if(this.searchedKey && this.searchedKey!='ALL'){
+      config['search'] = this.searchedKey
     }
     this.loadDocConfig = config
     this.loadDocuments(config)
@@ -130,6 +133,9 @@ export class WebDocumentsComponent {
     }
     if(this.selectedDocType!='ALL'){
       config['type'] = this.selectedDocType
+    }
+    if(this.searchedKey && this.searchedKey!='ALL'){
+      config['search'] = this.searchedKey
     }
     this.loadDocConfig = config
     this.loadDocuments(config)
