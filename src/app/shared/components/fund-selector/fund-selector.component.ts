@@ -51,9 +51,6 @@ export class FundSelectorComponent {
         console.log('Funds fetched successfully:', this.fundList);
         if (this.fundList.length > 0) {
           this.selectedFund = this.fundList[0];
-          if (this.selectedFund.isInvestorCard && !this.selectedFund['user_guid']) {
-            this.selectedFund['user_guid'] = this.userDetails.user_guid;
-          }
           this.store.dispatch(
             setFundData({ fundData: this.selectedFund, date: this.inceptionDate })
           );
@@ -75,30 +72,26 @@ export class FundSelectorComponent {
 
   onFundSelect(fund: any) {
     localStorage.removeItem('fundInvestorToken');
-    if (this.router.url == '/portfolio') {
+       if (this.router.url == '/portfolio') {
       this.activeTab = 'PORTFOLIO';
     } else {
       this.activeTab = 'PERFORMANCE';
     }
-    this.selectedFund = fund;
-    if (this.selectedFund.isInvestorCard) {
-      localStorage.setItem('userGuid', this.selectedFund.user_guid);
-      if (!this.selectedFund['user_guid']) {
-        this.selectedFund['user_guid'] = this.userDetails.user_guid;
-      }
-    }
-    this.store.dispatch(setFundData({ fundData: this.selectedFund, date: this.inceptionDate }));
-    if (fund.isInvestorCard) {
-      this.fundService.getFundInvestorToken(this.selectedFund['user_guid']).subscribe({
+    if (fund.isInvestorCard && fund.user_guid) {
+       this.selectedFund = fund;
+      localStorage.setItem('userGuid', fund.user_guid);
+      this.fundService.getFundInvestorToken(fund.user_guid).subscribe({
         next: (response) => {
           if (response && response.user_token) {
             localStorage.setItem('fundInvestorToken', response.user_token);
           }
-          this.getAsOfDates(this.activeTab);
+           this.updateFundState(this.selectedFund);
         },
       });
     } else {
-      this.getAsOfDates(this.activeTab);
+        this.selectedFund = fund;
+
+      this.updateFundState(this.selectedFund);
     }
   }
 
@@ -178,5 +171,10 @@ export class FundSelectorComponent {
       })
       .unsubscribe();
     return hasAuth;
+  }
+
+  updateFundState(fundData) {
+    this.store.dispatch(setFundData({ fundData: fundData, date: this.inceptionDate }));
+    this.getAsOfDates(this.activeTab);
   }
 }
