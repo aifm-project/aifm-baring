@@ -25,6 +25,7 @@ export class FundSelectorComponent {
   asOfDate: any;
   dataDates: any = [];
   userDetails: User;
+  currentFundGuid: string = '';
 
   constructor(private fundService: FundService, private store: Store, private router: Router) {}
 
@@ -51,6 +52,7 @@ export class FundSelectorComponent {
         console.log('Funds fetched successfully:', this.fundList);
         if (this.fundList.length > 0) {
           this.selectedFund = this.fundList[0];
+          this.currentFundGuid = this.selectedFund.guid;
           this.store.dispatch(
             setFundData({ fundData: this.selectedFund, date: this.inceptionDate })
           );
@@ -72,7 +74,8 @@ export class FundSelectorComponent {
 
   onFundSelect(fund: any) {
     localStorage.removeItem('fundInvestorToken');
-       if (this.router.url == '/portfolio') {
+    this.currentFundGuid = fund.guid;
+    if (this.router.url == '/portfolio') {
       this.activeTab = 'PORTFOLIO';
     } else {
       this.activeTab = 'PERFORMANCE';
@@ -97,7 +100,6 @@ export class FundSelectorComponent {
         }else {
           this.selectedFund = fund;
         }
-        
 
       this.updateFundState(this.selectedFund);
     }

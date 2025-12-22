@@ -14,7 +14,9 @@
               </button>
               <ul class="dropdown-menu">
                 <li *ngFor="let fund of fundList" (click)="onFundSelect(fund)">
-                  <a class="dropdown-item" >{{ fund.name }}</a>
+                  <a class="dropdown-item" [class.active-fund]="this.currentFundGuid==fund.guid">
+                    <span class="fund-name">{{ fund.name }}</span>
+                  </a>
                 </li>
               </ul>
             </div>

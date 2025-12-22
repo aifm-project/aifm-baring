@@ -17,12 +17,13 @@ import moment from 'moment';
 export class WebDocumentsComponent {
   selectedFund: any;
   fundConfig: any;
+  previousFundGuid: string = '';
   public documentTypes: any[] = [];
   public documentList: any = [];
   public allDocuments: any[] = [];
   loadDocConfig: any = { startDate: '', endDate: '', offset: 1, limit: 12 };
   selectedDocType: string = 'ALL';
-  searchedKey: any;
+  searchedKey: any = '';
   totalDocuments: number;
   currentPage: number = 1;
   currentPageSize: number = 12;
@@ -43,14 +44,35 @@ export class WebDocumentsComponent {
 
   getStoreData() {
       this.store.select(selectFundData).subscribe((fundState) => {
-        this.selectedFund = fundState;
-        this.fundConfig = fundState?.fund_configuration_classes.reduce((map, obj) => {
-          map.set(obj.fund_key, obj.fund_value);
-          return map;
-        }, new Map<string, string>());
-        this.getDocumentTypes();
-        this.documentRangeChange({value:'l3m'})
+        if (fundState && fundState.guid) {
+          const fundGuidChanged = this.previousFundGuid !== fundState.guid && this.previousFundGuid !== '';
+
+          this.selectedFund = fundState;
+          this.previousFundGuid = fundState.guid;
+
+          this.fundConfig = fundState?.fund_configuration_classes.reduce((map, obj) => {
+            map.set(obj.fund_key, obj.fund_value);
+            return map;
+          }, new Map<string, string>());
+
+          if (fundGuidChanged) {
+            this.resetFiltersToDefault();
+          } else {
+            this.getDocumentTypes();
+            this.documentRangeChange({value:'l3m'})
+          }
+        }
       });
+  }
+
+  resetFiltersToDefault() {
+    this.selectedDocType = 'ALL';
+    this.searchedKey = '';
+    this.currentPage = 1;
+    this.currentPageSize = 12;
+    this.loadDocConfig = { startDate: '', endDate: '', offset: 0, limit: 12 };
+    this.getDocumentTypes();
+    this.documentRangeChange({value:'l3m'})
   }
 
   loadDocuments(config){
