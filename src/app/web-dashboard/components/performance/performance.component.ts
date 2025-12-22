@@ -10,6 +10,8 @@ import { GetCurrencyByUnitsPipe } from '../../../shared/pipe/get-currency-by-uni
 import { selectDateState, selectSelectedDate } from '../../../store/date';
 import { SharedModule } from '../../../shared/shared.module';
 import { interval } from 'rxjs';
+import { User, UserDetails } from '../../../model/models';
+import { selectAuthState } from '../../../store/auth';
 
 interface ChartDataPoint {
   x: number;
@@ -51,6 +53,7 @@ interface OverviewData {
     gross_irr : string;
     roic : string;
     funded_committed: string;
+    fund_xirr : string;
   }
 }
 
@@ -92,7 +95,8 @@ export class PerformanceComponent implements OnInit {
       moic: '-',
       gross_moic: '-',
       gross_irr: '-',
-      roic: '-'
+      roic: '-',
+      fund_xirr: '-'
     },
   };
 
@@ -128,7 +132,8 @@ export class PerformanceComponent implements OnInit {
   numberFormat: string = 'en-IN';
   fundSizeUnit: string = '';
   residualValue: string;
-
+  userRole : string;
+  userDetails: User;
   constructor(
     private store: Store,
     private fundService: FundService,
@@ -147,9 +152,11 @@ export class PerformanceComponent implements OnInit {
         this.numberFormat = this.fundConfig.get('number_format') || 'en-IN';
       }
     });
+    this.userRole = localStorage.getItem("userRole")
   }
 
   ngOnInit() {
+    this.getUserDetails();
     this.getStoreData();
   }
 
@@ -508,11 +515,17 @@ export class PerformanceComponent implements OnInit {
           this.selectedDrawdowns =
             this.getCurrencyByUnitsPipe.transform(this.overviewData.capital_summary.funded, true, true,2,false) ||
             '-';
-          this.selectedNetIRR = this.overviewData.metadata.return ? 'Net IRR: ' + (+this.overviewData.metadata.return * 100).toLocaleString(this.numberFormat, {
+        if(this.userDetails.user_sub_role == 'Investor Role'){
+            this.selectedNetIRR = this.overviewData.metadata.fund_xirr ? 'Net IRR: ' + (+this.overviewData.metadata.fund_xirr * 100).toLocaleString(this.numberFormat, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           }) + '%' : '-';
-
+        }else{
+           this.selectedNetIRR = this.overviewData.metadata.return ? 'Net IRR: ' + (+this.overviewData.metadata.return * 100).toLocaleString(this.numberFormat, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }) + '%' : '-';
+        }
           this.selectedReturnOnCapital = this.overviewData.metadata.return
             ? `Return on Invested Capital: ${this.getCurrencyByUnitsPipe.transform(
                 +this.overviewData.metadata.roic || 0,
@@ -526,4 +539,15 @@ export class PerformanceComponent implements OnInit {
         },
       });
   }
+
+  getUserDetails() {
+      let hasAuth = false;
+      this.store
+        .select(selectAuthState)
+        .subscribe((authState) => {
+          this.userDetails = authState.userData;
+        })
+        .unsubscribe();
+      return hasAuth;
+    }
 }
