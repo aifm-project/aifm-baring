@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { DocumentsGridComponent } from './components/documents-grid/documents-grid.component';
 import { DocumentService } from '../core/services/document.service';
 import { Store } from '@ngrx/store';
@@ -10,7 +11,7 @@ import moment from 'moment';
 @Component({
   selector: 'app-web-documents',
   standalone: true,
-  imports: [CommonModule, RouterModule, DocumentsGridComponent],
+  imports: [CommonModule, RouterModule, FormsModule, DocumentsGridComponent],
   templateUrl: './web-documents.component.html',
   styleUrls: ['./web-documents.component.scss']
 })
@@ -21,8 +22,9 @@ export class WebDocumentsComponent {
   public documentTypes: any[] = [];
   public documentList: any = [];
   public allDocuments: any[] = [];
-  loadDocConfig: any = { startDate: '', endDate: '', offset: 1, limit: 12 };
+  loadDocConfig: any = { startDate: '', endDate: '', offset: 0, limit: 12 };
   selectedDocType: string = 'ALL';
+  selectedDateRange: string = 'l3m';
   searchedKey: any = '';
   totalDocuments: number;
   currentPage: number = 1;
@@ -45,10 +47,9 @@ export class WebDocumentsComponent {
   getStoreData() {
       this.store.select(selectFundData).subscribe((fundState) => {
         if (fundState && fundState.guid) {
-          const fundGuidChanged = this.previousFundGuid !== fundState.guid && this.previousFundGuid !== '';
+          const fundGuidChanged = this.previousFundGuid && this.previousFundGuid !== fundState.guid;
 
           this.selectedFund = fundState;
-          this.previousFundGuid = fundState.guid;
 
           this.fundConfig = fundState?.fund_configuration_classes.reduce((map, obj) => {
             map.set(obj.fund_key, obj.fund_value);
@@ -56,17 +57,22 @@ export class WebDocumentsComponent {
           }, new Map<string, string>());
 
           if (fundGuidChanged) {
+            console.log('Fund changed from', this.previousFundGuid, 'to', fundState.guid, '- Resetting filters');
             this.resetFiltersToDefault();
-          } else {
+          } else if (!this.previousFundGuid) {
+            console.log('Initial load - Setting default filters');
             this.getDocumentTypes();
             this.documentRangeChange({value:'l3m'})
           }
+
+          this.previousFundGuid = fundState.guid;
         }
       });
   }
 
   resetFiltersToDefault() {
     this.selectedDocType = 'ALL';
+    this.selectedDateRange = 'l3m';
     this.searchedKey = '';
     this.currentPage = 1;
     this.currentPageSize = 12;
@@ -85,20 +91,21 @@ export class WebDocumentsComponent {
     });
   }
 
-  searchDocuments($event: any){
-    console.log("searchValue: ",$event.value)
-    this.searchedKey = $event.value
+  searchDocuments(searchValue: any){
+    const value = typeof searchValue === 'object' && searchValue.value ? searchValue.value : searchValue;
+    console.log("searchValue: ", value)
+    this.searchedKey = value
     this.currentPage = 1;
     this.currentPageSize = 12;
     let config = { ...this.loadDocConfig }
     config['offset'] = 0;
     config['limit'] = 12;
-    if($event.value && $event.value!='ALL' && $event.value.trim()!=''){
-      config['search'] = $event.value
+    if(value && value.toString().trim() !== ''){
+      config['search'] = value
     }else {
       delete config['search']
     }
-    if(this.selectedDocType!='ALL'){
+    if(this.selectedDocType !== 'ALL'){
       config['type'] = this.selectedDocType
     }
     this.loadDocConfig = config
@@ -106,19 +113,20 @@ export class WebDocumentsComponent {
   }
 
   documentTypeChange($event){
-    console.log("documentType: ",$event.value)
-    this.selectedDocType = $event.value
+    const value = typeof $event === 'object' ? $event.value : $event;
+    console.log("documentType: ", value)
+    this.selectedDocType = value
     this.currentPage = 1;
     this.currentPageSize = 12;
     let config = { ...this.loadDocConfig }
     config['offset'] = 0;
     config['limit'] = 12;
-    if($event.value!='ALL'){
-      config['type'] = $event.value
+    if(value !== 'ALL'){
+      config['type'] = value
     }else {
       delete config['type']
     }
-    if(this.searchedKey && this.searchedKey!='ALL'){
+    if(this.searchedKey && this.searchedKey.toString().trim() !== ''){
       config['search'] = this.searchedKey
     }
     this.loadDocConfig = config
@@ -126,11 +134,13 @@ export class WebDocumentsComponent {
   }
 
   documentRangeChange($event){
-    console.log("documentRangeChange",$event.value)
+    const value = typeof $event === 'object' ? $event.value : $event;
+    console.log("documentRangeChange", value)
+    this.selectedDateRange = value;
     this.currentPage = 1;
     this.currentPageSize = 12;
     let currentDate = new Date()
-    let key = $event.value
+    let key = value
     let config = {
       startDate:'',
       endDate:'',
@@ -153,10 +163,10 @@ export class WebDocumentsComponent {
       config.endDate = moment('2015-01-01').startOf('month').format('YYYY-MM-DD');
       config.startDate = moment(currentDate).endOf('month').format('YYYY-MM-DD');
     }
-    if(this.selectedDocType!='ALL'){
+    if(this.selectedDocType !== 'ALL'){
       config['type'] = this.selectedDocType
     }
-    if(this.searchedKey && this.searchedKey!='ALL'){
+    if(this.searchedKey && this.searchedKey.toString().trim() !== ''){
       config['search'] = this.searchedKey
     }
     this.loadDocConfig = config
