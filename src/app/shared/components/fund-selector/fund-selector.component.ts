@@ -89,7 +89,15 @@ export class FundSelectorComponent {
         },
       });
     } else {
-        this.selectedFund = fund;
+        if(fund.isInvestorCard){
+          this.selectedFund = {
+            ...fund,
+            user_guid:this.userDetails.user_guid
+          }
+        }else {
+          this.selectedFund = fund;
+        }
+        
 
       this.updateFundState(this.selectedFund);
     }

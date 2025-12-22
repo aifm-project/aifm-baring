@@ -21,6 +21,6 @@ export class DocumentService {
     }
 
      loadLatestDocuments(fundGuid):Observable<{data:any[]}> {
-        return this.httpClient.get<{data:any[]}>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents/latest");
+        return this.httpClient.get<{data:any[]}>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents/latest").pipe(map(sk=>({...sk,data:sk.data.filter(t=>t.type!=='Zip File')})));
     }
 }

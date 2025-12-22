@@ -30,6 +30,9 @@ interface OverviewData {
     xirr: string;
     commitment: string;
     moic : string;
+    gross_moic : string;
+    gross_irr : string;
+    roic : string;
   }
 }
 
@@ -64,7 +67,10 @@ export class OverviewComponent {
       tvpi: '-',
       xirr: '-',
       commitment: '-',
-      moic: '-'
+      moic: '-',
+      gross_moic: '-',
+      gross_irr: '-',
+      roic: '-'
     }
   };
   selectedFund: any;
@@ -116,6 +122,14 @@ export class OverviewComponent {
         })+'x';
         let xirr = this.overviewData.metadata.xirr ? Number(this.overviewData.metadata.xirr) : '-';
         this.overviewData.metadata.xirr = xirr!='-' ?  xirr.toLocaleString(this.numberFormat) + '%' : xirr;
+        this.overviewData.metadata.gross_irr = this.overviewData.metadata.gross_irr ? Number((+this.overviewData.metadata.gross_irr*100)).toLocaleString(this.numberFormat,{
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }) + '%' : '-';
+         this.overviewData.metadata.gross_moic = this.overviewData.metadata.gross_moic ? Number((+this.overviewData.metadata.gross_moic)).toLocaleString(this.numberFormat,{
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }) + 'x' : '-';
         let moic = this.overviewData.metadata.moic ? Number(this.overviewData.metadata.moic) : '-';
         this.overviewData.metadata.moic = moic!='-' ?  moic.toLocaleString(this.numberFormat) + '%' : moic;
         let units = this.overviewData.metadata.units ? Number(this.overviewData.metadata.units) : '-';

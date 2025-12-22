@@ -33,7 +33,7 @@ interface OverviewData {
     funded: string;
     growth: string;
     unfunded: string;
-  };
+  },
   metadata: {
     inception_date: string;
     aum: string;
@@ -46,8 +46,12 @@ interface OverviewData {
     tvpi: string;
     xirr: string;
     commitment: string;
+    moic : string;
+    gross_moic : string;
+    gross_irr : string;
+    roic : string;
     funded_committed: string;
-  };
+  }
 }
 
 @Component({
@@ -85,6 +89,10 @@ export class PerformanceComponent implements OnInit {
       xirr: '-',
       commitment: '-',
       funded_committed: '-',
+      moic: '-',
+      gross_moic: '-',
+      gross_irr: '-',
+      roic: '-'
     },
   };
 
@@ -305,16 +313,16 @@ export class PerformanceComponent implements OnInit {
                   // *** IMPORTANT: Map these properties to your actual data structure (dataPoint.moic, etc.) ***
                   // Using dummy data fields for MOIC/IRR/Return as they are not explicitly defined in the chart series
                   // component.selectedGrossMOIC = `Gross MOIC: ${dataPoint.moic || '-'}`;
-                  component.selectedNetIRR = `Net IRR: ${dataPoint.irr || '-'}`;
-                  component.selectedReturnOnCapital = `Return on Invested Capital:  ${
-                    dataPoint.return_on_capital
-                      ? component.getCurrencyByUnitsPipe.transform(
-                          dataPoint.return_on_capital || 0,
-                          false,
-                          false
-                        )
-                      : '-'
-                  }`;
+                  // component.selectedNetIRR = `Net IRR: ${dataPoint.irr || '-'}`;
+                  // component.selectedReturnOnCapital = `Return on Invested Capital:  ${
+                  //   dataPoint.return_on_capital
+                  //     ? component.getCurrencyByUnitsPipe.transform(
+                  //         dataPoint.return_on_capital || 0,
+                  //         false,
+                  //         false
+                  //       )
+                  //     : '-'
+                  // }`;
                   component.selectedDrawdowns = component.getCurrencyByUnitsPipe.transform(
                     dataPoint.funded_committed || 0,
                     true,
@@ -500,6 +508,18 @@ export class PerformanceComponent implements OnInit {
           this.selectedDrawdowns =
             this.getCurrencyByUnitsPipe.transform(this.overviewData.capital_summary.funded, true, true,2,false) ||
             '-';
+          this.selectedNetIRR = this.overviewData.metadata.return ? 'Net IRR: ' + (+this.overviewData.metadata.return * 100).toLocaleString(this.numberFormat, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          }) + '%' : '-';
+
+          this.selectedReturnOnCapital = this.overviewData.metadata.return
+            ? `Return on Invested Capital: ${this.getCurrencyByUnitsPipe.transform(
+                +this.overviewData.metadata.roic || 0,
+                true,
+                true
+              )}`
+            : 'Return on Invested Capital: -';
         },
         error: (error) => {
           // Handle error response
