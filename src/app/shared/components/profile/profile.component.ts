@@ -32,6 +32,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUserProfileUrl()
      this.profileForm = this.fb.group({
       name: [{ value: '', disabled: true }],
       email: [{ value: '', disabled: true }],
@@ -104,5 +105,11 @@ export class ProfileComponent implements OnInit {
         linkedIn: this.userProfile.profile
       });
     });
+  }
+
+     getUserProfileUrl() {
+      this.authService.getUserPic().subscribe(sk=>{
+        this.userPhoto = sk || "https://www.w3schools.com/howto/img_avatar.png"
+      })
   }
 }

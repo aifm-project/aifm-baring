@@ -8,6 +8,7 @@ import { clearAuthData } from '../../store/auth/auth.actions';
 import { setAccountInfo, setAccountConfigs } from '../../store/auth/auth.actions';
 import { selectAuthState } from '../../store/auth/auth.selectors';
 import { LoginResponse, User } from '../../model/models';
+import { DomSanitizer } from '@angular/platform-browser';
 
 export interface LoginCredentials {
   email: string;
@@ -23,11 +24,14 @@ export class AuthService {
   private isAuthenticatedSubject: BehaviorSubject<boolean>;
   public isAuthenticated$: Observable<boolean>;
   accountInfo: any;
+  userDetails: User;
+  logedToken: string;
 
   constructor(
     private router: Router,
     public httpClient: HttpClient,
-    private store: Store
+    private store: Store,
+    private sanitizer: DomSanitizer
   ) {
     this.isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
     this.isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
@@ -53,12 +57,16 @@ export class AuthService {
     let hasAuth = false;
     this.store.select(selectAuthState).subscribe(authState => {
       hasAuth = !!(authState && authState.userData && authState.token);
+      if(hasAuth){
+        this.logedToken = authState.token
+        this.userDetails = authState.userData
+      }
     }).unsubscribe();
     return hasAuth;
   }
 
   getToken(): string | null {
-  return null;
+  return this.logedToken;
   }
 
   getUserRole(): string | null {
@@ -91,5 +99,13 @@ export class AuthService {
         return accountInfo;
       })
     );
+  }
+
+  getUserPic():Observable<any>{
+      let headers = new HttpHeaders({ "x-access-token": this.logedToken });
+  let url = environment.serverEndPoint + "users/" + this.userDetails.user_guid + "/download";
+    return this.httpClient
+    .get(url, { responseType: "blob",headers })
+    .pipe(map((val) => this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(val))));
   }
 }

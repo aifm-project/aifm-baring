@@ -27,7 +27,7 @@
           <img src="./../../../assets/icons1/BellSimple.png" alt="Notifications" width="21" height="21" class="action-icon" />
         </button>
         <div class="user-menu-wrapper">
-          <img src="./../../../assets/icons1/User.png" alt="Profile" class="profile-avatar"
+          <img [src]="userProfileImage" alt="Profile" class="profile-avatar"
             (click)="toggleUserMenu()" />
           <div class="user-dropdown" *ngIf="showUserMenu">
             <div class="user-info">

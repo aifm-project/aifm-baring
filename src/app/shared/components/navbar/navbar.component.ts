@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -18,6 +19,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   unreadNotifications = 3;
   currentUrl = '';
   private destroy$ = new Subject<void>();
+  userProfileImage:string = "./../../../assets/icons1/User.png";
 
   constructor(
     private authService: AuthService,
@@ -26,6 +28,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userEmail = this.authService.getUserEmail();
+    this.getUserProfileUrl()
     this.currentUrl = this.router.url;
 
     this.router.events
@@ -58,4 +61,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+
+    getUserProfileUrl() {
+      this.authService.getUserPic().subscribe(sk=>{
+        this.userProfileImage = sk || "./../../../assets/icons1/User.png"
+      })
+  }
+
+  
 }
