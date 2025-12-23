@@ -41,53 +41,7 @@ export class DocumentsGridComponent implements OnChanges {
   }
 
   ngOnInit() {
-    // If no documents provided via Input, use default sample data
-    if (this.documents.length === 0) {
-      this.documents = [
-        {
-          type: 'Drawdown Receipt',
-          date: '2025-11-14',
-          size: '14 KB',
-          bgImage: 'https://api.builder.io/api/v1/image/assets/TEMP/be9ca3232984139ab8074fa047ab507acc3a62fb?width=620'
-        },
-        {
-          type: 'Statement of Account',
-          date: '2025-11-14',
-          size: '14 KB',
-          bgImage: 'https://api.builder.io/api/v1/image/assets/TEMP/be9ca3232984139ab8074fa047ab507acc3a62fb?width=620'
-        },
-        {
-          type: 'Quarterly Update Report',
-          date: '2025-11-14',
-          size: '14 KB',
-          bgImage: 'https://api.builder.io/api/v1/image/assets/TEMP/7e4df20ed3436c041c1beeb4d7c9d2a08d7fea6b?width=620'
-        },
-        {
-          type: 'Income Statement',
-          date: '2025-11-14',
-          size: '14 KB',
-          bgImage: 'https://api.builder.io/api/v1/image/assets/TEMP/be9ca3232984139ab8074fa047ab507acc3a62fb?width=620'
-        },
-        {
-          type: 'K1 Certificate',
-          date: '2025-11-14',
-          size: '14 KB',
-          bgImage: 'https://api.builder.io/api/v1/image/assets/TEMP/be9ca3232984139ab8074fa047ab507acc3a62fb?width=620'
-        },
-        {
-          type: 'Drawdown Notice',
-          date: '2025-11-14',
-          size: '14 KB',
-          bgImage: 'https://api.builder.io/api/v1/image/assets/TEMP/be9ca3232984139ab8074fa047ab507acc3a62fb?width=620'
-        },
-        {
-          type: 'Form 64C',
-          date: '2025-11-14',
-          size: '14 KB',
-          bgImage: 'https://api.builder.io/api/v1/image/assets/TEMP/be9ca3232984139ab8074fa047ab507acc3a62fb?width=620'
-        }
-      ];
-    }
+    
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -130,7 +84,7 @@ export class DocumentsGridComponent implements OnChanges {
       return Math.ceil(this.maxDocuments / this.currentPageSize);
     }
     const total = this.totalDocuments; // Adjust for zero-based index
-    return Math.ceil(total / this.currentPageSize) - 1;
+    return Math.ceil(total / this.currentPageSize);
   }
 
   get pages(): number[] {
