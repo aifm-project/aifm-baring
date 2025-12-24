@@ -212,16 +212,16 @@ export class InvestmentTableComponent implements OnInit {
           };
         }  
         if(response.portfolio && response.portfolio.total_investment_portfolio){
-          const totalInvestment = response.portfolio.total_investment_portfolio.unrealisedCost || 0;
-          const totalMarketValue = response.portfolio.total_investment_portfolio.unrealisedPrice || 0;
+          const totalInvestment = response.portfolio.total_investment_portfolio.instrumentCost || 0;
+          const totalMarketValue = response.portfolio.total_investment_portfolio.instrumentPrice || 0;
           const totalReturns = totalInvestment !== 0 && totalMarketValue !== 0 ? String(totalMarketValue - totalInvestment) : '-';
 
           this.portfolioSummary = {
-            totalHoldings: response.portfolio.total_investment_portfolio.unrealisedCost ? response.portfolio.total_investment_portfolio.unrealisedCost : '-',
-            totalInvestment: response.portfolio.total_investment_portfolio.unrealisedCost ? response.portfolio.total_investment_portfolio.unrealisedCost : '- ',
-            totalMarketValue: response.portfolio.total_investment_portfolio.unrealisedPrice ? response.portfolio.total_investment_portfolio.unrealisedPrice : '-' ,
-            totalGrossIRR: response.portfolio.total_investment_portfolio.unrealisedIRR ? response.portfolio.total_investment_portfolio.unrealisedIRR : '-'  ,
-            totalGrossMOIC: response.portfolio.total_investment_portfolio.unrealisedMOIC ? response.portfolio.total_investment_portfolio.unrealisedMOIC : '-'   ,
+            totalHoldings: response.portfolio.total_investment_portfolio.instrumentCost ? response.portfolio.total_investment_portfolio.instrumentCost : '-',
+            totalInvestment: response.portfolio.total_investment_portfolio.instrumentCost ? response.portfolio.total_investment_portfolio.instrumentCost : '- ',
+            totalMarketValue: response.portfolio.total_investment_portfolio.instrumentPrice ? response.portfolio.total_investment_portfolio.instrumentPrice : '-' ,
+            totalGrossIRR: response.portfolio.total_investment_portfolio.instrumentIRR ? response.portfolio.total_investment_portfolio.instrumentIRR : '-'  ,
+            totalGrossMOIC: response.portfolio.total_investment_portfolio.instrumentMOIC ? response.portfolio.total_investment_portfolio.instrumentMOIC : '-'   ,
             totalReturns: totalReturns,
           }
         }else {
