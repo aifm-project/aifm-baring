@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../shared/shared.module';
 import { selectDateState, selectSelectedDate } from '../../../store/date';
+import { selectAuthState } from '../../../store/auth';
+import { User } from '../../../model/models';
 
 interface OverviewData {
   capital_summary: {
@@ -18,6 +20,7 @@ interface OverviewData {
     unfunded: string;
   },
   metadata: {
+    fund_tvpi: any;
     inception_date: string;
     aum: string;
     nav: string;
@@ -65,6 +68,7 @@ export class OverviewComponent {
       residual_value: '-',
       return: '-',
       tvpi: '-',
+      fund_tvpi:'-',
       xirr: '-',
       commitment: '-',
       moic: '-',
@@ -79,6 +83,7 @@ export class OverviewComponent {
   private currencySymbol: string = '';
   private numberFormat: string = 'en-IN';
   private fundSizeUnit: string = ''
+  userDetails: User;
   constructor(
     private fundService: FundService,
     private store: Store,
@@ -99,6 +104,7 @@ export class OverviewComponent {
   }
 
   ngOnInit() {
+    this.getUserDetails()
     this.getStoreData();
   }
 
@@ -115,7 +121,8 @@ export class OverviewComponent {
         }
         
         this.overviewData.metadata = sk.performance && sk.performance.metadata ? sk.performance.metadata : {};
-        let tvpi  =  this.overviewData.metadata.tvpi ? Number( this.overviewData.metadata.tvpi) : '-'
+
+        let tvpi  = this.userDetails.user_sub_role == 'Investor Role' ? (this.overviewData.metadata.fund_tvpi ? Number( this.overviewData.metadata.fund_tvpi) : '-'):(this.overviewData.metadata.tvpi ? Number( this.overviewData.metadata.tvpi) : '-')
         this.overviewData.metadata.tvpi = tvpi.toLocaleString(this.numberFormat, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2
@@ -158,4 +165,13 @@ export class OverviewComponent {
       this.fetchFundOverview();
     })
   }
+
+    getUserDetails() {
+        this.store
+          .select(selectAuthState)
+          .subscribe((authState) => {
+            this.userDetails = authState.userData;
+          })
+          .unsubscribe();
+      }
 }

@@ -37,7 +37,7 @@
            <div class="metric-label-seperator"></div>
           <div class="metric-label">Current Value</div>
         </div>
-        <div class="metric-value">{{ (overviewData?.capital_summary?.total_value | getCurrencyByUnits:true:true) || '-' }}</div>
+        <div class="metric-value">{{ (overviewData?.metadata?.residual_value | getCurrencyByUnits:true:true) || '-' }}</div>
         <div class="metric-submetrics">
           <div class="submetric border-right">
             <div class="submetric-label">Distribution</div>

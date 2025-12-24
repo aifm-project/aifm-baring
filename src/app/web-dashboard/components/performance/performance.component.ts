@@ -37,6 +37,7 @@ interface OverviewData {
     unfunded: string;
   },
   metadata: {
+    gross_return: string | number;
     inception_date: string;
     aum: string;
     nav: string;
@@ -95,6 +96,7 @@ export class PerformanceComponent implements OnInit {
       moic: '-',
       gross_moic: '-',
       gross_irr: '-',
+      gross_return:'-',
       roic: '-',
       fund_xirr: '-'
     },
@@ -134,6 +136,7 @@ export class PerformanceComponent implements OnInit {
   residualValue: string;
   userRole : string;
   userDetails: User;
+  grorssReturn: string;
   constructor(
     private store: Store,
     private fundService: FundService,
@@ -311,7 +314,7 @@ export class PerformanceComponent implements OnInit {
                   component.selectedChartDate = moment(dataPoint.as_on_date).format('MMM DD, YYYY');
                   component.residualValue =
                     component.getCurrencyByUnitsPipe.transform(
-                      dataPoint.residal_value,
+                      (component.asOfDate==dataPoint.as_on_date ? component.overviewData.metadata.gross_return : dataPoint.residal_value),
                       true,
                       true,
                       2
@@ -504,6 +507,12 @@ export class PerformanceComponent implements OnInit {
           this.residualValue =
             this.getCurrencyByUnitsPipe.transform(
               this.overviewData.metadata.residual_value,
+              true,
+              true,
+              2
+            ) || '-';
+          this.grorssReturn =  this.getCurrencyByUnitsPipe.transform(
+              this.overviewData.metadata.gross_return,
               true,
               true,
               2
