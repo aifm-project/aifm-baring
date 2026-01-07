@@ -227,11 +227,11 @@
             </ng-template>
             <ng-template #newLogic>
               <td class="irr  text-right">
-                {{ company.realisedIRR ? (company.realisedIRR | number : '1.2-2' ) : '-' }}
+                {{ company.realisedIRR ? (company.realisedIRR | number : '1.2-2' ) + ' %' : '-' }}
               </td>
               <td class="moic  text-right">
                 <span class="value-amount">
-                  {{ company.realisedMOIC ? (company.realisedMOIC | number : '1.2-2') + ' %' : '-' }}
+                {{ company.realisedMOIC ? (company.realisedMOIC | number : '1.2-2') : '-' }}
                 </span>
               </td>
             </ng-template>
