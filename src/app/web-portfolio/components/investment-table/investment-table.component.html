@@ -215,7 +215,7 @@
             <td class="marketValue  text-right">
               {{company.unrealisedPrice ? (company.unrealisedPrice | getCurrencyByUnits:true:true:2:true) : '-' }}
             </td>
-            <ng-template [ngIf]="company.unrealisedCost" [ngElseIf]="newLogic">
+            <ng-template [ngIf]="(+company.unrealisedCost)" [ngIfElse]="newLogic">
               <td class="irr  text-right">
                 {{ company.unrealisedIRR ? (company.unrealisedIRR | number : '1.2-2') + ' %' : '-' }}
               </td>
