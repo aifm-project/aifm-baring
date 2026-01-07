@@ -6,13 +6,14 @@
         <div class="d-flex justify-content-between align-items-center investment-header">
           <div class="d-flex align-items-center gap-2">
             <h3 id="investment-portfolio-title" class="investment-title mb-0">Investment Portfolio</h3>
-            <img src="./../../../../assets/icons1/Info-Black.png" alt="Investment Portfolio" width="22" height="22" data-bs-toggle="tooltip" data-bs-placement="top" title="The detailed list of current investments held by the fund.">
+            <img src="./../../../../assets/icons1/Info-Black.png" alt="Investment Portfolio" width="22" height="22"
+              data-bs-toggle="tooltip" data-bs-placement="top"
+              title="The detailed list of current investments held by the fund.">
           </div>
 
           <div class="sort-button-wrapper" style="position: relative;">
             <button class="btn btn-dark d-flex align-items-center investment-sort" type="button"
-              aria-label="Sort investments" (click)="toggleSortMenu()"
-              [attr.aria-expanded]="showSortMenu">
+              aria-label="Sort investments" (click)="toggleSortMenu()" [attr.aria-expanded]="showSortMenu">
               <span class="sort-icon">
                 <img src="../../../../assets/icons/Sort.png" height="36" width="36" alt="Sort Icon">
               </span>
@@ -23,12 +24,8 @@
             </button>
 
             <div class="sort-dropdown" *ngIf="showSortMenu" role="menu">
-              <button *ngFor="let option of sortOptions"
-                type="button"
-                role="menuitem"
-                class="sort-option"
-                [class.active]="sortField === option.field"
-                (click)="setSortOption(option.field, option.type)">
+              <button *ngFor="let option of sortOptions" type="button" role="menuitem" class="sort-option"
+                [class.active]="sortField === option.field" (click)="setSortOption(option.field, option.type)">
                 <span class="option-label">{{ option.label }}</span>
                 <span class="option-indicator" *ngIf="sortField === option.field">
                   <span class="direction">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
@@ -50,29 +47,38 @@
         </div>
         <div class="summary-item">
           <div class="summary-label">Total Investment</div>
-          <div class="summary-value">{{ portfolioSummary.totalInvestment ? (portfolioSummary.totalInvestment  | getCurrencyByUnits:true:true:2:true) : '-' }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalInvestment ? (portfolioSummary.totalInvestment |
+            getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label">Total Market Value</div>
-          <div class="summary-value">{{ portfolioSummary.totalMarketValue ? (portfolioSummary.totalMarketValue  | getCurrencyByUnits:true:true:2:true) : '-' }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalMarketValue ? (portfolioSummary.totalMarketValue |
+            getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
         <div class="summary-item ">
           <div class="summary-label d-flex align-items-center gap-1">
             Total Gross IRR
-            <img src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="Weight Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top" title="The overall annualized return of the fund before fees, showing performance across all investments.">
+            <img src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="Weight Info" width="16" height="16"
+              data-bs-toggle="tooltip" data-bs-placement="top"
+              title="The overall annualized return of the fund before fees, showing performance across all investments.">
           </div>
-          <div class="summary-value">{{ portfolioSummary.totalGrossIRR ? (portfolioSummary.totalGrossIRR  | getCurrencyByUnits:false:false:2:true) + '%' : '-' }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalGrossIRR ? (portfolioSummary.totalGrossIRR |
+            getCurrencyByUnits:false:false:2:true) + '%' : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label d-flex align-items-center gap-1">
             Total Gross MOIC
-            <img src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="Weight Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top" title="The overall multiple of money invested versus money gained, before fees.">
+            <img src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="Weight Info" width="16" height="16"
+              data-bs-toggle="tooltip" data-bs-placement="top"
+              title="The overall multiple of money invested versus money gained, before fees.">
           </div>
-          <div class="summary-value">{{ portfolioSummary.totalGrossMOIC ? (portfolioSummary.totalGrossMOIC  | getCurrencyByUnits:false:false:2:true) + 'x' : '-' }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalGrossMOIC ? (portfolioSummary.totalGrossMOIC |
+            getCurrencyByUnits:false:false:2:true) + 'x' : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label">Total Returns</div>
-          <div class="summary-value">{{ portfolioSummary.totalReturns ? (portfolioSummary.totalReturns  | getCurrencyByUnits:true:true:2:true) : '-' }}</div>
+          <div class="summary-value">{{ portfolioSummary.totalReturns ? (portfolioSummary.totalReturns |
+            getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
       </div>
     </div>
@@ -82,11 +88,14 @@
       <div class="section-header">
         <div class="section-title-container">
           <h3 class="section-title">Top 5 Company Holdings</h3>
-          <img src="./../../../../assets/icons1/Info-Black.png" alt="Top 5 Company Holdings" width="22" height="22" data-bs-toggle="tooltip" data-bs-placement="top" title="The five largest investments in the portfolio, ranked by size or value.">
+          <img src="./../../../../assets/icons1/Info-Black.png" alt="Top 5 Company Holdings" width="22" height="22"
+            data-bs-toggle="tooltip" data-bs-placement="top"
+            title="The five largest investments in the portfolio, ranked by size or value.">
         </div>
 
         <div class="view-all-container" routerLink="/portfolio">
-          <app-dashboard-navigation-button routerLink="portfolio" [showWhiteHover]="true" label="View Portfolio"></app-dashboard-navigation-button>
+          <app-dashboard-navigation-button routerLink="portfolio" [showWhiteHover]="true"
+            label="View Portfolio"></app-dashboard-navigation-button>
           <!-- <button class="view-all-text">View Portfolio</button>
           <div class="metric-label-seperator"></div>
           <button class="view-all-arrow" aria-label="View Portfolio">
@@ -178,11 +187,17 @@
             <th class="investment text-right">Investment</th>
             <th class="marketValue text-right">Market Value</th>
             <th class="irr  text-right">IRR&nbsp;&nbsp;<img src="./../../../../assets/icons1/Info-Black-Portfolio.png"
-                alt="IRR Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top" title="A measure of how quickly investments are growing, expressed as an annual percentage return."></th>
+                alt="IRR Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="A measure of how quickly investments are growing, expressed as an annual percentage return.">
+            </th>
             <th class="moic  text-right">MOIC&nbsp;&nbsp;<img src="./../../../../assets/icons1/Info-Black-Portfolio.png"
-                alt="IRR Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top" title="Shows how many times the invested money has grown (e.g., 2.0x means doubling the investment)."></th>
-            <th class="weight  text-left">Weight&nbsp;&nbsp;<img src="./../../../../assets/icons1/Info-Black-Portfolio.png"
-                alt="IRR Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top" title="The percentage share of each company or investment within the overall portfolio."></th>
+                alt="IRR Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top"
+                title="Shows how many times the invested money has grown (e.g., 2.0x means doubling the investment).">
+            </th>
+            <th class="weight  text-left">Weight&nbsp;&nbsp;<img
+                src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="IRR Info" width="16" height="16"
+                data-bs-toggle="tooltip" data-bs-placement="top"
+                title="The percentage share of each company or investment within the overall portfolio."></th>
           </tr>
         </thead>
         <tbody>
@@ -200,14 +215,26 @@
             <td class="marketValue  text-right">
               {{company.unrealisedPrice ? (company.unrealisedPrice | getCurrencyByUnits:true:true:2:true) : '-' }}
             </td>
-            <td class="irr  text-right">
-              {{ company.unrealisedIRR ? (company.unrealisedIRR | number : '1.2-2') + ' %' : '-' }}
-            </td>
-            <td class="moic  text-right">
-              <span class="value-amount">
-                {{ company.unrealisedMOIC ? (company.unrealisedMOIC | number : '1.2-2' ) : '-' }}
-              </span>
-            </td>
+            <ng-template [ngIf]="company.unrealisedCost" [ngElseIf]="newLogic">
+              <td class="irr  text-right">
+                {{ company.unrealisedIRR ? (company.unrealisedIRR | number : '1.2-2') + ' %' : '-' }}
+              </td>
+              <td class="moic  text-right">
+                <span class="value-amount">
+                  {{ company.unrealisedMOIC ? (company.unrealisedMOIC | number : '1.2-2' ) : '-' }}
+                </span>
+              </td>
+            </ng-template>
+            <ng-template #newLogic>
+              <td class="irr  text-right">
+                {{ company.realisedIRR ? (company.realisedIRR | number : '1.2-2' ) : '-' }}
+              </td>
+              <td class="moic  text-right">
+                <span class="value-amount">
+                  {{ company.realisedMOIC ? (company.realisedMOIC | number : '1.2-2') + ' %' : '-' }}
+                </span>
+              </td>
+            </ng-template>
             <td class="weight  text-left">
               <div class="value-stack weight-text">
                 <span class="value-amount">
