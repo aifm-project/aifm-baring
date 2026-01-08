@@ -12,7 +12,7 @@
               <button type="button" class="fund-dropdown-trigger dropdown-toggle" data-bs-toggle="dropdown">
                 Select Fund&nbsp;&nbsp;<img src="./../../../../assets/icons1/CaretDown.png" height="14" alt="Select Fund">
               </button>
-              <ul class="dropdown-menu" style="height: 100px;z-index: 99992; overflow-y: auto;">
+              <ul class="dropdown-menu fund-dropdown-menu">
                 <li *ngFor="let fund of fundList" (click)="onFundSelect(fund)">
                   <a class="dropdown-item" [class.active-fund]="this.currentFundGuid==fund.guid">
                     <span class="fund-name">{{ fund.name }}</span>
@@ -31,7 +31,7 @@
 <header class="navbar-wrapper">
   <!-- Secondary Navigation Bar -->
   <div class="navbar-secondary">
-    <div class="container padding-top44">
+      <div class="container padding-top44">
       <nav class="navbar-main-nav">
         <a routerLink="/dashboard" class="nav-link-main" (click)="nagivationTab('PERFORMANCE')" routerLinkActive="active" [routerLinkActiveOptions]="{exact: false}">
           <img [src]="isActiveRoute('/dashboard') ? './../../../assets/icons1/SquaresFour-Fill.png' : './../../../assets/icons1/SquaresFour.png'" alt="Dashboard" width="24" height="24" class="nav-icon">
