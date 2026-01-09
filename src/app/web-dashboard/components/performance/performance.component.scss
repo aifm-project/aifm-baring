@@ -97,9 +97,12 @@
 
 .performance-content {
   gap: 30px;
+  display: flex;
+  align-items: flex-start;
 
   .chart-section {
     background: transparent;
+    flex: 0 0 calc(60% - 15px);
 
     .chart-container {
       width: 100%;
@@ -133,7 +136,7 @@
   }
 
   .metrics-sidebar {
-    width: 100%;
+    flex: 0 0 calc(40% - 15px);
     background: #D4DCE2 !important;
     padding: 0;
     box-sizing: border-box;
@@ -151,7 +154,7 @@
           background: #E7EBEE;
           padding: 11px 12px;
           margin: 23px 28px 0 28px;
-          width: 30%;;
+          width: 30%;
           height: 39px;
           box-sizing: border-box;
 
@@ -286,96 +289,157 @@
   }
 }
 
-// Responsive Design
-@media (max-width: 1400px) {
-  .performance-container {
-    height: auto;
-    min-height: 570px;
-    padding: 26px 40px;
-  }
-
+// 2-Column layout for desktop and tablet (down to 992px)
+@media (min-width: 992px) {
   .performance-content {
-    .metrics-sidebar {
-      width: 100%;
-      padding: 20px;
-    }
-  }
-}
-
-/* Desktop exact sizing for metrics panel */
-@media (min-width: 1200px) {
-  .performance-content {
-    .metrics-sidebar {
-      width: 100%;
-      margin-left: 40px;
-    }
-  }
-}
-
-@media (max-width: 1200px) {
-  .performance-container {
-    padding: 20px 30px;
-  }
-
-  .performance-header {
-    flex-direction: column;
-    gap: 16px;
-
-    .col-8 {
-      flex: 0 0 100%;
-    }
-
-    .col-4 {
-      flex: 0 0 100%;
-      justify-content: flex-end;
-    }
-
-    .time-period-container {
-      justify-content: flex-end;
-      width: 100%;
-    }
-
-    .time-period-selector {
-      align-self: flex-end;
-    }
-  }
-
-  .performance-content {
-    gap: 20px;
-    height: auto;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: flex-start;
 
     .chart-section {
+      flex: 0 0 calc(60% - 15px);
+
       .chart-container {
-        height: 300px;
+        height: 410px;
       }
     }
 
     .metrics-sidebar {
-      width: 100%;
-      flex-direction: row;
-      gap: 40px;
-      justify-content: space-around;
+      flex: 0 0 calc(40% - 15px);
+      flex-direction: column;
+      min-height: 401px;
 
       .metric-separator {
-        display: none;
-      }
-
-      .metric-section {
-        flex: 1;
-        max-width: 300px;
+        width: 307px;
       }
     }
   }
 }
 
-@media (max-width: 768px) {
+// Responsive adjustments for 1199px down to 992px
+@media (min-width: 992px) and (max-width: 1199px) {
+  .performance-container {
+    padding: 20px 30px;
+    min-height: auto;
+  }
+
+  .performance-header {
+    margin-left: 12px;
+
+    .time-period-selector {
+      margin-left: 30px;
+    }
+
+    .performance-title-section {
+      .performance-title {
+        font-size: 22px;
+        line-height: 26px;
+      }
+    }
+  }
+
+  .performance-content {
+    gap: 25px;
+
+    .chart-section {
+      flex: 0 0 calc(58% - 12.5px);
+
+      .chart-container {
+        height: 410px;
+        width: 90% ;
+      }
+    }
+
+    .metrics-sidebar {
+      flex: 0 0 calc(42% - 12.5px);
+
+      .metric-section {
+        &:first-child {
+          .metric-header {
+            padding: 10px 11px;
+            margin: 18px 22px 0 22px;
+            height: 36px;
+
+            .legend-label {
+              font-size: 13px;
+            }
+          }
+        }
+
+        &:last-child {
+          .metric-header {
+            padding: 10px 11px;
+            margin: 0 22px;
+            height: 36px;
+            width: 115px;
+
+            .legend-label {
+              font-size: 13px;
+            }
+          }
+        }
+
+        .current-date {
+          font-size: 13px;
+          margin: 24px 22px 12px 22px;
+          width: 76px;
+        }
+
+        .nav-section {
+          margin: 0 22px;
+
+          .nav-label {
+            font-size: 13px;
+            line-height: 16px;
+            margin-bottom: 3px;
+            height: 16px;
+          }
+
+          .nav-value {
+            font-size: 36px;
+            line-height: 40px;
+            margin-bottom: 12px;
+          }
+        }
+
+        .metric-details {
+          gap: 3px;
+          margin: 0 22px;
+
+          .metric-item {
+            font-size: 13px;
+            line-height: 16px;
+          }
+        }
+
+        .drawdowns-value {
+          font-size: 36px;
+          line-height: 40px;
+          margin: 12px 22px 13px 22px;
+          height: auto;
+        }
+      }
+
+      .metric-separator {
+        width: 280px;
+        margin: 28px 22px 22px 22px;
+      }
+    }
+  }
+}
+
+// Single column stacked layout for tablets and below (below 992px)
+@media (max-width: 991px) {
   .performance-container {
     padding: 16px 20px;
+    min-height: auto;
   }
 
   .performance-header {
     flex-direction: column;
     gap: 16px;
+    margin-left: 0;
 
     .col-8 {
       flex: 0 0 100%;
@@ -394,6 +458,7 @@
     .performance-title-section {
       .performance-title {
         font-size: 20px;
+        line-height: 24px;
       }
     }
 
@@ -401,6 +466,7 @@
       align-self: stretch;
       justify-content: center;
       width: 100%;
+      margin-left: 0;
 
       .period-btn {
         flex: 1;
@@ -410,28 +476,155 @@
   }
 
   .performance-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
     .chart-section {
+      flex: 0 0 auto;
+      width: 100%;
+
       .chart-container {
-        height: 250px;
+        height: 280px;
       }
     }
 
     .metrics-sidebar {
+      flex: 0 0 auto;
+      width: 100%;
       flex-direction: column;
-      gap: 20px;
+      min-height: auto;
 
       .metric-section {
-        max-width: none;
+        &:first-child {
+          .metric-header {
+            padding: 10px 11px;
+            margin: 16px 20px 0 20px;
+            height: 36px;
 
-        .nav-value,
+            .legend-label {
+              font-size: 13px;
+            }
+          }
+        }
+
+        &:last-child {
+          .metric-header {
+            padding: 10px 11px;
+            margin: 0 20px;
+            height: 36px;
+            width: auto;
+
+            .legend-label {
+              font-size: 13px;
+            }
+          }
+        }
+
+        .current-date {
+          font-size: 13px;
+          margin: 20px 20px 10px 20px;
+          width: auto;
+        }
+
+        .nav-section {
+          margin: 0 20px;
+
+          .nav-label {
+            font-size: 13px;
+            line-height: 16px;
+            margin-bottom: 3px;
+            height: 16px;
+          }
+
+          .nav-value {
+            font-size: 32px;
+            line-height: 36px;
+            margin-bottom: 10px;
+          }
+        }
+
+        .metric-details {
+          gap: 3px;
+          margin: 0 20px;
+
+          .metric-item {
+            font-size: 13px;
+            line-height: 16px;
+          }
+        }
+
         .drawdowns-value {
           font-size: 32px;
+          line-height: 36px;
+          margin: 10px 20px 12px 20px;
+          height: auto;
+        }
+      }
+
+      .metric-separator {
+        width: auto;
+        margin: 24px 20px 20px 20px;
+      }
+    }
+  }
+}
+
+// Mobile adjustments
+@media (max-width: 768px) {
+  .performance-container {
+    padding: 12px 16px;
+  }
+
+  .performance-header {
+    .performance-title-section {
+      .performance-title {
+        font-size: 18px;
+        line-height: 22px;
+      }
+    }
+
+    .time-period-selector {
+      width: 100%;
+
+      .period-btn {
+        height: 35px;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .performance-content {
+    gap: 16px;
+
+    .chart-section {
+      .chart-container {
+        height: 240px;
+      }
+    }
+
+    .metrics-sidebar {
+      .metric-section {
+        .nav-value,
+        .drawdowns-value {
+          font-size: 28px;
+          line-height: 32px;
+        }
+
+        .metric-item {
+          font-size: 12px;
+          line-height: 15px;
+        }
+
+        .nav-label {
+          font-size: 12px;
         }
       }
     }
   }
 }
 
+// Small mobile adjustments
 @media (max-width: 480px) {
   .performance-container {
     padding: 12px 16px;
@@ -439,7 +632,6 @@
   }
 
   .performance-header {
-    flex-direction: column;
     gap: 12px;
 
     .col-8 {
@@ -467,6 +659,8 @@
   }
 
   .performance-content {
+    gap: 12px;
+
     .chart-section {
       .chart-container {
         height: 200px;
@@ -474,18 +668,18 @@
     }
 
     .metrics-sidebar {
-      padding: 16px;
+      padding: 0;
 
       .metric-section {
-
         .nav-value,
         .drawdowns-value {
-          font-size: 28px;
-          line-height: 1.2;
+          font-size: 26px;
+          line-height: 30px;
         }
 
         .metric-item {
           font-size: 12px;
+          line-height: 14px;
         }
       }
     }
@@ -503,6 +697,7 @@
 .highcharts-tooltip {
   display: none !important;
 }
+
 .highcharts-tooltip .highcharts-color-0,
 .highcharts-tooltip .highcharts-color-1 {
   display: none !important;
