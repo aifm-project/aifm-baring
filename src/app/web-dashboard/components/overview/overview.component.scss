@@ -166,56 +166,397 @@
   }
 }
 
-// Responsive Design
-@media (max-width: 1200px) {
+// Responsive Design for 992px - 1279px (4-column layout with scaled elements)
+@media (min-width: 992px) and (max-width: 1279px) {
   .investment-overview {
+    .container {
+      padding: 0 50px;
+    }
+
+    .overview-header {
+      margin-bottom: 28px;
+
+      .overview-title {
+        font-size: 22px;
+        line-height: 26px;
+      }
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
     .investment-main-metrics {
-      gap: 25px;
-      flex-wrap: wrap;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
 
       .main-metric-card {
-        min-width: 300px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 0;
 
-        .metric-value {
-          font-size: 45px;
-          line-height: 48px;
+        &:nth-child(1) {
+          flex: 0.7;
+        }
+
+        &:nth-child(3) {
+          flex: 1.3;
         }
 
         &.gross-irr-card {
-          max-width: 350px;
-          padding: 18px 24px;
+          background-color: #e7ebee;
+          padding: 18px 22px;
+          border-radius: 0;
         }
 
-        .metric-description {
-          width: 100%;
-          max-width: 280px;
+        .metric-header {
+          display: flex;
+          align-items: center;
+          margin-bottom: 11px;
+          height: 35px;
+
+          .metric-icon {
+            width: 35px;
+            height: 35px;
+            background-color: #d4dce2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+
+            img {
+              width: 22px;
+              height: 22px;
+            }
+          }
+
+          .metric-label {
+            height: 35px;
+            background-color: #d4dce2;
+            padding: 14px 8px;
+            display: flex;
+            align-items: center;
+            color: #000;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0;
+            line-height: 18px;
+            white-space: nowrap;
+          }
+        }
+
+        .metric-value {
+          color: #000;
+          font-family: 'Victor Serif Trial', serif;
+          font-size: 34px;
+          font-weight: 500;
+          line-height: 50px;
+          margin-bottom: 14px;
         }
 
         .metric-submetrics {
+          display: flex;
+          align-items: flex-start;
           gap: 20px;
+          padding-top: 20px;
+
+          .submetric {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+
+            .submetric-label {
+              color: #000000;
+              font-family: 'Instrument Sans', sans-serif;
+              font-size: 12px;
+              font-weight: 400;
+              line-height: 17px;
+              opacity: 50%;
+            }
+
+            .submetric-value {
+              color: #000;
+              font-family: 'Instrument Sans', sans-serif;
+              font-size: 12px;
+              font-weight: 500;
+              line-height: 24px;
+            }
+          }
+
+          .border-right {
+            border-right: 1px solid #cbcbcb;
+            padding-right: 12px;
+          }
 
           .separator {
-            width: 30px;
-            margin-top: 24px;
+            width: 35px;
+            height: 1px;
+            background-color: #cbcbcb;
+            margin-top: 25px;
+            flex-shrink: 0;
           }
         }
+
+        .metric-description {
+          color: #000;
+          font-family: 'Instrument Sans', sans-serif;
+          font-size: 13px;
+          font-weight: 400;
+          line-height: 17px;
+          letter-spacing: 0;
+          padding-top: 20px;
+          max-width: 100%;
+        }
+      }
+
+      .main-metric-card-seperator {
+        width: 1px;
+        background: #d6d6d6;
+        height: 180px;
+        margin-top: 16px;
+        flex-shrink: 0;
+      }
+    }
+
+    .gross-irr-metrics-container {
+      display: flex;
+      gap: 0;
+      align-items: flex-start;
+    }
+
+    .gross-irr-metric-group {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      align-items: flex-start;
+
+      &:first-child {
+        padding-right: 22px;
+        border-right: 1px solid #cbcbcb;
+      }
+
+      &:last-child {
+        padding-left: 22px;
+      }
+
+      .metric-header {
+        margin-bottom: 11px;
+      }
+
+      .metric-value {
+        font-size: 34px;
+        line-height: 50px;
       }
     }
   }
 }
 
-@media (max-width: 768px) {
+// Responsive Design for 1280px - 1400px (intermediate scaling between 992px and 1440px)
+@media (min-width: 1280px) and (max-width: 1400px) {
   .investment-overview {
-    padding: 32px 0 0 0;
-
     .container {
-      padding: 0 16px;
+      padding: 0 50px;
     }
 
     .overview-header {
+      margin-bottom: 28px;
+
+      .overview-title {
+        font-size: 22px;
+        line-height: 26px;
+      }
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    .investment-main-metrics {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+
+      .main-metric-card {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 0;
+
+        &:nth-child(1) {
+          flex: 0.7;
+        }
+
+        &:nth-child(3) {
+          flex: 1.3;
+        }
+
+        &.gross-irr-card {
+          background-color: #e7ebee;
+          padding: 18px 22px;
+          border-radius: 0;
+        }
+
+        .metric-header {
+          display: flex;
+          align-items: center;
+          margin-bottom: 11px;
+          height: 35px;
+
+          .metric-icon {
+            width: 35px;
+            height: 35px;
+            background-color: #d4dce2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+
+            img {
+              width: 22px;
+              height: 22px;
+            }
+          }
+
+          .metric-label {
+            height: 35px;
+            background-color: #d4dce2;
+            padding: 14px 8px;
+            display: flex;
+            align-items: center;
+            color: #000;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0;
+            line-height: 18px;
+            white-space: nowrap;
+          }
+        }
+
+        .metric-value {
+          color: #000;
+          font-family: 'Victor Serif Trial', serif;
+          font-size: 42px;
+          font-weight: 500;
+          line-height: 50px;
+          margin-bottom: 14px;
+        }
+
+        .metric-submetrics {
+          display: flex;
+          align-items: flex-start;
+          gap: 20px;
+          padding-top: 20px;
+
+          .submetric {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+
+            .submetric-label {
+              color: #000000;
+              font-family: 'Instrument Sans', sans-serif;
+              font-size: 13px;
+              font-weight: 400;
+              line-height: 17px;
+              opacity: 50%;
+            }
+
+            .submetric-value {
+              color: #000;
+              font-family: 'Instrument Sans', sans-serif;
+              font-size: 16px;
+              font-weight: 500;
+              line-height: 24px;
+            }
+          }
+
+          .border-right {
+            border-right: 1px solid #cbcbcb;
+            padding-right: 12px;
+          }
+
+          .separator {
+            width: 35px;
+            height: 1px;
+            background-color: #cbcbcb;
+            margin-top: 25px;
+            flex-shrink: 0;
+          }
+        }
+
+        .metric-description {
+          color: #000;
+          font-family: 'Instrument Sans', sans-serif;
+          font-size: 13px;
+          font-weight: 400;
+          line-height: 17px;
+          letter-spacing: 0;
+          padding-top: 20px;
+          max-width: 100%;
+        }
+      }
+
+      .main-metric-card-seperator {
+        width: 1px;
+        background: #d6d6d6;
+        height: 180px;
+        margin-top: 16px;
+        flex-shrink: 0;
+      }
+    }
+
+    .gross-irr-metrics-container {
+      display: flex;
+      gap: 0;
+      align-items: flex-start;
+    }
+
+    .gross-irr-metric-group {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      align-items: flex-start;
+
+      &:first-child {
+        padding-right: 22px;
+        border-right: 1px solid #cbcbcb;
+      }
+
+      &:last-child {
+        padding-left: 22px;
+      }
+
+      .metric-header {
+        margin-bottom: 11px;
+      }
+
+      .metric-value {
+        font-size: 42px;
+        line-height: 50px;
+      }
+    }
+  }
+}
+
+// Responsive Design for screens below 992px (2-column layout)
+@media (max-width: 991px) {
+  .investment-overview {
+    .container {
+      padding: 0 40px;
+    }
+
+    .overview-header {
+      margin-bottom: 24px;
+
       .overview-title {
         font-size: 20px;
-        line-height: 20px;
+        line-height: 24px;
       }
 
       svg {
@@ -225,59 +566,306 @@
     }
 
     .investment-main-metrics {
-      flex-direction: column;
-      gap: 32px;
-      align-items: stretch;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
 
       .main-metric-card {
-        min-width: auto;
-        width: 100%;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-width: 0;
+
+        &:nth-child(1) {
+          flex: 1;
+        }
+
+        &:nth-child(3) {
+          flex: 1;
+        }
 
         &.gross-irr-card {
-          max-width: none;
+          background-color: #e7ebee;
           padding: 16px 20px;
+          border-radius: 0;
         }
 
         .metric-header {
-          margin-bottom: 16px;
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+          height: 32px;
 
           .metric-icon {
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
+            background-color: #d4dce2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
 
-            svg {
-              width: 24px;
-              height: 24px;
+            img {
+              width: 20px;
+              height: 20px;
             }
           }
 
           .metric-label {
-            height: 35px;
-            padding: 8px 12px;
-            font-size: 13px;
+            height: 32px;
+            background-color: #d4dce2;
+            padding: 12px 8px;
+            display: flex;
+            align-items: center;
+            color: #000;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0;
+            line-height: 16px;
+            white-space: nowrap;
           }
         }
 
         .metric-value {
-          font-size: 40px;
-          line-height: 44px;
-          margin-bottom: 20px;
+          color: #000;
+          font-family: 'Victor Serif Trial', serif;
+          font-size: 28px;
+          font-weight: 500;
+          line-height: 40px;
+          margin-bottom: 12px;
         }
 
         .metric-submetrics {
-          flex-wrap: wrap;
+          display: flex;
+          align-items: flex-start;
           gap: 16px;
+          padding-top: 16px;
 
           .submetric {
-            min-width: 80px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
 
             .submetric-label {
-              font-size: 12px;
+              color: #000000;
+              font-family: 'Instrument Sans', sans-serif;
+              font-size: 11px;
+              font-weight: 400;
+              line-height: 15px;
+              opacity: 50%;
             }
 
             .submetric-value {
-              font-size: 18px;
+              color: #000;
+              font-family: 'Instrument Sans', sans-serif;
+              font-size: 13px;
+              font-weight: 500;
+              line-height: 20px;
             }
+          }
+
+          .border-right {
+            border-right: 1px solid #cbcbcb;
+            padding-right: 10px;
+          }
+
+          .separator {
+            width: 30px;
+            height: 1px;
+            background-color: #cbcbcb;
+            margin-top: 22px;
+            flex-shrink: 0;
+          }
+        }
+
+        .metric-description {
+          color: #000;
+          font-family: 'Instrument Sans', sans-serif;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 16px;
+          letter-spacing: 0;
+          padding-top: 16px;
+          max-width: 100%;
+          width: 100%;
+        }
+      }
+
+      .main-metric-card-seperator {
+        display: none;
+      }
+    }
+
+    .gross-irr-metrics-container {
+      display: flex;
+      gap: 0;
+      align-items: flex-start;
+    }
+
+    .gross-irr-metric-group {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      align-items: flex-start;
+
+      &:first-child {
+        padding-right: 18px;
+        border-right: 1px solid #cbcbcb;
+      }
+
+      &:last-child {
+        padding-left: 18px;
+      }
+
+      .metric-header {
+        margin-bottom: 10px;
+      }
+
+      .metric-value {
+        font-size: 28px;
+        line-height: 40px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .investment-overview {
+    padding: 28px 0 0 0;
+
+    .container {
+      padding: 0 16px;
+    }
+
+    .overview-header {
+      margin-bottom: 20px;
+
+      .overview-title {
+        font-size: 18px;
+        line-height: 22px;
+      }
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    .investment-main-metrics {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: stretch;
+
+      .main-metric-card {
+        display: flex;
+        flex-direction: column;
+        min-width: auto;
+        width: 100%;
+        flex: 1;
+
+        &:nth-child(1) {
+          flex: 1;
+        }
+
+        &:nth-child(3) {
+          flex: 1;
+        }
+
+        &.gross-irr-card {
+          background-color: #e7ebee;
+          padding: 14px 18px;
+          border-radius: 0;
+          max-width: none;
+        }
+
+        .metric-header {
+          display: flex;
+          align-items: center;
+          margin-bottom: 12px;
+          height: 30px;
+
+          .metric-icon {
+            width: 30px;
+            height: 30px;
+            background-color: #d4dce2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+
+            img {
+              width: 18px;
+              height: 18px;
+            }
+
+            svg {
+              width: 18px;
+              height: 18px;
+            }
+          }
+
+          .metric-label {
+            height: 30px;
+            background-color: #d4dce2;
+            padding: 10px 8px;
+            display: flex;
+            align-items: center;
+            color: #000;
+            font-family: 'Instrument Sans', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0;
+            line-height: 16px;
+            white-space: nowrap;
+          }
+        }
+
+        .metric-value {
+          color: #000;
+          font-family: 'Victor Serif Trial', serif;
+          font-size: 32px;
+          font-weight: 500;
+          line-height: 38px;
+          margin-bottom: 14px;
+        }
+
+        .metric-submetrics {
+          display: flex;
+          align-items: flex-start;
+          gap: 14px;
+          padding-top: 14px;
+          flex-wrap: wrap;
+
+          .submetric {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            min-width: 75px;
+
+            .submetric-label {
+              color: #000000;
+              font-family: 'Instrument Sans', sans-serif;
+              font-size: 11px;
+              font-weight: 400;
+              line-height: 14px;
+              opacity: 50%;
+            }
+
+            .submetric-value {
+              color: #000;
+              font-family: 'Instrument Sans', sans-serif;
+              font-size: 15px;
+              font-weight: 500;
+              line-height: 20px;
+            }
+          }
+
+          .border-right {
+            border-right: none;
+            padding-right: 0;
           }
 
           .separator {
@@ -286,12 +874,52 @@
         }
 
         .metric-description {
-          width: 100%;
-          max-width: none;
-          font-size: 13px;
+          color: #000;
+          font-family: 'Instrument Sans', sans-serif;
+          font-size: 12px;
+          font-weight: 400;
           line-height: 16px;
-          margin-top: 20px;
+          letter-spacing: 0;
+          padding-top: 14px;
+          max-width: none;
+          width: 100%;
+          margin-top: 0;
         }
+      }
+
+      .main-metric-card-seperator {
+        display: none;
+      }
+    }
+
+    .gross-irr-metrics-container {
+      display: flex;
+      gap: 0;
+      align-items: flex-start;
+    }
+
+    .gross-irr-metric-group {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      align-items: flex-start;
+
+      &:first-child {
+        padding-right: 16px;
+        border-right: 1px solid #cbcbcb;
+      }
+
+      &:last-child {
+        padding-left: 16px;
+      }
+
+      .metric-header {
+        margin-bottom: 12px;
+      }
+
+      .metric-value {
+        font-size: 32px;
+        line-height: 38px;
       }
     }
   }
