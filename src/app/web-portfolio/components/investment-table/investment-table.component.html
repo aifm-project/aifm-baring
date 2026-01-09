@@ -106,79 +106,6 @@
     </div>
 
     <div class="investment-data">
-      <!-- <table class="table">
-        <thead>
-          <tr class="table-header-row">
-            <th scope="col" class="company-industry-header">Company and Industry</th>
-            <th scope="col" class="table-header-cell">Industry</th>
-            <th scope="col" class="table-header-cell numeric-header text-right">Investment</th>
-            <th scope="col" class="table-header-cell numeric-header text-right">Market Value</th>
-            <th scope="col" class="table-header-cell numeric-header text-right">IRR
-             <img src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="IRR Info" width="16" height="16" >
-            </th>
-            <th scope="col" class="table-header-cell numeric-header text-right">MOIC
-              <img src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="MOIC Info" width="16" height="16" >
-            </th>
-            <th scope="col" class="table-header-cell numeric-header" style="padding-left: 25px;">Weight
-              <img src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="Weight Info" width="16" height="16" >
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let company of limitedCompanies" class="company-row">
-            <td class="company-cell">
-              <div class="d-flex align-items-center gap-3">
-                <div class="company-logo d-flex align-items-center justify-content-center">
-                  <img [src]="company.logo" [alt]="company.name + ' logo'" loading="lazy" />
-                </div>
-                <div class="company-info">
-                  <div class="company-name">{{ company.name }}</div>
-                </div>
-              </div>
-            </td>
-            <td class="data-cell" data-label="Industry">{{ company.industry }}</td>
-            <td class="data-cell amount-cell text-right" data-label="Investment">
-              <div class="value-stack amount-stack">
-                <span class="value-amount">
-                  {{ company.unrealisedCost ? (company.unrealisedCost | getCurrencyByUnits:true:true) : '-' }}
-                </span> </div>
-            </td>
-            <td class="data-cell amount-cell text-right" data-label="Market Value">
-              <div class="value-stack amount-stack"> <span class="value-amount">
-                  {{company.unrealisedCost ? (company.unrealisedCost | getCurrencyByUnits:true:true) : '-' }}
-                </span>
-               </div>
-            </td>
-            <td class="data-cell percentage-cell text-right" data-label="IRR">
-              <div class="value-stack percentage-stack">
-                <span class="value-amount">
-                  {{ company.unrealisedIRR ? (company.unrealisedIRR | number : '1.2-2') + '%' : '-' }}
-                </span>
-               </div>
-            </td>
-            <td class="data-cell percentage-cell text-right" data-label="MOIC">
-              <div class="value-stack percentage-stack">
-                <span class="value-amount">
-                  {{ company.unrealisedMOIC ? (company.unrealisedMOIC  | number : '1.2-2' ) : '-' }}
-                </span>
-               </div>
-            </td>
-            <td class="weight-cell" data-label="Weight">
-              <div class="value-stack weight-text">
-                <span class="value-amount">
-                  {{ company.weight ? (company.weight | number : '1.2-2' ) + '%' : '-' }}
-                </span>
-               </div>
-              <div class="progress" *ngIf="company.weight">
-                <div class="progress-bar" role="progressbar"
-                  [style.width.%]="company.weight"
-                  [attr.aria-valuenow]="company.weight" aria-valuemin="0" aria-valuemax="100"
-                  [attr.aria-label]="'Weight: ' + company.weight + company.weight"></div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table> -->
       <table class="investmentTable">
         <thead>
           <tr>
@@ -215,26 +142,14 @@
             <td class="marketValue  text-right">
               {{company.unrealisedPrice ? (company.unrealisedPrice | getCurrencyByUnits:true:true:2:true) : '-' }}
             </td>
-            <ng-template [ngIf]="(+company.unrealisedCost)" [ngIfElse]="newLogic">
-              <td class="irr  text-right">
-                {{ company.unrealisedIRR ? (company.unrealisedIRR | number : '1.2-2') + ' %' : '-' }}
+            <td class="irr  text-right">
+                {{ company.instrumentIrr ? (company.instrumentIrr | number : '1.2-2') + ' %' : '-' }}
               </td>
               <td class="moic  text-right">
                 <span class="value-amount">
-                  {{ company.unrealisedMOIC ? (company.unrealisedMOIC | number : '1.2-2' ) : '-' }}
+                  {{ company.instrument_moic ? (company.instrument_moic | number : '1.2-2' ) : '-' }}
                 </span>
               </td>
-            </ng-template>
-            <ng-template #newLogic>
-              <td class="irr  text-right">
-                {{ company.realisedIRR ? (company.realisedIRR | number : '1.2-2' ) + ' %' : '-' }}
-              </td>
-              <td class="moic  text-right">
-                <span class="value-amount">
-                {{ company.realisedMOIC ? (company.realisedMOIC | number : '1.2-2') : '-' }}
-                </span>
-              </td>
-            </ng-template>
             <td class="weight  text-left">
               <div class="value-stack weight-text">
                 <span class="value-amount">

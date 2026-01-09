@@ -28,6 +28,8 @@ export interface Company {
   realisedPrice: string;
   realisedCostGraphValue: string;
   realisedPriceGraphValue: string;
+  instrumentIrr: string;
+  instrument_moic: string;
   realisedMOIC: string;
   realisedIRR: string | null;
   unrealisedCost: string;
@@ -52,30 +54,33 @@ export interface PortfolioSummary {
 @Component({
   selector: 'app-investment-table',
   standalone: true,
-  imports: [CommonModule,SharedModule],
+  imports: [CommonModule, SharedModule],
   templateUrl: './investment-table.component.html',
-  styleUrls: ['./investment-table.component.scss']
+  styleUrls: ['./investment-table.component.scss'],
 })
 export class InvestmentTableComponent implements OnInit {
-   @Input() public loadType:string = 'INVESTMENT_PORTFOLIO,TOTAL_INVESTMENT_PORTFOLIO,ALL_INVESTMENTS';
+  @Input() public loadType: string =
+    'INVESTMENT_PORTFOLIO,TOTAL_INVESTMENT_PORTFOLIO,ALL_INVESTMENTS';
   @Input() portfolioSummary: PortfolioSummary;
   @Input() showHeader!: boolean;
   @Input() showPortfolioSummary!: boolean;
   @Input() showStaticContent!: boolean;
   @Input() limit!: number | null;
   @Input() containerClass: 'container' | 'container-fluid' = 'container';
-  @Input() public latestPortfolio:boolean = false
+  @Input() public latestPortfolio: boolean = false;
   companies: Company[] = [];
   fundConfig: Map<unknown, unknown>;
   selectedFund: any;
 
-  private maxWeight = Math.max(...this.companies.map((company) => company.weight ? parseFloat(company.weight) : 0));
+  private maxWeight = Math.max(
+    ...this.companies.map((company) => (company.weight ? parseFloat(company.weight) : 0))
+  );
   private progressCache = new Map<number, number>();
   asOfDate: string;
   public portfolioInvestment: {};
   public totalMaxWeight: number;
-  fundCurrency: any='INR';
-  fundUnit:any='Cr';
+  fundCurrency: any = 'INR';
+  fundUnit: any = 'Cr';
 
   // Sort properties
   sortField: string = 'weight';
@@ -88,12 +93,12 @@ export class InvestmentTableComponent implements OnInit {
     { field: 'industry', label: 'Industry (A-Z)', type: 'alphabetical' },
     { field: 'unrealisedCost', label: 'Investment Amount', type: 'numeric' },
     { field: 'unrealisedPrice', label: 'Market Value', type: 'numeric' },
-    { field: 'unrealisedIRR', label: 'IRR', type: 'numeric' },
-    { field: 'unrealisedMOIC', label: 'MOIC', type: 'numeric' },
+    { field: 'instrumentIrr', label: 'IRR', type: 'numeric' },
+    { field: 'instrument_moic', label: 'MOIC', type: 'numeric' },
   ];
 
-  constructor(private fundService: FundService, private store: Store) { }
-  
+  constructor(private fundService: FundService, private store: Store) {}
+
   getProgressPercent(weightPercent: number): number {
     if (this.progressCache.has(weightPercent)) {
       return this.progressCache.get(weightPercent)!;
@@ -151,7 +156,7 @@ export class InvestmentTableComponent implements OnInit {
 
       let comparison = 0;
 
-      const sortOption = this.sortOptions.find(opt => opt.field === this.sortField);
+      const sortOption = this.sortOptions.find((opt) => opt.field === this.sortField);
       const isNumeric = sortOption?.type === 'numeric' || this.isNumericField(this.sortField);
 
       if (isNumeric) {
@@ -169,30 +174,41 @@ export class InvestmentTableComponent implements OnInit {
   }
 
   private isNumericField(field: string): boolean {
-    const numericFields = ['unrealisedCost', 'unrealisedPrice', 'unrealisedIRR', 'unrealisedMOIC', 'weight'];
+    const numericFields = [
+      'unrealisedCost',
+      'unrealisedPrice',
+      'instrumentIrr',
+      'instrument_moic',
+      'weight',
+    ];
     return numericFields.includes(field);
   }
 
-
   ngOnInit(): void {
-    if(this.latestPortfolio){
+    if (this.latestPortfolio) {
       this.getStoreDataFund();
-    }else {
+    } else {
       this.getStoreData();
     }
-    
   }
 
-  getPortfolioData(){
-    let queryParams = {asOnDate:this.asOfDate,type:this.loadType,currentAsOnDate:this.asOfDate};
-    if(this.limit){
+  getPortfolioData() {
+    let queryParams = {
+      asOnDate: this.asOfDate,
+      type: this.loadType,
+      currentAsOnDate: this.asOfDate,
+    };
+    if (this.limit) {
       queryParams['limit'] = this.limit.toString();
     }
     this.fundService.portfolioData(this.selectedFund.guid, queryParams).subscribe({
       next: (response) => {
         console.log('Portfolio Data fetched successfully:', response);
-        this.companies = response.portfolio && response.portfolio.investment_portfolio ? response.portfolio.investment_portfolio : [];
-        if(response.portfolio && response.portfolio.investment_portfolio){
+        this.companies =
+          response.portfolio && response.portfolio.investment_portfolio
+            ? response.portfolio.investment_portfolio
+            : [];
+        if (response.portfolio && response.portfolio.investment_portfolio) {
           this.portfolioInvestment = {
             unrealisedIRR:
               response.portfolio.investment_portfolio &&
@@ -204,97 +220,79 @@ export class InvestmentTableComponent implements OnInit {
               response.portfolio.investment_portfolio.unrealisedMOIC
                 ? response.portfolio.investment_portfolio.unrealisedMOIC.toFixed(2)
                 : '-',
+            instrumentIrr:
+              response.portfolio.investment_portfolio &&
+              response.portfolio.investment_portfolio.instrumentIrr
+                ? response.portfolio.investment_portfolio.instrumentIrr.toFixed(2)
+                : '-',
+            instrument_moic:
+              response.portfolio.investment_portfolio &&
+              response.portfolio.investment_portfolio.instrument_moic
+                ? response.portfolio.investment_portfolio.instrument_moic.toFixed(2)
+                : '-',
             weight:
               response.portfolio.investment_portfolio &&
               response.portfolio.investment_portfolio.weight
                 ? response.portfolio.investment_portfolio.weight.toFixed(2)
                 : '-',
           };
-        }  
-        if(response.portfolio && response.portfolio.total_investment_portfolio){
+        }
+        if (response.portfolio && response.portfolio.total_investment_portfolio) {
           const totalInvestment = response.portfolio.total_investment_portfolio.instrumentCost || 0;
-          const totalMarketValue = response.portfolio.total_investment_portfolio.instrumentPrice || 0;
-          const totalReturns = totalInvestment !== 0 && totalMarketValue !== 0 ? String(totalMarketValue - totalInvestment) : '-';
+          const totalMarketValue =
+            response.portfolio.total_investment_portfolio.instrumentPrice || 0;
+          const totalReturns =
+            totalInvestment !== 0 && totalMarketValue !== 0
+              ? String(totalMarketValue - totalInvestment)
+              : '-';
 
           this.portfolioSummary = {
-            totalHoldings: response.portfolio.total_investment_portfolio.instrumentCost ? response.portfolio.total_investment_portfolio.instrumentCost : '-',
-            totalInvestment: response.portfolio.total_investment_portfolio.instrumentCost ? response.portfolio.total_investment_portfolio.instrumentCost : '- ',
-            totalMarketValue: response.portfolio.total_investment_portfolio.instrumentPrice ? response.portfolio.total_investment_portfolio.instrumentPrice : '-' ,
-            totalGrossIRR: response.portfolio.total_investment_portfolio.instrumentIRR ? response.portfolio.total_investment_portfolio.instrumentIRR : '-'  ,
-            totalGrossMOIC: response.portfolio.total_investment_portfolio.instrumentMOIC ? response.portfolio.total_investment_portfolio.instrumentMOIC : '-'   ,
+            totalHoldings: response.portfolio.total_investment_portfolio.instrumentCost
+              ? response.portfolio.total_investment_portfolio.instrumentCost
+              : '-',
+            totalInvestment: response.portfolio.total_investment_portfolio.instrumentCost
+              ? response.portfolio.total_investment_portfolio.instrumentCost
+              : '- ',
+            totalMarketValue: response.portfolio.total_investment_portfolio.instrumentPrice
+              ? response.portfolio.total_investment_portfolio.instrumentPrice
+              : '-',
+            totalGrossIRR: response.portfolio.total_investment_portfolio.instrumentIRR
+              ? response.portfolio.total_investment_portfolio.instrumentIRR
+              : '-',
+            totalGrossMOIC: response.portfolio.total_investment_portfolio.instrumentMOIC
+              ? response.portfolio.total_investment_portfolio.instrumentMOIC
+              : '-',
             totalReturns: totalReturns,
-          }
-        }else {
+          };
+        } else {
           this.portfolioSummary = {
             totalHoldings: '-',
             totalInvestment: '-',
             totalMarketValue: '-',
             totalGrossIRR: '-',
             totalGrossMOIC: '-',
-            totalReturns: '-'
-          }
+            totalReturns: '-',
+          };
         }
-        if(response.portfolio){
-
+        if (response.portfolio) {
         }
         this.totalMaxWeight = this.companies.reduce((acc, curr) => acc + (+curr.weight || 0), 0);
-        console.log(this.totalMaxWeight,"totalmax");
+        console.log(this.totalMaxWeight, 'totalmax');
 
-        // Sort companies by weight (highest first) by default
         this.sortCompanies();
-
-        // this.companies = portfolioInvestment.map(data => {
-        //   if (data.value && data.value != '-' && +data.value) {
-        //     if (this.calculateToata.includes(this.LOADTYPE)) {
-        //       this.totalCal = +data.value + +(this.totalCal ? +this.totalCal : 0);
-
-
-        //     }
-        //     if (this.barMax) {
-        //       data['barWidth'] = (+data.value / maxValue) * 100
-        //     } else {
-        //       data['barWidth'] = data.value
-        //     }
-        //     if (this.multiples.includes(this.LOADTYPE)) {
-        //       data.value = +data.value * 100
-        //     } else if (this.weight) {
-        //       data.value = +data.value * 100
-        //     } else if (this.pmsJsonVersion == 2) {
-        //       data.value = +data.value / 100
-        //     }
-        //     data.value = this.numberFormate.transform(data.value) + '%'
-        //   } else {
-        //     data.value = '-'
-        //     data['barWidth'] = 0
-        //   }
-        //   if (this.subHeader2) {
-        //     if (data['total_return']) {
-        //       if (this.multiples.includes(this.LOADTYPE)) {
-        //         data.total_return = +data.total_return * 100
-        //       } else if (this.weight) {
-        //         data.total_return = +data.total_return * 100
-        //       }
-        //       data.total_return = this.numberFormate.transform(data.total_return) + '%'
-        //     } else {
-        //       data['total_return'] = '-'
-        //     }
-        //   }
-
-        //   return data
-        // });
       },
       error: (error) => {
         console.error('Error fetching Portfolio Data:', error);
-      }
+      },
     });
   }
 
   getStoreData() {
-    this.store.select(selectSelectedDate).subscribe(fundState => {
+    this.store.select(selectSelectedDate).subscribe((fundState) => {
       console.log('Fund State from Store:', fundState);
-      this.selectedFund=fundState.fundDetails;
-       this.asOfDate = fundState?.asOfDate;
-       this.fundConfig = fundState.fundDetails?.fund_configuration_classes.reduce((map, obj) => {
+      this.selectedFund = fundState.fundDetails;
+      this.asOfDate = fundState?.asOfDate;
+      this.fundConfig = fundState.fundDetails?.fund_configuration_classes.reduce((map, obj) => {
         map.set(obj.fund_key, obj.fund_value);
         return map;
       }, new Map<string, string>());
@@ -302,7 +300,7 @@ export class InvestmentTableComponent implements OnInit {
       this.fundUnit = this.fundConfig.get('fund_size_unit');
       console.log('Fund Configurations:', this.fundConfig);
       this.getPortfolioData();
-    })
+    });
   }
 
   get limitedCompanies(): Company[] {
@@ -312,33 +310,31 @@ export class InvestmentTableComponent implements OnInit {
     return this.companies;
   }
 
-  getAsOfDate(){
-  this.fundService.getDates(this.selectedFund.guid,'PORTFOLIO').subscribe(perfDates => {
+  getAsOfDate() {
+    this.fundService.getDates(this.selectedFund.guid, 'PORTFOLIO').subscribe((perfDates) => {
       const perfDate = perfDates.dates;
-      this.companies = []
+      this.companies = [];
       this.portfolioSummary = {
-         totalHoldings:null,
-    totalInvestment:null,
-    totalMarketValue: null,
-    totalGrossIRR: null,
-    totalGrossMOIC:null,
-    totalReturns: null
-      }
-      this.portfolioInvestment = {}
-      if(perfDate && perfDate.length){
+        totalHoldings: null,
+        totalInvestment: null,
+        totalMarketValue: null,
+        totalGrossIRR: null,
+        totalGrossMOIC: null,
+        totalReturns: null,
+      };
+      this.portfolioInvestment = {};
+      if (perfDate && perfDate.length) {
         this.asOfDate = perfDate[0];
         this.getPortfolioData();
       }
-
     });
   }
 
-  getStoreDataFund(){
-       this.store.select(selectFundData).subscribe(fundData => {
+  getStoreDataFund() {
+    this.store.select(selectFundData).subscribe((fundData) => {
       console.log('Fund State from Store:', fundData);
-      this.selectedFund=fundData;
-         this.getAsOfDate();
-    })
+      this.selectedFund = fundData;
+      this.getAsOfDate();
+    });
   }
-  
 }
