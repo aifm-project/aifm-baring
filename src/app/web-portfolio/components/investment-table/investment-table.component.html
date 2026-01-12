@@ -6,9 +6,12 @@
         <div class="d-flex justify-content-between align-items-center investment-header">
           <div class="d-flex align-items-center gap-2">
             <h3 id="investment-portfolio-title" class="investment-title mb-0">Investment Portfolio</h3>
-            <img src="./../../../../assets/icons1/Info-Black.png" alt="Investment Portfolio" width="22" height="22"
-              data-bs-toggle="tooltip" data-bs-placement="top"
-              title="The detailed list of current investments held by the fund.">
+            <img #infoIcon src="./../../../../assets/icons1/Info-Black.png" 
+                 [alt]="portfolioInfoAlt" 
+                 width="22" height="22"
+                 data-bs-toggle="tooltip" 
+                 data-bs-placement="auto"
+                 [title]="portfolioInfoTitle">
           </div>
 
           <div class="sort-button-wrapper" style="position: relative;">
@@ -58,9 +61,12 @@
         <div class="summary-item ">
           <div class="summary-label d-flex align-items-center gap-1">
             Total Gross IRR
-            <img src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="Weight Info" width="16" height="16"
-              data-bs-toggle="tooltip" data-bs-placement="top"
-              title="The overall annualized return of the fund before fees, showing performance across all investments.">
+            <img #infoIcon src="./../../../../assets/icons1/Info-Black-Portfolio.png" 
+                 [alt]="grossIRRInfoAlt" 
+                 width="16" height="16"
+                 data-bs-toggle="tooltip" 
+                 data-bs-placement="auto"
+                 [title]="grossIRRInfoTitle">
           </div>
           <div class="summary-value">{{ portfolioSummary.totalGrossIRR ? (portfolioSummary.totalGrossIRR |
             getCurrencyByUnits:false:false:2:true) + '%' : '-' }}</div>
@@ -68,9 +74,12 @@
         <div class="summary-item">
           <div class="summary-label d-flex align-items-center gap-1">
             Total Gross MOIC
-            <img src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="Weight Info" width="16" height="16"
-              data-bs-toggle="tooltip" data-bs-placement="top"
-              title="The overall multiple of money invested versus money gained, before fees.">
+            <img #infoIcon src="./../../../../assets/icons1/Info-Black-Portfolio.png" 
+                 [alt]="grossMOICInfoAlt" 
+                 width="16" height="16"
+                 data-bs-toggle="tooltip" 
+                 data-bs-placement="auto"
+                 [title]="grossMOICInfoTitle">
           </div>
           <div class="summary-value">{{ portfolioSummary.totalGrossMOIC ? (portfolioSummary.totalGrossMOIC |
             getCurrencyByUnits:false:false:2:true) + 'x' : '-' }}</div>
@@ -88,19 +97,17 @@
       <div class="section-header">
         <div class="section-title-container">
           <h3 class="section-title">Top 5 Company Holdings</h3>
-          <img src="./../../../../assets/icons1/Info-Black.png" alt="Top 5 Company Holdings" width="22" height="22"
-            data-bs-toggle="tooltip" data-bs-placement="top"
-            title="The five largest investments in the portfolio, ranked by size or value.">
+          <img #infoIcon src="./../../../../assets/icons1/Info-Black.png" 
+               [alt]="top5CompaniesAlt" 
+               width="22" height="22"
+               data-bs-toggle="tooltip" 
+               data-bs-placement="auto"
+               [title]="top5CompaniesTitle">
         </div>
 
         <div class="view-all-container" routerLink="/portfolio">
           <app-dashboard-navigation-button routerLink="portfolio" [showWhiteHover]="true"
             label="View Portfolio"></app-dashboard-navigation-button>
-          <!-- <button class="view-all-text">View Portfolio</button>
-          <div class="metric-label-seperator"></div>
-          <button class="view-all-arrow" aria-label="View Portfolio">
-            <img src="./../../../../assets/icons1/RightCaret.png" height="20" alt="View Portfolio">
-          </button> -->
         </div>
       </div>
     </div>
@@ -113,18 +120,18 @@
             <th class="industry">Industry</th>
             <th class="investment text-right">Investment</th>
             <th class="marketValue text-right">Market Value</th>
-            <th class="irr  text-right">IRR&nbsp;&nbsp;<img src="./../../../../assets/icons1/Info-Black-Portfolio.png"
-                alt="IRR Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top"
-                title="A measure of how quickly investments are growing, expressed as an annual percentage return.">
+            <th class="irr  text-right">IRR&nbsp;&nbsp;<img #infoIcon src="./../../../../assets/icons1/Info-Black-Portfolio.png"
+                alt="IRR Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="auto"
+                title="A measure reflecting annualised return on investments involving multiple cash flows over a time period">
             </th>
-            <th class="moic  text-right">MOIC&nbsp;&nbsp;<img src="./../../../../assets/icons1/Info-Black-Portfolio.png"
-                alt="IRR Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="top"
-                title="Shows how many times the invested money has grown (e.g., 2.0x means doubling the investment).">
+            <th class="moic  text-right">MOIC&nbsp;&nbsp;<img #infoIcon src="./../../../../assets/icons1/Info-Black-Portfolio.png"
+                alt="MOIC Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="auto"
+                title="Shows how many times the invested money has grown (e.g., 2.0x means doubling the investment)">
             </th>
-            <th class="weight  text-left">Weight&nbsp;&nbsp;<img
-                src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="IRR Info" width="16" height="16"
-                data-bs-toggle="tooltip" data-bs-placement="top"
-                title="The percentage share of each company or investment within the overall portfolio."></th>
+            <th class="weight  text-left">Weight&nbsp;&nbsp;<img #infoIcon
+                src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="Weight Info" width="16" height="16"
+                data-bs-toggle="tooltip" data-bs-placement="auto"
+                title="The percentage share of each company or investment within the overall portfolio"></th>
           </tr>
         </thead>
         <tbody>

@@ -3,7 +3,11 @@
     <div class="col-8">
       <div class="performance-title-section">
         <h3 class="performance-title">Fund Performance</h3>
-        <img src="../../../../assets/icons1/Info-Black.png" height="25" width="25" alt="Fund Performance" data-bs-toggle="tooltip" data-bs-placement="top" title="How the fund has performed.">
+        <img #infoIcon src="../../../../assets/icons1/Info-Black.png" height="25" width="25"
+             [alt]="infoIconAlt"
+             [title]="infoIconTitle"
+             data-bs-toggle="tooltip"
+             data-bs-placement="auto">
       </div>
     </div>
 

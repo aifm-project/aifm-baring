@@ -1,10 +1,11 @@
-import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FundService } from '../../../core/services/fund.service';
 import { selectFundData } from '../../../store/fund';
 import { Store } from '@ngrx/store';
 import { SharedModule } from '../../../shared/shared.module';
 import { selectSelectedDate } from '../../../store/date';
+import { Tooltip } from 'bootstrap';
 
 export interface MonetaryValue {
   symbol: string;
@@ -58,9 +59,8 @@ export interface PortfolioSummary {
   templateUrl: './investment-table.component.html',
   styleUrls: ['./investment-table.component.scss'],
 })
-export class InvestmentTableComponent implements OnInit {
-  @Input() public loadType: string =
-    'INVESTMENT_PORTFOLIO,TOTAL_INVESTMENT_PORTFOLIO,ALL_INVESTMENTS';
+export class InvestmentTableComponent implements OnInit, AfterViewInit {
+   @Input() public loadType:string = 'INVESTMENT_PORTFOLIO,TOTAL_INVESTMENT_PORTFOLIO,ALL_INVESTMENTS';
   @Input() portfolioSummary: PortfolioSummary;
   @Input() showHeader!: boolean;
   @Input() showPortfolioSummary!: boolean;
@@ -81,6 +81,18 @@ export class InvestmentTableComponent implements OnInit {
   public totalMaxWeight: number;
   fundCurrency: any = 'INR';
   fundUnit: any = 'Cr';
+
+  // Dynamic tooltip properties
+  portfolioInfoAlt: string = 'Investment Portfolio Information';
+  portfolioInfoTitle: string = 'The detailed list of current investments held by the fund and exited over a time period';
+  top5CompaniesAlt: string = 'Top 5 Company Holdings Information';
+  top5CompaniesTitle: string = 'The five largest investments in the portfolio, ranked by investment size or value';
+  grossIRRInfoAlt: string = 'Total Gross IRR Information';
+  grossIRRInfoTitle: string = 'The overall annualized return of the fund before fees, showing performance across all investments';
+  grossMOICInfoAlt: string = 'Total Gross MOIC Information';
+  grossMOICInfoTitle: string = 'The overall multiple of money invested versus money gained, before fees';
+
+  @ViewChildren('infoIcon') infoIconElements!: QueryList<ElementRef>;
 
   // Sort properties
   sortField: string = 'weight';
@@ -190,6 +202,46 @@ export class InvestmentTableComponent implements OnInit {
     } else {
       this.getStoreData();
     }
+
+  }
+
+  ngAfterViewInit() {
+    this.initializeTooltips();
+  }
+
+  private initializeTooltips() {
+    // Initialize Bootstrap tooltips for template reference variables
+    this.infoIconElements.forEach((element: ElementRef) => {
+      const tooltipElement = element.nativeElement;
+      this.initializeTooltip(tooltipElement);
+    });
+
+    // Initialize tooltips for any remaining elements with data-bs-toggle attribute
+    // (Fallback for dynamically created or missed elements)
+    setTimeout(() => {
+      const allTooltipElements = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      allTooltipElements.forEach((element: Element) => {
+        // Only initialize if not already initialized
+        if (!element.hasAttribute('data-bs-tooltip-initialized')) {
+          this.initializeTooltip(element as HTMLElement);
+        }
+      });
+    }, 100);
+  }
+
+  private initializeTooltip(element: HTMLElement) {
+    try {
+      new Tooltip(element, {
+        placement: 'auto',
+        trigger: 'hover focus',
+        html: false,
+        delay: { show: 100, hide: 100 },
+        boundary: 'window'
+      });
+      element.setAttribute('data-bs-tooltip-initialized', 'true');
+    } catch (error) {
+      console.warn('Error initializing tooltip:', error);
+    }
   }
 
   getPortfolioData() {
@@ -280,6 +332,11 @@ export class InvestmentTableComponent implements OnInit {
         console.log(this.totalMaxWeight, 'totalmax');
 
         this.sortCompanies();
+
+        // Reinitialize tooltips after data is loaded and rendered
+        setTimeout(() => {
+          this.initializeTooltips();
+        }, 100);
       },
       error: (error) => {
         console.error('Error fetching Portfolio Data:', error);
@@ -310,20 +367,20 @@ export class InvestmentTableComponent implements OnInit {
     return this.companies;
   }
 
-  getAsOfDate() {
-    this.fundService.getDates(this.selectedFund.guid, 'PORTFOLIO').subscribe((perfDates) => {
+  getAsOfDate(){
+    this.fundService.getDates(this.selectedFund.guid,'PORTFOLIO').subscribe(perfDates => {
       const perfDate = perfDates.dates;
       this.companies = [];
       this.portfolioSummary = {
-        totalHoldings: null,
-        totalInvestment: null,
+        totalHoldings:null,
+        totalInvestment:null,
         totalMarketValue: null,
         totalGrossIRR: null,
-        totalGrossMOIC: null,
-        totalReturns: null,
-      };
-      this.portfolioInvestment = {};
-      if (perfDate && perfDate.length) {
+        totalGrossMOIC:null,
+        totalReturns: null
+      }
+      this.portfolioInvestment = {}
+      if(perfDate && perfDate.length){
         this.asOfDate = perfDate[0];
         this.getPortfolioData();
       }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, ChartModule } from 'angular-highcharts';
 import * as Highcharts from 'highcharts';
@@ -12,6 +12,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { interval } from 'rxjs';
 import { User, UserDetails } from '../../../model/models';
 import { selectAuthState } from '../../../store/auth';
+import { Tooltip } from 'bootstrap';
 
 interface ChartDataPoint {
   x: number;
@@ -65,10 +66,17 @@ interface OverviewData {
   templateUrl: './performance.component.html',
   styleUrls: ['./performance.component.scss'],
 })
-export class PerformanceComponent implements OnInit {
+export class PerformanceComponent implements OnInit, AfterViewInit {
   chartOptions: any = {};
   chart!: any;
   selectedPeriod = '1Y';
+
+  // Dynamic tooltip properties
+  infoIconAlt: string = 'Fund Performance Information';
+  infoIconTitle: string = 'How the fund has performed since inception';
+
+  @ViewChildren('infoIcon') infoIconElements!: QueryList<ElementRef>;
+
   public overviewData: OverviewData = {
     capital_summary: {
       total_commitment: '-',
@@ -161,6 +169,23 @@ export class PerformanceComponent implements OnInit {
   ngOnInit() {
     this.getUserDetails();
     this.getStoreData();
+  }
+
+  ngAfterViewInit() {
+    this.initializeTooltips();
+  }
+
+  private initializeTooltips() {
+    // Initialize Bootstrap tooltips with responsive placement
+    this.infoIconElements.forEach((element: ElementRef) => {
+      const tooltipElement = element.nativeElement;
+      new Tooltip(tooltipElement, {
+        placement: 'auto',
+        trigger: 'hover focus',
+        html: false,
+        delay: { show: 100, hide: 100 }
+      });
+    });
   }
 
   selectPeriod(period: string) {
