@@ -1,8 +1,7 @@
 .annual-summit {
   width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
   padding: 0;
+  margin: 0;
   box-sizing: border-box;
 
   .summit-container {
@@ -100,10 +99,18 @@
     position: absolute;
     right: 26px;
     top: 157px;
-    width: 191px;
+    width: auto;
     height: 36px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    z-index: 10;
+
+    app-dashboard-navigation-button {
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
 
     .summit-cta-text {
       width: 151px;
@@ -152,33 +159,149 @@
   }
 }
 
-// Responsive Design
-@media (max-width: 1400px) {
+// Responsive Design - Desktop 1200px and above (keep original layout)
+@media (min-width: 1200px) {
   .annual-summit {
     .summit-container {
       width: 100%;
-      max-width: 1440px;
-      height: auto;
-      min-height: 377px;
+      height: 377px;
     }
 
     .summit-overlay {
-      width: 65%;
-      min-width: 600px;
-      height: auto;
-      min-height: 223px;
-      top: 40%;
+      position: absolute;
+      left: 0;
+      top: 154px;
+      width: 848px;
+      height: 223px;
+    }
+
+    .summit-content {
+      position: relative;
+
+      .summit-badge {
+        position: absolute;
+        left: 26px;
+        top: 24px;
+      }
+
+      .summit-title {
+        position: absolute;
+        left: 26px;
+        top: 94px;
+        width: 519px;
+        font-size: 40px;
+        line-height: 44px;
+      }
+
+      .summit-description {
+        position: absolute;
+        left: 26px;
+        top: 151px;
+        width: 475px;
+        font-size: 12px;
+        line-height: 15px;
+      }
     }
 
     .summit-cta-container {
-      position: static;
-      margin: 20px 26px 26px auto;
-      width: 191px;
+      position: absolute;
+      right: 26px;
+      top: 157px;
+      width: auto;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+
+      app-dashboard-navigation-button {
+        display: flex;
+        align-items: center;
+        height: 100%;
+      }
     }
   }
 }
 
-@media (max-width: 1200px) {
+// Responsive Design - Tablet 992px to 1199px (2-column layout)
+@media (min-width: 992px) and (max-width: 1199px) {
+  .annual-summit {
+    .summit-container {
+      width: 100%;
+      height: 377px;
+      display: flex;
+      align-items: stretch;
+    }
+
+    .summit-background {
+      width: 100%;
+      height: 100%;
+    }
+
+    .summit-overlay {
+      position: absolute;
+      left: 0;
+      top: 154px;
+      width: calc(100% - 52px);
+      max-width: 750px;
+      height: 223px;
+      padding: 0 26px;
+      box-sizing: border-box;
+    }
+
+    .summit-content {
+      position: relative;
+      width: 100%;
+
+      .summit-badge {
+        position: absolute;
+        left: 0;
+        top: 24px;
+        width: auto;
+      }
+
+      .summit-title {
+        position: absolute;
+        left: 0;
+        top: 94px;
+        width: 100%;
+        font-size: 36px;
+        line-height: 40px;
+      }
+
+      .summit-description {
+        position: absolute;
+        left: 0;
+        top: 151px;
+        width: 100%;
+        font-size: 12px;
+        line-height: 15px;
+        max-width: 350px;
+      }
+    }
+
+    .summit-cta-container {
+      position: absolute;
+      right: 26px;
+      top: 157px;
+      width: auto;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+
+      app-dashboard-navigation-button {
+        display: flex;
+        align-items: center;
+        height: 100%;
+      }
+    }
+  }
+}
+
+// Responsive Design - Mobile 768px to 991px (stacked layout)
+@media (max-width: 991px) {
   .annual-summit {
     .summit-container {
       height: auto;
@@ -186,19 +309,26 @@
     }
 
     .summit-overlay {
-      position: relative;
-      top: 0;
+      position: static;
       width: 100%;
-      min-width: auto;
-      flex-direction: column;
+      height: auto;
+      min-height: 200px;
       padding: 24px;
       box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
     }
 
     .summit-content {
+      position: relative;
+      width: 100%;
+
       .summit-badge {
         position: static;
         margin-bottom: 20px;
+        width: auto;
       }
 
       .summit-title {
@@ -207,7 +337,7 @@
         line-height: 36px;
         margin-bottom: 16px;
         width: auto;
-        height: auto;
+        max-width: none;
       }
 
       .summit-description {
@@ -216,19 +346,30 @@
         line-height: 18px;
         margin-bottom: 24px;
         width: auto;
-        height: auto;
+        max-width: none;
       }
     }
 
     .summit-cta-container {
       position: static;
       margin: 0;
-      align-self: flex-start;
+      width: auto;
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      z-index: 10;
+
+      app-dashboard-navigation-button {
+        display: flex;
+        align-items: center;
+      }
     }
   }
 }
 
-@media (max-width: 768px) {
+// Responsive Design - Small Tablet 480px to 767px
+@media (max-width: 767px) {
   .annual-summit {
     .summit-container {
       min-height: 250px;
@@ -257,17 +398,21 @@
     }
 
     .summit-cta-container {
-      width: 100%;
-      max-width: 191px;
+      app-dashboard-navigation-button {
+        display: flex;
+        align-items: center;
+      }
 
       .summit-cta-text {
         font-size: 14px;
+        width: auto;
       }
     }
   }
 }
 
-@media (max-width: 480px) {
+// Responsive Design - Mobile 480px and below
+@media (max-width: 479px) {
   .annual-summit {
     .summit-container {
       min-height: 200px;
@@ -290,9 +435,15 @@
     }
 
     .summit-cta-container {
+      app-dashboard-navigation-button {
+        display: flex;
+        align-items: center;
+      }
+
       .summit-cta-text {
         font-size: 13px;
         height: 32px;
+        width: auto;
       }
 
       .summit-cta-arrow {
