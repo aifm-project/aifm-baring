@@ -155,6 +155,12 @@ a:hover {
   padding-right: 40px;
   text-transform: uppercase;
 }
+/* For screen width 1200px and below */
+@media screen and (max-width: 1200px) {
+  .form-select {
+    font-size: 13px;
+  }
+}
 .search-input {
   position: relative;
   border-bottom: 1px solid var(--overlay);
@@ -1882,7 +1888,7 @@ a:hover {
   letter-spacing: -0.3px;
   color: var(--accent-light);
   margin-bottom: var(--spacing-md);
-  max-width: 189px;
+  max-width: 220px;
 }
 .document-date {
   font-family: var(--font-secondary);

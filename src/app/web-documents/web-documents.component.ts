@@ -185,7 +185,7 @@ export class WebDocumentsComponent {
     console.log('Page change requested:', pageInfo);
     this.currentPage = pageInfo.page;
     this.currentPageSize = pageInfo.pageSize;
-    const offset = (pageInfo.page -1);
+    const offset = (pageInfo.page - 1) * pageInfo.pageSize;
     let config = {
       ...this.loadDocConfig,
       offset: offset,
