@@ -158,11 +158,9 @@
                 </span>
               </td>
             <td class="weight  text-left">
-              <div class="value-stack weight-text">
                 <span class="value-amount">
                   {{ company.weight ? (company.weight | number : '1.2-2' ) + ' %' : '-' }}
                 </span>
-              </div>
               <div class="progress margin-top6" *ngIf="company.weight">
                 <div class="progress-bar" role="progressbar" [style.width.%]="company.weight"
                   [attr.aria-valuenow]="company.weight" aria-valuemin="0" aria-valuemax="100"
