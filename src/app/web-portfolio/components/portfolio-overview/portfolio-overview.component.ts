@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { FundService } from '../../../core/services/fund.service';
 import { Store } from '@ngrx/store';
 import { selectSelectedDate } from '../../../store/date';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../shared/shared.module';
+import { Tooltip } from 'bootstrap';
 
 @Component({
   selector: 'app-portfolio-overview',
@@ -12,19 +13,42 @@ import { SharedModule } from '../../../shared/shared.module';
   templateUrl: './portfolio-overview.component.html',
   styleUrls: ['./portfolio-overview.component.scss'],
 })
-export class PortfolioOverviewComponent {
+export class PortfolioOverviewComponent implements AfterViewInit {
   selectedFund: any;
   asOfDate: string;
   fundConfig: any;
   fundCurrency: any;
   fundUnit: any;
   totalOverViewInfo: any = {};
+
+  // Dynamic tooltip properties
+  infoIconAlt: string = 'Portfolio Overview Information';
+  infoIconTitle: string = 'A high-level summary of all the companies or assets the fund has invested in and exited over a time period';
+
+  @ViewChildren('infoIcon') infoIconElements!: QueryList<ElementRef>;
   constructor(private fundService: FundService, private store: Store){
 
   }
 
   ngOnInit(): void {
     this.getStoreData();
+  }
+
+  ngAfterViewInit() {
+    this.initializeTooltips();
+  }
+
+  private initializeTooltips() {
+    // Initialize Bootstrap tooltips with responsive placement
+    this.infoIconElements.forEach((element: ElementRef) => {
+      const tooltipElement = element.nativeElement;
+      new Tooltip(tooltipElement, {
+        placement: 'auto',
+        trigger: 'hover focus',
+        html: false,
+        delay: { show: 100, hide: 100 }
+      });
+    });
   }
 
   getStoreData() {

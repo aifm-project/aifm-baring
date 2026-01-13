@@ -4,7 +4,12 @@
     <div class="insights-header-section">
       <div class="header-left">
         <h3 class="insights-title">Latest Insights</h3>
-        <img src="./../../../../assets/icons1/Info-Black.png" alt="Latest Insights" width="22" height="22" data-bs-toggle="tooltip" data-bs-placement="top" title="Commentary or analysis on markets, sectors, or portfolio companies.">
+        <img #infoIcon src="./../../../../assets/icons1/Info-Black.png" 
+             [alt]="infoIconAlt" 
+             width="22" height="22" 
+             data-bs-toggle="tooltip" 
+             data-bs-placement="auto" 
+             [title]="infoIconTitle">
       </div>
       <div class="header-right">
         <app-dashboard-navigation-button (onClickChild)="onViewAllInsights()" [showWhiteHover]="true" label="All Insights"></app-dashboard-navigation-button>

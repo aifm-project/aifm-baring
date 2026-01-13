@@ -1,31 +1,52 @@
 <section class="annual-summit">
   <div class="summit-container">
     <div class="summit-background">
-      <img 
+      <img
         src="./../../../assets/icons/Webinar.png" width="100%" height="100%"
-        alt="Summit background" 
+        alt="Summit background"
         class="summit-bg-image"
       />
     </div>
-    
+
     <div class="summit-overlay">
       <div class="summit-content">
         <div class="summit-badge">Webinar</div>
-        
-        <h2 class="summit-title">Annual Investor Summit 2025</h2>
-        
+
+        <h2 class="summit-title">Q4 FY26 Investor Update Call</h2>
+
         <p class="summit-description">
           Join us on August 30, 2025 at 12pm IST for Baring India's flagship summit, an exclusive experience for our global LPs to engage with bold ideas, portfolio visionaries, and the future of private equity in India.
         </p>
       </div>
-      
+
       <div class="summit-cta-container">
-         <app-dashboard-navigation-button [showWhiteHover]="false" label="Join the guestlist"></app-dashboard-navigation-button>
-        <!-- <button class="summit-cta-text">Join the guestlist</button>
-        <button class="summit-cta-arrow">
-          <img src="./../../../assets/icons/CaretRight.png" alt="Join the guestlis" width="26" height="26">
-        </button> -->
+         <app-dashboard-navigation-button
+           [showWhiteHover]="false"
+           [label]="buttonLabel"
+           (click)="onButtonClick()">
+         </app-dashboard-navigation-button>
       </div>
     </div>
   </div>
 </section>
+
+<!-- Bootstrap Modal - Shows only if no calendar link is available -->
+<div class="modal fade" id="calendarAccessModal" [class.show]="showDateNotScheduledModal" [attr.aria-modal]="showDateNotScheduledModal" [style.display]="showDateNotScheduledModal ? 'block' : 'none'" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Calendar Access</h5>
+        <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>The call date has not yet been scheduled. Calendar access will be available after the quarter-end.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Backdrop for Bootstrap -->
+<div class="modal-backdrop fade" *ngIf="showDateNotScheduledModal" [class.show]="showDateNotScheduledModal"></div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FundService } from '../../../core/services/fund.service';
 import { DocumentService } from '../../../core/services/document.service';
@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { selectFundData, setDocumentData } from '../../../store/fund';
 import { DocumentsGridComponent } from '../../../web-documents/components/documents-grid/documents-grid.component';
 import { DashboardNavigationButton } from '../../../shared/components/dashboard-navigation-button/dashboard-navigation-button';
+import { Tooltip } from 'bootstrap';
 
 @Component({
   selector: 'app-documents-preview',
@@ -14,14 +15,37 @@ import { DashboardNavigationButton } from '../../../shared/components/dashboard-
   templateUrl: './documents-preview.component.html',
   styleUrls: ['./documents-preview.component.scss']
 })
-export class DocumentsPreviewComponent {
+export class DocumentsPreviewComponent implements AfterViewInit {
   documents = [];
   fundConfig: any;
   selectedFund: any;
 
+  // Dynamic tooltip properties
+  infoIconAlt: string = 'Latest Documents Information';
+  infoIconTitle: string = 'The most recent reports, presentations, or updates shared with investors';
+
+  @ViewChildren('infoIcon') infoIconElements!: QueryList<ElementRef>;
+
   constructor(private fundService: FundService, private store: Store,private documentService:DocumentService) { }
   ngOnInit(): void {
     this.getStoreData()
+  }
+
+  ngAfterViewInit() {
+    this.initializeTooltips();
+  }
+
+  private initializeTooltips() {
+    // Initialize Bootstrap tooltips with responsive placement
+    this.infoIconElements.forEach((element: ElementRef) => {
+      const tooltipElement = element.nativeElement;
+      new Tooltip(tooltipElement, {
+        placement: 'auto',
+        trigger: 'hover focus',
+        html: false,
+        delay: { show: 100, hide: 100 }
+      });
+    });
   }
 
   onViewAllDocuments() {

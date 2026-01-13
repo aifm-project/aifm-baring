@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { DashboardNavigationButton } from '../../../shared/components/dashboard-navigation-button/dashboard-navigation-button';
@@ -6,6 +6,7 @@ import { ExploreService } from '../../../core/services/explore.service';
 import { environment } from '../../../../environments/environment';
 import { IframVideoPipe } from '../../../shared/pipe/ifram-video.pipe';
 import { aifmVideoFrame } from '../../../shared/components/video-frame/video-frame';
+import { Tooltip } from 'bootstrap';
 
 @Component({
   selector: 'app-insights',
@@ -15,7 +16,12 @@ import { aifmVideoFrame } from '../../../shared/components/video-frame/video-fra
   styleUrls: ['./insights.component.scss'],
   providers:[IframVideoPipe]
 })
-export class InsightsComponent implements OnInit {
+export class InsightsComponent implements OnInit, AfterViewInit {
+  // Dynamic tooltip properties
+  infoIconAlt: string = 'Latest Insights Information';
+  infoIconTitle: string = 'Commentary or analysis on markets, sectors, or portfolio companies';
+
+  @ViewChildren('infoIcon') infoIconElements!: QueryList<ElementRef>;
   featuredInsight = {
     id: 1,
     title: 'Future of Digital Transformation in Enterprise',
@@ -52,6 +58,23 @@ export class InsightsComponent implements OnInit {
   constructor(private router: Router, public explorService:ExploreService,public IframVideo: IframVideoPipe,) {}
   ngOnInit(): void {
     this.getAllExplorDetails()
+  }
+
+  ngAfterViewInit() {
+    this.initializeTooltips();
+  }
+
+  private initializeTooltips() {
+    // Initialize Bootstrap tooltips with responsive placement
+    this.infoIconElements.forEach((element: ElementRef) => {
+      const tooltipElement = element.nativeElement;
+      new Tooltip(tooltipElement, {
+        placement: 'auto',
+        trigger: 'hover focus',
+        html: false,
+        delay: { show: 100, hide: 100 }
+      });
+    });
   }
 
   onViewAllInsights() {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { selectSelectedDate } from '../../../store/date';
@@ -6,6 +6,7 @@ import { FundService } from '../../../core/services/fund.service';
 import * as Highcharts from 'highcharts';
 import { Chart, ChartModule } from 'angular-highcharts';
 import { Router } from '@angular/router';
+import { Tooltip } from 'bootstrap';
 
 interface IndustryData {
   name: string;
@@ -21,7 +22,7 @@ interface IndustryData {
   templateUrl: './distribution-chart.component.html',
   styleUrls: ['./distribution-chart.component.scss'],
 })
-export class DistributionChartComponent implements OnInit {
+export class DistributionChartComponent implements OnInit, AfterViewInit {
   @Input() title: string = 'Distribution by Industries';
   @Input() showFilters: boolean = true;
   industryData: IndustryData[] = [];
@@ -31,10 +32,33 @@ export class DistributionChartComponent implements OnInit {
   public chartOptions: any = {};
   chart!: Chart;
   colorSeries: string[] = ['#CEDAE3', '#85BCE3', '#00305B', '#181818', '#BCD8EC'];
+
+  // Dynamic tooltip properties
+  infoIconAlt: string = 'Distribution Chart Information';
+  infoIconTitle: string = 'A breakdown of the portfolio by industry sector (e.g., healthcare, technology, consumer)';
+
+  @ViewChildren('infoIcon') infoIconElements!: QueryList<ElementRef>;
   constructor(public store: Store, public fundService: FundService) {}
 
   ngOnInit(): void {
     this.getStoreData();
+  }
+
+  ngAfterViewInit() {
+    this.initializeTooltips();
+  }
+
+  private initializeTooltips() {
+    // Initialize Bootstrap tooltips with responsive placement
+    this.infoIconElements.forEach((element: ElementRef) => {
+      const tooltipElement = element.nativeElement;
+      new Tooltip(tooltipElement, {
+        placement: 'auto',
+        trigger: 'hover focus',
+        html: false,
+        delay: { show: 100, hide: 100 }
+      });
+    });
   }
 
   onFilterClick(): void {
