@@ -35,6 +35,7 @@
     "@angular/router": "^20.2.0",
     "@ngrx/effects": "^20.0.1",
     "@ngrx/store": "^20.0.1",
+    "@popperjs/core": "^2.11.8",
     "@primeuix/themes": "^1.2.5",
     "angular-highcharts": "^17.0.1",
     "bootstrap": "^5.3.8",
