@@ -1,7 +1,6 @@
 .portfolio-overview {
   padding: 0;
   background-color: #f3f5f7;
-  margin-bottom: 40px;
 
   .container {
     width: 100%;
@@ -392,12 +391,12 @@
 
     .portfolio-metrics {
       display: flex;
-      gap: 28px;
+      gap: 24px;
       height: auto;
 
       .portfolio-metric-card {
-        gap: 13px;
-        flex: 0 0 calc(25% - 21px);
+        gap: 12px;
+        flex: 0 0 calc(25% - 18px);
 
         &:nth-child(1) {
           height: auto;
@@ -416,8 +415,8 @@
         }
 
         .portfolio-metric-value {
-          font-size: 32px;
-          line-height: 36px;
+          font-size: 30px;
+          line-height: 34px;
         }
 
         .portfolio-metric-label {
