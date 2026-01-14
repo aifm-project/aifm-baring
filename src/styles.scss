@@ -1145,7 +1145,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);
-  min-width: 272px;
+  flex: 0 0 calc(25% - 17.75px);
 }
 .portfolio-metric-header {
   display: flex;
@@ -2188,6 +2188,152 @@ a:hover {
   .distribution-chart .pie-chart .pie-chart-placeholder {
     width: 200px;
     height: 200px;
+  }
+}
+
+/* Portfolio Metric Card Responsive Breakpoints */
+
+/* 1300px - 1400px: ~93% scale */
+@media (min-width: 1300px) and (max-width: 1399px) {
+  .portfolio-metric-card {
+    min-width: 0;
+    gap: 18px;
+
+    .portfolio-metric-header {
+      height: 36px;
+
+      .portfolio-metric-icon {
+        width: 36px;
+        height: 36px;
+
+        svg,
+        img {
+          width: 35px;
+          height: 35px;
+        }
+      }
+
+      .portfolio-metric-label {
+        padding: 10px 12px;
+        font-size: 13px;
+        line-height: 17px;
+        height: 36px;
+      }
+    }
+
+    .portfolio-metric-value {
+      font-size: 42px;
+      line-height: 46px;
+      margin-top: 8px;
+    }
+  }
+}
+
+/* 1200px - 1299px: ~86% scale */
+@media (min-width: 1200px) and (max-width: 1299px) {
+  .portfolio-metric-card {
+    min-width: 0;
+    gap: 17px;
+
+    .portfolio-metric-header {
+      height: 34px;
+
+      .portfolio-metric-icon {
+        width: 34px;
+        height: 34px;
+
+        svg,
+        img {
+          width: 33px;
+          height: 33px;
+        }
+      }
+
+      .portfolio-metric-label {
+        padding: 9px 11px;
+        font-size: 12px;
+        line-height: 16px;
+        height: 34px;
+      }
+    }
+
+    .portfolio-metric-value {
+      font-size: 39px;
+      line-height: 43px;
+      margin-top: 7px;
+    }
+  }
+}
+
+/* 1100px - 1199px: ~79% scale */
+@media (min-width: 1100px) and (max-width: 1199px) {
+  .portfolio-metric-card {
+    min-width: 0;
+    gap: 16px;
+
+    .portfolio-metric-header {
+      height: 32px;
+
+      .portfolio-metric-icon {
+        width: 32px;
+        height: 32px;
+
+        svg,
+        img {
+          width: 31px;
+          height: 31px;
+        }
+      }
+
+      .portfolio-metric-label {
+        padding: 8px 10px;
+        font-size: 11px;
+        line-height: 15px;
+        height: 32px;
+      }
+    }
+
+    .portfolio-metric-value {
+      font-size: 36px;
+      line-height: 40px;
+      margin-top: 6px;
+    }
+  }
+}
+
+/* 992px - 1099px: ~71% scale */
+@media (min-width: 992px) and (max-width: 1099px) {
+  .portfolio-metric-card {
+    min-width: 0;
+    gap: 13px;
+
+    .portfolio-metric-header {
+      height: 30px;
+
+      .portfolio-metric-icon {
+        width: 30px;
+        height: 30px;
+
+        svg,
+        img {
+          width: 29px;
+          height: 29px;
+        }
+      }
+
+      .portfolio-metric-label {
+        padding: 7px 9px;
+        font-size: 10px;
+        line-height: 14px;
+        height: 30px;
+      }
+    }
+
+    .portfolio-metric-value {
+      font-size: 32px;
+      line-height: 36px;
+      margin-top: 5px;
+    }
   }
 }
 

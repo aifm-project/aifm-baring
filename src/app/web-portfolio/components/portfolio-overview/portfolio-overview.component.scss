@@ -1,12 +1,13 @@
 .portfolio-overview {
   padding: 0;
   background-color: #f3f5f7;
+  margin-bottom: 40px;
 
   .container {
     width: 100%;
     max-width: 1440px;
     margin: 0 auto;
-    padding: 0 70px;
+    padding: 0 60px;
     box-sizing: border-box;
   }
   .header-content {
@@ -38,11 +39,10 @@
     }
   }
   .overview-header {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 31px;
-    height: 28px;
 
     .overview-title {
       color: #000;
@@ -51,8 +51,8 @@
       font-weight: 500;
       line-height: 28px;
       margin: 0;
-      width: 192px;
-      height: 28px;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     svg,
@@ -65,7 +65,7 @@
 
   .portfolio-metrics {
     display: flex;
-    gap: 71px;
+    gap: 56px;
     margin-bottom: 0;
     position: relative;
     height: 118px;
@@ -74,25 +74,22 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
-      flex-shrink: 0;
+      flex: 0 0 calc(25% - 42px);
 
       &:nth-child(1) {
-        width: 239px;
         height: 107px;
       }
 
       &:nth-child(2) {
-        width: 236px;
         height: 107px;
       }
 
       &:nth-child(3) {
-        width: 155px;
         height: 118px;
       }
 
       &:nth-child(4) {
-        width: 207px;
+        height: auto;
       }
 
       .portfolio-metric-header {
@@ -159,25 +156,303 @@
   }
 }
 
-// Responsive Design
-@media (max-width: 1200px) {
+// Responsive Design - 1300px to 1399px (~93% scale)
+@media (min-width: 1300px) and (max-width: 1399px) {
+  .portfolio-overview {
+    .container {
+      padding: 0 58px;
+    }
+
+    .header-content {
+      margin-bottom: 56px;
+
+      .documents-title {
+        font-size: 48px;
+        line-height: 52px;
+      }
+
+      .documents-subtitle {
+        font-size: 13px;
+      }
+    }
+
+    .overview-header {
+      margin-bottom: 29px;
+      gap: 8px;
+
+      .overview-title {
+        font-size: 23px;
+        line-height: 27px;
+      }
+    }
+
+    .portfolio-metrics {
+      display: flex;
+      gap: 48px;
+      height: 116px;
+
+      .portfolio-metric-card {
+        gap: 19px;
+        flex: 0 0 calc(25% - 36px);
+
+        &:nth-child(1) {
+          height: 105px;
+        }
+
+        &:nth-child(2) {
+          height: 105px;
+        }
+
+        &:nth-child(3) {
+          height: 116px;
+        }
+
+        &:nth-child(4) {
+          height: 105px;
+        }
+
+        .portfolio-metric-value {
+          font-size: 42px;
+          line-height: 46px;
+        }
+
+        .portfolio-metric-label {
+          font-size: 13px;
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design - 1200px to 1299px (~86% scale)
+@media (min-width: 1200px) and (max-width: 1299px) {
+  .portfolio-overview {
+    .container {
+      padding: 0 52px;
+    }
+
+    .header-content {
+      margin-bottom: 52px;
+
+      .documents-title {
+        font-size: 45px;
+        line-height: 49px;
+      }
+
+      .documents-subtitle {
+        font-size: 13px;
+      }
+    }
+
+    .overview-header {
+      margin-bottom: 27px;
+      gap: 7px;
+
+      .overview-title {
+        font-size: 21px;
+        line-height: 25px;
+      }
+    }
+
+    .portfolio-metrics {
+      display: flex;
+      gap: 44px;
+      height: 113px;
+
+      .portfolio-metric-card {
+        gap: 18px;
+        flex: 0 0 calc(25% - 33px);
+
+        &:nth-child(1) {
+          height: 102px;
+        }
+
+        &:nth-child(2) {
+          height: 102px;
+        }
+
+        &:nth-child(3) {
+          height: 113px;
+        }
+
+        &:nth-child(4) {
+          height: 102px;
+        }
+
+        .portfolio-metric-value {
+          font-size: 40px;
+          line-height: 44px;
+        }
+
+        .portfolio-metric-label {
+          font-size: 12px;
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design - 1100px to 1199px (~79% scale)
+@media (min-width: 1100px) and (max-width: 1199px) {
+  .portfolio-overview {
+    .container {
+      padding: 0 48px;
+    }
+
+    .header-content {
+      margin-bottom: 47px;
+
+      .documents-title {
+        font-size: 41px;
+        line-height: 44px;
+      }
+
+      .documents-subtitle {
+        font-size: 12px;
+      }
+    }
+
+    .overview-header {
+      margin-bottom: 25px;
+      gap: 6px;
+
+      .overview-title {
+        font-size: 19px;
+        line-height: 22px;
+      }
+    }
+
+    .portfolio-metrics {
+      display: flex;
+      gap: 40px;
+      height: 109px;
+
+      .portfolio-metric-card {
+        gap: 16px;
+        flex: 0 0 calc(25% - 30px);
+
+        &:nth-child(1) {
+          height: 99px;
+        }
+
+        &:nth-child(2) {
+          height: 99px;
+        }
+
+        &:nth-child(3) {
+          height: 109px;
+        }
+
+        &:nth-child(4) {
+          height: 99px;
+        }
+
+        .portfolio-metric-value {
+          font-size: 38px;
+          line-height: 42px;
+        }
+
+        .portfolio-metric-label {
+          font-size: 11px;
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design - 992px to 1099px (~71% scale)
+@media (min-width: 992px) and (max-width: 1099px) {
+  .portfolio-overview {
+    .container {
+      padding: 0 30px;
+    }
+
+    .header-content {
+      margin-bottom: 38px;
+
+      .documents-title {
+        font-size: 35px;
+        line-height: 39px;
+      }
+
+      .documents-subtitle {
+        font-size: 12px;
+      }
+    }
+
+    .overview-header {
+      margin-bottom: 19px;
+      gap: 6px;
+
+      .overview-title {
+        font-size: 17px;
+        line-height: 21px;
+      }
+    }
+
+    .portfolio-metrics {
+      display: flex;
+      gap: 28px;
+      height: auto;
+
+      .portfolio-metric-card {
+        gap: 13px;
+        flex: 0 0 calc(25% - 21px);
+
+        &:nth-child(1) {
+          height: auto;
+        }
+
+        &:nth-child(2) {
+          height: auto;
+        }
+
+        &:nth-child(3) {
+          height: auto;
+        }
+
+        &:nth-child(4) {
+          height: auto;
+        }
+
+        .portfolio-metric-value {
+          font-size: 32px;
+          line-height: 36px;
+        }
+
+        .portfolio-metric-label {
+          font-size: 11px;
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design - Below 992px
+@media (max-width: 991px) {
   .portfolio-overview {
     .container {
       padding: 0 40px;
     }
 
     .portfolio-metrics {
+      display: flex;
       flex-wrap: wrap;
-      gap: 40px;
+      gap: 32px;
       justify-content: space-between;
 
       .portfolio-metric-card {
-        width: 220px;
+        flex: 0 0 calc(50% - 16px);
+        height: auto;
 
         &:nth-child(2),
         &:nth-child(3),
         &:nth-child(4) {
-          width: 220px;
+          flex: 0 0 calc(50% - 16px);
+        }
+
+        &.border-right::after {
+          display: none;
         }
 
         .portfolio-metric-value {
@@ -188,6 +463,11 @@
 
     .portfolio-separators {
       display: none;
+    }
+
+    // Remove borders
+    .portfolio-metric-card.border-right {
+      border-right: none;
     }
   }
 }
@@ -228,10 +508,18 @@
           min-width: 250px;
         }
 
+        &.border-right::after {
+          display: none;
+        }
+
         .portfolio-metric-value {
           font-size: 32px;
           height: auto;
         }
+      }
+
+      .portfolio-metric-card.border-right {
+        border-right: none;
       }
     }
   }
@@ -255,6 +543,10 @@
           min-width: 200px;
         }
 
+        &.border-right::after {
+          display: none;
+        }
+
         .portfolio-metric-header {
           .portfolio-metric-label {
             font-size: 12px;
@@ -275,6 +567,10 @@
         .portfolio-metric-value {
           font-size: 28px;
         }
+      }
+
+      .portfolio-metric-card.border-right {
+        border-right: none;
       }
     }
   }
