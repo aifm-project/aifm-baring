@@ -2,7 +2,7 @@
   $cell-padding-x: 15px;
   $cell-padding-y: 15px;
   width: 100%;
-  max-width: 1440px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 90px 0px 0 0px;
   box-sizing: border-box;
@@ -26,6 +26,10 @@
 
   @media (min-width: 992px) and (max-width: 1100px) {
     padding: 90px 30px 0 30px;
+  }
+
+  @media (min-width: 769px) and (max-width: 991px) {
+    padding: 90px 20px 0 20px;
   }
 
   @media (max-width: 768px) {
@@ -3133,6 +3137,10 @@ th {
 
 // Freeze first column with horizontal scroll for other columns on screens < 992px
 @media (max-width: 991px) {
+  .company-name-cell {
+    padding-left: 15px !important;
+  }
+
   .investment-table {
     .investment-data {
       overflow-x: auto;
