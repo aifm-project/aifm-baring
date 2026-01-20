@@ -13,14 +13,17 @@
   <!-- Right Side - Login Form -->
   <div class="login-right">
     <div class="login-form-wrapper">
+      <!-- Login Header -->
       <div class="login-header">
         <h2 class="login-title">Welcome to Baring Investor Portal</h2>
         <p class="login-subtitle">Please enter your login information below.</p>
       </div>
 
+      <!-- Unified Login Form -->
       <form [formGroup]="loginForm" (ngSubmit)="onLogin(loginForm)" class="login-form">
         <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
+        <!-- Email Field -->
         <div class="form-group margin-bottom-43">
           <label for="email" class="form-label">Email or Username</label>
           <input type="text" id="email" formControlName="email" class="form-control" placeholder="Enter your email (user@domain.com) or username"
@@ -32,7 +35,9 @@
           <small *ngIf="loginForm.get('email')?.errors?.['emailOrUsername']">{{ loginForm.get('email')?.errors?.['emailOrUsername']?.message }}</small>
           <small *ngIf="loginForm.get('email')?.errors?.['spaces']">{{ loginForm.get('email')?.errors?.['spaces']?.message }}</small>
         </div>
-        <div class="form-group margin-bottom-43">
+
+        <!-- Password or OTP Input (Conditional) -->
+        <div *ngIf="!loginViaOtpOnly" class="form-group margin-bottom-43">
           <label for="password" class="form-label">Password</label>
           <div class="password-input-wrapper">
             <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password"
@@ -52,6 +57,44 @@
           <div class="form-divider"></div>
           <a href="#" class="forgot-password">Forgot Password?</a>
         </div>
+
+        <!-- OTP Input (Conditional) -->
+        <div *ngIf="showOtpScreen" class="form-group margin-bottom-43">
+          <label for="otp" class="form-label">One-Time Password</label>
+          <p class="otp-subtitle">We've sent a one-time password to your registered email.</p>
+          <ng-otp-input [formControl]="otpControl" [config]="{length:6}"></ng-otp-input>
+          <div class="form-divider"></div>
+
+          <div *ngIf="loginForm.get('otpControl')?.touched && loginForm.get('otpControl')?.invalid" class="error-message">
+            <small *ngIf="loginForm.get('otpControl')?.errors?.['required']">OTP is required.</small>
+          </div>
+
+          <div class="otp-timer-container">
+            <p class="otp-timer-text" *ngIf="otpExpire > 0">
+              OTP expires in: <span class="otp-timer">{{ otpExpire }}s</span>
+            </p>
+            <p class="otp-expired-text" *ngIf="otpExpire <= 0">
+              OTP has expired. Please request a new one.
+            </p>
+          </div>
+
+          <div class="otp-resend-container">
+            <p class="otp-resend-text">Didn't receive the code?</p>
+            <button
+              type="button"
+              class="btn-resend-otp"
+              (click)="reSendOTP()"
+              [disabled]="isOtpLoading || hideResendOTP || otpSendCount >= otpMaxCount">
+              <span *ngIf="!hideResendOTP && otpSendCount < otpMaxCount">Resend OTP</span>
+              <span *ngIf="hideResendOTP || otpSendCount >= otpMaxCount">Resend limit reached</span>
+            </button>
+            <p class="otp-attempt-info" *ngIf="otpMaxCount > 0">
+              Attempts remaining: {{ otpMaxCount - otpSendCount }}
+            </p>
+          </div>
+        </div>
+
+        <!-- User Role Selection -->
         <ng-template [ngIf]="multiUserRole">
           <div class="form-group margin-bottom-48">
             <label for="userRole" class="form-label">User Role</label>
@@ -61,8 +104,6 @@
                 [class.error]="loginForm && loginForm.get('userRole')?.invalid && loginForm.get('userRole')?.touched">
                 <option value="" disabled selected>Select User Role</option>
                 <option [value]="sk.user_id" *ngFor="let sk of multiUserRoles">{{sk.user_sub_role}}</option>
-                <!-- <option value="admin">Admin</option>
-                      <option value="manager">Manager</option> -->
               </select>
               <svg class="select-arrow" width="15" height="9" viewBox="0 0 15 9" fill="none">
                 <path
@@ -73,6 +114,8 @@
             <div class="form-divider"></div>
           </div>
         </ng-template>
+
+        <!-- PAN Field -->
         <ng-template [ngIf]="showPanNumber">
           <div class="form-group margin-bottom-43">
             <label for="pan" class="form-label">PAN</label>
@@ -98,12 +141,17 @@
             <small *ngIf="loginForm.get('pan')?.errors?.['invalidPan']">{{ loginForm.get('pan')?.errors?.['invalidPan']?.message }}</small>
           </div>
         </ng-template>
-        <button type="submit" class="btn-login" [disabled]="isLoading || loginForm.invalid">
-          <span *ngIf="!isLoading">Login</span>
-          <span *ngIf="isLoading">Logging in...</span>
+
+        <!-- Login Button (Dynamic Label) -->
+        <button type="submit" class="btn-login" [disabled]="isLoading || isOtpLoading || loginForm.invalid">
+          <span *ngIf="!isLoading && !isOtpLoading && !showOtpScreen">Login</span>
+          <span *ngIf="isLoading && !showOtpScreen">Logging in...</span>
+          <span *ngIf="!isOtpLoading && showOtpScreen">Verify OTP</span>
+          <span *ngIf="isOtpLoading && showOtpScreen">Verifying...</span>
         </button>
       </form>
 
+      <!-- Footer -->
       <div class="login-footer">
         <p class="terms-text">
           By clicking "Login" above, you acknowledge that you have read and understood, and agree to Baring's
