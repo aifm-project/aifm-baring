@@ -43,6 +43,32 @@ export class AuthService {
     return this.httpClient.post<LoginResponse>(environment.serverEndPoint + "users/login", user, { headers: headers });
   }
 
+   public loginWithOTP1(user: User): Observable<LoginResponse> {
+    let headers = new HttpHeaders({ "enable-encryption": "true" });
+    console.log("Calling endpoint: " + environment.serverEndPoint + "users/otp/login" + JSON.stringify(user));
+    return this.httpClient.post<LoginResponse>(environment.serverEndPoint + "users/otp/login", user, { headers: headers });
+  }
+
+  resedOTP(formData): Observable<LoginResponse> {
+    let headers = new HttpHeaders({ "enable-encryption": "true" });
+    return this.httpClient.post<any>(environment.serverEndPoint + "users/resend/otp/login", formData, { headers: headers });
+  }
+
+  setOTP(formData): Observable<LoginResponse> {
+    let headers = new HttpHeaders({ "enable-encryption": "true" });
+    return this.httpClient.post<any>(environment.serverEndPoint + "otp", formData, { headers: headers });
+  }
+
+  loginWithOTP(formData): Observable<any> {
+    let headers = new HttpHeaders({ "enable-encryption": "true" });
+    return this.httpClient.post<any>(environment.serverEndPoint + "otp/login", formData, { headers: headers });
+  }
+
+  signupWithOTP(formData): Observable<any> {
+    let headers = new HttpHeaders({ "enable-encryption": "true" });
+    return this.httpClient.post<any>(environment.serverEndPoint + "otp/signup", formData, { headers: headers });
+  }
+  
   logout(): void {
   this.isAuthenticatedSubject.next(false);
     this.store.dispatch(clearAuthData());

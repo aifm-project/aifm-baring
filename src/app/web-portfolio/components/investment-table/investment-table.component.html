@@ -144,10 +144,10 @@
             </td>
             <td class="industry">{{ company.industry }}</td>
             <td class="investment text-right">
-              {{company.unrealisedCost ? (company.unrealisedCost | getCurrencyByUnits:true:true:2:true) : '-' }}
+              {{company.instrument_cost ? (company.instrument_cost | getCurrencyByUnits:true:true:2:true) : '-' }}
             </td>
             <td class="marketValue  text-right">
-              {{company.unrealisedPrice ? (company.unrealisedPrice | getCurrencyByUnits:true:true:2:true) : '-' }}
+              {{company.instrument_price ? (company.instrument_price | getCurrencyByUnits:true:true:2:true) : '-' }}
             </td>
             <td class="irr  text-right">
                 {{ company.instrumentIrr ? (company.instrumentIrr | number : '1.2-2') + ' %' : '-' }}
