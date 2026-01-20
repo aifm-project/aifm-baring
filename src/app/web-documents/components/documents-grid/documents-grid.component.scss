@@ -50,14 +50,14 @@
   }
 
   // Large Tablets: 1200px - 1399px - 3 columns
-  @media (max-width: 1199px) {
-    grid-template-columns: repeat(3, 1fr);
+  @media (max-width: 992px) {
+    grid-template-columns: repeat(4, 1fr);
     gap: 18px;
   }
 
   // Tablets: 992px - 1199px - 3 columns
   @media (max-width: 991px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
 

@@ -69,7 +69,12 @@
 
   .main-title {
     color: #000;
-    font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+    font-family:
+      'Victor Serif Trial',
+      -apple-system,
+      Roboto,
+      Helvetica,
+      sans-serif;
     font-size: 52px;
     font-weight: 500;
     line-height: 56px;
@@ -108,7 +113,12 @@
 
   .main-subtitle {
     color: #000;
-    font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+    font-family:
+      'Instrument Sans',
+      -apple-system,
+      Roboto,
+      Helvetica,
+      sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: 18px;
@@ -231,7 +241,12 @@
       background: transparent;
       border: none;
       color: #122334;
-      font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+      font-family:
+        'Instrument Sans',
+        -apple-system,
+        Roboto,
+        Helvetica,
+        sans-serif;
       font-size: 14px;
       font-weight: 400;
       line-height: 18px;
@@ -276,7 +291,12 @@
       background: #f5f7f8;
       border: none;
       color: #122334;
-      font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+      font-family:
+        'Instrument Sans',
+        -apple-system,
+        Roboto,
+        Helvetica,
+        sans-serif;
       font-size: 14px;
       font-weight: 400;
       line-height: 18px;
@@ -458,7 +478,12 @@
 
       .hero-featured-heading {
         color: #000;
-        font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+        font-family:
+          'Victor Serif Trial',
+          -apple-system,
+          Roboto,
+          Helvetica,
+          sans-serif;
         font-size: 40px;
         font-weight: 500;
         line-height: 44px;
@@ -554,7 +579,12 @@
 
     .hero-side-title {
       color: #000;
-      font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+      font-family:
+        'Instrument Sans',
+        -apple-system,
+        Roboto,
+        Helvetica,
+        sans-serif;
       font-size: 22px;
       font-weight: 500;
       line-height: 26px;
@@ -637,34 +667,37 @@
 
   .spotlight-layout {
     display: grid;
-    grid-template-columns: 48% 52%;
-    gap: 76px;
+    grid-template-columns: 48% 48%;
+    gap: 60px;
 
     @media (min-width: 1301px) and (max-width: 1440px) {
-      grid-template-columns: 48% 52%;
-      gap: 74px;
+      grid-template-columns: 48% 48%;
+      gap: 60px;
     }
 
     @media (min-width: 1201px) and (max-width: 1300px) {
-      grid-template-columns: 47% 53%;
+      grid-template-columns: 47% 48%;
       gap: 68px;
     }
 
     @media (min-width: 1101px) and (max-width: 1200px) {
-      grid-template-columns: 46% 54%;
+      grid-template-columns: 46% 50%;
       gap: 60px;
     }
 
     @media (min-width: 993px) and (max-width: 1100px) {
-      grid-template-columns: 46% 54%;
+      grid-template-columns: 46% 50%;
       gap: 58px;
     }
 
     @media (max-width: 992px) {
-      grid-template-columns: 46% 54%;
+      grid-template-columns: 46% 50%;
       gap: 58px;
     }
-
+    @media (min-width: 769px) and (max-width: 991px) {
+      grid-template-columns: 46% 48%;
+      gap: 40px;
+    }
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
       gap: 40px;
@@ -683,7 +716,12 @@
 
     .spotlight-tag {
       color: #d4dce2;
-      font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+      font-family:
+        'Instrument Sans',
+        -apple-system,
+        Roboto,
+        Helvetica,
+        sans-serif;
       font-size: 16px;
       font-weight: 400;
       line-height: 20px;
@@ -729,7 +767,12 @@
 
     .spotlight-main-title {
       color: #fff;
-      font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+      font-family:
+        'Victor Serif Trial',
+        -apple-system,
+        Roboto,
+        Helvetica,
+        sans-serif;
       font-size: 40px;
       font-weight: 500;
       line-height: 44px;
@@ -783,7 +826,12 @@
 
     .spotlight-description {
       color: #fff;
-      font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+      font-family:
+        'Instrument Sans',
+        -apple-system,
+        Roboto,
+        Helvetica,
+        sans-serif;
       font-size: 22px;
       font-weight: 400;
       line-height: 26px;
@@ -969,7 +1017,12 @@
         background: #fff;
         color: #000;
         text-align: center;
-        font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+        font-family:
+          'Instrument Sans',
+          -apple-system,
+          Roboto,
+          Helvetica,
+          sans-serif;
         font-size: 12px;
         font-weight: 500;
         line-height: 11.769px;
@@ -1000,7 +1053,12 @@
 
       .article-heading {
         color: #fff;
-        font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+        font-family:
+          'Instrument Sans',
+          -apple-system,
+          Roboto,
+          Helvetica,
+          sans-serif;
         font-size: 22px;
         font-weight: 500;
         line-height: 26px;
@@ -1044,7 +1102,12 @@
 
       .article-meta {
         color: #aeaeae;
-        font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+        font-family:
+          'Instrument Sans',
+          -apple-system,
+          Roboto,
+          Helvetica,
+          sans-serif;
         font-size: 14px;
         font-weight: 400;
         line-height: 18px;
@@ -1265,7 +1328,12 @@
 
       .grid-card-title {
         color: #000;
-        font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+        font-family:
+          'Instrument Sans',
+          -apple-system,
+          Roboto,
+          Helvetica,
+          sans-serif;
         font-size: 24px;
         font-weight: 500;
         line-height: 28px;
@@ -1395,7 +1463,12 @@
     background: #122334;
     color: #fff;
     text-align: center;
-    font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+    font-family:
+      'Instrument Sans',
+      -apple-system,
+      Roboto,
+      Helvetica,
+      sans-serif;
     font-size: 12px;
     font-weight: 500;
     line-height: 12px;
@@ -1430,7 +1503,12 @@
 
   .newsletter-heading {
     color: #000;
-    font-family: 'Victor Serif Trial', -apple-system, Roboto, Helvetica, sans-serif;
+    font-family:
+      'Victor Serif Trial',
+      -apple-system,
+      Roboto,
+      Helvetica,
+      sans-serif;
     font-size: 40px;
     font-weight: 500;
     line-height: 44px;
@@ -1495,7 +1573,12 @@
         background: transparent;
         border: none;
         color: #122334;
-        font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+        font-family:
+          'Instrument Sans',
+          -apple-system,
+          Roboto,
+          Helvetica,
+          sans-serif;
         font-size: 16px;
         font-weight: 400;
         line-height: 20px;
@@ -1606,7 +1689,12 @@
   background: #fff;
   color: #000;
   text-align: center;
-  font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+  font-family:
+    'Instrument Sans',
+    -apple-system,
+    Roboto,
+    Helvetica,
+    sans-serif;
   font-size: 12px;
   font-weight: 500;
   line-height: 11.769px;
@@ -1641,7 +1729,12 @@
   background: #e7ebee;
   color: #000;
   text-align: center;
-  font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+  font-family:
+    'Instrument Sans',
+    -apple-system,
+    Roboto,
+    Helvetica,
+    sans-serif;
   font-size: 12px;
   font-weight: 500;
   line-height: 11.769px;
@@ -1672,7 +1765,12 @@
 
 .meta-text-white {
   color: #aeaeae;
-  font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+  font-family:
+    'Instrument Sans',
+    -apple-system,
+    Roboto,
+    Helvetica,
+    sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 18px;
@@ -1700,7 +1798,12 @@
 
 .meta-text-dark {
   color: #717171;
-  font-family: 'Instrument Sans', -apple-system, Roboto, Helvetica, sans-serif;
+  font-family:
+    'Instrument Sans',
+    -apple-system,
+    Roboto,
+    Helvetica,
+    sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 18px;

@@ -477,7 +477,7 @@
 }
 
 // Single column stacked layout for tablets and below (below 992px)
-@media (max-width: 991px) {
+@media (min-width: 768px) and (max-width: 992px) {
   .performance-container {
     padding: 16px 20px;
     min-height: auto;
@@ -496,8 +496,8 @@
     }
 
     .col-4 {
-      flex: 0 0 100% !important;
-      width: 100%;
+      flex: 0 0 auto !important;
+      width: auto;
       justify-content: flex-start;
     }
 
@@ -531,7 +531,7 @@
     flex-direction: column !important;
     gap: 20px;
     width: 100%;
-    align-items: stretch !important;
+    align-items: flex-start !important;
 
     .container-fluid {
       width: 100%;
@@ -540,40 +540,37 @@
       .row {
         flex-direction: column !important;
         width: 100%;
+        gap: 20px;
 
         .col-sm-12 {
-          flex: 0 0 100% !important;
-          max-width: 100% !important;
+          flex: 0 0 auto !important;
           width: 100%;
         }
 
         .col-md-8,
         .col-lg-8,
         .col-xl-8 {
-          flex: 0 0 100% !important;
-          max-width: 100% !important;
+          flex: 0 0 auto !important;
           width: 100%;
         }
 
         .col-md-4,
         .col-lg-4,
         .col-xl-4 {
-          flex: 0 0 100% !important;
-          max-width: 100% !important;
-          width: 100%;
+          flex: 0 0 auto !important;
+          width: auto;
           justify-content: flex-start !important;
         }
       }
     }
 
     .chart-section {
-      flex: 0 0 auto !important;
       width: 100%;
       background: transparent;
 
       .chart-container {
         width: 100%;
-        height: 370px;
+        height: 400px;
         position: relative;
 
         .chart-host {
@@ -585,8 +582,7 @@
     }
 
     .metrics-sidebar {
-      flex: 0 0 auto !important;
-      width: 100%;
+      width: auto;
       flex-direction: column;
       min-height: auto;
       background: #D4DCE2 !important;
@@ -600,7 +596,7 @@
             padding: 10px 11px;
             margin: 16px 20px 0 20px;
             height: 36px;
-            width: auto;
+            width: 35%;
 
             .legend-label {
               font-size: 13px;
@@ -614,18 +610,18 @@
           }
 
           .nav-section {
-            margin: 0 20px;
+            margin: 0 18px;
 
             .nav-label {
               font-size: 13px;
               line-height: 16px;
-              margin-bottom: 3px;
+              margin: 14px 18px 3px 18px;
               height: 16px;
             }
 
             .nav-value {
-              font-size: 32px;
-              line-height: 36px;
+              font-size: 28px;
+              line-height: 32px;
               margin-bottom: 10px;
             }
           }
@@ -653,8 +649,8 @@
           }
 
           .drawdowns-value {
-            font-size: 32px;
-            line-height: 36px;
+            font-size: 28px;
+            line-height: 32px;
             margin: 14px 20px 15px 20px;
             height: auto;
           }
@@ -820,39 +816,6 @@
           font-size: 12px;
           line-height: 14px;
         }
-      }
-    }
-  }
-}
-
-// Medium small devices (600px to 425px - add 50px to existing height)
-@media (min-width: 425px) and (max-width: 599px) {
-  .performance-content {
-    .chart-section {
-      .chart-container {
-        height: 430px;
-      }
-    }
-  }
-}
-
-// Extra small devices (475px to 375px - add 100px to existing height)
-@media (min-width: 376px) and (max-width: 475px) {
-  .performance-content {
-    .chart-section {
-      .chart-container {
-        height: 480px;
-      }
-    }
-  }
-}
-
-// Small devices (375px and below)
-@media (max-width: 375px) {
-  .performance-content {
-    .chart-section {
-      .chart-container {
-        height: 480px;
       }
     }
   }
