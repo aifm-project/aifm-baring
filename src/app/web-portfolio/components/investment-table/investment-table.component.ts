@@ -68,7 +68,7 @@ export class InvestmentTableComponent implements OnInit, AfterViewInit {
   @Input() showPortfolioSummary!: boolean;
   @Input() showStaticContent!: boolean;
   @Input() limit!: number | null;
-  @Input() containerClass: 'container' | 'container-fluid' = 'container';
+  @Input() containerClass: 'container portfolioClass' | 'container-fluid' = 'container portfolioClass';
   @Input() public latestPortfolio: boolean = false;
   companies: Company[] = [];
   fundConfig: Map<unknown, unknown>;

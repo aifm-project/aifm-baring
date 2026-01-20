@@ -1112,7 +1112,9 @@ a:hover {
   flex-direction: column;
   // gap: var(--spacing-xxl);
 }
-
+.portfolioClass {
+    display: contents !important;
+  }
 /* Overview and Portfolio Overview */
 .overview-header {
   display: inline-flex;
