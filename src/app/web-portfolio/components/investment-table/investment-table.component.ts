@@ -34,8 +34,10 @@ export interface Company {
   realisedMOIC: string;
   realisedIRR: string | null;
   unrealisedCost: string;
+  instrument_cost :string;
   unrealisedCostGraphValue: string;
   unrealisedPrice: string;
+  instrument_price: string;
   unrealisedPriceGraphValue: string;
   unrealisedMOIC: string;
   unrealisedIRR: string | null;
@@ -103,8 +105,8 @@ export class InvestmentTableComponent implements OnInit, AfterViewInit {
     { field: 'weight', label: 'Weight (Highest First)', type: 'numeric' },
     { field: 'name', label: 'Company Name (A-Z)', type: 'alphabetical' },
     { field: 'industry', label: 'Industry (A-Z)', type: 'alphabetical' },
-    { field: 'unrealisedCost', label: 'Investment Amount', type: 'numeric' },
-    { field: 'unrealisedPrice', label: 'Market Value', type: 'numeric' },
+    { field: 'instrument_cost', label: 'Investment Amount', type: 'numeric' },
+    { field: 'instrument_price', label: 'Market Value', type: 'numeric' },
     { field: 'instrumentIrr', label: 'IRR', type: 'numeric' },
     { field: 'instrument_moic', label: 'MOIC', type: 'numeric' },
   ];
@@ -187,8 +189,8 @@ export class InvestmentTableComponent implements OnInit, AfterViewInit {
 
   private isNumericField(field: string): boolean {
     const numericFields = [
-      'unrealisedCost',
-      'unrealisedPrice',
+      'instrument_cost',
+      'instrument_price',
       'instrumentIrr',
       'instrument_moic',
       'weight',
