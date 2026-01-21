@@ -583,7 +583,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         if (data.user) {
           this.otpSendCount = data.user.otp_send_count || 0;
-          this.loginResponse = data.user;
+          this.loginResponse = data;
 
           // Check if max resend count reached
           if (this.otpSendCount >= this.otpMaxCount) {
