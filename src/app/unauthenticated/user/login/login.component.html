@@ -24,7 +24,7 @@
         <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
         <!-- Email Field -->
-        <div class="form-group margin-bottom-43">
+        <div *ngIf="!showOtpScreen" class="form-group margin-bottom-43">
           <label for="email" class="form-label">Email or Username</label>
           <input type="text" id="email" formControlName="email" class="form-control" placeholder="Enter your email (user@domain.com) or username"
             [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" />
@@ -69,14 +69,14 @@
             <small *ngIf="loginForm.get('otpControl')?.errors?.['required']">OTP is required.</small>
           </div>
 
-          <div class="otp-timer-container">
+          <!-- <div class="otp-timer-container">
             <p class="otp-timer-text" *ngIf="otpExpire > 0">
               OTP expires in: <span class="otp-timer">{{ otpExpire }}s</span>
             </p>
             <p class="otp-expired-text" *ngIf="otpExpire <= 0">
               OTP has expired. Please request a new one.
             </p>
-          </div>
+          </div> -->
 
           <div class="otp-resend-container">
             <p class="otp-resend-text">Didn't receive the code?</p>
@@ -84,9 +84,8 @@
               type="button"
               class="btn-resend-otp"
               (click)="reSendOTP()"
-              [disabled]="isOtpLoading || hideResendOTP || otpSendCount >= otpMaxCount">
-              <span *ngIf="!hideResendOTP && otpSendCount < otpMaxCount">Resend OTP</span>
-              <span *ngIf="hideResendOTP || otpSendCount >= otpMaxCount">Resend limit reached</span>
+              [title]="otpExpire > 0 ? otpExpire + ' Sec Remaining' : ''">
+              <span *ngIf="otpSendCount < otpMaxCount">Resend OTP</span>
             </button>
             <p class="otp-attempt-info" *ngIf="otpMaxCount > 0">
               Attempts remaining: {{ otpMaxCount - otpSendCount }}
@@ -95,7 +94,7 @@
         </div>
 
         <!-- User Role Selection -->
-        <ng-template [ngIf]="multiUserRole">
+        <ng-template [ngIf]="multiUserRole && !showOtpScreen">
           <div class="form-group margin-bottom-48">
             <label for="userRole" class="form-label">User Role</label>
             <div class="select-wrapper">
@@ -116,7 +115,7 @@
         </ng-template>
 
         <!-- PAN Field -->
-        <ng-template [ngIf]="showPanNumber">
+        <ng-template [ngIf]="showPanNumber && !showOtpScreen">
           <div class="form-group margin-bottom-43">
             <label for="pan" class="form-label">PAN</label>
             <div class="password-input-wrapper">

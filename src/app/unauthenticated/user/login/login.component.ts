@@ -146,40 +146,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.loginResponse = data;
         this.isLoading = false;
         console.log(data);
-
-        // Check if OTP is required by server response
-        if (
-          (this.otpEnabled || this.loginViaOtpOnly) &&
-          this.loginResponse.user &&
-          this.loginResponse.user.otp
-        ) {
-          // OTP is required - store user info and show OTP screen
-          this.accountInfo = this.loginResponse.user.account;
-          this.userInfoForOtp = this.loginResponse.user;
-          this.otpSendCount = this.loginResponse.user.otp_send_count || 0;
-          this.showOtpScreen = true;
-
-          // Update form validators: remove password requirement, add OTP requirement
-          this.loginForm.get('password')?.clearValidators();
-          this.loginForm.get('password')?.updateValueAndValidity();
-
-          this.loginForm.get('otpControl')?.setValidators([Validators.required]);
-          this.loginForm.get('otpControl')?.updateValueAndValidity();
-
-          this.store.dispatch(setAccountInfo({ accountInfo: this.accountInfo }));
-
-          // Start OTP countdown
-          this.otpExpire = parseInt(this.getAccountConfigValue('OTP_EXPIRES')) || 30;
-          this.startCountdown();
-
-          this.messageService.add({
-            severity: 'info',
-            summary: 'OTP Required',
-            detail: 'An OTP has been sent to your registered email. Please enter it to continue.',
-            life: 5000,
-          });
-          return;
-        } else if (this.loginResponse.maximumAttempt) {
+       if (this.loginResponse.maximumAttempt) {
           this.isLoading = false;
           this.messageService.add({
             severity: 'error',
@@ -216,16 +183,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           // if (this.loginResponse.user) {
           if (!this.loginResponse.isPasswordEmty) {
             this.userValidate(data);
-            // let isMobile = this.util.isMobile
-            // if(isMobile.link && isMobile.isMobile){
-            //   setTimeout(function () {
-            //     window.location.href = isMobile.link
-            //   }, 25);
-            // }else if((['Investor Role','Prospective Investor Role'].includes(this.loginResponse.user.user_sub_role) && isMobile.isMobile) || !isMobile.isMobile) {
-            //   this.userValidate(data)
-            // }else {
-            //   this.appNotFoundmessages = 'The mobile App for this account has not been enabled, please use your laptop to complete the request.'
-            // }
           } else {
             this.isLoading = false;
             this.messageService.add({
@@ -273,8 +230,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
   }
 
-  userValidate(data: any) {
-    localStorage.removeItem('fundInvestorToken');
+    userValidate(data:any) {
+     localStorage.removeItem('fundInvestorToken');
     this.isLoading = false;
     sessionStorage.setItem('activeSession', 'true');
     this.accountInfo = this.loginResponse.user.account;
@@ -285,21 +242,19 @@ export class LoginComponent implements OnInit, OnDestroy {
         window.location.href = '/superadmin';
       }, 500);
     } else {
-      if (data.multi_user_role.length > 1 && data.multiUserId == 0) {
+       if (data.multi_user_role && data.multi_user_role.length > 1 && data.multiUserId == 0) {
         this.multiUserRole = true;
-        this.multiUserRoles = data.multi_user_role;
-        this.loginForm.get('userRole').addValidators(Validators.required);
+        this.multiUserRoles = data.multi_user_role
+        this.loginForm.get('userRole').addValidators(Validators.required)
       } else {
-        this.loginForm.get('userRole').removeValidators(Validators.required);
+        this.loginForm.get('userRole').removeValidators(Validators.required)
         if (this.loginResponse.user.user_role === 'Investor' && this.loginResponse.is_taxId == 0) {
           this.showPanNumber = true;
-          this.loginForm.get('pan').addValidators(Validators.required);
+          this.loginForm.get('pan').addValidators(Validators.required)
         } else {
           if (data && data.returnUrl) {
             setTimeout(() => {
-              this.router.navigate([data.returnUrl], {
-                queryParams: { returnUrl: this.returnUrl },
-              });
+              this.router.navigate([data.returnUrl], { queryParams: { returnUrl: this.returnUrl } });
             }, 500);
           } else {
             if (this.returnUrl) {
@@ -308,25 +263,24 @@ export class LoginComponent implements OnInit, OnDestroy {
               }, 500);
             } else {
               // Optionally, store activeTabFundmanager in Redux or sessionStorage if needed
-              this.store.dispatch(
-                setAuthData({ userData: this.loginResponse.user, token: data.token }),
-              );
+              this.store.dispatch(setAuthData({ userData: this.loginResponse.user, token: data.token }));
               localStorage.setItem('authToken', data.token);
               setTimeout(() => {
-                localStorage.setItem('userGuid', this.loginResponse.user.user_guid);
-                localStorage.setItem('userRole', this.loginResponse.user.user_sub_role);
+                 localStorage.setItem('userGuid',this.loginResponse.user.user_guid);
+                localStorage.setItem('userRole',this.loginResponse.user.user_sub_role);
                 this.messageService.add({
                   severity: 'success',
                   summary: 'Login Successful!',
                   detail: `Welcome back, ${this.loginResponse.user.display_name || 'User'}!`,
-                  life: 3000,
+                  life: 3000
                 });
-                window.location.href = '/dashboard';
+                window.location.href = "/dashboard";
               }, 500);
             }
           }
         }
       }
+     
     }
   }
 
@@ -405,59 +359,59 @@ export class LoginComponent implements OnInit, OnDestroy {
    * Sends OTP to backend and verifies it
    */
   loginWithOTP(): void {
-    if (this.loginForm.get('otpControl')?.invalid || !this.userInfoForOtp) {
-      return;
-    }
-
+    
     this.isOtpLoading = true;
     const user = new User();
-    user.user_name = this.userInfoForOtp.email.trim();
+    user.user_name = this.loginResponse.user.email.trim();
     user.account_id = this.accountInfo?.account_guid;
     user.account_domain = environment.windowLocationHost;
-    user.user_id = this.userInfoForOtp.user_guid;
+    user.user_id = this.loginResponse.user.user_guid;
     user.otp = this.loginForm.get('otpControl')?.value;
 
     this.authService.loginWithOTP(user).subscribe(
       (data) => {
         this.isOtpLoading = false;
-        this.loginResponse = data;
-
+        this.isLoading = false
+        let loginResponse = data
+        if(data && data.user && data.token){
+          this.loginResponse = data
+        }
         // Handle OTP verification errors
-        if (this.loginResponse.maximumAttempt) {
+        if (loginResponse.maximumAttempt) {
           this.messageService.add({
             severity: 'error',
             summary: 'Account Disabled',
             detail: 'User account disabled. Please reset your password to login.',
             life: 5000,
           });
-        } else if (this.loginResponse.maxWrongOTPAttempt) {
+        } else if (loginResponse.maxWrongOTPAttempt) {
           this.messageService.add({
             severity: 'error',
             summary: 'Too Many Attempts',
             detail:
-              this.loginResponse.message ||
+              loginResponse.message ||
               'Maximum OTP attempts exceeded. Please try again later.',
             life: 5000,
           });
-        } else if (this.loginResponse.wrongOTPAttempts > 0) {
+        } else if (loginResponse.wrongOTPAttempts > 0) {
           this.messageService.add({
             severity: 'error',
             summary: 'Invalid OTP',
             detail:
-              this.loginResponse.errormessage ||
-              `Incorrect OTP. ${this.loginResponse.wrongOTPAttempts} attempts remaining.`,
+              loginResponse.errormessage ||
+              `Incorrect OTP. ${loginResponse.wrongOTPAttempts} attempts remaining.`,
             life: 5000,
           });
-        } else if (this.loginResponse.isOtpExpired) {
+        } else if (loginResponse.isOtpExpired) {
           this.hideResendOTP = true;
           this.messageService.add({
             severity: 'error',
             summary: 'OTP Expired',
             detail:
-              this.loginResponse.errormessage || 'Your OTP has expired. Please request a new one.',
+              loginResponse.errormessage || 'Your OTP has expired. Please request a new one.',
             life: 5000,
           });
-        } else if (this.loginResponse.user && !this.loginResponse.isPasswordEmty) {
+        } else if (loginResponse.user && !loginResponse.isPasswordEmty) {
           // OTP verified successfully
           this.messageService.add({
             severity: 'success',
@@ -465,7 +419,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             detail: 'Your OTP has been verified successfully.',
             life: 3000,
           });
-          this.userValidate(data);
+          this.userValidate(this.loginResponse);
         } else {
           this.messageService.add({
             severity: 'warn',
@@ -511,6 +465,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.loginViaOtpOnly) {
       this.authService.loginWithOTP1(user).subscribe(
         (data) => {
+          this.isLoading = false
           this.loginResponse = data;
           if (
             (this.loginViaOtpOnly) &&
@@ -518,6 +473,10 @@ export class LoginComponent implements OnInit, OnDestroy {
           ) {
             this.accountInfo = this.loginResponse.user.account;
             this.showOtpScreen = true
+            this.isOtpLoading =false
+            this.loginForm.get('otpControl')?.setValidators([Validators.required]);
+            this.loginForm.get('otpControl')?.updateValueAndValidity();
+            this.startCountdown()
           } else if (this.loginResponse.maximumAttempt) {
             this.messageService.clear();
             this.messageService.add({
@@ -606,25 +565,25 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
   reSendOTP(): void {
-    if (!this.userInfoForOtp || !this.accountInfo) {
+    if (!this.loginResponse || !this.accountInfo) {
       return;
     }
 
     this.isOtpLoading = true;
     const otpData = {
       account_id: this.accountInfo.account_guid,
-      user_id: this.userInfoForOtp.user_guid,
-      email: this.userInfoForOtp.email,
+      user_id: this.loginResponse.user.user_guid,
+      email: this.loginResponse.user.email,
       account_domain: environment.windowLocationHost,
     };
 
-    this.authService.resedOTP(otpData).subscribe(
+    this.authService.setOTP(otpData).subscribe(
       (data) => {
         this.isOtpLoading = false;
 
         if (data.user) {
           this.otpSendCount = data.user.otp_send_count || 0;
-          this.userInfoForOtp = data.user;
+          this.loginResponse = data.user;
 
           // Check if max resend count reached
           if (this.otpSendCount >= this.otpMaxCount) {
