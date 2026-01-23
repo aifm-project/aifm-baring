@@ -480,7 +480,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           } else if (this.loginResponse.maximumAttempt) {
             this.messageService.clear();
             this.messageService.add({
-              key: 'errorKey',
               severity: 'error',
               sticky: true,
               summary:
@@ -490,7 +489,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           } else if (this.loginResponse.attempts) {
             this.messageService.clear();
             this.messageService.add({
-              key: 'errorKey',
               severity: 'error',
               sticky: true,
               summary:
@@ -500,7 +498,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           } else if (this.loginResponse.maxWrongOTPAttempt) {
             this.messageService.clear();
             this.messageService.add({
-              key: 'errorKey',
               severity: 'error',
               sticky: true,
               summary: this.loginResponse.message,
@@ -509,7 +506,6 @@ export class LoginComponent implements OnInit, OnDestroy {
           } else if (this.loginResponse.wrongOTPAttempts > 0) {
             this.messageService.clear();
             this.messageService.add({
-              key: 'errorKey',
               severity: 'error',
               sticky: true,
               summary: this.loginResponse.errormessage,
@@ -522,7 +518,6 @@ export class LoginComponent implements OnInit, OnDestroy {
               } else {
                 this.messageService.clear();
                 this.messageService.add({
-                  key: 'errorKey',
                   severity: 'error',
                   sticky: true,
                   summary: 'Please set/reset the password to login',
@@ -533,11 +528,11 @@ export class LoginComponent implements OnInit, OnDestroy {
           }
         },
         (errResponse) => {
+           this.isLoading = false
           switch (errResponse.status) {
             case 401:
               this.messageService.clear();
               this.messageService.add({
-                key: 'errorKey',
                 severity: 'error',
                 sticky: true,
                 summary: 'Email and password not matched!',
@@ -548,7 +543,6 @@ export class LoginComponent implements OnInit, OnDestroy {
               console.log(JSON.stringify(errResponse));
               this.messageService.clear();
               this.messageService.add({
-                key: 'errorKey',
                 severity: 'error',
                 sticky: true,
                 summary: errResponse.error.message,
