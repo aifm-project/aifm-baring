@@ -18,7 +18,6 @@ import { filter } from 'rxjs/operators';
     NavbarComponent,
     FundSelectorComponent,
     RouterOutlet,
-    NewsletterComponent,
     FooterComponent,
     PdfViewerComponent,
   ],
@@ -28,7 +27,7 @@ import { filter } from 'rxjs/operators';
     <app-fund-selector *ngIf="!isNewsAndInsightsPage() && !isNotificationPage()"></app-fund-selector>
     <router-outlet></router-outlet>
     <app-pdf-viewer></app-pdf-viewer>
-    <!-- <app-newsletter></app-newsletter> -->
+    <!-- <app-newsletter></app-newsletter>  NewsletterComponent-->
     <app-footer></app-footer>
   `,
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
