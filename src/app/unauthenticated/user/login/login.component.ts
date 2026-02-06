@@ -368,7 +368,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     user.user_id = this.loginResponse.user.user_guid;
     user.otp = this.loginForm.get('otpControl')?.value;
 
-    this.authService.loginWithOTP(user).subscribe(
+    this.authService.loginWithOTP1(user).subscribe(
       (data) => {
         this.isOtpLoading = false;
         this.isLoading = false
