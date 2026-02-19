@@ -50,12 +50,12 @@
         </div>
         <div class="summary-item">
           <div class="summary-label">Total Investment</div>
-          <div class="summary-value">{{ portfolioSummary.totalInvestment ? (portfolioSummary.totalInvestment |
+          <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalInvestment ? (portfolioSummary.totalInvestment |
             getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label">Total Market Value</div>
-          <div class="summary-value">{{ portfolioSummary.totalMarketValue ? (portfolioSummary.totalMarketValue |
+          <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalMarketValue ? (portfolioSummary.totalMarketValue |
             getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
         <div class="summary-item ">
@@ -68,7 +68,7 @@
                  data-bs-placement="auto"
                  [title]="grossIRRInfoTitle">
           </div>
-          <div class="summary-value">{{ portfolioSummary.totalGrossIRR ? (portfolioSummary.totalGrossIRR |
+          <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalGrossIRR ? (portfolioSummary.totalGrossIRR |
             getCurrencyByUnits:false:false:2:true) + '%' : '-' }}</div>
         </div>
         <div class="summary-item">
@@ -81,12 +81,12 @@
                  data-bs-placement="auto"
                  [title]="grossMOICInfoTitle">
           </div>
-          <div class="summary-value">{{ portfolioSummary.totalGrossMOIC ? (portfolioSummary.totalGrossMOIC |
+          <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalGrossMOIC ? (portfolioSummary.totalGrossMOIC |
             getCurrencyByUnits:false:false:2:true) + 'x' : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label">Total Returns</div>
-          <div class="summary-value">{{ portfolioSummary.totalReturns ? (portfolioSummary.totalReturns |
+          <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalReturns ? (portfolioSummary.totalReturns |
             getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
       </div>
