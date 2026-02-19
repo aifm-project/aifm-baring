@@ -82,6 +82,7 @@ export class WebDocumentsComponent {
   }
 
   loadDocuments(config){
+    config['skipType'] = 'Zip File'
     this.documentService.loadDocuments(this.selectedFund.guid, config).subscribe((res)=>{
       console.log('Documents:', res);
       this.totalDocuments = res.count;
@@ -185,7 +186,7 @@ export class WebDocumentsComponent {
     console.log('Page change requested:', pageInfo);
     this.currentPage = pageInfo.page;
     this.currentPageSize = pageInfo.pageSize;
-    const offset = (pageInfo.page - 1) * pageInfo.pageSize;
+    const offset = pageInfo.page
     let config = {
       ...this.loadDocConfig,
       offset: offset,

@@ -17,7 +17,7 @@ export class DocumentService {
     }
 
     loadDocuments(fundGuid, config):Observable<{count:number,data:any[]}> {
-        return this.httpClient.get<{count:number,data:any[]}>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents/data", { params: config }).pipe(map(sk=>({...sk,data:sk.data.filter(t=>t.type!=='Zip File')})));
+        return this.httpClient.get<{count:number,data:any[]}>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents/data", { params: config })
     }
 
      loadLatestDocuments(fundGuid):Observable<{data:any[]}> {
