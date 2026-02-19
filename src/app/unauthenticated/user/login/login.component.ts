@@ -248,7 +248,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.loginForm.get('userRole').addValidators(Validators.required)
       } else {
         this.loginForm.get('userRole').removeValidators(Validators.required)
-        if (this.loginResponse.user.user_role === 'Investor' && this.loginResponse.is_taxId == 0) {
+        if (this.loginResponse.user.user_role === 'Investor' && this.loginResponse.is_taxId == 0 && !this.showOtpScreen) {
           this.showPanNumber = true;
           this.loginForm.get('pan').addValidators(Validators.required)
         } else {

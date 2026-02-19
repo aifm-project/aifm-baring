@@ -65,7 +65,7 @@ export class DocumentsPreviewComponent implements AfterViewInit {
 
   getDocumentList() {
     this.documents = [];
-    this.documentService.loadLatestDocuments(this.selectedFund.guid).subscribe({
+    this.documentService.loadLatestDocuments(this.selectedFund.guid,{skipType:'Zip File'}).subscribe({
       next: (response) => {
         let reducebyTYpe = response.data.reduce((acc, doc) => {
           acc[doc.type] = [...(acc[doc.type] || []), doc];

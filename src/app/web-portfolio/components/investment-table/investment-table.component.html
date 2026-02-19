@@ -139,7 +139,7 @@
             <td class="company-logo-cell">
               <img class="company-logo1" [src]="company.logo" [alt]="company.name + ' logo'" loading="lazy" />
             </td>
-            <td class="company-name-cell">
+            <td class="company-name-cell" [ngClass]="(company.companyUrl ? 'cursor' : '')" (click)="openNewWindow(company)">
               {{ company.name }}
             </td>
             <td class="industry">{{ company.industry }}</td>

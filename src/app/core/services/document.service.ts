@@ -20,7 +20,7 @@ export class DocumentService {
         return this.httpClient.get<{count:number,data:any[]}>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents/data", { params: config })
     }
 
-     loadLatestDocuments(fundGuid):Observable<{data:any[]}> {
-        return this.httpClient.get<{data:any[]}>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents/latest").pipe(map(sk=>({...sk,data:sk.data.filter(t=>t.type!=='Zip File')})));
+     loadLatestDocuments(fundGuid,queryParams):Observable<{data:any[]}> {
+        return this.httpClient.get<{data:any[]}>(environment.aifEndPoint + "funds/" + fundGuid + "/dataroom/documents/latest",{params:queryParams});
     }
 }

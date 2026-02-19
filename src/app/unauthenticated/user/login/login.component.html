@@ -142,7 +142,7 @@
         </ng-template>
 
         <!-- Login Button (Dynamic Label) -->
-        <button type="submit" class="btn-login" [disabled]="isLoading || isOtpLoading || loginForm.invalid">
+        <button type="submit" class="btn-login" [disabled]="(isLoading || isOtpLoading || loginForm.invalid)">
           <span *ngIf="!isLoading && !isOtpLoading && !showOtpScreen">Login</span>
           <span *ngIf="isLoading && !showOtpScreen">Logging in...</span>
           <span *ngIf="!isOtpLoading && showOtpScreen">Verify OTP</span>

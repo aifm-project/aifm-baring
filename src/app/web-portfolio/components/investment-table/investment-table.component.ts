@@ -43,6 +43,7 @@ export interface Company {
   unrealisedIRR: string | null;
   weight: string;
   status: string;
+  companyUrl:string;
 }
 
 export interface PortfolioSummary {
@@ -395,5 +396,11 @@ export class InvestmentTableComponent implements OnInit, AfterViewInit {
       this.selectedFund = fundData;
       this.getAsOfDate();
     });
+  }
+
+  openNewWindow(company){
+    if(company && company.companyUrl){
+      window.open(company.companyUrl, "_blank")
+    }
   }
 }
