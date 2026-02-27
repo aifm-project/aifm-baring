@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
 import { selectAuthState } from '../../../store/auth';
 import { User } from '../../../model/models';
-
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-fund-selector',
   standalone: true,
@@ -27,7 +27,7 @@ export class FundSelectorComponent {
   userDetails: User;
   currentFundGuid: string = '';
 
-  constructor(private fundService: FundService, private store: Store, private router: Router) {}
+  constructor(private fundService: FundService, private store: Store, private router: Router,public spinnerService: NgxSpinnerService) {}
 
   onFundChange(fund: string) {
     this.selectedFund = fund;
@@ -50,9 +50,16 @@ export class FundSelectorComponent {
       next: (response) => {
         this.fundList = response.funds;
         console.log('Funds fetched successfully:', this.fundList);
+         localStorage.removeItem('fundInvestorToken');
         if (this.fundList.length > 0) {
           this.selectedFund = this.fundList[0];
           this.currentFundGuid = this.selectedFund.guid;
+          if(this.selectedFund && this.selectedFund.isInvestorCard && !this.selectedFund.user_guid){
+             this.selectedFund = {
+            ...this.selectedFund,
+            user_guid:this.userDetails.user_guid
+          }
+          }
           this.store.dispatch(
             setFundData({ fundData: this.selectedFund, date: this.inceptionDate })
           );

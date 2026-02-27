@@ -11,11 +11,12 @@ import { MessageService } from 'primeng/api';
 import { metaReducers } from './store/metaReducers';
 import { httpConfigInterceptor } from './core/interceptors/http-config.interceptor';
 import { dateReducer } from './store/date/date.reducer';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ToastModule } from 'primeng/toast';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
+import { LoadingBarHttpClientModule } from "@ngx-loading-bar/http-client";
+import { NgxSpinnerModule } from 'ngx-spinner';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -32,6 +33,8 @@ export const appConfig: ApplicationConfig = {
     }),
     provideAnimations(),
     importProvidersFrom(ToastModule),
+    importProvidersFrom(LoadingBarHttpClientModule),
+    importProvidersFrom(NgxSpinnerModule),
   importProvidersFrom(StoreModule.forRoot({ authState: authReducer, fundState: fundReducer, dateState: dateReducer }, { metaReducers })),
     provideAppInitializer(() => {
       const authService = inject(AuthService);

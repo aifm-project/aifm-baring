@@ -7,17 +7,19 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, finalize, map } from 'rxjs/operators';
 import * as Crypto from 'crypto-js';
 import { environment } from '../../../environments/environment';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-
+import { NgxSpinnerService } from 'ngx-spinner';
+let requestCount = 0; // ← GLOBAL counter
 export function httpConfigInterceptor(
   request: HttpRequest<any>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> {
   const authService = inject(AuthService);
+   const spinner = inject(NgxSpinnerService);  // Inject spinner
   const enableEncryption = request.headers.get('enable-encryption');
   let tokenSet = false;
   if (request.headers.get('x-access-token')) {
@@ -42,6 +44,8 @@ export function httpConfigInterceptor(
     const body = { encryptedMessage };
     req = req.clone({ body });
   }
+  requestCount++; // Count up
+  spinner.show();
   return next(req).pipe(
     map((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
@@ -65,6 +69,13 @@ export function httpConfigInterceptor(
         authService.logout();
       }
       return throwError(() => error);
+    }),
+    finalize(() => {
+      requestCount--;
+      if (requestCount <= 0) {
+        spinner.hide();  // Hide only when ALL done
+        requestCount = 0;
+      }
     })
   );
 }

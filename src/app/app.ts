@@ -3,11 +3,13 @@ import { RouterOutlet } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Account } from './model/models';
 import { Title } from '@angular/platform-browser';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet,NgxSpinnerModule,LoadingBarHttpClientModule],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   providers: [MessageService],
