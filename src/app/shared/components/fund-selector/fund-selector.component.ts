@@ -36,6 +36,7 @@ export class FundSelectorComponent {
   }
 
   ngOnInit(): void {
+    localStorage.removeItem('fundInvestorToken');
     this.getUserDetails();
     this.loadRouterChange();
     this.getFunds();
@@ -50,7 +51,6 @@ export class FundSelectorComponent {
       next: (response) => {
         this.fundList = response.funds;
         console.log('Funds fetched successfully:', this.fundList);
-         localStorage.removeItem('fundInvestorToken');
         if (this.fundList.length > 0) {
           this.selectedFund = this.fundList[0];
           this.currentFundGuid = this.selectedFund.guid;
