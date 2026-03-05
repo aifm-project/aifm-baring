@@ -239,7 +239,7 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
       // These are crucial for updating the metric sidebar correctly.
       const x = moment(point.as_on_date).format('YYYY-MM-DD');
       drawdowns.push(+point.funded_committed); // Assuming funded_committed is a proxy for drawdowns line
-      residualValues.push(+point.residal_value);
+      residualValues.push(+point.gross_return); // changing from residual_value to gross_return dated : 05/03/2026 "Reason first time residual value is chaning from gross return else initially it was same for all the fund"
       capitalReedemed.push(+point.redemption_amount);
       distributions.push(+point.distibution);
       navArray.push(+point.nav);

@@ -37,6 +37,7 @@ interface OverviewData {
     gross_moic : string;
     gross_irr : string;
     roic : string;
+    portfolio_residual_asset_value : string;
   }
 }
 
@@ -81,7 +82,8 @@ export class OverviewComponent implements AfterViewInit {
       moic: '-',
       gross_moic: '-',
       gross_irr: '-',
-      roic: '-'
+      roic: '-',
+      portfolio_residual_asset_value : '-'
     }
   };
   selectedFund: any;
