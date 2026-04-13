@@ -264,7 +264,15 @@ export class InvestmentTableComponent implements OnInit, AfterViewInit {
             ? response.portfolio.investment_portfolio
             : [];
         if (response.portfolio && response.portfolio.investment_portfolio) {
+          let name = '';
+          // checking the condition for showing the brand name instead of fund name in case of latest portfolio and as on date is greater than 31st Dec 2025
+          if(response.portfolio.investment_portfolio.asOnDate >= '2025-12-31'){  
+             name = response.portfolio.investment_portfolio.brand ? response.portfolio.investment_portfolio.brand : response.portfolio.investment_portfolio.name;
+           } else{
+              name = response.portfolio.investment_portfolio.name;
+           }
           this.portfolioInvestment = {
+            name : name,
             unrealisedIRR:
               response.portfolio.investment_portfolio &&
               response.portfolio.investment_portfolio.unrealisedIRR
