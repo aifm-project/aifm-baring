@@ -44,6 +44,7 @@ export interface Company {
   weight: string;
   status: string;
   companyUrl:string;
+  brand?: string;
 }
 
 export interface PortfolioSummary {
