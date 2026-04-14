@@ -46,7 +46,10 @@
           <span>Documents</span>
         </a>
       </nav>
-      <div class="dropdown fund-dropdown" *ngIf="!isActiveRoute('/documents')">
+      <div class="date-text" *ngIf="!isActiveRoute('/documents')">
+        {{ asOfDate ? 'As of ' + (asOfDate | date: 'MMMM dd, y') : '-' }}
+      </div>
+      <!-- <div class="dropdown fund-dropdown" *ngIf="!isActiveRoute('/documents')">
         <button type="button" class="fund-dropdown-trigger dropdown-toggle" data-bs-toggle="dropdown">
           {{ asOfDate ? 'As of ' + (asOfDate | date: 'MMMM dd, y') : 'Select Date' }}&nbsp;&nbsp;<img src="./../../../../assets/icons1/CaretDown.png" height="14" alt="Select Fund">
         </button>
@@ -55,7 +58,7 @@
             <a class="dropdown-item">{{ fund | date: 'MMMM dd, y' }}</a>
           </li>
         </ul>
-      </div>
+      </div> -->
     </div>
   </div>
 
