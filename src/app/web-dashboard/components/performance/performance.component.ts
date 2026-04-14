@@ -329,6 +329,7 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
           },
           point: {
             events: {
+              enabled:false, // Disable click events on points to prevent interference with hover state
               click: function () {
                 let index = this.index;
 
@@ -336,14 +337,14 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
 
                 if (dataPoint) {
                   // Update component properties with the data from the hovered point
-                  component.selectedChartDate = moment(dataPoint.as_on_date).format('MMM DD, YYYY');
-                  component.residualValue =
-                    component.getCurrencyByUnitsPipe.transform(
-                      (component.asOfDate==dataPoint.as_on_date ? component.overviewData.metadata.gross_return : dataPoint.residal_value),
-                      true,
-                      true,
-                      2
-                    ) || '-';
+                  // component.selectedChartDate = moment(dataPoint.as_on_date).format('MMM DD, YYYY');
+                  // component.residualValue =
+                  //   component.getCurrencyByUnitsPipe.transform(
+                  //     (component.asOfDate==dataPoint.as_on_date ? component.overviewData.metadata.gross_return : dataPoint.residal_value),
+                  //     true,
+                  //     true,
+                  //     2
+                  //   ) || '-';
 
                   // *** IMPORTANT: Map these properties to your actual data structure (dataPoint.moic, etc.) ***
                   // Using dummy data fields for MOIC/IRR/Return as they are not explicitly defined in the chart series
@@ -358,11 +359,11 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
                   //       )
                   //     : '-'
                   // }`;
-                  component.selectedDrawdowns = component.getCurrencyByUnitsPipe.transform(
-                    dataPoint.funded_committed || 0,
-                    true,
-                    true
-                  );
+                  // component.selectedDrawdowns = component.getCurrencyByUnitsPipe.transform(
+                  //   dataPoint.funded_committed || 0,
+                  //   true,
+                  //   true
+                  // );
                 }
                 this.series.xAxis.update({
                   plotLines: [
@@ -470,7 +471,7 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
 
       // Update the initial value of the dynamic properties with the latest "As Of Date" data
       this.currentDate = moment(this.asOfDate).format('MMM DD, YYYY');
-      this.selectedChartDate = '';
+      this.selectedChartDate = this.currentDate;
 
       this.fetchPerformanceData();
       this.fetchFundOverview();
