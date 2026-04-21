@@ -400,7 +400,7 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
           },
         },
         {
-          name: 'Growth',
+          name: 'Value',
           type: 'line',
           data: residualValues,
           color: '#00305B',

@@ -1988,7 +1988,7 @@
             td.company-name-cell {
               width: 130px;
               font-size: 14px;
-              padding: 10px 10px 10px 0 !important;
+              padding: 10px 10px 10px 12px !important;
             }
 
             .weight-cell .progress {
@@ -2028,7 +2028,7 @@
             td.company-name-cell {
               width: 100px;
               font-size: 12px;
-              padding: 6px 8px 6px 0 !important;
+              padding: 6px 8px 6px 8px !important;
             }
 
             .weight-cell .progress {
@@ -2467,7 +2467,7 @@
               overflow: hidden;
               text-overflow: clip;
               white-space: normal;
-              padding: 10px 12px 10px 0 !important;
+              padding: 10px 12px 10px 12px !important;
               text-align: left;
             }
 
@@ -2621,7 +2621,7 @@
     .investment-data .table tbody tr.company-row td {
       &.company-name-cell {
         font-size: 14px;
-        padding: 10px 10px 10px 0 !important;
+        padding: 10px 10px 10px 12px !important;
         width: 130px;
       }
 
@@ -2642,7 +2642,7 @@
     .investment-data .table tbody tr.company-row td {
       &.company-name-cell {
         font-size: 12px;
-        padding: 6px 8px 6px 0 !important;
+        padding: 6px 8px 6px 8px !important;
         width: 100px;
       }
 
@@ -2830,7 +2830,7 @@
 
           &.company-name-cell {
             width: 140px;
-            padding: 10px 12px 10px 0 !important;
+            padding: 10px 12px 10px 12px !important;
             color: #000;
             font-family: 'Instrument Sans' !important;
             font-weight: 500;
@@ -3243,7 +3243,7 @@
 
           &.company-name-cell {
             width: 130px;
-            padding: 10px 10px 10px 0 !important;
+            padding: 10px 10px 10px 12px !important;
             color: #000;
             font-family: 'Instrument Sans' !important;
             font-weight: 500;
@@ -3258,14 +3258,14 @@
 
             @media (min-width: 481px) and (max-width: 568px) {
               width: 120px;
-              padding: 9px 9px 9px 0 !important;
+              padding: 9px 9px 9px 10px !important;
               font-size: 12px;
               line-height: 15px;
             }
 
             @media (max-width: 480px) {
               width: 100px;
-              padding: 6px 8px 6px 0 !important;
+              padding: 6px 8px 6px 8px !important;
               font-size: 11px;
               line-height: 14px;
             }
@@ -3588,6 +3588,7 @@ th {
   text-overflow: clip;
   white-space: normal;
   vertical-align: middle;
+  padding-left: 16px;
 }
 
 .industry {
@@ -3720,7 +3721,7 @@ th {
 // Freeze first column with horizontal scroll for screens 768px to 991px (maintains scroll for investment table)
 @media (min-width: 769px) and (max-width: 991px) {
   .company-name-cell {
-    padding-left: 0 !important;
+    padding-left: 12px !important;
   }
 
   .investment-table {
@@ -3780,7 +3781,7 @@ th {
 // Freeze first column with horizontal scroll for screens below 768px
 @media (max-width: 768px) {
   .company-name-cell {
-    padding-left: 0 !important;
+    padding-left: 12px !important;
   }
 
   .investment-table {
