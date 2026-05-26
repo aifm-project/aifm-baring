@@ -140,7 +140,7 @@
               <img class="company-logo1" [src]="company.logo" [alt]="company.name + ' logo'" loading="lazy" />
             </td>
             <td class="company-name-cell" [ngClass]="(company.companyUrl ? 'cursor' : '')" (click)="openNewWindow(company)">
-              {{ ((asOfDate >= '2025-12-31' && company.brand) ? company.brand : company.name) | titlecase }}
+              {{ ((asOfDate >= '2025-12-31' && company.brand) ? company.brand : company.name) }}
             </td>
             <td class="industry">{{ company.industry }}</td>
             <td class="investment text-right">
