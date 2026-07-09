@@ -125,7 +125,7 @@
             <img *ngIf="sk.isImage" [src]="sk.images" [alt]="sk.header" />
             <div *ngIf="!sk.isImage && sk.video" style="height: 100% !important;">
               <iframe [title]="sk.section_name" *ngIf="!sk.isImage && sk?.video" class="video" width="100%"
-                height="100%" type="video/mp4" [src]="sk?.video" frameborder="0" allow="fullscreen"></iframe>
+                height="100%" type="video/mp4" [src]="sk?.video" frameborder="0" allow="fullscreen" referrerpolicy="origin"></iframe>
             </div>
           </div>
           <div class="grid-card-content">
