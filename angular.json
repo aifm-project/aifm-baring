@@ -116,7 +116,7 @@
                 "styles": true,
                 "fonts": true
               },
-              "sourceMap": true,
+              "sourceMap": false,
               "namedChunks": true
             },
             "development": {

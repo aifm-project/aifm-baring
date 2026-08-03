@@ -70,9 +70,11 @@ export class AuthService {
   }
   
   logout(): void {
-  this.isAuthenticatedSubject.next(false);
+    this.isAuthenticatedSubject.next(false);
     this.store.dispatch(clearAuthData());
-      window.location.href = "/user/login";
+    sessionStorage.clear();
+    localStorage.clear();
+    window.location.href = "/user/login";
   }
 
   isAuthenticated(): boolean {
