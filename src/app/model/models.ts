@@ -363,6 +363,7 @@ export class User {
   otp: string;
   otp_send_count: number;
   rm_guid: string;
+  termsAccepted: boolean;
 }
 
 export class LoginResponse {

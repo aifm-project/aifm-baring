@@ -132,6 +132,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     user.multiUserSubRole = this.multiUserSubRole;
     user.tax_id = form.value.pan;
     user['isOtpLogin'] = this.loginViaOtpOnly;
+    user.termsAccepted = true
     console.log('user123: ' + JSON.stringify(user));
     if (this.showOtpScreen) {
       this.loginWithOTP();
@@ -367,6 +368,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     user.account_domain = environment.windowLocationHost;
     user.user_id = this.loginResponse.user.user_guid;
     user.otp = this.loginForm.get('otpControl')?.value;
+    user.termsAccepted = true
 
     this.authService.loginWithOTP1(user).subscribe(
       (data) => {
@@ -539,8 +541,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 detail: '',
               });
               break;
-            case 404:
-              console.log(JSON.stringify(errResponse));
+            default:
               this.messageService.clear();
               this.messageService.add({
                 severity: 'error',
@@ -548,11 +549,6 @@ export class LoginComponent implements OnInit, OnDestroy {
                 summary: errResponse.error.message,
                 detail: '',
               });
-              break;
-            default:
-              if (errResponse.error != null) {
-                console.log(JSON.stringify(errResponse));
-              }
           }
         },
       );
