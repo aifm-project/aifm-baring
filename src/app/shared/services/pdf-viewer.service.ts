@@ -5,6 +5,7 @@ export interface PdfViewerConfig {
   url?: string;
   blob?: Blob;
   fileName?: string;
+  downloadFileName?: string;
   isOpen: boolean;
 }
 
@@ -20,18 +21,20 @@ export class PdfViewerService {
 
   constructor() {}
 
-  openPdf(url: string, fileName: string): void {
+  openPdf(url: string, fileName: string, downloadFileName?: string): void {
     this.pdfConfig.next({
       url,
       fileName,
+      downloadFileName: downloadFileName || fileName,
       isOpen: true
     });
   }
 
-  openPdfBlob(blob: Blob, fileName: string): void {
+  openPdfBlob(blob: Blob, fileName: string, downloadFileName?: string): void {
     this.pdfConfig.next({
       blob,
       fileName,
+      downloadFileName: downloadFileName || fileName,
       isOpen: true
     });
   }

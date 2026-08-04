@@ -150,19 +150,19 @@ export class DocumentsGridComponent implements OnChanges {
   }
 
   async onView(document: any) {
-    const fileName = document.type || document.title || 'document.pdf';
-   
+    // Card title shown in the viewer header; full name used when downloading
+    // from within the viewer, matching onDownloadDocument().
+    const displayName = document.type || document.title || 'document.pdf';
+    const downloadName = document.name || displayName;
+
     // Use the same path as download
     if (document.guid) {
       let  response = await this.fundService.downloadDocument(document.guid);
-      // Construct the download/view path using the same endpoint as download
-      // const documentPath = this.fundService.getDocumentDownloadPath(document.guid);
-      this.pdfViewerService.openPdfBlob(response, `${fileName}.pdf`);
-      // this.pdfViewerService.openPdf(documentPath, `${fileName}.pdf`);
+      this.pdfViewerService.openPdfBlob(response, displayName, downloadName);
     } else if (document.url) {
-      this.pdfViewerService.openPdf(document.url, `${fileName}.pdf`);
+      this.pdfViewerService.openPdf(document.url, displayName, downloadName);
     } else if (document.blob) {
-      this.pdfViewerService.openPdfBlob(document.blob, `${fileName}.pdf`);
+      this.pdfViewerService.openPdfBlob(document.blob, displayName, downloadName);
     } else {
       console.warn('No path, URL or blob available for document:', document);
     }

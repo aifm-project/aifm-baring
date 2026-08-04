@@ -286,18 +286,26 @@ export class PdfViewerComponent implements OnInit {
    * Downloads the PDF file
    */
   downloadPdf(): void {
-    if (!this.config?.fileName || !this.pdfUrl) {
-      console.error('Cannot download: missing file name or URL');
+    const downloadName = this.config?.downloadFileName || this.config?.fileName;
+    if (!downloadName || (!this.config?.blob && !this.pdfUrl)) {
+      console.error('Cannot download: missing file name or source');
       return;
     }
 
     try {
+      // Use the same blob the viewer is already displaying (fetched via the
+      // same path as the "view" action) so the download matches what's on screen.
+      const blobUrl = this.config.blob ? URL.createObjectURL(this.config.blob) : null;
       const link = document.createElement('a');
-      link.href = this.pdfUrl;
-      link.download = this.config.fileName;
+      link.href = blobUrl ?? this.pdfUrl!;
+      link.download = downloadName;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+
+      if (blobUrl) {
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+      }
     } catch (error) {
       console.error('Error downloading PDF:', error);
       this.pdfLoadError = 'Failed to download PDF';
