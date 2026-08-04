@@ -250,8 +250,7 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
     // Update chart options
     let yAxisLableFormatter = function () {
       let value = this.value;
-      let labelFormat = '';
-      return getCurrencyByUnitsPipe.transform(value, true, false, 0, false);
+      return getCurrencyByUnitsPipe.transform(value, true, false, 2, false);
     };
 
     // ** NEW ** Get the component instance to update its properties
