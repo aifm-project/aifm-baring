@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     // Redirect if already logged in
     //  this.showOtpScreen = true;
     if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate([this.authService.userDetails?.user_role === 'Investor' ? '/documents' : '/dashboard']);
     }
 
     console.log('login via OTP', this.loginViaOtpOnly);
@@ -275,7 +275,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                   detail: `Welcome back, ${this.loginResponse.user.display_name || 'User'}!`,
                   life: 3000
                 });
-                window.location.href = "/dashboard";
+                window.location.href = this.loginResponse.user.user_role === 'Investor' ? '/documents' : '/dashboard';
               }, 500);
             }
           }

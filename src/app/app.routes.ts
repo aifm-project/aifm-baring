@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
+import { DefaultLandingGuard } from './core/guards/default-landing.guard';
 import { AuthenticatedLayoutComponent } from './authenticated/layout/layout.component';
 
 export const routes: Routes = [
@@ -13,7 +14,7 @@ export const routes: Routes = [
     component: AuthenticatedLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
+      { path: '', pathMatch: 'full', canActivate: [DefaultLandingGuard], children: [] },
       {
         path: 'dashboard',
         loadChildren: () =>
