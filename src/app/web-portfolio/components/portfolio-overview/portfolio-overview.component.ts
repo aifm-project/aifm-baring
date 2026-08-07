@@ -24,6 +24,8 @@ export class PortfolioOverviewComponent implements AfterViewInit {
   // Dynamic tooltip properties
   infoIconAlt: string = 'Portfolio Overview Information';
   infoIconTitle: string = 'A high-level summary of all the companies or assets the fund has invested in and exited over a time period';
+  totalInvestedInfoAlt: string = 'Total Invested Information';
+  totalInvestedInfoTitle: string = 'Total capital invested by the fund since inception, including both current holdings and fully exited investments';
 
   @ViewChildren('infoIcon') infoIconElements!: QueryList<ElementRef>;
   constructor(private fundService: FundService, private store: Store){

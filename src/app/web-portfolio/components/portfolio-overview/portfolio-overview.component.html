@@ -32,7 +32,15 @@
             <img src="./../../../../assets/icons1/total_invested.png" alt="Total Invested" width="28" height="28">
           </div>
           <div class="metric-label-seperator"></div>
-          <div class="portfolio-metric-label">Total Invested</div>
+          <div class="portfolio-metric-label d-flex align-items-center gap-1">
+            Total Invested
+            <img #infoIcon src="./../../../../assets/icons1/Info-Black-Portfolio.png"
+                 [alt]="totalInvestedInfoAlt"
+                 width="16" height="16"
+                 data-bs-toggle="tooltip"
+                 data-bs-placement="auto"
+                 [title]="totalInvestedInfoTitle">
+          </div>
         </div>
         <div class="portfolio-metric-value">{{(totalOverViewInfo['total_cost'] ? (totalOverViewInfo['total_cost'] | getCurrencyByUnits:true:true:2) : '-' )}}</div>
       </div>

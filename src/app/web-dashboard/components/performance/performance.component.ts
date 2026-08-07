@@ -123,14 +123,14 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
   drawdownsValue = '-';
   currentDate = '-';
   grossMOIC = 'Gross MOIC: -';
-  netIRR = 'Net IRR: -';
+  // netIRR = 'Net IRR: -';
   returnOnCapital = 'Return on Invested Capital: -';
   public seletedDate;
   // ** NEW PROPERTIES ** - These will be bound to the HTML and updated on chart hover
   selectedChartDate: string = this.currentDate;
   selectedNav: string = this.navValue;
   selectedGrossMOIC: string = this.grossMOIC;
-  selectedNetIRR: string = this.netIRR;
+  // selectedNetIRR: string = 'Net IRR: -';
   selectedReturnOnCapital: string = this.returnOnCapital;
   selectedDrawdowns: string = this.drawdownsValue;
   chartDataPoints: any[] = []; // To store the full data array for lookup
@@ -549,17 +549,17 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
           this.selectedDrawdowns =
             this.getCurrencyByUnitsPipe.transform(this.overviewData.capital_summary.funded, true, true,2,false) ||
             '-';
-        if(this.userDetails.user_sub_role == 'Investor Role'){
-            this.selectedNetIRR = this.overviewData.metadata.fund_xirr ? 'Net IRR: ' + (+this.overviewData.metadata.fund_xirr * 100).toLocaleString(this.numberFormat, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          }) + '%' : '-';
-        }else{
-           this.selectedNetIRR = this.overviewData.metadata.return ? 'Net IRR: ' + (+this.overviewData.metadata.return * 100).toLocaleString(this.numberFormat, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          }) + '%' : '-';
-        }
+          // if(this.userDetails.user_sub_role == 'Investor Role'){
+          //     this.selectedNetIRR = this.overviewData.metadata.fund_xirr ? 'Net IRR: ' + (+this.overviewData.metadata.fund_xirr * 100).toLocaleString(this.numberFormat, {
+          //     minimumFractionDigits: 2,
+          //     maximumFractionDigits: 2,
+          //   }) + '%' : '-';
+          // }else{
+          //    this.selectedNetIRR = this.overviewData.metadata.return ? 'Net IRR: ' + (+this.overviewData.metadata.return * 100).toLocaleString(this.numberFormat, {
+          //     minimumFractionDigits: 2,
+          //     maximumFractionDigits: 2,
+          //   }) + '%' : '-';
+          // }
           this.selectedReturnOnCapital = this.overviewData.metadata.return
             ? `Return on Invested Capital: ${this.getCurrencyByUnitsPipe.transform(
                 +this.overviewData.metadata.roic || 0,

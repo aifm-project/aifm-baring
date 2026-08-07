@@ -49,7 +49,15 @@
           <div class="summary-value">{{ companies && companies.length ? (companies.length) : '-' }}</div>
         </div>
         <div class="summary-item">
-          <div class="summary-label">Total Investment</div>
+          <div class="summary-label d-flex align-items-center gap-1">
+            Total Investment
+            <img #infoIcon src="./../../../../assets/icons1/Info-Black-Portfolio.png"
+                 [alt]="totalInvestmentInfoAlt"
+                 width="16" height="16"
+                 data-bs-toggle="tooltip"
+                 data-bs-placement="auto"
+                 [title]="totalInvestmentInfoTitle">
+          </div>
           <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalInvestment ? (portfolioSummary.totalInvestment |
             getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
@@ -85,7 +93,7 @@
             getCurrencyByUnits:false:false:2:true) + 'x' : '-' }}</div>
         </div>
         <div class="summary-item">
-          <div class="summary-label">Total Returns</div>
+          <div class="summary-label">Absolute Gain</div>
           <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalReturns ? (portfolioSummary.totalReturns |
             getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>

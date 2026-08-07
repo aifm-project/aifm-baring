@@ -95,6 +95,8 @@ export class InvestmentTableComponent implements OnInit, AfterViewInit {
   grossIRRInfoTitle: string = 'The overall annualized return of the fund before fees, showing performance across all investments';
   grossMOICInfoAlt: string = 'Total Gross MOIC Information';
   grossMOICInfoTitle: string = 'The overall multiple of money invested versus money gained, before fees';
+  totalInvestmentInfoAlt: string = 'Total Investment Information';
+  totalInvestmentInfoTitle: string = 'Cost basis of investments currently held in the portfolio (excludes fully exited investments)';
 
   @ViewChildren('infoIcon') infoIconElements!: QueryList<ElementRef>;
 
