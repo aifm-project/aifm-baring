@@ -366,6 +366,42 @@ export class User {
   termsAccepted: boolean;
 }
 
+export class BankAccountDetails {
+  bank_name: string;
+  account_number_masked: string;
+  ifsc_code: string;
+  account_type: string;
+  branch: string;
+}
+
+export class DematAccountDetails {
+  depository: string;
+  dp_id: string;
+  client_id: string;
+  demat_account_number_masked: string;
+}
+
+export class RelationshipManagerDetails {
+  name: string;
+  email: string;
+  phone_number: string;
+  designation: string;
+}
+
+export class TaxResidencyDetails {
+  country_of_residence: string;
+  tax_id_number_masked: string;
+  fatca_status: string;
+  crs_status: string;
+}
+
+export class AccountDetailsSummary {
+  bankAccount: BankAccountDetails;
+  dematAccount: DematAccountDetails;
+  relationshipManager: RelationshipManagerDetails;
+  taxResidency: TaxResidencyDetails;
+}
+
 export class LoginResponse {
   token: string;
   user: User;

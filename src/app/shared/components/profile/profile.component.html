@@ -8,8 +8,18 @@
       </p>
     </div>
 
-    <!-- Profile Content -->
-    <div class="profile-content">
+    <!-- Profile Tabs -->
+    <div class="profile-tabs" role="tablist">
+      <button type="button" class="tab-btn" role="tab" [attr.aria-selected]="activeTab === 'personal'"
+        [class.active]="activeTab === 'personal'" (click)="setActiveTab('personal')">Personal Info</button>
+      <button type="button" class="tab-btn" role="tab" [attr.aria-selected]="activeTab === 'survey'"
+        [class.active]="activeTab === 'survey'" (click)="setActiveTab('survey')">Survey</button>
+      <button type="button" class="tab-btn" role="tab" [attr.aria-selected]="activeTab === 'account'"
+        [class.active]="activeTab === 'account'" (click)="setActiveTab('account')">Account Details</button>
+    </div>
+
+    <!-- Personal Info Tab -->
+    <div class="profile-content" *ngIf="activeTab === 'personal'">
       <!-- Profile Photo Section -->
       <div class="profile-photo-section">
         <div class="photo-wrapper">
@@ -76,14 +86,29 @@
               </small>
             </div>
           </div>
+
+          <!-- LinkedIn Save/Cancel (previously shared with the password form's form-actions) -->
+          <div class="form-actions" *ngIf="isEditingLinkedIn">
+            <button type="button" class="cancel-btn" (click)="onCancel()">Cancel</button>
+            <button
+              type="button"
+              class="save-btn"
+              (click)="onSaveChanges()"
+              [disabled]="!profileForm.get('linkedIn')?.valid"
+            >
+              Save Changes
+            </button>
+          </div>
         </form>
 
-        <!-- Password Section -->
+        <!--
+          Password Section — temporarily disabled per product decision. Commented out, not deleted.
+          Uncomment this block and the matching fields/methods in profile.component.ts to re-enable.
+
         <form [formGroup]="passwordForm" class="password-section">
           <label class="section-label">Password</label>
 
           <div class="password-fields">
-            <!-- Current Password -->
             <div class="password-field">
               <label class="field-label">Current password</label>
               <div class="input-wrapper">
@@ -105,7 +130,6 @@
               </div>
             </div>
 
-            <!-- New Password -->
             <div class="password-field">
               <label class="field-label">New password</label>
               <div class="input-wrapper">
@@ -127,7 +151,6 @@
               </div>
             </div>
 
-            <!-- Confirm Password -->
             <div class="password-field">
               <label class="field-label">Confirm new password</label>
               <div class="input-wrapper">
@@ -150,7 +173,6 @@
             </div>
           </div>
 
-          <!-- Form Actions -->
           <div class="form-actions">
             <button type="button" class="cancel-btn" (click)="onCancel()">Cancel</button>
             <button
@@ -163,7 +185,229 @@
             </button>
           </div>
         </form>
+        -->
       </div>
+    </div>
+
+    <!-- Survey Tab -->
+    <div class="survey-content" *ngIf="activeTab === 'survey'">
+      <div class="survey-section">
+        <h2 class="section-label">Help us keep our records up to date</h2>
+        <p class="survey-subtitle">
+          This is completely optional — share what you'd like, skip what you'd rather not.
+        </p>
+
+        <form [formGroup]="surveyForm" *ngIf="!surveySubmitted">
+          <div class="form-field">
+            <label class="field-label" for="survey-industry">Industry</label>
+            <select id="survey-industry" formControlName="industry" class="field-input field-select">
+              <option value="">Select your industry (optional)</option>
+              <option *ngFor="let option of industryOptions" [value]="option">{{ option }}</option>
+            </select>
+            <div class="field-divider"></div>
+          </div>
+
+          <div class="form-field">
+            <label class="field-label" for="survey-phone">Updated Phone Number</label>
+            <input
+              id="survey-phone"
+              type="text"
+              formControlName="phoneNumber"
+              class="field-input"
+              placeholder="+91 98XXXXXX21"
+            />
+            <div class="field-divider"></div>
+            <div *ngIf="surveyForm.get('phoneNumber')?.touched && surveyForm.get('phoneNumber')?.invalid" class="error-message">
+              <small>{{ surveyForm.get('phoneNumber')?.errors?.['invalidPhone']?.message }}</small>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="cancel-btn" (click)="onSurveySkip()">Skip for now</button>
+            <button type="button" class="save-btn" (click)="onSurveySubmit()" [disabled]="surveyForm.invalid">Submit</button>
+          </div>
+        </form>
+
+        <div class="survey-confirmation" *ngIf="surveySubmitted">
+          Thanks — we've noted your details.
+        </div>
+      </div>
+    </div>
+
+    <!-- Account Details Tab -->
+    <div class="account-details-content" *ngIf="activeTab === 'account'">
+      <div class="account-details-intro">
+        <p class="survey-subtitle">
+          This is what we have on file for you. If anything looks out of date, request a change and your Relationship Manager will follow up.
+        </p>
+      </div>
+
+      <ng-container *ngIf="accountDetails; else accountDetailsLoading">
+        <!-- Bank Account -->
+        <div class="account-section">
+          <h3 class="section-label">Bank Account</h3>
+          <div class="form-field">
+            <label class="field-label">Bank Name</label>
+            <div class="field-value">{{ accountDetails.bankAccount.bank_name }}</div>
+            <div class="field-divider"></div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Account Number</label>
+            <div class="field-value">{{ accountDetails.bankAccount.account_number_masked }}</div>
+            <div class="field-divider"></div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">IFSC Code</label>
+            <div class="field-value">{{ accountDetails.bankAccount.ifsc_code }}</div>
+            <div class="field-divider"></div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Account Type</label>
+            <div class="field-value">{{ accountDetails.bankAccount.account_type }}</div>
+            <div class="field-divider"></div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Branch</label>
+            <div class="field-value">{{ accountDetails.bankAccount.branch }}</div>
+            <div class="field-divider"></div>
+          </div>
+
+          <button type="button" class="edit-btn" (click)="onRequestChange('bank')" *ngIf="activeChangeRequestSection !== 'bank'">Request Change</button>
+
+          <div class="change-request-form" *ngIf="activeChangeRequestSection === 'bank'">
+            <label class="field-label" for="change-bank">What would you like us to update?</label>
+            <textarea id="change-bank" class="field-input" rows="3" [(ngModel)]="changeRequestMessage" [ngModelOptions]="{standalone: true}"></textarea>
+            <div class="form-actions">
+              <button type="button" class="cancel-btn" (click)="onCancelChangeRequest()">Cancel</button>
+              <button type="button" class="save-btn" (click)="onSubmitChangeRequest('bank')" [disabled]="!changeRequestMessage.trim()">Submit</button>
+            </div>
+          </div>
+          <div class="change-request-confirmation" *ngIf="changeRequestSubmitted['bank']">
+            Request received — a Relationship Manager will follow up.
+          </div>
+        </div>
+
+        <!-- Demat Account -->
+        <div class="account-section">
+          <h3 class="section-label">Demat Account</h3>
+          <div class="form-field">
+            <label class="field-label">Depository</label>
+            <div class="field-value">{{ accountDetails.dematAccount.depository }}</div>
+            <div class="field-divider"></div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">DP ID</label>
+            <div class="field-value">{{ accountDetails.dematAccount.dp_id }}</div>
+            <div class="field-divider"></div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Client ID</label>
+            <div class="field-value">{{ accountDetails.dematAccount.client_id }}</div>
+            <div class="field-divider"></div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Demat Account Number</label>
+            <div class="field-value">{{ accountDetails.dematAccount.demat_account_number_masked }}</div>
+            <div class="field-divider"></div>
+          </div>
+
+          <button type="button" class="edit-btn" (click)="onRequestChange('demat')" *ngIf="activeChangeRequestSection !== 'demat'">Request Change</button>
+
+          <div class="change-request-form" *ngIf="activeChangeRequestSection === 'demat'">
+            <label class="field-label" for="change-demat">What would you like us to update?</label>
+            <textarea id="change-demat" class="field-input" rows="3" [(ngModel)]="changeRequestMessage" [ngModelOptions]="{standalone: true}"></textarea>
+            <div class="form-actions">
+              <button type="button" class="cancel-btn" (click)="onCancelChangeRequest()">Cancel</button>
+              <button type="button" class="save-btn" (click)="onSubmitChangeRequest('demat')" [disabled]="!changeRequestMessage.trim()">Submit</button>
+            </div>
+          </div>
+          <div class="change-request-confirmation" *ngIf="changeRequestSubmitted['demat']">
+            Request received — a Relationship Manager will follow up.
+          </div>
+        </div>
+
+        <!-- Relationship Manager -->
+        <div class="account-section">
+          <h3 class="section-label">Relationship Manager</h3>
+          <div class="form-field">
+            <label class="field-label">Name</label>
+            <div class="field-value">{{ accountDetails.relationshipManager.name }}</div>
+            <div class="field-divider"></div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Designation</label>
+            <div class="field-value">{{ accountDetails.relationshipManager.designation }}</div>
+            <div class="field-divider"></div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Email</label>
+            <div class="field-value">{{ accountDetails.relationshipManager.email }}</div>
+            <div class="field-divider"></div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Phone</label>
+            <div class="field-value">{{ accountDetails.relationshipManager.phone_number }}</div>
+            <div class="field-divider"></div>
+          </div>
+
+          <button type="button" class="edit-btn" (click)="onRequestChange('rm')" *ngIf="activeChangeRequestSection !== 'rm'">Request Change</button>
+
+          <div class="change-request-form" *ngIf="activeChangeRequestSection === 'rm'">
+            <label class="field-label" for="change-rm">What would you like us to update?</label>
+            <textarea id="change-rm" class="field-input" rows="3" [(ngModel)]="changeRequestMessage" [ngModelOptions]="{standalone: true}"></textarea>
+            <div class="form-actions">
+              <button type="button" class="cancel-btn" (click)="onCancelChangeRequest()">Cancel</button>
+              <button type="button" class="save-btn" (click)="onSubmitChangeRequest('rm')" [disabled]="!changeRequestMessage.trim()">Submit</button>
+            </div>
+          </div>
+          <div class="change-request-confirmation" *ngIf="changeRequestSubmitted['rm']">
+            Request received — a Relationship Manager will follow up.
+          </div>
+        </div>
+
+        <!-- Tax Residency -->
+        <div class="account-section">
+          <h3 class="section-label">Tax Residency</h3>
+          <div class="form-field">
+            <label class="field-label">Country of Residence</label>
+            <div class="field-value">{{ accountDetails.taxResidency.country_of_residence }}</div>
+            <div class="field-divider"></div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">Tax ID Number</label>
+            <div class="field-value">{{ accountDetails.taxResidency.tax_id_number_masked }}</div>
+            <div class="field-divider"></div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">FATCA Status</label>
+            <div class="field-value">{{ accountDetails.taxResidency.fatca_status }}</div>
+            <div class="field-divider"></div>
+          </div>
+          <div class="form-field">
+            <label class="field-label">CRS Status</label>
+            <div class="field-value">{{ accountDetails.taxResidency.crs_status }}</div>
+            <div class="field-divider"></div>
+          </div>
+
+          <button type="button" class="edit-btn" (click)="onRequestChange('tax')" *ngIf="activeChangeRequestSection !== 'tax'">Request Change</button>
+
+          <div class="change-request-form" *ngIf="activeChangeRequestSection === 'tax'">
+            <label class="field-label" for="change-tax">What would you like us to update?</label>
+            <textarea id="change-tax" class="field-input" rows="3" [(ngModel)]="changeRequestMessage" [ngModelOptions]="{standalone: true}"></textarea>
+            <div class="form-actions">
+              <button type="button" class="cancel-btn" (click)="onCancelChangeRequest()">Cancel</button>
+              <button type="button" class="save-btn" (click)="onSubmitChangeRequest('tax')" [disabled]="!changeRequestMessage.trim()">Submit</button>
+            </div>
+          </div>
+          <div class="change-request-confirmation" *ngIf="changeRequestSubmitted['tax']">
+            Request received — a Relationship Manager will follow up.
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #accountDetailsLoading>
+        <div class="account-details-loading">Loading your account details…</div>
+      </ng-template>
     </div>
   </div>
 </div>

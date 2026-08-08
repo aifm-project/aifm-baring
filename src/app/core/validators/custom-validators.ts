@@ -241,8 +241,36 @@ export class CustomValidators {
   }
 
   /**
+   * Validates phone number format
+   * Accepts an optional leading '+' (country code) followed by 7-15 digits
+   *
+   * @returns Validator function
+   */
+  static phoneValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (!control.value) {
+        return null; // Empty values are handled by Validators.required
+      }
+
+      const value = control.value.trim();
+      const phoneRegex = /^\+?[0-9]{7,15}$/;
+
+      if (phoneRegex.test(value)) {
+        return null; // Valid phone number
+      }
+
+      return {
+        invalidPhone: {
+          value: control.value,
+          message: 'Please enter a valid phone number (7-15 digits, optional + country code)'
+        }
+      };
+    };
+  }
+
+  /**
    * Validates no spaces in input
-   * 
+   *
    * @returns Validator function
    */
   static noSpacesValidator(): ValidatorFn {
