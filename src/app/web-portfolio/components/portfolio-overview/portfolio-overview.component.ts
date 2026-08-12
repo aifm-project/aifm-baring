@@ -70,17 +70,21 @@ export class PortfolioOverviewComponent implements AfterViewInit {
     }
 
    getPortfolioData(){
-    let queryParams = {asOnDate:this.asOfDate,type:'ALL_INVESTMENTS',currentAsOnDate:'2023-10-31'};
+    // Same API call (endpoint + type) as app-investment-table's default loadType,
+    // so the two components never diverge on Total Market Value / Investment / MOIC / Gain.
+    let queryParams = {asOnDate:this.asOfDate,type:'INVESTMENT_PORTFOLIO,TOTAL_INVESTMENT_PORTFOLIO,ALL_INVESTMENTS',currentAsOnDate:this.asOfDate};
     this.fundService.portfolioData(this.selectedFund.guid, queryParams).subscribe({
       next: (response) => {
         this.totalOverViewInfo = {}
-        if(response && response.portfolio && response.portfolio['all_investments'] && response.portfolio['all_investments'].length){
-          let lengthOfInvestMent = response.portfolio['all_investments'].length
-          let lastElementData = response.portfolio['all_investments'][lengthOfInvestMent-1];
-          if(lastElementData && lastElementData.name=='TOTAL'){
-            this.totalOverViewInfo = lastElementData
-          }else {
-            this.totalOverViewInfo = {}
+        const totals = response && response.portfolio && response.portfolio.total_investment_portfolio;
+        if (totals) {
+          const totalInvestment = totals.instrumentCost || 0;
+          const totalMarketValue = totals.instrumentPrice || 0;
+          this.totalOverViewInfo = {
+            total_value: totals.instrumentPrice ? totals.instrumentPrice : '-',   // Total Market Value -> Total Portfolio Value
+            total_cost: totals.instrumentCost ? totals.instrumentCost : '-',      // Total Investment -> Total Invested
+            moic: totals.instrumentMOIC ? totals.instrumentMOIC : '-',            // Total Gross MOIC -> Overall MOIC
+            totalGain: totalInvestment && totalMarketValue ? totalMarketValue - totalInvestment : '-', // Absolute Gain -> Total Gains
           }
         }
       },

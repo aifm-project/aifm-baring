@@ -37,7 +37,6 @@
     .industry,
     .investment,
     .marketValue,
-    .irr,
     .moic,
     .weight {
       padding: 0px 12px !important;
@@ -46,7 +45,6 @@
 
     .investment,
     .marketValue,
-    .irr,
     .moic,
     .weight {
       white-space: noWrap;
@@ -63,7 +61,6 @@
     .industry,
     .investment,
     .marketValue,
-    .irr,
     .moic,
     .weight {
       padding: 0px 10px !important;
@@ -72,7 +69,6 @@
 
     .investment,
     .marketValue,
-    .irr,
     .moic,
     .weight {
       white-space: noWrap;
@@ -89,7 +85,6 @@
     .industry,
     .investment,
     .marketValue,
-    .irr,
     .moic,
     .weight {
       padding: 0px 12px !important;
@@ -98,7 +93,6 @@
 
     .investment,
     .marketValue,
-    .irr,
     .moic,
     .weight {
       white-space: noWrap;
@@ -3477,10 +3471,9 @@
 .industry,
 .investment,
 .marketValue,
-.irr,
 .moic,
 .weight {
-  width: 110px;
+  width: 132px;
   padding: 0px 28px;
   font-family: 'Instrument Sans';
   font-size: 16px;
@@ -3592,14 +3585,9 @@ th {
 }
 
 .industry {
-  width: 110px;
+  width: 132px;
   padding-left: 20px;
   text-transform: capitalize;
-}
-
-.irr,
-.moic {
-  width: 110px;
 }
 
 .btn {
@@ -3618,15 +3606,14 @@ th {
   .industry,
   .investment,
   .marketValue,
-  .irr,
   .moic,
   .weight {
-    width: 110px;
+    width: 132px;
     padding: 0px 22px;
   }
 
   .industry {
-    width: 110px;
+    width: 132px;
     padding-left: 20px;
   }
 }
@@ -3636,16 +3623,15 @@ th {
   .industry,
   .investment,
   .marketValue,
-  .irr,
   .moic,
   .weight {
-    width: 110px;
+    width: 132px;
     padding: 0px 15px;
     // font-size: 14px;
   }
 
   .industry {
-    width: 110px;
+    width: 132px;
     padding-left: 15px;
   }
 }
@@ -3655,16 +3641,15 @@ th {
   .industry,
   .investment,
   .marketValue,
-  .irr,
   .moic,
   .weight {
-    width: 100px;
+    width: 120px;
     padding: 0px 15px;
     font-size: 14px;
   }
 
   .industry {
-    width: 100px;
+    width: 120px;
     padding-left: 15px;
   }
 }
@@ -3675,16 +3660,15 @@ th {
   .industry,
   .investment,
   .marketValue,
-  .irr,
   .moic,
   .weight {
-    width: 90px;
+    width: 108px;
     padding: 0px 10px;
     font-size: 14px;
   }
 
   .industry {
-    width: 100px;
+    width: 120px;
     padding-left: 15px;
   }
 
@@ -3699,16 +3683,15 @@ th {
   .industry,
   .investment,
   .marketValue,
-  .irr,
   .moic,
   .weight {
-    width: 90px;
+    width: 108px;
     padding: 0px 5px;
     font-size: 14px;
   }
 
   .industry {
-    width: 100px;
+    width: 120px;
     padding-left: 15px;
   }
 

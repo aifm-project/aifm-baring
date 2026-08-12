@@ -23,7 +23,7 @@
           <div class="metric-label-seperator"></div>
           <div class="portfolio-metric-label">Total Portfolio Value</div>
         </div>
-        <div class="portfolio-metric-value">{{(totalOverViewInfo['total_value'] ? (totalOverViewInfo['total_value'] | getCurrencyByUnits:true:true:2) : '-' )}}</div>
+        <div class="portfolio-metric-value">{{(totalOverViewInfo['total_value'] ? (totalOverViewInfo['total_value'] | getCurrencyByUnits:true:true:2:true) : '-' )}}</div>
       </div>
 
       <div class="portfolio-metric-card border-right">
@@ -42,7 +42,7 @@
                  [title]="totalInvestedInfoTitle">
           </div>
         </div>
-        <div class="portfolio-metric-value">{{(totalOverViewInfo['total_cost'] ? (totalOverViewInfo['total_cost'] | getCurrencyByUnits:true:true:2) : '-' )}}</div>
+        <div class="portfolio-metric-value">{{(totalOverViewInfo['total_cost'] ? (totalOverViewInfo['total_cost'] | getCurrencyByUnits:true:true:2:true) : '-' )}}</div>
       </div>
 
       <div class="portfolio-metric-card border-right">
@@ -64,7 +64,7 @@
           <div class="metric-label-seperator"></div>
           <div class="portfolio-metric-label">Total Gains</div>
         </div>
-        <div class="portfolio-metric-value">{{(totalOverViewInfo['totalGain'] ? (totalOverViewInfo['totalGain'] | getCurrencyByUnits:true:true:2) : '-' )}}</div>
+        <div class="portfolio-metric-value">{{(totalOverViewInfo['totalGain'] ? (totalOverViewInfo['totalGain'] | getCurrencyByUnits:true:true:2:true) : '-' )}}</div>
       </div>
     </div>
   </div>

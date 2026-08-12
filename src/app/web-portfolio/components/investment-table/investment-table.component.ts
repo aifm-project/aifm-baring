@@ -111,7 +111,6 @@ export class InvestmentTableComponent implements OnInit, AfterViewInit {
     { field: 'industry', label: 'Industry (A-Z)', type: 'alphabetical' },
     { field: 'instrument_cost', label: 'Investment Amount', type: 'numeric' },
     { field: 'instrument_price', label: 'Market Value', type: 'numeric' },
-    { field: 'instrumentIrr', label: 'IRR', type: 'numeric' },
     { field: 'instrument_moic', label: 'MOIC', type: 'numeric' },
   ];
 
@@ -195,7 +194,6 @@ export class InvestmentTableComponent implements OnInit, AfterViewInit {
     const numericFields = [
       'instrument_cost',
       'instrument_price',
-      'instrumentIrr',
       'instrument_moic',
       'weight',
     ];

@@ -128,10 +128,6 @@
             <th class="industry">Industry</th>
             <th class="investment text-right">Investment</th>
             <th class="marketValue text-right">Market Value</th>
-            <th class="irr  text-right">IRR&nbsp;&nbsp;<img #infoIcon src="./../../../../assets/icons1/Info-Black-Portfolio.png"
-                alt="IRR Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="auto"
-                title="A measure reflecting annualised return on investments involving multiple cash flows over a time period">
-            </th>
             <th class="moic  text-right">MOIC&nbsp;&nbsp;<img #infoIcon src="./../../../../assets/icons1/Info-Black-Portfolio.png"
                 alt="MOIC Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="auto"
                 title="Shows how many times the invested money has grown (e.g., 2.0x means doubling the investment)">
@@ -157,10 +153,7 @@
             <td class="marketValue  text-right">
               {{company.instrument_price ? (company.instrument_price | getCurrencyByUnits:true:true:2:true) : '-' }}
             </td>
-            <td class="irr  text-right">
-                {{ company.instrumentIrr ? (company.instrumentIrr | number : '1.2-2') + ' %' : '-' }}
-              </td>
-              <td class="moic  text-right">
+            <td class="moic  text-right">
                 <span class="value-amount">
                   {{ company.instrument_moic ? (company.instrument_moic | number : '1.2-2' ) : '-' }}
                 </span>
