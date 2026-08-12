@@ -8,9 +8,15 @@ export interface SurveyPayload {
   phoneNumber: string;
 }
 
-export interface ChangeRequestPayload {
+// Change-request-by-message flow retired in favour of direct field editing — see updateAccountDetail().
+// export interface ChangeRequestPayload {
+//   section: 'bank' | 'demat' | 'rm' | 'tax';
+//   message: string;
+// }
+
+export interface AccountDetailUpdatePayload {
   section: 'bank' | 'demat' | 'rm' | 'tax';
-  message: string;
+  data: Record<string, string>;
 }
 
 @Injectable({
@@ -61,11 +67,19 @@ export class UserService {
     return of(mock).pipe(delay(300));
   }
 
-  requestAccountDetailChange(payload: ChangeRequestPayload): Observable<{ success: boolean }> {
-    // MOCK — capture-only for now, no fund-manager review screen this phase.
+  // requestAccountDetailChange(payload: ChangeRequestPayload): Observable<{ success: boolean }> {
+  //   // MOCK — capture-only for now, no fund-manager review screen this phase.
+  //   // Real call will look like:
+  //   // return this.httpClient.post<{ success: boolean }>(environment.serverEndPoint + 'users/account-details/change-request', payload);
+  //   console.log('[MOCK] Request-change captured:', payload);
+  //   return of({ success: true }).pipe(delay(300));
+  // }
+
+  updateAccountDetail(payload: AccountDetailUpdatePayload): Observable<{ success: boolean }> {
+    // MOCK — persists nothing server-side yet. Replace with a real API call once the backend contract is confirmed.
     // Real call will look like:
-    // return this.httpClient.post<{ success: boolean }>(environment.serverEndPoint + 'users/account-details/change-request', payload);
-    console.log('[MOCK] Request-change captured:', payload);
+    // return this.httpClient.put<{ success: boolean }>(environment.serverEndPoint + `users/account-details/${payload.section}`, payload.data);
+    console.log('[MOCK] Account detail updated:', payload);
     return of({ success: true }).pipe(delay(300));
   }
 }

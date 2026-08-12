@@ -1,5 +1,14 @@
 <div class="profile-page">
   <div class="container">
+    <!-- Back Navigation -->
+    <a routerLink="/dashboard" class="back-link">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M10 12.5L5.5 8L10 3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+      <span>Back to Dashboard</span>
+    </a>
+
     <!-- Page Header -->
     <div class="page-header">
       <h1 class="page-title">Profile</h1>
@@ -9,17 +18,21 @@
     </div>
 
     <!-- Profile Tabs -->
-    <div class="profile-tabs" role="tablist">
-      <button type="button" class="tab-btn" role="tab" [attr.aria-selected]="activeTab === 'personal'"
-        [class.active]="activeTab === 'personal'" (click)="setActiveTab('personal')">Personal Info</button>
-      <button type="button" class="tab-btn" role="tab" [attr.aria-selected]="activeTab === 'survey'"
-        [class.active]="activeTab === 'survey'" (click)="setActiveTab('survey')">Survey</button>
-      <button type="button" class="tab-btn" role="tab" [attr.aria-selected]="activeTab === 'account'"
-        [class.active]="activeTab === 'account'" (click)="setActiveTab('account')">Account Details</button>
+    <div class="profile-tabs" role="tablist" aria-label="Profile sections">
+      <button type="button" id="tab-personal" class="tab-btn" role="tab" [attr.aria-selected]="activeTab === 'personal'"
+        aria-controls="tabpanel-personal" [class.active]="activeTab === 'personal'"
+        (click)="setActiveTab('personal')">Personal Info</button>
+      <!-- Survey tab temporarily disabled per product decision. Commented out, not deleted.
+      <button type="button" id="tab-survey" class="tab-btn" role="tab" [attr.aria-selected]="activeTab === 'survey'"
+        aria-controls="tabpanel-survey" [class.active]="activeTab === 'survey'" (click)="setActiveTab('survey')">Survey</button>
+      -->
+      <!-- <button type="button" id="tab-account" class="tab-btn" role="tab" [attr.aria-selected]="activeTab === 'account'"
+        aria-controls="tabpanel-account" [class.active]="activeTab === 'account'" (click)="setActiveTab('account')">Account Details</button> -->
     </div>
 
     <!-- Personal Info Tab -->
-    <div class="profile-content" *ngIf="activeTab === 'personal'">
+    <div class="profile-content" id="tabpanel-personal" role="tabpanel" aria-labelledby="tab-personal" tabindex="0"
+      *ngIf="activeTab === 'personal'">
       <!-- Profile Photo Section -->
       <div class="profile-photo-section">
         <div class="photo-wrapper">
@@ -56,28 +69,20 @@
           <div class="form-field linkedin-field">
             <div class="field-header">
               <label class="field-label">LinkedIn (Optional)</label>
-              <button
-                type="button"
-                class="edit-btn"
-                (click)="onEditLinkedIn()"
-                *ngIf="!isEditingLinkedIn"
-              >
+              <button type="button" class="edit-btn" (click)="onEditLinkedIn()" *ngIf="!isEditingLinkedIn">
                 Edit
               </button>
             </div>
-            <input
-              *ngIf="isEditingLinkedIn"
-              type="text"
-              formControlName="linkedIn"
-              class="field-input"
+            <input *ngIf="isEditingLinkedIn" type="text" formControlName="linkedIn" class="field-input"
               placeholder="https://www.linkedin.com/in/your-profile"
-              [class.error]="profileForm.get('linkedIn')?.invalid && profileForm.get('linkedIn')?.touched"
-            />
+              [class.error]="profileForm.get('linkedIn')?.invalid && profileForm.get('linkedIn')?.touched" />
             <div *ngIf="!isEditingLinkedIn" class="field-value placeholder">
               {{ profileForm.get('linkedIn')?.value || 'LinkedIn URL' }}
             </div>
             <div class="field-divider"></div>
-            <div *ngIf="isEditingLinkedIn && profileForm.get('linkedIn')?.touched && profileForm.get('linkedIn')?.invalid" class="error-message">
+            <div
+              *ngIf="isEditingLinkedIn && profileForm.get('linkedIn')?.touched && profileForm.get('linkedIn')?.invalid"
+              class="error-message">
               <small *ngIf="profileForm.get('linkedIn')?.errors?.['invalidLinkedIn']">
                 {{ profileForm.get('linkedIn')?.errors?.['invalidLinkedIn']?.message }}
               </small>
@@ -90,12 +95,8 @@
           <!-- LinkedIn Save/Cancel (previously shared with the password form's form-actions) -->
           <div class="form-actions" *ngIf="isEditingLinkedIn">
             <button type="button" class="cancel-btn" (click)="onCancel()">Cancel</button>
-            <button
-              type="button"
-              class="save-btn"
-              (click)="onSaveChanges()"
-              [disabled]="!profileForm.get('linkedIn')?.valid"
-            >
+            <button type="button" class="save-btn" (click)="onSaveChanges()"
+              [disabled]="!profileForm.get('linkedIn')?.valid">
               Save Changes
             </button>
           </div>
@@ -189,8 +190,12 @@
       </div>
     </div>
 
-    <!-- Survey Tab -->
-    <div class="survey-content" *ngIf="activeTab === 'survey'">
+    <!--
+      Survey Tab — temporarily disabled per product decision. Commented out, not deleted.
+      Uncomment this block and the matching tab-survey button, surveyForm/related methods
+      in profile.component.ts to re-enable.
+
+    <div class="survey-content" id="tabpanel-survey" role="tabpanel" aria-labelledby="tab-survey" tabindex="0" *ngIf="activeTab === 'survey'">
       <div class="survey-section">
         <h2 class="section-label">Help us keep our records up to date</h2>
         <p class="survey-subtitle">
@@ -233,180 +238,294 @@
         </div>
       </div>
     </div>
+    -->
 
     <!-- Account Details Tab -->
-    <div class="account-details-content" *ngIf="activeTab === 'account'">
+    <div class="account-details-content" id="tabpanel-account" role="tabpanel" aria-labelledby="tab-account"
+      tabindex="0" *ngIf="activeTab === 'account'">
       <div class="account-details-intro">
         <p class="survey-subtitle">
-          This is what we have on file for you. If anything looks out of date, request a change and your Relationship Manager will follow up.
+          This is what we have on file for you. Use the edit icon on any section to update it directly.
         </p>
       </div>
 
       <ng-container *ngIf="accountDetails; else accountDetailsLoading">
         <!-- Bank Account -->
-        <div class="account-section">
-          <h3 class="section-label">Bank Account</h3>
-          <div class="form-field">
-            <label class="field-label">Bank Name</label>
-            <div class="field-value">{{ accountDetails.bankAccount.bank_name }}</div>
-            <div class="field-divider"></div>
-          </div>
-          <div class="form-field">
-            <label class="field-label">Account Number</label>
-            <div class="field-value">{{ accountDetails.bankAccount.account_number_masked }}</div>
-            <div class="field-divider"></div>
-          </div>
-          <div class="form-field">
-            <label class="field-label">IFSC Code</label>
-            <div class="field-value">{{ accountDetails.bankAccount.ifsc_code }}</div>
-            <div class="field-divider"></div>
-          </div>
-          <div class="form-field">
-            <label class="field-label">Account Type</label>
-            <div class="field-value">{{ accountDetails.bankAccount.account_type }}</div>
-            <div class="field-divider"></div>
-          </div>
-          <div class="form-field">
-            <label class="field-label">Branch</label>
-            <div class="field-value">{{ accountDetails.bankAccount.branch }}</div>
-            <div class="field-divider"></div>
+        <section class="account-section" aria-labelledby="bank-account-heading">
+          <div class="section-header">
+            <h3 class="section-label" id="bank-account-heading">Bank Account</h3>
+            <button type="button" class="icon-edit-btn" (click)="onEditSection('bank')"
+              *ngIf="editingSection !== 'bank'" aria-label="Edit Bank Account details">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                  stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
           </div>
 
-          <button type="button" class="edit-btn" (click)="onRequestChange('bank')" *ngIf="activeChangeRequestSection !== 'bank'">Request Change</button>
-
-          <div class="change-request-form" *ngIf="activeChangeRequestSection === 'bank'">
-            <label class="field-label" for="change-bank">What would you like us to update?</label>
-            <textarea id="change-bank" class="field-input" rows="3" [(ngModel)]="changeRequestMessage" [ngModelOptions]="{standalone: true}"></textarea>
-            <div class="form-actions">
-              <button type="button" class="cancel-btn" (click)="onCancelChangeRequest()">Cancel</button>
-              <button type="button" class="save-btn" (click)="onSubmitChangeRequest('bank')" [disabled]="!changeRequestMessage.trim()">Submit</button>
+          <dl class="account-fields">
+            <div class="account-field">
+              <dt class="field-label">Bank Name</dt>
+              <dd class="field-value" *ngIf="editingSection !== 'bank'">{{ accountDetails.bankAccount.bank_name }}</dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'bank'">
+                <input type="text" class="field-input" [(ngModel)]="editDraft.bank_name"
+                  [ngModelOptions]="{standalone: true}" />
+              </dd>
             </div>
+            <div class="account-field">
+              <dt class="field-label">Account Number</dt>
+              <dd class="field-value field-masked" *ngIf="editingSection !== 'bank'">{{
+                accountDetails.bankAccount.account_number_masked }}</dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'bank'">
+                <input type="text" class="field-input" [(ngModel)]="editDraft.account_number_masked"
+                  [ngModelOptions]="{standalone: true}" />
+              </dd>
+            </div>
+            <div class="account-field">
+              <dt class="field-label">IFSC Code</dt>
+              <dd class="field-value field-masked" *ngIf="editingSection !== 'bank'">{{
+                accountDetails.bankAccount.ifsc_code }}</dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'bank'">
+                <input type="text" class="field-input" [(ngModel)]="editDraft.ifsc_code"
+                  [ngModelOptions]="{standalone: true}" />
+              </dd>
+            </div>
+            <div class="account-field">
+              <dt class="field-label">Account Type</dt>
+              <dd class="field-value" *ngIf="editingSection !== 'bank'">{{ accountDetails.bankAccount.account_type }}
+              </dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'bank'">
+                <select class="field-input field-select" [(ngModel)]="editDraft.account_type"
+                  [ngModelOptions]="{standalone: true}">
+                  <option *ngFor="let opt of bankAccountTypeOptions" [value]="opt">{{ opt }}</option>
+                </select>
+              </dd>
+            </div>
+            <div class="account-field">
+              <dt class="field-label">Branch</dt>
+              <dd class="field-value" *ngIf="editingSection !== 'bank'">{{ accountDetails.bankAccount.branch }}</dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'bank'">
+                <input type="text" class="field-input" [(ngModel)]="editDraft.branch"
+                  [ngModelOptions]="{standalone: true}" />
+              </dd>
+            </div>
+          </dl>
+
+          <div class="form-actions" *ngIf="editingSection === 'bank'">
+            <button type="button" class="cancel-btn" (click)="onCancelEditSection()">Cancel</button>
+            <button type="button" class="save-btn" (click)="onSaveSection('bank')" [disabled]="!isDraftValid()">Save
+              Changes</button>
           </div>
-          <div class="change-request-confirmation" *ngIf="changeRequestSubmitted['bank']">
-            Request received — a Relationship Manager will follow up.
+          <div class="section-confirmation" role="status" aria-live="polite" *ngIf="sectionUpdated['bank']">
+            Bank Account details updated.
           </div>
-        </div>
+        </section>
 
         <!-- Demat Account -->
-        <div class="account-section">
-          <h3 class="section-label">Demat Account</h3>
-          <div class="form-field">
-            <label class="field-label">Depository</label>
-            <div class="field-value">{{ accountDetails.dematAccount.depository }}</div>
-            <div class="field-divider"></div>
-          </div>
-          <div class="form-field">
-            <label class="field-label">DP ID</label>
-            <div class="field-value">{{ accountDetails.dematAccount.dp_id }}</div>
-            <div class="field-divider"></div>
-          </div>
-          <div class="form-field">
-            <label class="field-label">Client ID</label>
-            <div class="field-value">{{ accountDetails.dematAccount.client_id }}</div>
-            <div class="field-divider"></div>
-          </div>
-          <div class="form-field">
-            <label class="field-label">Demat Account Number</label>
-            <div class="field-value">{{ accountDetails.dematAccount.demat_account_number_masked }}</div>
-            <div class="field-divider"></div>
+        <section class="account-section" aria-labelledby="demat-account-heading">
+          <div class="section-header">
+            <h3 class="section-label" id="demat-account-heading">Demat Account</h3>
+            <button type="button" class="icon-edit-btn" (click)="onEditSection('demat')"
+              *ngIf="editingSection !== 'demat'" aria-label="Edit Demat Account details">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                  stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
           </div>
 
-          <button type="button" class="edit-btn" (click)="onRequestChange('demat')" *ngIf="activeChangeRequestSection !== 'demat'">Request Change</button>
-
-          <div class="change-request-form" *ngIf="activeChangeRequestSection === 'demat'">
-            <label class="field-label" for="change-demat">What would you like us to update?</label>
-            <textarea id="change-demat" class="field-input" rows="3" [(ngModel)]="changeRequestMessage" [ngModelOptions]="{standalone: true}"></textarea>
-            <div class="form-actions">
-              <button type="button" class="cancel-btn" (click)="onCancelChangeRequest()">Cancel</button>
-              <button type="button" class="save-btn" (click)="onSubmitChangeRequest('demat')" [disabled]="!changeRequestMessage.trim()">Submit</button>
+          <dl class="account-fields">
+            <div class="account-field">
+              <dt class="field-label">Depository</dt>
+              <dd class="field-value" *ngIf="editingSection !== 'demat'">{{ accountDetails.dematAccount.depository }}
+              </dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'demat'">
+                <select class="field-input field-select" [(ngModel)]="editDraft.depository"
+                  [ngModelOptions]="{standalone: true}">
+                  <option *ngFor="let opt of depositoryOptions" [value]="opt">{{ opt }}</option>
+                </select>
+              </dd>
             </div>
+            <div class="account-field">
+              <dt class="field-label">DP ID</dt>
+              <dd class="field-value field-masked" *ngIf="editingSection !== 'demat'">{{
+                accountDetails.dematAccount.dp_id }}</dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'demat'">
+                <input type="text" class="field-input" [(ngModel)]="editDraft.dp_id"
+                  [ngModelOptions]="{standalone: true}" />
+              </dd>
+            </div>
+            <div class="account-field">
+              <dt class="field-label">Client ID</dt>
+              <dd class="field-value field-masked" *ngIf="editingSection !== 'demat'">{{
+                accountDetails.dematAccount.client_id }}</dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'demat'">
+                <input type="text" class="field-input" [(ngModel)]="editDraft.client_id"
+                  [ngModelOptions]="{standalone: true}" />
+              </dd>
+            </div>
+            <div class="account-field">
+              <dt class="field-label">Demat Account Number</dt>
+              <dd class="field-value field-masked" *ngIf="editingSection !== 'demat'">{{
+                accountDetails.dematAccount.demat_account_number_masked }}</dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'demat'">
+                <input type="text" class="field-input" [(ngModel)]="editDraft.demat_account_number_masked"
+                  [ngModelOptions]="{standalone: true}" />
+              </dd>
+            </div>
+          </dl>
+
+          <div class="form-actions" *ngIf="editingSection === 'demat'">
+            <button type="button" class="cancel-btn" (click)="onCancelEditSection()">Cancel</button>
+            <button type="button" class="save-btn" (click)="onSaveSection('demat')" [disabled]="!isDraftValid()">Save
+              Changes</button>
           </div>
-          <div class="change-request-confirmation" *ngIf="changeRequestSubmitted['demat']">
-            Request received — a Relationship Manager will follow up.
+          <div class="section-confirmation" role="status" aria-live="polite" *ngIf="sectionUpdated['demat']">
+            Demat Account details updated.
           </div>
-        </div>
+        </section>
 
         <!-- Relationship Manager -->
-        <div class="account-section">
-          <h3 class="section-label">Relationship Manager</h3>
-          <div class="form-field">
-            <label class="field-label">Name</label>
-            <div class="field-value">{{ accountDetails.relationshipManager.name }}</div>
-            <div class="field-divider"></div>
-          </div>
-          <div class="form-field">
-            <label class="field-label">Designation</label>
-            <div class="field-value">{{ accountDetails.relationshipManager.designation }}</div>
-            <div class="field-divider"></div>
-          </div>
-          <div class="form-field">
-            <label class="field-label">Email</label>
-            <div class="field-value">{{ accountDetails.relationshipManager.email }}</div>
-            <div class="field-divider"></div>
-          </div>
-          <div class="form-field">
-            <label class="field-label">Phone</label>
-            <div class="field-value">{{ accountDetails.relationshipManager.phone_number }}</div>
-            <div class="field-divider"></div>
+        <section class="account-section" aria-labelledby="rm-account-heading">
+          <div class="section-header">
+            <h3 class="section-label" id="rm-account-heading">Relationship Manager</h3>
+            <button type="button" class="icon-edit-btn" (click)="onEditSection('rm')" *ngIf="editingSection !== 'rm'"
+              aria-label="Edit Relationship Manager details">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                  stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
           </div>
 
-          <button type="button" class="edit-btn" (click)="onRequestChange('rm')" *ngIf="activeChangeRequestSection !== 'rm'">Request Change</button>
-
-          <div class="change-request-form" *ngIf="activeChangeRequestSection === 'rm'">
-            <label class="field-label" for="change-rm">What would you like us to update?</label>
-            <textarea id="change-rm" class="field-input" rows="3" [(ngModel)]="changeRequestMessage" [ngModelOptions]="{standalone: true}"></textarea>
-            <div class="form-actions">
-              <button type="button" class="cancel-btn" (click)="onCancelChangeRequest()">Cancel</button>
-              <button type="button" class="save-btn" (click)="onSubmitChangeRequest('rm')" [disabled]="!changeRequestMessage.trim()">Submit</button>
+          <dl class="account-fields">
+            <div class="account-field">
+              <dt class="field-label">Name</dt>
+              <dd class="field-value" *ngIf="editingSection !== 'rm'">{{ accountDetails.relationshipManager.name }}</dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'rm'">
+                <input type="text" class="field-input" [(ngModel)]="editDraft.name"
+                  [ngModelOptions]="{standalone: true}" />
+              </dd>
             </div>
+            <div class="account-field">
+              <dt class="field-label">Designation</dt>
+              <dd class="field-value" *ngIf="editingSection !== 'rm'">{{ accountDetails.relationshipManager.designation
+                }}</dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'rm'">
+                <input type="text" class="field-input" [(ngModel)]="editDraft.designation"
+                  [ngModelOptions]="{standalone: true}" />
+              </dd>
+            </div>
+            <div class="account-field">
+              <dt class="field-label">Email</dt>
+              <dd class="field-value" *ngIf="editingSection !== 'rm'"><a class="field-link"
+                  href="mailto:{{ accountDetails.relationshipManager.email }}">{{
+                  accountDetails.relationshipManager.email }}</a></dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'rm'">
+                <input type="email" class="field-input" [(ngModel)]="editDraft.email"
+                  [ngModelOptions]="{standalone: true}" />
+              </dd>
+            </div>
+            <div class="account-field">
+              <dt class="field-label">Phone</dt>
+              <dd class="field-value" *ngIf="editingSection !== 'rm'"><a class="field-link"
+                  href="tel:{{ accountDetails.relationshipManager.phone_number }}">{{
+                  accountDetails.relationshipManager.phone_number }}</a></dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'rm'">
+                <input type="tel" class="field-input" [(ngModel)]="editDraft.phone_number"
+                  [ngModelOptions]="{standalone: true}" />
+              </dd>
+            </div>
+          </dl>
+
+          <div class="form-actions" *ngIf="editingSection === 'rm'">
+            <button type="button" class="cancel-btn" (click)="onCancelEditSection()">Cancel</button>
+            <button type="button" class="save-btn" (click)="onSaveSection('rm')" [disabled]="!isDraftValid()">Save
+              Changes</button>
           </div>
-          <div class="change-request-confirmation" *ngIf="changeRequestSubmitted['rm']">
-            Request received — a Relationship Manager will follow up.
+          <div class="section-confirmation" role="status" aria-live="polite" *ngIf="sectionUpdated['rm']">
+            Relationship Manager details updated.
           </div>
-        </div>
+        </section>
 
         <!-- Tax Residency -->
-        <div class="account-section">
-          <h3 class="section-label">Tax Residency</h3>
-          <div class="form-field">
-            <label class="field-label">Country of Residence</label>
-            <div class="field-value">{{ accountDetails.taxResidency.country_of_residence }}</div>
-            <div class="field-divider"></div>
-          </div>
-          <div class="form-field">
-            <label class="field-label">Tax ID Number</label>
-            <div class="field-value">{{ accountDetails.taxResidency.tax_id_number_masked }}</div>
-            <div class="field-divider"></div>
-          </div>
-          <div class="form-field">
-            <label class="field-label">FATCA Status</label>
-            <div class="field-value">{{ accountDetails.taxResidency.fatca_status }}</div>
-            <div class="field-divider"></div>
-          </div>
-          <div class="form-field">
-            <label class="field-label">CRS Status</label>
-            <div class="field-value">{{ accountDetails.taxResidency.crs_status }}</div>
-            <div class="field-divider"></div>
+        <section class="account-section" aria-labelledby="tax-account-heading">
+          <div class="section-header">
+            <h3 class="section-label" id="tax-account-heading">Tax Residency</h3>
+            <button type="button" class="icon-edit-btn" (click)="onEditSection('tax')" *ngIf="editingSection !== 'tax'"
+              aria-label="Edit Tax Residency details">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+                  stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
           </div>
 
-          <button type="button" class="edit-btn" (click)="onRequestChange('tax')" *ngIf="activeChangeRequestSection !== 'tax'">Request Change</button>
-
-          <div class="change-request-form" *ngIf="activeChangeRequestSection === 'tax'">
-            <label class="field-label" for="change-tax">What would you like us to update?</label>
-            <textarea id="change-tax" class="field-input" rows="3" [(ngModel)]="changeRequestMessage" [ngModelOptions]="{standalone: true}"></textarea>
-            <div class="form-actions">
-              <button type="button" class="cancel-btn" (click)="onCancelChangeRequest()">Cancel</button>
-              <button type="button" class="save-btn" (click)="onSubmitChangeRequest('tax')" [disabled]="!changeRequestMessage.trim()">Submit</button>
+          <dl class="account-fields">
+            <div class="account-field">
+              <dt class="field-label">Country of Residence</dt>
+              <dd class="field-value" *ngIf="editingSection !== 'tax'">{{
+                accountDetails.taxResidency.country_of_residence }}</dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'tax'">
+                <select class="field-input field-select" [(ngModel)]="editDraft.country_of_residence"
+                  [ngModelOptions]="{standalone: true}">
+                  <option *ngFor="let opt of countryOptions" [value]="opt">{{ opt }}</option>
+                </select>
+              </dd>
             </div>
+            <div class="account-field">
+              <dt class="field-label">Tax ID Number</dt>
+              <dd class="field-value field-masked" *ngIf="editingSection !== 'tax'">{{
+                accountDetails.taxResidency.tax_id_number_masked }}</dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'tax'">
+                <input type="text" class="field-input" [(ngModel)]="editDraft.tax_id_number_masked"
+                  [ngModelOptions]="{standalone: true}" />
+              </dd>
+            </div>
+            <div class="account-field">
+              <dt class="field-label">FATCA Status</dt>
+              <dd class="field-value" *ngIf="editingSection !== 'tax'">{{ accountDetails.taxResidency.fatca_status }}
+              </dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'tax'">
+                <select class="field-input field-select" [(ngModel)]="editDraft.fatca_status"
+                  [ngModelOptions]="{standalone: true}">
+                  <option *ngFor="let opt of fatcaCrsStatusOptions" [value]="opt">{{ opt }}</option>
+                </select>
+              </dd>
+            </div>
+            <div class="account-field">
+              <dt class="field-label">CRS Status</dt>
+              <dd class="field-value" *ngIf="editingSection !== 'tax'">{{ accountDetails.taxResidency.crs_status }}</dd>
+              <dd class="field-value field-editing" *ngIf="editingSection === 'tax'">
+                <select class="field-input field-select" [(ngModel)]="editDraft.crs_status"
+                  [ngModelOptions]="{standalone: true}">
+                  <option *ngFor="let opt of fatcaCrsStatusOptions" [value]="opt">{{ opt }}</option>
+                </select>
+              </dd>
+            </div>
+          </dl>
+
+          <div class="form-actions" *ngIf="editingSection === 'tax'">
+            <button type="button" class="cancel-btn" (click)="onCancelEditSection()">Cancel</button>
+            <button type="button" class="save-btn" (click)="onSaveSection('tax')" [disabled]="!isDraftValid()">Save
+              Changes</button>
           </div>
-          <div class="change-request-confirmation" *ngIf="changeRequestSubmitted['tax']">
-            Request received — a Relationship Manager will follow up.
+          <div class="section-confirmation" role="status" aria-live="polite" *ngIf="sectionUpdated['tax']">
+            Tax Residency details updated.
           </div>
-        </div>
+        </section>
       </ng-container>
 
       <ng-template #accountDetailsLoading>
-        <div class="account-details-loading">Loading your account details…</div>
+        <div class="account-details-loading" role="status" aria-live="polite">Loading your account details…</div>
       </ng-template>
     </div>
   </div>

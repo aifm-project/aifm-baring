@@ -24,7 +24,7 @@ import { filter } from 'rxjs/operators';
   template: `
     <p-toast></p-toast>
     <app-navbar></app-navbar>
-    <app-fund-selector *ngIf="!isNewsAndInsightsPage() && !isNotificationPage()"></app-fund-selector>
+    <app-fund-selector *ngIf="!isNewsAndInsightsPage() && !isNotificationPage() && !isProfilePage()"></app-fund-selector>
     <router-outlet></router-outlet>
     <app-pdf-viewer></app-pdf-viewer>
     <!-- <app-newsletter></app-newsletter>  NewsletterComponent-->
@@ -54,5 +54,8 @@ export class AuthenticatedLayoutComponent implements OnInit {
   }
   isNotificationPage(): boolean {
     return this.router.url.includes('/notifications');
+  }
+  isProfilePage(): boolean {
+    return this.router.url.includes('/profile');
   }
 }
