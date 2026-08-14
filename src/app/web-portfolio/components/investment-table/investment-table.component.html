@@ -6,12 +6,8 @@
         <div class="d-flex justify-content-between align-items-center investment-header">
           <div class="d-flex align-items-center gap-2">
             <h3 id="investment-portfolio-title" class="investment-title mb-0">Investment Portfolio</h3>
-            <img #infoIcon src="./../../../../assets/icons1/Info-Black.png" 
-                 [alt]="portfolioInfoAlt" 
-                 width="22" height="22"
-                 data-bs-toggle="tooltip" 
-                 data-bs-placement="auto"
-                 [title]="portfolioInfoTitle">
+            <img #infoIcon src="./../../../../assets/icons1/Info-Black.png" [alt]="portfolioInfoAlt" width="22"
+              height="22" data-bs-toggle="tooltip" data-bs-placement="auto" [title]="portfolioInfoTitle">
           </div>
 
           <div class="sort-button-wrapper" style="position: relative;">
@@ -51,50 +47,44 @@
         <div class="summary-item">
           <div class="summary-label d-flex align-items-center gap-1">
             Total Investment
-            <img #infoIcon src="./../../../../assets/icons1/Info-Black-Portfolio.png"
-                 [alt]="totalInvestmentInfoAlt"
-                 width="16" height="16"
-                 data-bs-toggle="tooltip"
-                 data-bs-placement="auto"
-                 [title]="totalInvestmentInfoTitle">
+            <img #infoIcon src="./../../../../assets/icons1/Info-Black-Portfolio.png" [alt]="totalInvestmentInfoAlt"
+              width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="auto"
+              [title]="totalInvestmentInfoTitle">
           </div>
-          <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalInvestment ? (portfolioSummary.totalInvestment |
+          <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalInvestment ?
+            (portfolioSummary.totalInvestment |
             getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label">Total Market Value</div>
-          <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalMarketValue ? (portfolioSummary.totalMarketValue |
+          <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalMarketValue ?
+            (portfolioSummary.totalMarketValue |
             getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
         <div class="summary-item ">
           <div class="summary-label d-flex align-items-center gap-1">
             Total Gross IRR
-            <img #infoIcon src="./../../../../assets/icons1/Info-Black-Portfolio.png" 
-                 [alt]="grossIRRInfoAlt" 
-                 width="16" height="16"
-                 data-bs-toggle="tooltip" 
-                 data-bs-placement="auto"
-                 [title]="grossIRRInfoTitle">
+            <img #infoIcon src="./../../../../assets/icons1/Info-Black-Portfolio.png" [alt]="grossIRRInfoAlt" width="16"
+              height="16" data-bs-toggle="tooltip" data-bs-placement="auto" [title]="grossIRRInfoTitle">
           </div>
-          <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalGrossIRR ? (portfolioSummary.totalGrossIRR |
+          <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalGrossIRR ?
+            (portfolioSummary.totalGrossIRR |
             getCurrencyByUnits:false:false:2:true) + '%' : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label d-flex align-items-center gap-1">
             Total Gross MOIC
-            <img #infoIcon src="./../../../../assets/icons1/Info-Black-Portfolio.png" 
-                 [alt]="grossMOICInfoAlt" 
-                 width="16" height="16"
-                 data-bs-toggle="tooltip" 
-                 data-bs-placement="auto"
-                 [title]="grossMOICInfoTitle">
+            <img #infoIcon src="./../../../../assets/icons1/Info-Black-Portfolio.png" [alt]="grossMOICInfoAlt"
+              width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="auto" [title]="grossMOICInfoTitle">
           </div>
-          <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalGrossMOIC ? (portfolioSummary.totalGrossMOIC |
+          <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalGrossMOIC ?
+            (portfolioSummary.totalGrossMOIC |
             getCurrencyByUnits:false:false:2:true) + 'x' : '-' }}</div>
         </div>
         <div class="summary-item">
           <div class="summary-label">Absolute Gain</div>
-          <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalReturns ? (portfolioSummary.totalReturns |
+          <div class="summary-value">{{ portfolioSummary && portfolioSummary.totalReturns ?
+            (portfolioSummary.totalReturns |
             getCurrencyByUnits:true:true:2:true) : '-' }}</div>
         </div>
       </div>
@@ -105,12 +95,8 @@
       <div class="section-header">
         <div class="section-title-container">
           <h3 class="section-title">Top 5 Company Holdings</h3>
-          <img #infoIcon src="./../../../../assets/icons1/Info-Black.png" 
-               [alt]="top5CompaniesAlt" 
-               width="22" height="22"
-               data-bs-toggle="tooltip" 
-               data-bs-placement="auto"
-               [title]="top5CompaniesTitle">
+          <img #infoIcon src="./../../../../assets/icons1/Info-Black.png" [alt]="top5CompaniesAlt" width="22"
+            height="22" data-bs-toggle="tooltip" data-bs-placement="auto" [title]="top5CompaniesTitle">
         </div>
 
         <div class="view-all-container" routerLink="/portfolio">
@@ -128,8 +114,9 @@
             <th class="industry">Industry</th>
             <th class="investment text-right">Investment</th>
             <th class="marketValue text-right">Market Value</th>
-            <th class="moic  text-right">MOIC&nbsp;&nbsp;<img #infoIcon src="./../../../../assets/icons1/Info-Black-Portfolio.png"
-                alt="MOIC Info" width="16" height="16" data-bs-toggle="tooltip" data-bs-placement="auto"
+            <th class="moic  text-center">MOIC&nbsp;&nbsp;<img #infoIcon
+                src="./../../../../assets/icons1/Info-Black-Portfolio.png" alt="MOIC Info" width="16" height="16"
+                data-bs-toggle="tooltip" data-bs-placement="auto"
                 title="Shows how many times the invested money has grown (e.g., 2.0x means doubling the investment)">
             </th>
             <th class="weight  text-left">Weight&nbsp;&nbsp;<img #infoIcon
@@ -143,7 +130,8 @@
             <td class="company-logo-cell">
               <img class="company-logo1" [src]="company.logo" [alt]="company.name + ' logo'" loading="lazy" />
             </td>
-            <td class="company-name-cell" [ngClass]="(company.companyUrl ? 'cursor' : '')" (click)="openNewWindow(company)">
+            <td class="company-name-cell" [ngClass]="(company.companyUrl ? 'cursor' : '')"
+              (click)="openNewWindow(company)">
               {{ ((asOfDate >= '2025-12-31' && company.brand) ? company.brand : company.name) }}
             </td>
             <td class="industry">{{ company.industry }}</td>
@@ -153,15 +141,15 @@
             <td class="marketValue  text-right">
               {{company.instrument_price ? (company.instrument_price | getCurrencyByUnits:true:true:2:true) : '-' }}
             </td>
-            <td class="moic  text-right">
-                <span class="value-amount">
-                  {{ company.instrument_moic ? (company.instrument_moic | number : '1.2-2' ) : '-' }}
-                </span>
-              </td>
+            <td class="moic  text-center">
+              <span class="value-amount">
+                {{ company.instrument_moic ? (company.instrument_moic | number : '1.2-2' ) : '-' }}
+              </span>
+            </td>
             <td class="weight  text-left">
-                <span class="value-amount">
-                  {{ company.weight ? (company.weight | number : '1.2-2' ) + ' %' : '-' }}
-                </span>
+              <span class="value-amount">
+                {{ company.weight ? (company.weight | number : '1.2-2' ) + ' %' : '-' }}
+              </span>
               <div class="progress margin-top6" *ngIf="company.weight">
                 <div class="progress-bar" role="progressbar" [style.width.%]="company.weight"
                   [attr.aria-valuenow]="company.weight" aria-valuemin="0" aria-valuemax="100"
