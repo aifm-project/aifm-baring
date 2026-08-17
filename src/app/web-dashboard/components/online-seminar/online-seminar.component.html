@@ -1,37 +1,34 @@
 <section class="annual-summit">
   <div class="summit-container">
     <div class="summit-background">
-      <img
-        src="./../../../assets/icons/Webinar.png" width="100%" height="100%"
-        alt="Summit background"
-        class="summit-bg-image"
-      />
+      <img src="./../../../assets/icons/Webinar.png" width="100%" height="100%" alt="Summit background"
+        class="summit-bg-image" />
     </div>
 
     <div class="summit-overlay">
       <div class="summit-content">
         <div class="summit-badge">Webinar</div>
 
-        <h2 class="summit-title">Q1 FY27 Investor Update Call</h2>
+        <h2 class="summit-title">H1 FY27 Investor Update Call</h2>
 
         <p class="summit-description">
-          A structured review of portfolio performance, strategic developments, and market outlook, presented by Baring India's senior partners.
+          A structured review of portfolio performance, strategic developments, and market outlook, presented by Baring
+          India's senior partners.
         </p>
       </div>
 
       <div class="summit-cta-container">
-         <app-dashboard-navigation-button
-           [showWhiteHover]="false"
-           [label]="buttonLabel"
-           (click)="onButtonClick()">
-         </app-dashboard-navigation-button>
+        <app-dashboard-navigation-button [showWhiteHover]="false" [label]="buttonLabel" (click)="onButtonClick()">
+        </app-dashboard-navigation-button>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Bootstrap Modal - Shows only if no calendar link is available -->
-<div class="modal fade" id="calendarAccessModal" [class.show]="showDateNotScheduledModal" [attr.aria-modal]="showDateNotScheduledModal" [style.display]="showDateNotScheduledModal ? 'block' : 'none'" role="dialog" tabindex="-1">
+<div class="modal fade" id="calendarAccessModal" [class.show]="showDateNotScheduledModal"
+  [attr.aria-modal]="showDateNotScheduledModal" [style.display]="showDateNotScheduledModal ? 'block' : 'none'"
+  role="dialog" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
