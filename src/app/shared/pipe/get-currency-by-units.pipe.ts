@@ -32,8 +32,7 @@ export class GetCurrencyByUnitsPipe implements PipeTransform {
     addCurrencyUnit: boolean = true,
     addSymbol: boolean = false,
     fixedDigits: number = 2,
-    isAbsolute: boolean = false,
-    truncate: boolean = false
+    isAbsolute: boolean = false
 
   ): string {
     if (
@@ -46,7 +45,7 @@ export class GetCurrencyByUnitsPipe implements PipeTransform {
     ) {
       return ' - ';
     }
-    if(!this.fundConfigMap){
+    if (!this.fundConfigMap || !this.fundConfigMap.size) {
       this.getStoreData();
     }
 
@@ -60,7 +59,7 @@ export class GetCurrencyByUnitsPipe implements PipeTransform {
     
     const { dividedAmount, displayUnit } = this.divideByUnit(numericAmount, fundUnit, isAbsolute);
 
-    const formatted = this.formatNumber(dividedAmount, localFormat, fixedDigits, truncate);
+    const formatted = this.formatNumber(dividedAmount, localFormat, fixedDigits);
     if (formatted === 'NaN' || formatted === 'undefined') return ' - ';
 
     let result = `${this.currencySymbol} ${formatted}`;
@@ -86,25 +85,15 @@ export class GetCurrencyByUnitsPipe implements PipeTransform {
     }
   }
 
-  private formatNumber(value: number, locale: string, digits: number, truncate: boolean = false): string {
+  private formatNumber(value: number, locale: string, digits: number): string {
     try {
-      const displayValue = truncate ? this.truncateToDigits(value, digits) : value;
-      return displayValue.toLocaleString(locale, {
+      return value.toLocaleString(locale, {
         minimumFractionDigits: digits,
         maximumFractionDigits: digits,
       });
     } catch {
       return ' - ';
     }
-  }
-
-  // Cuts the number at `digits` decimals instead of rounding (1.239 -> 1.23, -1.239 -> -1.23).
-  private truncateToDigits(value: number, digits: number): number {
-    if (!isFinite(value)) return value;
-    const factor = Math.pow(10, digits);
-    // toPrecision first so binary-float artefacts (1.005 stored as 1.00499999) don't drop a digit
-    const scaled = Number((value * factor).toPrecision(12));
-    return Math.trunc(scaled) / factor;
   }
 
   private formatCurrencySymbol(code: string): string {
@@ -138,12 +127,32 @@ export class GetCurrencyByUnitsPipe implements PipeTransform {
   }
   
   getStoreData() {
-    this.store.select(selectFundData).subscribe(fundState => {
-      this.fundConfigMap = fundState.fund_configuration_classes.reduce((map, obj) => {
-        map.set(obj.fund_key, obj.fund_value);
-        return map;
-      }, new Map<string, string>());
-      this.numberFormat = this.fundConfigMap.get("number_format");
-    });
+    // Read-once: NgRx selectors emit synchronously on subscribe, so unsubscribing straight
+    // away avoids piling up a subscription on every transform() call.
+    this.store
+      .select(selectFundData)
+      .subscribe(fundState => {
+        if (!fundState?.fund_configuration_classes?.length) return;
+        this.fundConfigMap = fundState.fund_configuration_classes.reduce((map, obj) => {
+          map.set(obj.fund_key, obj.fund_value);
+          return map;
+        }, new Map<string, string>());
+        this.numberFormat = this.fundConfigMap.get('number_format') || 'en-IN';
+      })
+      .unsubscribe();
+  }
+
+  /**
+   * Seeds the fund config when this pipe's own store slice (fundData) has not hydrated yet.
+   * Highcharts axis/tooltip formatters run outside Angular's change detection and read the
+   * config synchronously, so without this they can format against an empty config on first
+   * paint (raw un-divided number, no unit suffix). Only fills a gap — never overwrites.
+   */
+  ensureConfig(config: Map<string, string> | undefined | null): void {
+    if (!config || !config.size) return;
+    if (this.fundConfigMap && this.fundConfigMap.size) return;
+    this.fundConfigMap = new Map(config);
+    this.fundSizeUnit = this.fundConfigMap.get('fund_size_unit') || 'Cr';
+    this.numberFormat = this.fundConfigMap.get('number_format') || 'en-IN';
   }
 }

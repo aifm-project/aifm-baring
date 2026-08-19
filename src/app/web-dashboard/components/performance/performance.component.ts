@@ -231,8 +231,12 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
     let distributions: any[] = [];
     let navArray: any[] = [];
     let xirrArray: any[] = [];
-    let numberFormat = this.fundConfig.get('number_format');
+    let numberFormat = this.fundConfig.get('number_format') || this.numberFormat;
     let getCurrencyByUnitsPipe = this.getCurrencyByUnitsPipe;
+    // The pipe reads its config from the `fundData` store slice while this component reads the
+    // `selectedDate` slice. On first load the chart can render before `fundData` has hydrated,
+    // leaving the tooltip/axis formatters with no fund unit. Seed it with what we already have.
+    getCurrencyByUnitsPipe.ensureConfig(this.fundConfig);
 
     chartData.forEach((point) => {
       // NOTE: Ensure your API data has 'moic', 'irr', 'return_on_capital', and 'drawdowns'
@@ -250,8 +254,7 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
     // Update chart options
     let yAxisLableFormatter = function () {
       let value = this.value;
-      // 2 decimals, truncated (not rounded up)
-      return getCurrencyByUnitsPipe.transform(value, true, false, 2, false, true);
+      return getCurrencyByUnitsPipe.transform(value, true, false, 2, false);
     };
 
     // ** NEW ** Get the component instance to update its properties
@@ -432,9 +435,17 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
             year: 'numeric',
           });
           let tooltip = `<div style="font-size: 13px; font-weight: 600; margin-bottom: 6px; font-family: 'Instrument Sans';">${formattedDate}</div>`;
-          (this as any).points.forEach((point: any) => {
+          // Display order is Value first, Drawdowns last. Sorted here rather than by reordering
+          // the series array, because the chart `load` handler relies on series[0].
+          const displayOrder = ['Value', 'Drawdowns'];
+          const rank = (point: any) => {
+            const index = displayOrder.indexOf(point.series.name);
+            return index === -1 ? displayOrder.length : index;
+          };
+          const orderedPoints = [...(this as any).points].sort((a: any, b: any) => rank(a) - rank(b));
+          orderedPoints.forEach((point: any) => {
             const color = point.series.color;
-            const formattedValue = getCurrencyByUnitsPipe.transform(point.y, true, false, 2, false, true);
+            const formattedValue = getCurrencyByUnitsPipe.transform(point.y, true, false, 2, false);
             tooltip += `<div style="margin: 4px 0; font-family: 'Instrument Sans'; font-size: 12px;">\n<span style="color: ${color}; margin-right: 4px;">●</span>\n<span>${point.series.name}: ${formattedValue}</span>\n</div>`;
           });
           return tooltip;
@@ -462,8 +473,12 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
 
   getStoreData() {
     this.store.select(selectSelectedDate).subscribe((fundState) => {
-      this.asOfDate = fundState?.asOfDate;
-      this.selectedFund = fundState?.fundDetails;
+      // `selectedDate` is null until fund-selector dispatches it; without this guard the first
+      // emission throws inside the subscriber and tears the subscription down for good.
+      if (!fundState?.fundDetails) return;
+
+      this.asOfDate = fundState.asOfDate;
+      this.selectedFund = fundState.fundDetails;
       this.fundConfig = fundState.fundDetails?.fund_configuration_classes.reduce((map, obj) => {
         map.set(obj.fund_key, obj.fund_value);
         return map;
@@ -535,24 +550,20 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
               this.overviewData.metadata.residual_value,
               true,
               true,
-              2,
-              false,
-              true
+              2
             ) || '-';
           this.grorssReturn =  this.getCurrencyByUnitsPipe.transform(
               this.overviewData.metadata.gross_return,
               true,
               true,
-              2,
-              false,
-              true
+              2
             ) || '-';
 
           this.overviewData.metadata.funded_committed = this.overviewData.metadata.funded_committed
             ? this.overviewData.metadata.funded_committed
             : '-';
           this.selectedDrawdowns =
-            this.getCurrencyByUnitsPipe.transform(this.overviewData.capital_summary.funded, true, true, 2, false, true) ||
+            this.getCurrencyByUnitsPipe.transform(this.overviewData.capital_summary.funded, true, true, 2, false) ||
             '-';
           // if(this.userDetails.user_sub_role == 'Investor Role'){
           //     this.selectedNetIRR = this.overviewData.metadata.fund_xirr ? 'Net IRR: ' + (+this.overviewData.metadata.fund_xirr * 100).toLocaleString(this.numberFormat, {
@@ -570,9 +581,7 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
                 +this.overviewData.metadata.roic || 0,
                 true,
                 true,
-                2,
-                false,
-                true
+                2
               )}`
             : 'Return on Invested Capital: -';
         },
