@@ -32,8 +32,9 @@ export class GetCurrencyByUnitsPipe implements PipeTransform {
     addCurrencyUnit: boolean = true,
     addSymbol: boolean = false,
     fixedDigits: number = 2,
-    isAbsolute: boolean = false
-  
+    isAbsolute: boolean = false,
+    truncate: boolean = false
+
   ): string {
     if (
       amount === null ||
@@ -59,7 +60,7 @@ export class GetCurrencyByUnitsPipe implements PipeTransform {
     
     const { dividedAmount, displayUnit } = this.divideByUnit(numericAmount, fundUnit, isAbsolute);
 
-    const formatted = this.formatNumber(dividedAmount, localFormat, fixedDigits);
+    const formatted = this.formatNumber(dividedAmount, localFormat, fixedDigits, truncate);
     if (formatted === 'NaN' || formatted === 'undefined') return ' - ';
 
     let result = `${this.currencySymbol} ${formatted}`;
@@ -85,15 +86,25 @@ export class GetCurrencyByUnitsPipe implements PipeTransform {
     }
   }
 
-  private formatNumber(value: number, locale: string, digits: number): string {
+  private formatNumber(value: number, locale: string, digits: number, truncate: boolean = false): string {
     try {
-      return value.toLocaleString(locale, {
+      const displayValue = truncate ? this.truncateToDigits(value, digits) : value;
+      return displayValue.toLocaleString(locale, {
         minimumFractionDigits: digits,
         maximumFractionDigits: digits,
       });
     } catch {
       return ' - ';
     }
+  }
+
+  // Cuts the number at `digits` decimals instead of rounding (1.239 -> 1.23, -1.239 -> -1.23).
+  private truncateToDigits(value: number, digits: number): number {
+    if (!isFinite(value)) return value;
+    const factor = Math.pow(10, digits);
+    // toPrecision first so binary-float artefacts (1.005 stored as 1.00499999) don't drop a digit
+    const scaled = Number((value * factor).toPrecision(12));
+    return Math.trunc(scaled) / factor;
   }
 
   private formatCurrencySymbol(code: string): string {

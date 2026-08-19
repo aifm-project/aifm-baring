@@ -250,7 +250,8 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
     // Update chart options
     let yAxisLableFormatter = function () {
       let value = this.value;
-      return getCurrencyByUnitsPipe.transform(value, true, false, 2, false);
+      // 2 decimals, truncated (not rounded up)
+      return getCurrencyByUnitsPipe.transform(value, true, false, 2, false, true);
     };
 
     // ** NEW ** Get the component instance to update its properties
@@ -433,7 +434,7 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
           let tooltip = `<div style="font-size: 13px; font-weight: 600; margin-bottom: 6px; font-family: 'Instrument Sans';">${formattedDate}</div>`;
           (this as any).points.forEach((point: any) => {
             const color = point.series.color;
-            const formattedValue = getCurrencyByUnitsPipe.transform(point.y, true, false, 0, false);
+            const formattedValue = getCurrencyByUnitsPipe.transform(point.y, true, false, 2, false, true);
             tooltip += `<div style="margin: 4px 0; font-family: 'Instrument Sans'; font-size: 12px;">\n<span style="color: ${color}; margin-right: 4px;">●</span>\n<span>${point.series.name}: ${formattedValue}</span>\n</div>`;
           });
           return tooltip;
@@ -534,20 +535,24 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
               this.overviewData.metadata.residual_value,
               true,
               true,
-              2
+              2,
+              false,
+              true
             ) || '-';
           this.grorssReturn =  this.getCurrencyByUnitsPipe.transform(
               this.overviewData.metadata.gross_return,
               true,
               true,
-              2
+              2,
+              false,
+              true
             ) || '-';
 
           this.overviewData.metadata.funded_committed = this.overviewData.metadata.funded_committed
             ? this.overviewData.metadata.funded_committed
             : '-';
           this.selectedDrawdowns =
-            this.getCurrencyByUnitsPipe.transform(this.overviewData.capital_summary.funded, true, true,2,false) ||
+            this.getCurrencyByUnitsPipe.transform(this.overviewData.capital_summary.funded, true, true, 2, false, true) ||
             '-';
           // if(this.userDetails.user_sub_role == 'Investor Role'){
           //     this.selectedNetIRR = this.overviewData.metadata.fund_xirr ? 'Net IRR: ' + (+this.overviewData.metadata.fund_xirr * 100).toLocaleString(this.numberFormat, {
@@ -564,6 +569,9 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
             ? `Return on Invested Capital: ${this.getCurrencyByUnitsPipe.transform(
                 +this.overviewData.metadata.roic || 0,
                 true,
+                true,
+                2,
+                false,
                 true
               )}`
             : 'Return on Invested Capital: -';
