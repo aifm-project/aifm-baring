@@ -89,6 +89,13 @@ export class InsightsComponent implements OnInit, AfterViewInit {
     console.log('Read insight:', type);
   }
 
+  redirect(newsInfo: any) {
+    const url = newsInfo?.link ? newsInfo.link : null;
+    if (url) {
+      window.open(url, '_blank');
+    }
+  }
+
   getExploreKeys(){
     
   }

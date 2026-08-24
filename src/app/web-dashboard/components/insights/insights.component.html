@@ -19,7 +19,7 @@
     <!-- Insights Grid -->
     <div class="insights-grid-layout">
       <!-- Featured Card - Left -->
-      <article class="featured-insight-card" (click)="onReadInsight('featured')">
+      <article class="featured-insight-card" [ngClass]="(firstExplore?.link ? 'cursor' : '')" (click)="redirect(firstExplore)">
         <div class="featured-card-image">
           <img *ngIf="firstExplore?.isImage" [src]="firstExplore?.images" [alt]="firstExplore.header" />
           <app-video-frame skFrameId='videoFrame' *ngIf="!firstExplore?.isImage && firstExplore?.video" [videoUrl]="firstExplore?.video"></app-video-frame>
@@ -42,7 +42,7 @@
 
       <!-- Side Cards Container - Right -->
       <div class="side-insights-container">
-        <article class="side-insight-card" *ngFor="let sk of explorAllData;let skIndex=index" (click)="onReadInsight('side-1')">
+        <article class="side-insight-card" *ngFor="let sk of explorAllData;let skIndex=index" [ngClass]="(sk.link ? 'cursor' : '')" (click)="redirect(sk)">
           <div class="side-card-image-container">
             <img *ngIf="sk?.isImage" [src]="sk?.images" [alt]="sk.header" />
             <app-video-frame skFrameId='videoFrame' *ngIf="!sk?.isImage && sk?.video" [videoUrl]="sk?.video"></app-video-frame>
