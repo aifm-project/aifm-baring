@@ -26,7 +26,7 @@ export class DocumentsPreviewComponent implements AfterViewInit {
 
   @ViewChildren('infoIcon') infoIconElements!: QueryList<ElementRef>;
 
-  constructor(private fundService: FundService, private store: Store,private documentService:DocumentService) { }
+  constructor(private fundService: FundService, private store: Store, private documentService: DocumentService) { }
   ngOnInit(): void {
     this.getStoreData()
   }
@@ -65,21 +65,22 @@ export class DocumentsPreviewComponent implements AfterViewInit {
 
   getDocumentList() {
     this.documents = [];
-    this.documentService.loadLatestDocuments(this.selectedFund.guid,{skipType:'Zip File'}).subscribe({
+    this.documentService.loadLatestDocuments(this.selectedFund.guid, { skipType: 'Zip File' }).subscribe({
       next: (response) => {
-        let reducebyTYpe = response.data.reduce((acc, doc) => {
+        const sortedDocuments = this.sortByLatestDate(response.data);
+        let reducebyTYpe = sortedDocuments.reduce((acc, doc) => {
           acc[doc.type] = [...(acc[doc.type] || []), doc];
           return acc;
         }, {});
         console.log('Document count by type:', reducebyTYpe);
         let limit = 4;
         for (const element of Object.entries(reducebyTYpe)) {
-            this.documents.push({
-              ...element[1][0],
-              title: element[0],
-            })
+          this.documents.push({
+            ...element[1][0],
+            title: element[0],
+          })
         }
-        this.documents = this.documents.slice(0, limit);
+        this.documents = sortedDocuments;
         this.store.dispatch(setDocumentData({ documentData: this.documents }));
       },
       error: (error) => {
@@ -88,10 +89,19 @@ export class DocumentsPreviewComponent implements AfterViewInit {
     });
   }
 
- getStoreData() {
+  /** Newest first. Documents with a missing or unparsable date sink to the bottom. */
+  private sortByLatestDate(documents: any[] = []): any[] {
+    const timeOf = (doc: any): number => {
+      const time = new Date(doc?.date).getTime();
+      return isNaN(time) ? -Infinity : time;
+    };
+    return [...documents].sort((a, b) => timeOf(b) - timeOf(a));
+  }
+
+  getStoreData() {
     this.store.select(selectFundData).subscribe(fundState => {
       console.log('Fund State from Store:', fundState);
-      this.selectedFund=fundState;
+      this.selectedFund = fundState;
       this.fundConfig = fundState.fund_configuration_classes.reduce((map, obj) => {
         map.set(obj.fund_key, obj.fund_value);
         return map;
