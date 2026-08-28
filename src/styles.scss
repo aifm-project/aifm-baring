@@ -2359,3 +2359,152 @@ a:hover {
   border-right: 1px solid #ffffff;
   width: 5px;
 }
+
+/* Per-section loading state (app-section-loader).
+   Fades a section's content while its own request is in flight instead of
+   unmounting it, so the card keeps its height and the page does not jump.
+   Deliberately scoped to .is-loading, which is only set by a component from its
+   own fetch lifecycle - never from a global request counter. */
+.is-loading {
+  opacity: 0.45;
+  transition: opacity 0.15s ease-in-out;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .is-loading { transition: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   Global loading overlay content (projected into <ngx-spinner> from app.html).
+
+   These rules are global on purpose: `.loading-text` belongs to ngx-spinner's own
+   template, so a component-scoped stylesheet cannot reach it. ngx-spinner pins that
+   wrapper at top:60% with a translate, which would push a multi-line panel off
+   centre - it is re-centred here.
+   --------------------------------------------------------------------------- */
+.ngx-spinner-overlay .loading-text {
+  top: 62%;
+  left: 50%;
+  width: min(320px, 82vw);
+  transform: translate(-50%, -50%);
+}
+
+.app-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  color: #fff;
+
+  &:focus { outline: none; }
+}
+
+.app-loader__title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.app-loader__bar {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+}
+
+.app-loader__fill {
+  height: 100%;
+  background: #4d8df6;
+  border-radius: inherit;
+  transition: width 0.25s ease-out;
+}
+
+.app-loader__percent {
+  margin: 0;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums; /* stops the digits jittering as they change */
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.app-loader__slow {
+  margin: 0;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-loader__fill { transition: none; }
+  .ngx-spinner-overlay .la-2x > div { animation: none !important; }
+}
+
+/* Readiness checklist inside the global overlay. */
+.app-loader__steps {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  text-align: left;
+}
+
+.app-loader__steps .step {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.app-loader__steps .step__mark {
+  width: 14px;
+  flex: 0 0 14px;
+  text-align: center;
+  font-size: 12px;
+}
+
+/* State is carried by the mark AND the text weight, never by colour alone. */
+.app-loader__steps .step--done { color: rgba(255, 255, 255, 0.72); }
+.app-loader__steps .step--done .step__mark { color: #6ddba0; }
+
+.app-loader__steps .step--active { color: #fff; font-weight: 500; }
+.app-loader__steps .step--active .step__mark {
+  color: #6fa3f0;
+  display: inline-block;
+  animation: app-loader-step-spin 0.9s linear infinite;
+}
+
+.app-loader__steps .step--failed { color: #f4a9a3; }
+.app-loader__steps .step--failed .step__mark { color: #f4a9a3; }
+
+@keyframes app-loader-step-spin { to { transform: rotate(360deg); } }
+
+/* Indeterminate: the required set is not yet known, so the bar sweeps rather than
+   claiming a position. */
+.app-loader__bar.is-indeterminate {
+  position: relative;
+  overflow: hidden;
+}
+.app-loader__bar.is-indeterminate .app-loader__fill {
+  width: 40% !important;
+  animation: app-loader-sweep 1.2s ease-in-out infinite;
+}
+@keyframes app-loader-sweep {
+  0%   { transform: translateX(-110%); }
+  100% { transform: translateX(260%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-loader__steps .step--active .step__mark { animation: none; }
+  .app-loader__bar.is-indeterminate .app-loader__fill {
+    animation: none;
+    width: 100% !important;
+    opacity: 0.55;
+  }
+}

@@ -9,8 +9,28 @@
            [title]="infoIconTitle">
     </div>
 
+    <!-- In-flight state for this section only. aria-busy marks the region as
+         updating; the metric grid stays mounted so its layout does not jump. -->
+    <!-- Per-section loader disabled: the global overlay in app.html is the single
+         loading indicator, and showing both means two spinners for one wait.
+         Re-enable by uncommenting this and re-adding SectionLoaderComponent to
+         this component's `imports`. The isLoading flag stays live - the error
+         states still read it.
+    <app-section-loader
+      *ngIf="isLoading"
+      label="Loading investment overview"></app-section-loader> -->
+
+    <!-- Surfaces a failed fetch, which otherwise renders identically to a fund
+         with no data because every metric field initialises to '-'. -->
+    <div class="overview-load-error" *ngIf="!isLoading && loadFailed" role="alert">
+      We couldn't load this fund's investment overview. The figures below may be
+      incomplete or out of date. Please refresh to try again.
+    </div>
+
     <!-- Main Investment Metrics -->
-    <div class="investment-main-metrics">
+    <div class="investment-main-metrics"
+        
+         [attr.aria-busy]="isLoading ? 'true' : 'false'">
       <!-- Total Investment Card -->
       <div class="main-metric-card padding-top21">
         <div class="metric-header">

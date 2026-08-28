@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -7,6 +7,8 @@ import { DocumentService } from '../core/services/document.service';
 import { Store } from '@ngrx/store';
 import { selectFundData } from '../store/fund';
 import moment from 'moment';
+import { TASK } from '../core/loading/readiness.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-web-documents',
@@ -16,6 +18,7 @@ import moment from 'moment';
   styleUrls: ['./web-documents.component.scss']
 })
 export class WebDocumentsComponent {
+  private readonly destroyRef = inject(DestroyRef);
   selectedFund: any;
   fundConfig: any;
   previousFundGuid: string = '';
@@ -38,14 +41,22 @@ export class WebDocumentsComponent {
 
 
   getDocumentTypes(){
-    this.documentService.getDocumentTypes(this.selectedFund.guid).subscribe((res)=>{
+    this.documentService.getDocumentTypes(this.selectedFund.guid, TASK.DOCUMENT_TYPES).subscribe((res)=>{
       this.documentTypes = res.data?.map(sk=>sk.document_type) || []
       console.log('Document Types:', res);
     });
   }
 
   getStoreData() {
-      this.store.select(selectFundData).subscribe((fundState) => {
+      this.store
+      .select(selectFundData)
+      // takeUntilDestroyed: without it this subscription outlives the component.
+      // Both documents screens fetch from inside this callback, so a leaked
+      // subscriber kept calling the document APIs from a destroyed component on
+      // every later fund change - which is why /portfolio was seen issuing
+      // document-types, document-list and latest-documents.
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((fundState) => {
         if (fundState && fundState.guid) {
           const fundGuidChanged = this.previousFundGuid && this.previousFundGuid !== fundState.guid;
 
@@ -83,7 +94,7 @@ export class WebDocumentsComponent {
 
   loadDocuments(config){
     config['skipType'] = 'Zip File'
-    this.documentService.loadDocuments(this.selectedFund.guid, config).subscribe((res)=>{
+    this.documentService.loadDocuments(this.selectedFund.guid, config, TASK.DOCUMENT_LIST).subscribe((res)=>{
       console.log('Documents:', res);
       this.totalDocuments = res.count;
       this.allDocuments = res.data;

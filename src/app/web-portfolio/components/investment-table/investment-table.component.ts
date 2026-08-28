@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FundService } from '../../../core/services/fund.service';
 import { selectFundData } from '../../../store/fund';
@@ -6,6 +6,10 @@ import { Store } from '@ngrx/store';
 import { SharedModule } from '../../../shared/shared.module';
 import { selectSelectedDate } from '../../../store/date';
 import { Tooltip } from 'bootstrap';
+import { selectedFundDate$ } from '../../../shared/rxjs/selected-fund-date';
+import { TASK } from '../../../core/loading/readiness.model';
+import { ReadinessService } from '../../../core/loading/readiness.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 export interface MonetaryValue {
   symbol: string;
@@ -64,6 +68,15 @@ export interface PortfolioSummary {
   styleUrls: ['./investment-table.component.scss'],
 })
 export class InvestmentTableComponent implements OnInit, AfterViewInit {
+  private readonly readiness = inject(ReadinessService);
+  /**
+   * True while this section's own request is in flight. Starts true so the window
+   * before the first request is issued reads as "loading" rather than as empty data.
+   * Scoped per component so one slow section can never block a sibling.
+   */
+  isLoading = true;
+
+  private readonly destroyRef = inject(DestroyRef);
    @Input() public loadType:string = 'INVESTMENT_PORTFOLIO,TOTAL_INVESTMENT_PORTFOLIO,ALL_INVESTMENTS';
   @Input() portfolioSummary: PortfolioSummary;
   @Input() showHeader!: boolean;
@@ -249,6 +262,8 @@ export class InvestmentTableComponent implements OnInit, AfterViewInit {
   }
 
   getPortfolioData() {
+    const issuedEpoch = this.readiness.epoch();
+    this.isLoading = true;
     let queryParams = {
       asOnDate: this.asOfDate,
       type: this.loadType,
@@ -257,8 +272,15 @@ export class InvestmentTableComponent implements OnInit, AfterViewInit {
     if (this.limit) {
       queryParams['limit'] = this.limit.toString();
     }
-    this.fundService.portfolioData(this.selectedFund.guid, queryParams).subscribe({
+    this.fundService.portfolioData(this.selectedFund.guid, queryParams, TASK.HOLDINGS).subscribe({
       next: (response) => {
+      // Stale-response guard. Components fire their fetch from inside a store
+      // subscriber and nothing aborts the previous request, so a slow response for
+      // the fund the user just left can still land here. Without this it overwrites
+      // the current fund's figures - one fund's numbers under another fund's name,
+      // visually identical to a correct screen.
+        if (issuedEpoch !== this.readiness.epoch()) return;
+        this.isLoading = false;
         console.log('Portfolio Data fetched successfully:', response);
         this.companies =
           response.portfolio && response.portfolio.investment_portfolio
@@ -351,13 +373,14 @@ export class InvestmentTableComponent implements OnInit, AfterViewInit {
         }, 100);
       },
       error: (error) => {
+        this.isLoading = false;
         console.error('Error fetching Portfolio Data:', error);
       },
     });
   }
 
   getStoreData() {
-    this.store.select(selectSelectedDate).subscribe((fundState) => {
+    selectedFundDate$(this.store, this.destroyRef).subscribe((fundState) => {
       console.log('Fund State from Store:', fundState);
       this.selectedFund = fundState.fundDetails;
       this.asOfDate = fundState?.asOfDate;
@@ -380,7 +403,7 @@ export class InvestmentTableComponent implements OnInit, AfterViewInit {
   }
 
   getAsOfDate(){
-    this.fundService.getDates(this.selectedFund.guid,'PORTFOLIO').subscribe(perfDates => {
+    this.fundService.getDates(this.selectedFund.guid, 'PORTFOLIO', undefined, TASK.HOLDINGS).subscribe(perfDates => {
       const perfDate = perfDates.dates;
       this.companies = [];
       this.portfolioSummary = {
@@ -400,7 +423,13 @@ export class InvestmentTableComponent implements OnInit, AfterViewInit {
   }
 
   getStoreDataFund() {
-    this.store.select(selectFundData).subscribe((fundData) => {
+    this.store
+      .select(selectFundData)
+      // Torn down with the component: a surviving store subscription keeps mutating
+      // a destroyed component's state on every later dispatch, and where the
+      // callback fetches, it keeps issuing requests from a screen the user has left.
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((fundData) => {
       console.log('Fund State from Store:', fundData);
       this.selectedFund = fundData;
       this.getAsOfDate();

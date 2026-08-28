@@ -106,7 +106,13 @@
       </div>
     </div>
 
-    <div class="investment-data">
+    <!-- Per-section loader disabled: the global overlay in app.html is the single
+         loading indicator, and showing both means two spinners for one wait.
+         Re-enable by uncommenting this and re-adding SectionLoaderComponent to
+         this component's `imports`. The isLoading flag stays live - the error
+         states still read it.
+    <app-section-loader *ngIf="isLoading" label="Loading investment portfolio"></app-section-loader> -->
+    <div class="investment-data" [attr.aria-busy]="isLoading ? 'true' : 'false'">
       <table class="investmentTable">
         <thead>
           <tr>

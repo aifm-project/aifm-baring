@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChildren, QueryList, ElementRef, DestroyRef, inject } from '@angular/core';
 import { FundService } from '../../../core/services/fund.service';
 import { selectFundData } from '../../../store/fund';
 import { Store } from '@ngrx/store';
@@ -8,6 +8,10 @@ import { selectDateState, selectSelectedDate } from '../../../store/date';
 import { selectAuthState } from '../../../store/auth';
 import { User } from '../../../model/models';
 import { Tooltip } from 'bootstrap';
+import { selectedFundDate$ } from '../../../shared/rxjs/selected-fund-date';
+import { TASK } from '../../../core/loading/readiness.model';
+import { ReadinessService } from '../../../core/loading/readiness.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface OverviewData {
   capital_summary: {
@@ -49,6 +53,8 @@ interface OverviewData {
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements AfterViewInit {
+  private readonly readiness = inject(ReadinessService);
+  private readonly destroyRef = inject(DestroyRef);
   // Dynamic tooltip properties
   infoIconAlt: string = 'Investment Overview Information';
   infoIconTitle: string = 'A snapshot of the fund’s key information, including strategy, size, and performance highlights';
@@ -86,6 +92,19 @@ export class OverviewComponent implements AfterViewInit {
       portfolio_residual_asset_value : '-'
     }
   };
+  /**
+   * True while this section's request is in flight. Starts true so the period
+   * before the first request is issued (waiting on fund/date selection) reads as
+   * "loading" rather than as a grid of '-' placeholders.
+   *
+   * Scoped to this component on purpose: it is set and cleared by this section's
+   * own fetch, so it cannot be stranded by an unrelated slow request the way the
+   * old global request counter could.
+   */
+  isLoading = true;
+
+  /** True when the last overview fetch failed, so an error is not rendered as '-'. */
+  loadFailed = false;
   selectedFund: any;
   fundConfig: Map<string, string> = new Map<string, string>();
   asOfDate: any;
@@ -98,7 +117,13 @@ export class OverviewComponent implements AfterViewInit {
     private store: Store,
 
   ) {
-    this.store.select(selectFundData).subscribe(fundState => {
+    this.store
+      .select(selectFundData)
+      // Torn down with the component: a surviving store subscription keeps mutating
+      // a destroyed component's state on every later dispatch, and where the
+      // callback fetches, it keeps issuing requests from a screen the user has left.
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(fundState => {
       if (fundState?.fund_configuration_classes?.length) {
         this.fundConfig = new Map(
           fundState.fund_configuration_classes.map(
@@ -135,9 +160,19 @@ export class OverviewComponent implements AfterViewInit {
   }
 
   fetchFundOverview() {
-    this.fundService.getPerformanceData({ fundGuid: this.selectedFund.guid, classGuid: (this.selectedFund.isInvestorCard ? this.selectedFund.user_guid :  this.selectedFund.guid), asOnDate: this.asOfDate }, 'CAPITAL_SUMMARY,METADATA').subscribe({
+    const issuedEpoch = this.readiness.epoch();
+    this.isLoading = true;
+    this.loadFailed = false;
+    this.fundService.getPerformanceData({ fundGuid: this.selectedFund.guid, classGuid: (this.selectedFund.isInvestorCard ? this.selectedFund.user_guid :  this.selectedFund.guid), asOnDate: this.asOfDate }, 'CAPITAL_SUMMARY,METADATA', TASK.OVERVIEW).subscribe({
       next: (sk) => {
-        console.log('Fund Performance Data:', sk);
+      // Stale-response guard. Components fire their fetch from inside a store
+      // subscriber and nothing aborts the previous request, so a slow response for
+      // the fund the user just left can still land here. Without this it overwrites
+      // the current fund's figures - one fund's numbers under another fund's name,
+      // visually identical to a correct screen.
+        if (issuedEpoch !== this.readiness.epoch()) return;
+        this.isLoading = false;
+        this.loadFailed = false;
         this.overviewData.capital_summary = sk.performance && sk.performance.capital_summary ? sk.performance.capital_summary : {};
         if(this.overviewData.capital_summary.hasOwnProperty('distribution')){
           let distribution = this.overviewData.capital_summary.distribution;
@@ -172,13 +207,17 @@ export class OverviewComponent implements AfterViewInit {
           });
       },
       error: (error) => {
-        // Handle error response
+        // Previously swallowed. Every metric field initialises to '-', so a failed
+        // request rendered identically to a fund that genuinely has no data - the
+        // investor could not tell "nothing to report" from "we could not ask".
+        console.error('Error fetching fund overview:', error);
+        this.isLoading = false;
+        this.loadFailed = true;
       }
     });
   }
   getStoreData() {
-    this.store.select(selectSelectedDate).subscribe(fundState => {
-      console.log('Fund State from Store:', fundState);
+    selectedFundDate$(this.store, this.destroyRef).subscribe(fundState => {
       this.asOfDate = fundState?.asOfDate;
       this.selectedFund = fundState.fundDetails;
       this.fundConfig = fundState.fundDetails?.fund_configuration_classes.reduce((map, obj) => {
@@ -186,7 +225,6 @@ export class OverviewComponent implements AfterViewInit {
         return map;
       }, new Map<string, string>());
 
-      console.log('Fund Configurations sk:', this.fundConfig);
       this.numberFormat = this.fundConfig.get("number_format");
       this.fetchFundOverview();
     })

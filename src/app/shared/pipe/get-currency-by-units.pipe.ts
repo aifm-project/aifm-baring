@@ -1,4 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { DestroyRef, Pipe, PipeTransform, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Store } from '@ngrx/store';
 import { selectFundData } from '../../store/fund';
 
@@ -12,8 +13,16 @@ export class GetCurrencyByUnitsPipe implements PipeTransform {
   private numberFormat: string = 'en-IN';
   private fundSizeUnit: string = '';
 
+  private readonly destroyRef = inject(DestroyRef);
+
   constructor(private store: Store) {
-    this.store.select(selectFundData).subscribe(fundState => {
+    // This pipe is instantiated once per BINDING, and the holdings table binds it
+    // inside an *ngFor with no trackBy - so every fund change mints a fresh set.
+    // Without teardown each one retains a live store subscription, a Map and a
+    // closure over a dead view, for the lifetime of the tab.
+    this.store.select(selectFundData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(fundState => {
       if (fundState?.fund_configuration_classes?.length) {
         this.fundConfigMap = new Map(
           fundState.fund_configuration_classes.map(

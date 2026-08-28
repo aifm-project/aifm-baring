@@ -1,6 +1,6 @@
 import { take } from 'rxjs/operators';
 import { interval, Subscription } from 'rxjs';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -19,6 +19,8 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { CustomValidators } from '../../../core/validators/custom-validators';
 import { NgOtpInputComponent } from 'ng-otp-input';
+import { SessionNoticeService } from '../../../core/auth/session-notice.service';
+import { EXPLAINED_REASONS, SESSION_COPY, isSafeReturnUrl } from '../../../core/auth/session.model';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +30,29 @@ import { NgOtpInputComponent } from 'ng-otp-input';
   styleUrls: ['./login.component.scss'],
   providers: [MessageService],
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
+  /** Copy shown when the server gives us no usable error text. */
+  private static readonly GENERIC_ERROR =
+    "We couldn't sign you in. Please try again, or contact support if this keeps happening.";
+
+  /** Per-session wire format "iv:ciphertext:tag" — never surface this to a user. */
+  private static readonly CIPHERTEXT_RE = /^[A-Za-z0-9+/=]+:[A-Za-z0-9+/=]+:[A-Za-z0-9+/=]+$/;
+
+  /** Copy for the "your session has ended" panel. Bound by the template. */
+  readonly sessionCopy = SESSION_COPY.ended;
+
+  /**
+   * True when this visit to the login screen is the result of a session that ended
+   * without the user asking. Drives the persistent panel - never set for a manual
+   * sign-out, which is the whole reason the reason is carried at all.
+   */
+  showSessionNotice = false;
+
+  @ViewChild('sessionNotice') private sessionNoticeRef?: ElementRef<HTMLElement>;
+  @ViewChild('emailField') private emailFieldRef?: ElementRef<HTMLInputElement>;
+
+  private readonly sessionNotices = inject(SessionNoticeService);
+
   loginForm!: FormGroup;
   showPassword = false;
   showPan = false;
@@ -75,6 +99,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    // Read the handover from the session that just ended, BEFORE anything else can
+    // navigate away. `consume` both reads and deletes, so a reload of this page shows
+    // the explanation once and then stops - a banner that reappears on every refresh
+    // trains people to ignore it.
+    const notice = this.sessionNotices.consume();
+    this.showSessionNotice = !!notice && EXPLAINED_REASONS.has(notice.reason);
+    // Where to put the user back once they sign in. Validated on write and again
+    // here on read, because sessionStorage is writable by any script on the origin.
+    const savedReturnUrl = this.sessionNotices.consumeReturnUrl();
+    this.returnUrl = savedReturnUrl ?? null;
+
     this.loadInitialData(); // Call to load initial data
     this.loadOtpConfig(); // Load OTP configuration
     // Redirect if already logged in
@@ -103,6 +138,33 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Move focus to the session panel once it exists.
+   *
+   * A `role="alert"` that is already in the DOM at page load is not reliably
+   * announced by screen readers - the live region has nothing to observe changing.
+   * Moving focus to the panel is what actually guarantees the message is read out,
+   * and it also puts the keyboard user at the top of the form rather than wherever
+   * the browser happened to leave them after the navigation. `tabindex="-1"` on the
+   * panel makes it focusable programmatically without adding it to the tab order.
+   */
+  ngAfterViewInit(): void {
+    if (!this.showSessionNotice) return;
+    // One frame later: focusing an element in the same tick as its insertion is
+    // ignored by some engines because layout has not run.
+    setTimeout(() => this.sessionNoticeRef?.nativeElement?.focus(), 0);
+  }
+
+  /**
+   * "Sign in again" - the panel's primary action. It does not navigate (the user is
+   * already where they need to be); it clears the explanation and hands focus to the
+   * first field, which is the only thing left to do.
+   */
+  onSignInAgain(): void {
+    this.showSessionNotice = false;
+    setTimeout(() => this.emailFieldRef?.nativeElement?.focus(), 0);
+  }
+
+  /**
    * Get the OTP form control with proper typing
    * This is used in the template to avoid type casting issues
    */
@@ -118,7 +180,70 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.showPan = !this.showPan;
   }
 
+  /** First candidate that is a real, non-blank string; null when there is none. */
+  private firstText(...candidates: unknown[]): string | null {
+    for (const candidate of candidates) {
+      if (typeof candidate !== 'string') continue;
+      const trimmed = candidate.trim();
+      if (!trimmed || trimmed === 'null' || trimmed === 'undefined') continue;
+      if (LoginComponent.CIPHERTEXT_RE.test(trimmed)) continue;
+      return trimmed;
+    }
+    return null;
+  }
+
+  /**
+   * Reads the server's error text off a 200-with-error-flags body. The API is
+   * inconsistent about the field name (`errormessage` on the OTP routes,
+   * `errorMessage` elsewhere, `message` on some), so read all three rather than
+   * letting one absent field render a blank toast.
+   */
+  private serverText(response: any): string | null {
+    return this.firstText(response?.errormessage, response?.errorMessage, response?.message);
+  }
+
+  /** Reads error text off an HttpErrorResponse whose body shape we can't trust. */
+  private httpText(errResponse: any): string | null {
+    return this.firstText(
+      errResponse?.error?.errormessage,
+      errResponse?.error?.errorMessage,
+      errResponse?.error?.message,
+      typeof errResponse?.error === 'string' ? errResponse.error : null,
+    );
+  }
+
+  /**
+   * The only way this component raises an error. Guarantees the toast is never
+   * blank — `summary` is always a literal category and `detail` always falls
+   * back to generic copy — and always clears the loading flags so the submit
+   * button can't be left permanently disabled.
+   */
+  private showError(summary: string, detail?: string | null, opts?: { sticky?: boolean }): void {
+    const text = this.firstText(detail) ?? LoginComponent.GENERIC_ERROR;
+    this.isLoading = false;
+    this.isOtpLoading = false;
+    this.errorMessage = text;
+    this.messageService.clear();
+    this.messageService.add({
+      severity: 'error',
+      summary,
+      detail: text,
+      ...(opts?.sticky ? { sticky: true } : { life: 6000 }),
+    });
+  }
+
+  /**
+   * Terminal fallback for a response we don't recognise. Logs the raw payload so
+   * a renamed/removed backend field stays visible to engineers instead of being
+   * silently masked by the generic copy.
+   */
+  private showUnmappedError(context: string, payload: unknown, summary = 'Login Failed'): void {
+    console.error(`login: unmapped ${context} response`, payload);
+    this.showError(summary, this.serverText(payload));
+  }
+
   onLogin(form: any) {
+    this.errorMessage = '';
     // If OTP screen is active, verify OTP instead of doing initial login
 
     const user = new User();
@@ -133,7 +258,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     user.tax_id = form.value.pan;
     user['isOtpLogin'] = this.loginViaOtpOnly;
     user.termsAccepted = true
-    console.log('user123: ' + JSON.stringify(user));
     if (this.showOtpScreen) {
       this.loginWithOTP();
       return;
@@ -146,40 +270,23 @@ export class LoginComponent implements OnInit, OnDestroy {
       (data) => {
         this.loginResponse = data;
         this.isLoading = false;
-        console.log(data);
        if (this.loginResponse.maximumAttempt) {
-          this.isLoading = false;
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Account Disabled',
-            detail: 'User account disabled. Please reset your password to login.',
-            life: 5000,
-          });
+          this.showError(
+            'Account Disabled',
+            this.serverText(this.loginResponse) ||
+              'User account disabled. Please reset your password to login.',
+          );
         } else if (this.loginResponse.attempts) {
-          this.isLoading = false;
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Incorrect Password',
-            detail:
-              'Incorrect password. After 3 unsuccessful attempts, your account will be blocked.',
-            life: 5000,
-          });
+          this.showError(
+            'Incorrect Password',
+            'Incorrect password. After 3 unsuccessful attempts, your account will be blocked.',
+          );
         } else if (this.loginResponse.maxWrongOTPAttempt) {
-          this.isLoading = false;
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: this.loginResponse.message,
-            life: 5000,
-          });
-        } else if (this.loginResponse.errorMessage) {
-          this.isLoading = false;
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Login Failed',
-            detail: this.loginResponse.errorMessage,
-            life: 5000,
-          });
+          this.showError('Too Many Attempts', this.serverText(this.loginResponse));
+        } else if (this.loginResponse.errorMessage || this.loginResponse.errormessage) {
+          // The API spells this field both ways depending on the route; read both
+          // so a casing difference can't turn a real error into a silent success.
+          this.showError('Login Failed', this.serverText(this.loginResponse));
         } else {
           // if (this.loginResponse.user) {
           if (!this.loginResponse.isPasswordEmty) {
@@ -198,47 +305,67 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       },
       (errResponse) => {
-        this.isLoading = false;
         console.error('Login error:', errResponse);
 
-        switch (errResponse.status) {
+        switch (errResponse?.status) {
           case 401:
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Authentication Failed',
-              detail: 'Email and password do not match!',
-              life: 5000,
-            });
+            // Scenario E. Never "Authentication Failed" and never a session story:
+            // nothing expired, the details typed were simply not a match.
+            this.showError('Sign in unsuccessful', this.credentialMismatchText());
             break;
           case 404:
-            this.messageService.add({
-              severity: 'error',
-              summary: 'User Not Found',
-              detail: errResponse.error?.message || 'User account not found!',
-              life: 5000,
-            });
+            this.showError('User Not Found', this.httpText(errResponse) || 'User account not found!');
+            break;
+          case 0:
+            this.showError(
+              'Connection Problem',
+              "We couldn't reach the server. Check your connection and try again.",
+            );
             break;
           default:
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Login Error',
-              detail:
-                errResponse.error?.message || 'An error occurred during login. Please try again.',
-              life: 5000,
-            });
+            this.showError('Login Error', this.httpText(errResponse));
         }
       },
     );
   }
 
+  /**
+   * Where a freshly signed-in user lands.
+   *
+   * Only two sources are trusted, in order: the path this app itself captured when it
+   * turned the user away, and the role default. The server's `returnUrl` field is
+   * NOT consulted - on this backend it is an "OTP required" flag rather than a
+   * destination, and routing to it would send a signed-in user to an OTP screen. Any
+   * destination that did come from off-device would be validated the same way as one
+   * from storage: an open redirect is an open redirect whichever side of the wire
+   * proposed it.
+   */
+  private resolveDestination(): string {
+    if (isSafeReturnUrl(this.returnUrl)) return this.returnUrl;
+    return this.loginResponse?.user?.user_role === 'Investor' ? '/documents' : '/dashboard';
+  }
+
+  /** Credential-failure copy that matches what the tenant actually asked for. */
+  private credentialMismatchText(): string {
+    return this.loginViaOtpOnly
+      ? "We couldn't find an account for those details. Please check and try again."
+      : SESSION_COPY.credentials;
+  }
+
     userValidate(data:any) {
+    // Reached whenever no error flag matched, which includes bodies that carry
+    // neither a user nor a recognised flag — bail with a real message instead of
+    // throwing on `.user.account` and leaving the screen silent.
+    if (!this.loginResponse?.user) {
+      this.showUnmappedError('login', this.loginResponse);
+      return;
+    }
      localStorage.removeItem('fundInvestorToken');
     this.isLoading = false;
     sessionStorage.setItem('activeSession', 'true');
     this.accountInfo = this.loginResponse.user.account;
     this.store.dispatch(setAccountInfo({ accountInfo: this.accountInfo }));
     if (this.loginResponse.user.user_role === 'SuperAdmin') {
-      console.log('User login : ' + JSON.stringify(this.loginResponse.user));
       setTimeout(() => {
         window.location.href = '/superadmin';
       }, 500);
@@ -253,32 +380,36 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.showPanNumber = true;
           this.loginForm.get('pan').addValidators(Validators.required)
         } else {
-          if (data && data.returnUrl) {
-            setTimeout(() => {
-              this.router.navigate([data.returnUrl], { queryParams: { returnUrl: this.returnUrl } });
-            }, 500);
-          } else {
-            if (this.returnUrl) {
-              setTimeout(() => {
-                this.router.navigate([this.returnUrl]);
-              }, 500);
-            } else {
-              // Optionally, store activeTabFundmanager in Redux or sessionStorage if needed
-              this.store.dispatch(setAuthData({ userData: this.loginResponse.user, token: data.token }));
-              localStorage.setItem('authToken', data.token);
-              setTimeout(() => {
-                 localStorage.setItem('userGuid',this.loginResponse.user.user_guid);
-                localStorage.setItem('userRole',this.loginResponse.user.user_sub_role);
-                this.messageService.add({
-                  severity: 'success',
-                  summary: 'Login Successful!',
-                  detail: `Welcome back, ${this.loginResponse.user.display_name || 'User'}!`,
-                  life: 3000
-                });
-                window.location.href = this.loginResponse.user.user_role === 'Investor' ? '/documents' : '/dashboard';
-              }, 500);
-            }
-          }
+          // Establish the session, THEN navigate - in that order, unconditionally.
+          //
+          // The previous shape had two navigation branches (server-supplied
+          // returnUrl, then locally-held returnUrl) that both ran BEFORE
+          // setAuthData/authToken were written. Either of them would have landed on a
+          // guarded route with no session in the store, so AuthGuard would bounce the
+          // user straight back to the login screen. It never fired only because
+          // `this.returnUrl` was assigned nowhere; populating it (which is what makes
+          // "return to where you were" work at all) would have turned a dead branch
+          // into a redirect loop.
+          this.store.dispatch(setAuthData({ userData: this.loginResponse.user, token: data.token }));
+          localStorage.setItem('authToken', data.token);
+          localStorage.setItem('userGuid', this.loginResponse.user.user_guid);
+          localStorage.setItem('userRole', this.loginResponse.user.user_sub_role);
+          this.authService.markSessionActive();
+
+          const destination = this.resolveDestination();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Login Successful!',
+            detail: `Welcome back, ${this.loginResponse.user.display_name || 'User'}!`,
+            life: 3000
+          });
+          setTimeout(() => {
+            // A full document load, not a router navigation, and deliberately so: it
+            // guarantees that nothing held in memory from a previous session in this
+            // tab - NgRx slices, component caches, an open document - can survive into
+            // the new user's first paint.
+            window.location.href = destination;
+          }, 500);
         }
       }
      
@@ -380,41 +511,32 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
         // Handle OTP verification errors
         if (loginResponse.maximumAttempt) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Account Disabled',
-            detail: 'User account disabled. Please reset your password to login.',
-            life: 5000,
-          });
+          this.showError(
+            'Account Disabled',
+            this.serverText(loginResponse) ||
+              'User account disabled. Please reset your password to login.',
+          );
         } else if (loginResponse.maxWrongOTPAttempt) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Too Many Attempts',
-            detail:
-              loginResponse.message ||
+          this.showError(
+            'Too Many Attempts',
+            this.serverText(loginResponse) ||
               'Maximum OTP attempts exceeded. Please try again later.',
-            life: 5000,
-          });
+          );
         } else if (loginResponse.wrongOTPAttempts > 0) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Invalid OTP',
-            detail:
-              loginResponse.errormessage ||
+          this.showError(
+            'Invalid OTP',
+            this.serverText(loginResponse) ||
               `Incorrect OTP. ${loginResponse.wrongOTPAttempts} attempts remaining.`,
-            life: 5000,
-          });
+          );
         } else if (loginResponse.isOtpExpired) {
           this.hideResendOTP = true;
-          this.messageService.add({
-            severity: 'error',
-            summary: 'OTP Expired',
-            detail:
-              loginResponse.errormessage || 'Your OTP has expired. Please request a new one.',
-            life: 5000,
-          });
+          this.showError(
+            'OTP Expired',
+            this.serverText(loginResponse) || 'Your OTP has expired. Please request a new one.',
+          );
         } else if (loginResponse.user && !loginResponse.isPasswordEmty) {
           // OTP verified successfully
+          this.errorMessage = '';
           this.messageService.add({
             severity: 'success',
             summary: 'OTP Verified',
@@ -422,49 +544,55 @@ export class LoginComponent implements OnInit, OnDestroy {
             life: 3000,
           });
           this.userValidate(this.loginResponse);
-        } else {
+        } else if (loginResponse.isPasswordEmty) {
+          this.isLoading = false;
           this.messageService.add({
             severity: 'warn',
             summary: 'Password Required',
             detail: 'Please set/reset your password to login.',
             life: 5000,
           });
+        } else {
+          // Don't report an unrecognised response as "set your password" — that
+          // is a confident wrong diagnosis. Surface what the server said instead.
+          this.showUnmappedError('OTP verification', loginResponse, 'OTP Verification Failed');
         }
       },
       (errResponse) => {
-        this.isOtpLoading = false;
         console.error('OTP verification error:', errResponse);
 
-        switch (errResponse.status) {
+        switch (errResponse?.status) {
           case 401:
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Authentication Failed',
-              detail: 'OTP verification failed. Please try again.',
-              life: 5000,
-            });
+            this.showError(
+              'Sign in unsuccessful',
+              this.httpText(errResponse) ||
+                "That code didn't match. Please check it and try again.",
+            );
             break;
           case 404:
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Not Found',
-              detail: errResponse.error?.message || 'User not found.',
-              life: 5000,
-            });
+            this.showError('Not Found', this.httpText(errResponse) || 'User not found.');
+            break;
+          case 0:
+            this.showError(
+              'Connection Problem',
+              "We couldn't reach the server. Check your connection and try again.",
+            );
             break;
           default:
-            this.messageService.add({
-              severity: 'error',
-              summary: 'OTP Error',
-              detail: errResponse.error?.message || 'An error occurred during OTP verification.',
-              life: 5000,
-            });
+            this.showError(
+              'OTP Error',
+              this.httpText(errResponse) || 'An error occurred during OTP verification.',
+            );
         }
       },
     );
   }
   otpBasedLogin(user): void {
-    if (this.loginViaOtpOnly) {
+    if (!this.loginViaOtpOnly) {
+      // No request will be made, so release the button the caller disabled.
+      this.isLoading = false;
+      return;
+    }
       this.authService.loginWithOTP1(user).subscribe(
         (data) => {
           this.isLoading = false
@@ -473,89 +601,105 @@ export class LoginComponent implements OnInit, OnDestroy {
             (this.loginViaOtpOnly) &&
             this.loginResponse.returnUrl
           ) {
+            if (!this.loginResponse.user) {
+              this.showUnmappedError('OTP login', this.loginResponse);
+              return;
+            }
             this.accountInfo = this.loginResponse.user.account;
+            this.errorMessage = '';
             this.showOtpScreen = true
             this.isOtpLoading =false
             this.loginForm.get('otpControl')?.setValidators([Validators.required]);
             this.loginForm.get('otpControl')?.updateValueAndValidity();
             this.startCountdown()
           } else if (this.loginResponse.maximumAttempt) {
-            this.messageService.clear();
-            this.messageService.add({
-              severity: 'error',
-              sticky: true,
-              summary:
+            this.showError(
+              'Account Disabled',
+              this.serverText(this.loginResponse) ||
                 'User account disabled. Please reset your password to login (note - reset password link is sent to your registered email post Reset Password request)',
-              detail: '',
-            });
+              { sticky: true },
+            );
           } else if (this.loginResponse.attempts) {
-            this.messageService.clear();
-            this.messageService.add({
-              severity: 'error',
-              sticky: true,
-              summary:
-                'Incorrect password. After 3 unsuccessfull attempts, your account will be blocked',
-              detail: '',
-            });
+            this.showError(
+              'Sign In Failed',
+              this.serverText(this.loginResponse) || this.credentialAttemptsText(),
+              { sticky: true },
+            );
           } else if (this.loginResponse.maxWrongOTPAttempt) {
-            this.messageService.clear();
-            this.messageService.add({
-              severity: 'error',
-              sticky: true,
-              summary: this.loginResponse.message,
-              detail: '',
-            });
+            this.showError(
+              'Too Many Attempts',
+              this.serverText(this.loginResponse) ||
+                'Maximum OTP attempts exceeded. Please try again later.',
+              { sticky: true },
+            );
           } else if (this.loginResponse.wrongOTPAttempts > 0) {
-            this.messageService.clear();
-            this.messageService.add({
-              severity: 'error',
-              sticky: true,
-              summary: this.loginResponse.errormessage,
-              detail: '',
-            });
-          } else {
-            if (this.loginResponse.user) {
-              if (!this.loginResponse.isPasswordEmty) {
-                this.userValidate(data);
-              } else {
-                this.messageService.clear();
-                this.messageService.add({
-                  severity: 'error',
-                  sticky: true,
-                  summary: 'Please set/reset the password to login',
-                  detail: '',
-                });
-              }
+            this.showError(
+              'Invalid OTP',
+              this.serverText(this.loginResponse) ||
+                `Incorrect OTP. ${this.loginResponse.wrongOTPAttempts} attempts remaining.`,
+              { sticky: true },
+            );
+          } else if (this.loginResponse.user) {
+            if (!this.loginResponse.isPasswordEmty) {
+              this.userValidate(data);
+            } else {
+              this.showError(
+                'Password Required',
+                'Please set/reset the password to login',
+                { sticky: true },
+              );
             }
+          } else {
+            // Previously a silent no-op: a 200 with no user and no recognised
+            // flag left the user staring at an unchanged form with no feedback.
+            this.showUnmappedError('OTP login', this.loginResponse);
           }
         },
         (errResponse) => {
-           this.isLoading = false
-          switch (errResponse.status) {
+          console.error('OTP login error:', errResponse);
+          switch (errResponse?.status) {
             case 401:
-              this.messageService.clear();
-              this.messageService.add({
-                severity: 'error',
-                sticky: true,
-                summary: 'Email and password not matched!',
-                detail: '',
-              });
+              this.showError(
+                'Sign in unsuccessful',
+                this.httpText(errResponse) || this.credentialMismatchText(),
+                { sticky: true },
+              );
+              break;
+            case 404:
+              this.showError(
+                'User Not Found',
+                this.httpText(errResponse) || 'User account not found!',
+                { sticky: true },
+              );
+              break;
+            case 0:
+              this.showError(
+                'Connection Problem',
+                "We couldn't reach the server. Check your connection and try again.",
+              );
               break;
             default:
-              this.messageService.clear();
-              this.messageService.add({
-                severity: 'error',
-                sticky: true,
-                summary: errResponse.error.message,
-                detail: '',
-              });
+              // `errResponse.error` can be null (offline/CORS) or an undecrypted
+              // ciphertext string — both used to yield a blank toast, or throw.
+              this.showError('Login Error', this.httpText(errResponse), { sticky: true });
           }
         },
       );
-    }
+  }
+
+  /** Lockout-warning copy that matches what the tenant actually asked for. */
+  private credentialAttemptsText(): string {
+    return this.loginViaOtpOnly
+      ? 'Sign in failed. After 3 unsuccessful attempts, your account will be blocked.'
+      : 'Incorrect password. After 3 unsuccessful attempts, your account will be blocked.';
   }
   reSendOTP(): void {
-    if (!this.loginResponse || !this.accountInfo) {
+    if (!this.loginResponse?.user || !this.accountInfo) {
+      // Previously returned silently, leaving "Resend OTP" as a dead button.
+      this.showError(
+        "Couldn't Resend OTP",
+        'Your session has expired. Please start again from the login screen.',
+      );
       return;
     }
 
@@ -599,25 +743,18 @@ export class LoginComponent implements OnInit, OnDestroy {
               life: 5000,
             });
           }
-        } else if (data.errormessage) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Resend Failed',
-            detail: data.errormessage,
-            life: 5000,
-          });
+        } else {
+          // Covers both an explicit errormessage and a body we don't recognise —
+          // either way the user pressed a button and must be told what happened.
+          this.showUnmappedError('OTP resend', data, "Couldn't Resend OTP");
         }
       },
       (errResponse) => {
-        this.isOtpLoading = false;
         console.error('OTP resend error:', errResponse);
-
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: errResponse.error?.message || 'Failed to resend OTP. Please try again.',
-          life: 5000,
-        });
+        this.showError(
+          "Couldn't Resend OTP",
+          this.httpText(errResponse) || 'Failed to resend OTP. Please try again.',
+        );
       },
     );
   }

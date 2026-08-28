@@ -1,10 +1,13 @@
-import { Component, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChildren, QueryList, ElementRef, DestroyRef, inject } from '@angular/core';
 import { FundService } from '../../../core/services/fund.service';
 import { Store } from '@ngrx/store';
 import { selectSelectedDate } from '../../../store/date';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../shared/shared.module';
 import { Tooltip } from 'bootstrap';
+import { selectedFundDate$ } from '../../../shared/rxjs/selected-fund-date';
+import { TASK } from '../../../core/loading/readiness.model';
+import { ReadinessService } from '../../../core/loading/readiness.service';
 
 @Component({
   selector: 'app-portfolio-overview',
@@ -14,6 +17,15 @@ import { Tooltip } from 'bootstrap';
   styleUrls: ['./portfolio-overview.component.scss'],
 })
 export class PortfolioOverviewComponent implements AfterViewInit {
+  private readonly readiness = inject(ReadinessService);
+  /**
+   * True while this section's own request is in flight. Starts true so the window
+   * before the first request is issued reads as "loading" rather than as empty data.
+   * Scoped per component so one slow section can never block a sibling.
+   */
+  isLoading = true;
+
+  private readonly destroyRef = inject(DestroyRef);
   selectedFund: any;
   asOfDate: string;
   fundConfig: any;
@@ -54,7 +66,7 @@ export class PortfolioOverviewComponent implements AfterViewInit {
   }
 
   getStoreData() {
-      this.store.select(selectSelectedDate).subscribe(fundState => {
+      selectedFundDate$(this.store, this.destroyRef).subscribe(fundState => {
         console.log('Fund State from Store:', fundState);
         this.selectedFund=fundState.fundDetails;
         this.asOfDate = fundState?.asOfDate;
@@ -70,11 +82,20 @@ export class PortfolioOverviewComponent implements AfterViewInit {
     }
 
    getPortfolioData(){
+    const issuedEpoch = this.readiness.epoch();
+    this.isLoading = true;
     // Same API call (endpoint + type) as app-investment-table's default loadType,
     // so the two components never diverge on Total Market Value / Investment / MOIC / Gain.
     let queryParams = {asOnDate:this.asOfDate,type:'INVESTMENT_PORTFOLIO,TOTAL_INVESTMENT_PORTFOLIO,ALL_INVESTMENTS',currentAsOnDate:this.asOfDate};
-    this.fundService.portfolioData(this.selectedFund.guid, queryParams).subscribe({
+    this.fundService.portfolioData(this.selectedFund.guid, queryParams, TASK.PORTFOLIO_SUMMARY).subscribe({
       next: (response) => {
+      // Stale-response guard. Components fire their fetch from inside a store
+      // subscriber and nothing aborts the previous request, so a slow response for
+      // the fund the user just left can still land here. Without this it overwrites
+      // the current fund's figures - one fund's numbers under another fund's name,
+      // visually identical to a correct screen.
+        if (issuedEpoch !== this.readiness.epoch()) return;
+        this.isLoading = false;
         this.totalOverViewInfo = {}
         const totals = response && response.portfolio && response.portfolio.total_investment_portfolio;
         if (totals) {
@@ -89,6 +110,7 @@ export class PortfolioOverviewComponent implements AfterViewInit {
         }
       },
       error: (error) => {
+        this.isLoading = false;
         console.error('Error fetching Portfolio Data:', error);
       }
     });

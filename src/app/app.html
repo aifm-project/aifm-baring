@@ -1,3 +1,70 @@
-<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#0C4FAF" type="square-loader" [fullScreen]="true"><p style="color: white">Loading...</p></ngx-spinner>
-<ngx-loading-bar color="red" height="5px"></ngx-loading-bar>
-<router-outlet />
+<!--
+  Global readiness overlay.
+
+  What it reports comes from ReadinessService, which seeds the required-task set
+  from the route's manifest BEFORE the first request is issued. That is the whole
+  fix: the previous indicator inferred completion from live traffic, so it declared
+  100% during every quiet gap between waves - after /account, after funds/summary,
+  and again after the dates call, all before any fund figure existed.
+
+  ngx-spinner renders a bare <div class="ngx-spinner-overlay"> with no role, no live
+  region and no focus trap, and leaves the background focusable - so every
+  accessibility affordance here is authored by us or applied by App.applyInert().
+-->
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.72)"
+  size="medium"
+  color="#0C4FAF"
+  type="square-loader"
+  [fullScreen]="true">
+
+  <div class="app-loader"
+       role="dialog"
+       aria-modal="true"
+       aria-labelledby="app-loader-title"
+       tabindex="-1">
+
+    <!-- Milestone announcements only. Percentage ticks never reach this element. -->
+    <p id="app-loader-title" class="app-loader__title" role="status" aria-live="polite" aria-atomic="true">
+      {{ loaderTitle() }}
+    </p>
+
+    <!-- While conditional tasks are unresolved the required set is not yet known, so
+         no number is claimed - an indeterminate bar is shown instead. -->
+    <div class="app-loader__bar"
+         [class.is-indeterminate]="loaderIndeterminate()"
+         role="progressbar"
+         aria-labelledby="app-loader-title"
+         aria-valuemin="0"
+         aria-valuemax="100"
+         [attr.aria-valuenow]="loaderIndeterminate() ? null : loaderPercent()"
+         [attr.aria-valuetext]="loaderIndeterminate() ? 'Working out what this screen needs' : loaderPercent() + ' percent loaded'">
+      <div class="app-loader__fill" [style.width.%]="loaderIndeterminate() ? 100 : loaderPercent()"></div>
+    </div>
+
+    <p class="app-loader__percent" aria-hidden="true">
+      {{ loaderIndeterminate() ? 'Preparing…' : loaderPercent() + '%' }}
+    </p>
+
+    <!-- Per-step checklist intentionally hidden: the bar and percentage carry the
+         progress on their own. The steps are still tracked by ReadinessService (they
+         are what makes the percentage honest) - only the rendering is off, so this
+         can be brought back by uncommenting.
+    <ul class="app-loader__steps" aria-hidden="true">
+      <li *ngFor="let step of loaderSteps()" [class]="'step step--' + step.state">
+        <span class="step__mark">{{ step.state === 'done' ? '✓' : step.state === 'failed' ? '✗' : step.state === 'active' ? '⟳' : '○' }}</span>
+        <span class="step__label">{{ step.label }}</span>
+      </li>
+    </ul>
+    -->
+
+    <p class="app-loader__slow" *ngIf="loaderIsSlow()" aria-hidden="true">
+      This is taking longer than usual.
+    </p>
+  </div>
+</ngx-spinner>
+
+<ngx-loading-bar color="#0C4FAF" height="3px"></ngx-loading-bar>
+<div id="app-shell">
+  <router-outlet />
+</div>

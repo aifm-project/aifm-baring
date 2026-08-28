@@ -1,14 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, of, Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { Store } from '@ngrx/store';
-import { clearAuthData } from '../../store/auth/auth.actions';
 import { setAccountInfo, setAccountConfigs } from '../../store/auth/auth.actions';
 import { selectAuthState } from '../../store/auth/auth.selectors';
 import { LoginResponse, User } from '../../model/models';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SessionManager } from '../auth/session-manager.service';
 
 export interface LoginCredentials {
   email: string;
@@ -31,7 +32,8 @@ export class AuthService {
     private router: Router,
     public httpClient: HttpClient,
     private store: Store,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private sessionManager: SessionManager
   ) {
     this.isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasToken());
     this.isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
@@ -39,13 +41,13 @@ export class AuthService {
 
   public login(user: User): Observable<LoginResponse> {
     let headers = new HttpHeaders({ "enable-encryption": "true" });
-    console.log("Calling endpoint: " + environment.serverEndPoint + "users/login" + JSON.stringify(user));
+    // Never log `user` — it carries the plaintext password and PAN.
     return this.httpClient.post<LoginResponse>(environment.serverEndPoint + "users/login", user, { headers: headers });
   }
 
    public loginWithOTP1(user: User): Observable<LoginResponse> {
     let headers = new HttpHeaders({ "enable-encryption": "true" });
-    console.log("Calling endpoint: " + environment.serverEndPoint + "users/otp/login" + JSON.stringify(user));
+    // Never log `user` — it carries the plaintext password and PAN.
     return this.httpClient.post<LoginResponse>(environment.serverEndPoint + "users/otp/login", user, { headers: headers });
   }
 
@@ -69,12 +71,29 @@ export class AuthService {
     return this.httpClient.post<any>(environment.serverEndPoint + "otp/signup", formData, { headers: headers });
   }
   
+  /**
+   * The user asked to leave (Scenario G).
+   *
+   * All the teardown that used to live here — clearing both storages, dispatching
+   * clearAuthData, navigating — now lives in SessionManager, because it has to be
+   * identical whether the user pressed Logout or their session expired, and because
+   * it has to happen exactly once no matter how many callers ask for it. What is
+   * NOT identical is the reason, and the reason is what decides whether the login
+   * screen explains itself: someone who chose to sign out is not told their session
+   * ended.
+   *
+   * Kept as a method (rather than deleted) because it is the API the navbar and any
+   * future caller already know; it is now a one-line delegation.
+   */
   logout(): void {
     this.isAuthenticatedSubject.next(false);
-    this.store.dispatch(clearAuthData());
-    sessionStorage.clear();
-    localStorage.clear();
-    window.location.href = "/user/login";
+    this.sessionManager.signOut();
+  }
+
+  /** Called by the login screen once a new session is established. */
+  markSessionActive(): void {
+    this.isAuthenticatedSubject.next(true);
+    this.sessionManager.markActive();
   }
 
   isAuthenticated(): boolean {
@@ -125,6 +144,16 @@ export class AuthService {
           this.store.dispatch(setAccountConfigs({ accountConfigs: configMap }));
         }
         return accountInfo;
+      }),
+      catchError(error => {
+        // This runs inside provideAppInitializer. An unhandled error here rejects
+        // bootstrapApplication, and the user gets a blank white document with no
+        // markup and no way forward - the worst possible outcome for a tenant-config
+        // lookup that the login screen can survive without. Fail soft: the app
+        // renders, the login form uses its built-in defaults, and the failure is
+        // visible to engineers in the console rather than to the user as a void.
+        console.error('account: tenant configuration could not be loaded', error?.status ?? error);
+        return of(null);
       })
     );
   }

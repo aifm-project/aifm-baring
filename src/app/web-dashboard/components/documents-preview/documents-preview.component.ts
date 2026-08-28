@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChildren, QueryList, ElementRef, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FundService } from '../../../core/services/fund.service';
 import { DocumentService } from '../../../core/services/document.service';
@@ -7,6 +7,8 @@ import { selectFundData, setDocumentData } from '../../../store/fund';
 import { DocumentsGridComponent } from '../../../web-documents/components/documents-grid/documents-grid.component';
 import { DashboardNavigationButton } from '../../../shared/components/dashboard-navigation-button/dashboard-navigation-button';
 import { Tooltip } from 'bootstrap';
+import { TASK } from '../../../core/loading/readiness.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-documents-preview',
@@ -16,6 +18,7 @@ import { Tooltip } from 'bootstrap';
   styleUrls: ['./documents-preview.component.scss']
 })
 export class DocumentsPreviewComponent implements AfterViewInit {
+  private readonly destroyRef = inject(DestroyRef);
   documents = [];
   fundConfig: any;
   selectedFund: any;
@@ -65,7 +68,7 @@ export class DocumentsPreviewComponent implements AfterViewInit {
 
   getDocumentList() {
     this.documents = [];
-    this.documentService.loadLatestDocuments(this.selectedFund.guid, { skipType: 'Zip File' }).subscribe({
+    this.documentService.loadLatestDocuments(this.selectedFund.guid, { skipType: 'Zip File' }, TASK.LATEST_DOCUMENTS).subscribe({
       next: (response) => {
         const sortedDocuments = this.sortByLatestDate(response.data);
         let reducebyTYpe = sortedDocuments.reduce((acc, doc) => {
@@ -99,7 +102,15 @@ export class DocumentsPreviewComponent implements AfterViewInit {
   }
 
   getStoreData() {
-    this.store.select(selectFundData).subscribe(fundState => {
+    this.store
+      .select(selectFundData)
+      // takeUntilDestroyed: without it this subscription outlives the component.
+      // Both documents screens fetch from inside this callback, so a leaked
+      // subscriber kept calling the document APIs from a destroyed component on
+      // every later fund change - which is why /portfolio was seen issuing
+      // document-types, document-list and latest-documents.
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(fundState => {
       console.log('Fund State from Store:', fundState);
       this.selectedFund = fundState;
       this.fundConfig = fundState.fund_configuration_classes.reduce((map, obj) => {

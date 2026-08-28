@@ -14,7 +14,13 @@
            [title]="infoIconTitle">
     </div>
 
-    <div class="portfolio-metrics">
+    <!-- Per-section loader disabled: the global overlay in app.html is the single
+         loading indicator, and showing both means two spinners for one wait.
+         Re-enable by uncommenting this and re-adding SectionLoaderComponent to
+         this component's `imports`. The isLoading flag stays live - the error
+         states still read it.
+    <app-section-loader *ngIf="isLoading" label="Loading portfolio overview"></app-section-loader> -->
+    <div class="portfolio-metrics" [attr.aria-busy]="isLoading ? 'true' : 'false'">
       <div class="portfolio-metric-card border-right">
         <div class="portfolio-metric-header">
           <div class="portfolio-metric-icon">

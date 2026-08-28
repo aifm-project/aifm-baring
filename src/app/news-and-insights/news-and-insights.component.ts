@@ -5,6 +5,7 @@ import { ExploreService } from '../core/services/explore.service';
 import { environment } from '../../environments/environment';
 import { IframVideoPipe } from '../shared/pipe/ifram-video.pipe';
 import { aifmVideoFrame } from '../shared/components/video-frame/video-frame';
+import { TASK } from '../core/loading/readiness.model';
 
 @Component({
   selector: 'app-news-and-insights',
@@ -301,7 +302,7 @@ export class NewsAndInsightsComponent {
   }
 
   getExplorTypes() {
-    this.explorService.getExplorTypes().subscribe((sk) => {
+    this.explorService.getExplorTypes(TASK.INSIGHT_TYPES).subscribe((sk) => {
       this.typeOfExploreList = sk.exploreKeys.filter((sk) =>
         this.staticSanctions.includes(sk.section_name)
       );
@@ -364,7 +365,7 @@ export class NewsAndInsightsComponent {
     let skInfo = [];
     let isFirstRow = true;
     this.firstRowInfo = {};
-    this.explorService.getExploreDetails(query, { isLatest: true }).subscribe((sk) => {
+    this.explorService.getExploreDetails(query, { isLatest: true }, TASK.INSIGHTS).subscribe((sk) => {
       console.log('sk', sk.exploreData);
 
       for (const sk1 of sk.exploreData) {

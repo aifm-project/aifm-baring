@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, ChartModule } from 'angular-highcharts';
 import * as Highcharts from 'highcharts';
@@ -13,6 +13,10 @@ import { interval } from 'rxjs';
 import { User, UserDetails } from '../../../model/models';
 import { selectAuthState } from '../../../store/auth';
 import { Tooltip } from 'bootstrap';
+import { selectedFundDate$ } from '../../../shared/rxjs/selected-fund-date';
+import { TASK } from '../../../core/loading/readiness.model';
+import { ReadinessService } from '../../../core/loading/readiness.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 interface ChartDataPoint {
   x: number;
@@ -67,6 +71,15 @@ interface OverviewData {
   styleUrls: ['./performance.component.scss'],
 })
 export class PerformanceComponent implements OnInit, AfterViewInit {
+  private readonly readiness = inject(ReadinessService);
+  /**
+   * True while this section's own request is in flight. Starts true so the window
+   * before the first request is issued reads as "loading" rather than as empty data.
+   * Scoped per component so one slow section can never block a sibling.
+   */
+  isLoading = true;
+
+  private readonly destroyRef = inject(DestroyRef);
   chartOptions: any = {};
   chart!: any;
   selectedPeriod = '1Y';
@@ -150,7 +163,13 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
     private fundService: FundService,
     private getCurrencyByUnitsPipe: GetCurrencyByUnitsPipe
   ) {
-    this.store.select(selectFundData).subscribe((fundState) => {
+    this.store
+      .select(selectFundData)
+      // Torn down with the component: a surviving store subscription keeps mutating
+      // a destroyed component's state on every later dispatch, and where the
+      // callback fetches, it keeps issuing requests from a screen the user has left.
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((fundState) => {
       if (fundState?.fund_configuration_classes?.length) {
         this.fundConfig = new Map(
           fundState.fund_configuration_classes.map((item: any) => [
@@ -472,7 +491,7 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
   }
 
   getStoreData() {
-    this.store.select(selectSelectedDate).subscribe((fundState) => {
+    selectedFundDate$(this.store, this.destroyRef).subscribe((fundState) => {
       // `selectedDate` is null until fund-selector dispatches it; without this guard the first
       // emission throws inside the subscriber and tears the subscription down for good.
       if (!fundState?.fundDetails) return;
@@ -494,6 +513,8 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
   }
 
   fetchPerformanceData(startDate?: string, endDate?: string) {
+    const issuedEpoch = this.readiness.epoch();
+    this.isLoading = true;
     const dateRange =
       startDate && endDate ? { startDate, endDate } : this.calculateDateRange(this.selectedPeriod);
 
@@ -507,8 +528,12 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
       endDate: dateRange.endDate,
     };
 
-    this.fundService.getPerformanceData(apiParams, 'VC_VD_GRAPH').subscribe({
+    this.fundService.getPerformanceData(apiParams, 'VC_VD_GRAPH', TASK.PERFORMANCE).subscribe({
       next: (sk) => {
+        // Stale-response guard: a slow response for the previously selected fund
+        // must never overwrite the current fund's figures.
+        if (issuedEpoch !== this.readiness.epoch()) return;
+        this.isLoading = false;
         if(sk.performance['vc_vd_graph'] && sk.performance['vc_vd_graph'].length){
           this.initializeChart(sk.performance.vc_vd_graph);
         }else if(this.chart) {
@@ -517,12 +542,14 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
         
       },
       error: (error) => {
+        this.isLoading = false;
         console.error('Error fetching performance data:', error);
       },
     });
   }
 
   fetchFundOverview() {
+    const issuedEpoch = this.readiness.epoch();
     this.fundService
       .getPerformanceData(
         {
@@ -532,10 +559,16 @@ export class PerformanceComponent implements OnInit, AfterViewInit {
             : this.selectedFund.guid,
           asOnDate: this.asOfDate,
         },
-        'CAPITAL_SUMMARY,METADATA'
+        'CAPITAL_SUMMARY,METADATA',
+        // Same checklist step as the graph call above: this component's two requests
+        // collapse into one "Fund performance" row, so the step cannot half-complete.
+        TASK.PERFORMANCE
       )
       .subscribe({
         next: (sk) => {
+        // Stale-response guard: a slow response for the previously selected fund
+        // must never overwrite the current fund's figures.
+        if (issuedEpoch !== this.readiness.epoch()) return;
           this.overviewData.capital_summary =
             sk.performance && sk.performance.capital_summary ? sk.performance.capital_summary : {};
           this.overviewData.metadata =

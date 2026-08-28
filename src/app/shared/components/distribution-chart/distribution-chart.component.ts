@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit, ViewChildren, QueryList, ElementRef, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { selectSelectedDate } from '../../../store/date';
@@ -7,6 +7,9 @@ import * as Highcharts from 'highcharts';
 import { Chart, ChartModule } from 'angular-highcharts';
 import { Router } from '@angular/router';
 import { Tooltip } from 'bootstrap';
+import { selectedFundDate$ } from '../../rxjs/selected-fund-date';
+import { TASK } from '../../../core/loading/readiness.model';
+import { ReadinessService } from '../../../core/loading/readiness.service';
 
 interface IndustryData {
   name: string;
@@ -23,6 +26,15 @@ interface IndustryData {
   styleUrls: ['./distribution-chart.component.scss'],
 })
 export class DistributionChartComponent implements OnInit, AfterViewInit {
+  private readonly readiness = inject(ReadinessService);
+  /**
+   * True while this section's own request is in flight. Starts true so the window
+   * before the first request is issued reads as "loading" rather than as empty data.
+   * Scoped per component so one slow section can never block a sibling.
+   */
+  isLoading = true;
+
+  private readonly destroyRef = inject(DestroyRef);
   @Input() title: string = 'Distribution by Industries';
   @Input() showFilters: boolean = true;
   industryData: IndustryData[] = [];
@@ -70,7 +82,7 @@ export class DistributionChartComponent implements OnInit, AfterViewInit {
   }
 
   getStoreData() {
-    this.store.select(selectSelectedDate).subscribe((fundState) => {
+    selectedFundDate$(this.store, this.destroyRef).subscribe((fundState) => {
       console.log('Fund State from Store:', fundState);
       this.selectedFund = fundState.fundDetails;
       this.asOfDate = fundState?.asOfDate;
@@ -83,13 +95,22 @@ export class DistributionChartComponent implements OnInit, AfterViewInit {
     });
   }
   getPortfolioData() {
+    const issuedEpoch = this.readiness.epoch();
+    this.isLoading = true;
     let queryParams = {
       asOnDate: this.asOfDate,
       type: 'DISTRIBUTION_INDUSTRY',
       currentAsOnDate: this.asOfDate,
     };
-    this.fundService.portfolioData(this.selectedFund.guid, queryParams).subscribe({
+    this.fundService.portfolioData(this.selectedFund.guid, queryParams, TASK.DISTRIBUTION).subscribe({
       next: (response) => {
+      // Stale-response guard. Components fire their fetch from inside a store
+      // subscriber and nothing aborts the previous request, so a slow response for
+      // the fund the user just left can still land here. Without this it overwrites
+      // the current fund's figures - one fund's numbers under another fund's name,
+      // visually identical to a correct screen.
+        if (issuedEpoch !== this.readiness.epoch()) return;
+        this.isLoading = false;
         console.log('Portfolio Data fetched successfully:', response);
         this.industryData = [];
         if (response.portfolio && response.portfolio.distribution_industry) {
@@ -109,6 +130,7 @@ export class DistributionChartComponent implements OnInit, AfterViewInit {
         this.drawPieChart();
       },
       error: (error) => {
+        this.isLoading = false;
         console.error('Error fetching Portfolio Data:', error);
       },
     });

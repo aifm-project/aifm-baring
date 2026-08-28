@@ -578,3 +578,87 @@ button:disabled {
     margin-top: 24px;
   }
 }
+
+/*
+  Session-ended panel.
+
+  Sits above the form, in the document flow, so it can never cover a field and so it
+  reflows rather than overlaps at 200% zoom or on a narrow viewport - both cases where
+  a floating notice would obscure the very form it is telling the user to fill in.
+*/
+.session-ended {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0 0 24px;
+  padding: 16px;
+  border: 1px solid #0c4faf;
+  border-left-width: 4px;
+  border-radius: 6px;
+  background: #eef4fd;
+  color: #12233d;
+
+  /* Focused programmatically to carry the announcement; the ring makes that visible
+     to sighted keyboard users instead of moving focus somewhere invisible. */
+  &:focus {
+    outline: 3px solid #0c4faf;
+    outline-offset: 2px;
+  }
+
+  &__icon {
+    flex: 0 0 auto;
+    margin-top: 2px;
+    color: #0c4faf;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  &__content {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__heading {
+    margin: 0 0 6px;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #12233d;
+  }
+
+  &__body {
+    margin: 0 0 4px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  &__detail {
+    margin: 0 0 12px;
+    font-size: 13px;
+    /* 4.6:1 on #eef4fd. Supporting text, still readable text. */
+    color: #46536b;
+  }
+
+  &__action {
+    padding: 9px 18px;
+    border: 0;
+    border-radius: 4px;
+    background: #0c4faf;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    /* 44px is the WCAG 2.2 target-size floor; the padding above puts this at 40px, so
+       state it outright rather than leaving it to the font metrics. */
+    min-height: 44px;
+
+    &:hover {
+      background: #0a4291;
+    }
+
+    &:focus-visible {
+      outline: 3px solid #12233d;
+      outline-offset: 2px;
+    }
+  }
+}

@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
+import { readinessContext } from '../loading/readiness.model';
 @Injectable({
     providedIn: 'root',
 })
@@ -10,11 +11,12 @@ export class FundService {
         private httpClient: HttpClient,
     ) { }
 
-    getFunds(params): Observable<{ errorMessage: '', funds: [], count: 0 }> {
-        return this.httpClient.get<{ errorMessage: '', funds: [], count: 0 }>(environment.aifEndPoint + "funds/summary", { params });
+    getFunds(params, taskId?: string): Observable<{ errorMessage: '', funds: [], count: 0 }> {
+        return this.httpClient.get<{ errorMessage: '', funds: [], count: 0 }>(environment.aifEndPoint + "funds/summary",
+            { params, context: taskId ? readinessContext(taskId) : undefined });
     }
 
-    getPerformanceData(params: { fundGuid: string, classGuid: string, asOnDate: string }, type?: any): Observable<any> {
+    getPerformanceData(params: { fundGuid: string, classGuid: string, asOnDate: string }, type?: any, taskId?: string): Observable<any> {
        var url = 'funds/' + params.fundGuid + '/classes/' + params.classGuid + '/performance?asOnDate=' + params.asOnDate;
        if(localStorage.getItem('userRole')=='Investor Role'){
 
@@ -25,22 +27,25 @@ export class FundService {
             url += '&type=' + type
         }
         return this.httpClient.get<any>(
-            environment.aifEndPoint + url
+            environment.aifEndPoint + url,
+            { context: taskId ? readinessContext(taskId) : undefined }
         );
     }
 
-    getDates(fundGuid: string, fundType: string, brand?) {
+    getDates(fundGuid: string, fundType: string, brand?, taskId?: string) {
         let url = "funds/" + fundGuid + "/" + fundType + "/dates";
         if (brand) {
             url += "?brand=" + brand;
         }
-        return this.httpClient.get<any>(environment.aifEndPoint + url);
+        return this.httpClient.get<any>(environment.aifEndPoint + url,
+            { context: taskId ? readinessContext(taskId) : undefined });
     }
 
 
-    portfolioData(fundId,queryParams): Observable<any> {
+    portfolioData(fundId, queryParams, taskId?: string): Observable<any> {
         var url = environment.aifEndPoint + "funds/" + fundId + "/portfolio";
-        return this.httpClient.get<any>(url,{params:queryParams});
+        return this.httpClient.get<any>(url,
+            { params: queryParams, context: taskId ? readinessContext(taskId) : undefined });
     }
 
     getDocuments(fundGuid: string): Observable<any> {
@@ -97,9 +102,10 @@ getDocumentDownloadPath(documentId: string): string {
     }, 5000);
   }
 
-  getFundInvestorToken(userGuid): Observable<{errorMessage:string,user_token:string}>{
+  getFundInvestorToken(userGuid, taskId?: string): Observable<{errorMessage:string,user_token:string}>{
     return this.httpClient.get<{errorMessage:string,user_token:string}>(
-      environment.aifEndPoint + 'users/'+ userGuid +'/check/grouping'
+      environment.aifEndPoint + 'users/'+ userGuid +'/check/grouping',
+      { context: taskId ? readinessContext(taskId) : undefined }
     );
   }
 }

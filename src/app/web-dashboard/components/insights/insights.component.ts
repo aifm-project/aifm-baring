@@ -7,6 +7,7 @@ import { environment } from '../../../../environments/environment';
 import { IframVideoPipe } from '../../../shared/pipe/ifram-video.pipe';
 import { aifmVideoFrame } from '../../../shared/components/video-frame/video-frame';
 import { Tooltip } from 'bootstrap';
+import { TASK } from '../../../core/loading/readiness.model';
 
 @Component({
   selector: 'app-insights',
@@ -107,7 +108,7 @@ export class InsightsComponent implements OnInit, AfterViewInit {
         }
        let skInfo = []
         let isFirstRow = true
-      this.explorService.getExploreDetails(query,{isLatest:true,sectionName:this.staticSanctions.join(',')}).subscribe(sk=>{
+      this.explorService.getExploreDetails(query,{isLatest:true,sectionName:this.staticSanctions.join(',')}, TASK.INSIGHTS).subscribe(sk=>{
         console.log("sk",sk.exploreData)
        
         for (const sk1 of sk.exploreData) {

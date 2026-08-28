@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { selectAuthState } from '../../../store/auth';
 import { AccountDetailsSummary, User } from '../../../model/models';
 import { CustomValidators } from '../../../core/validators/custom-validators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -16,6 +17,7 @@ import { CustomValidators } from '../../../core/validators/custom-validators';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
   activeTab: 'personal' | 'survey' | 'account' = 'personal';
 
   profileForm: FormGroup;
@@ -218,7 +220,9 @@ export class ProfileComponent implements OnInit {
   }
 
   getStoreData(){
-    this.store.select(selectAuthState).subscribe(data=>{
+    this.store.select(selectAuthState)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(data=>{
       console.log(data);
       this.userProfile=data.userData;
       this.profileForm.patchValue({

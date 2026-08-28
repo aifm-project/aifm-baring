@@ -6,7 +6,7 @@ import { AuthService } from './core/services/auth.service';
 import { StoreModule } from '@ngrx/store';
 import { authReducer } from './store/auth';
 import { fundReducer } from './store/fund/fund.reducer';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { metaReducers } from './store/metaReducers';
 import { httpConfigInterceptor } from './core/interceptors/http-config.interceptor';
@@ -16,7 +16,6 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { LoadingBarHttpClientModule } from "@ngx-loading-bar/http-client";
-import { NgxSpinnerModule } from 'ngx-spinner';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -24,7 +23,11 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(LayoutModule),
     MessageService,
     provideHttpClient(
-      withInterceptors([httpConfigInterceptor])
+      withInterceptors([httpConfigInterceptor]),
+      // LoadingBarHttpClientModule registers its interceptor through the
+      // HTTP_INTERCEPTORS multi-provider. Without withInterceptorsFromDi() Angular
+      // never runs DI-registered interceptors, so the progress bar was inert.
+      withInterceptorsFromDi()
     ),
     providePrimeNG({
       theme: {
@@ -34,7 +37,6 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     importProvidersFrom(ToastModule),
     importProvidersFrom(LoadingBarHttpClientModule),
-    importProvidersFrom(NgxSpinnerModule),
   importProvidersFrom(StoreModule.forRoot({ authState: authReducer, fundState: fundReducer, dateState: dateReducer }, { metaReducers })),
     provideAppInitializer(() => {
       const authService = inject(AuthService);
